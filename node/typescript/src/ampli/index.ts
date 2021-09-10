@@ -510,8 +510,12 @@ export class Ampli {
 
 }
 
-export function getInstance(client: NodeClient = null) {
-  // TODO: return Ampli wrapper for current client, tracking plan
-  const ampClient = client || init('');
-  return new Ampli(ampClient);
+export function getInstance(apiKeyOrNodeClient?: string | NodeClient) {
+  const apiKey = typeof(apiKeyOrNodeClient) === 'string'
+    ? apiKeyOrNodeClient
+    : '';
+  const nodeClient = typeof(apiKeyOrNodeClient) === 'object'
+    ? apiKeyOrNodeClient
+    : init(apiKey);
+  return new Ampli(nodeClient);
 }
