@@ -16,8 +16,9 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@amplitude/identify": "^1.8.2",
     "@amplitude/node": "^1.8.2",
+    "@types/analytics-node": "^3.1.6",
+    "analytics-node": "^5.0.0",
     "dotenv": "^10.0.0"
   }
 }

@@ -2,6 +2,10 @@ import dotenv from 'dotenv';
 import * as Ampli from './ampli';
 import * as Amplitude from './ampli/amplitude-node';
 import { EventWithOptionalProperties } from './ampli';
+import { getSegmentMiddleware } from './middleware/segmentMiddleware';
+import { stopMiddleware } from './middleware/stopMiddleware';
+
+const userId = 'ampli-user-id';
 
 // Read Configuration
 dotenv.config()
@@ -29,7 +33,17 @@ const ampli = Ampli.getInstance(client);
 // const ampli = new Ampli.Ampli(client);
 // Ampli.setInstance(ampli);
 
-const userId = 'ampli-user-id';
+/**
+ * You can add middleware for 3rd party destination support
+ */
+// const segmentMiddleware = getSegmentMiddleware();
+// ampli.client.addMiddleware(segmentMiddleware);
+
+/**
+ * Middleware can also modify the event stream
+ * Adding stop middleware will prevent events from going to Amplitude
+ */
+// ampli.client.addMiddleware(stopMiddleware);
 
 /**
  * Identify the user

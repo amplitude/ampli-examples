@@ -432,6 +432,10 @@ export class Ampli {
   constructor(amplitude: NodeClient) {
     this.amplitude = amplitude;
   }
+  
+  get client() {
+    return this.amplitude;
+  }
 
   identify(userId?: string, deviceId?: string, properties?: IdentifyProperties, options?: IdentifyOptions, extra?: Extra) {
     this.amplitude.runMiddleware({
