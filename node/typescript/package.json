@@ -1,0 +1,23 @@
+{
+  "name": "ampli-node-typescript-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "ts-node src/app.ts",
+    "test": "jest"
+  },
+  "author": "Justin Fiedler (Amplitude)",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.1",
+    "ts-jest": "^26.4.2",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "@amplitude/identify": "^1.8.2",
+    "@amplitude/node": "^1.8.2",
+    "dotenv": "^10.0.0"
+  }
+}
