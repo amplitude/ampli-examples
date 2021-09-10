@@ -7,9 +7,9 @@ import { UserTrackExtra } from '../types';
  *
  * Initializes Segment tracker and returns Segment Middleware
  */
-export function getSegmentMiddleware(): Middleware {
+export function getSegmentMiddleware(writeKey: string): Middleware {
   // Create Segment tracker
-  const segment = new Segment(process.env.SEGMENT_WRITE_KEY, {
+  const segment = new Segment(writeKey, {
     flushAt: 1
   });
 

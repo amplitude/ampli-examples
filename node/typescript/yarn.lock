@@ -351,6 +351,19 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.3.tgz#e45e384e4b8ec16bce2fd903af78450f6bf7ec98"
   integrity sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
 
+"@itly/plugin-segment-node@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@itly/plugin-segment-node/-/plugin-segment-node-2.3.4.tgz#7a105649cd9122b992eefff96c53400752e4f510"
+  integrity sha512-0gFh8mHwHzOdawgZuONCx7T8SDCvSbB/SAXAbsY1L6Q5N6pIGE4olTyBIXPX1TXWAue9hdizwpFjz25v2KGfLQ==
+  dependencies:
+    "@types/analytics-node" "^3.1.4"
+    analytics-node "^3.4.0-beta.3"
+
+"@itly/sdk@^2.3.4":
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/@itly/sdk/-/sdk-2.3.4.tgz#9ff453e5987e49ca9e226b625b28ab9db26fcd65"
+  integrity sha512-IBQUKPl0nHh4NdiPXHYOQ7J3ebacIDET9HIdh2cygU1Zv7aahEbg2ougVldnAqsM0A1SzQiZf3C2YAwgmw3XFw==
+
 "@jest/console@^26.6.2":
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-26.6.2.tgz#4e04bc464014358b03ab4937805ee36a0aeb98f2"
@@ -549,7 +562,7 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@types/analytics-node@^3.1.6":
+"@types/analytics-node@^3.1.4", "@types/analytics-node@^3.1.6":
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/@types/analytics-node/-/analytics-node-3.1.6.tgz#50864b5945c194207bb00c695c9639e1614afb0b"
   integrity sha512-l4w6ipThuzxcjm9S+1BmvYI2kkCdy3G+ed+IO2NVFno73T6pSambl7OSH4j8BPTYsrekFDfDVTmm8XutLB+DZA==
@@ -679,6 +692,20 @@ agent-base@6:
   integrity sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==
   dependencies:
     debug "4"
+
+analytics-node@^3.4.0-beta.3:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/analytics-node/-/analytics-node-3.5.0.tgz#b33ff92195f006b20f1c4e28af86d975c98e4636"
+  integrity sha512-XgQq6ejZHCehUSnZS4V7QJPLIP7S9OAWwQDYl4WTLtsRvc5fCxIwzK/yihzmIW51v9PnyBmrl9dMcqvwfOE8WA==
+  dependencies:
+    "@segment/loosely-validate-event" "^2.0.0"
+    axios "^0.21.1"
+    axios-retry "^3.0.2"
+    lodash.isstring "^4.0.1"
+    md5 "^2.2.1"
+    ms "^2.0.0"
+    remove-trailing-slash "^0.1.0"
+    uuid "^3.2.1"
 
 analytics-node@^5.0.0:
   version "5.0.0"
@@ -3422,6 +3449,11 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
+
+uuid@^3.2.1:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
+  integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
 uuid@^8.3.0, uuid@^8.3.2:
   version "8.3.2"

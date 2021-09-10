@@ -3,13 +3,14 @@ import * as Ampli from './ampli';
 import * as Amplitude from './ampli/amplitude-node';
 import { EventWithOptionalProperties } from './ampli';
 import { getSegmentMiddleware } from './middleware/segmentMiddleware';
+import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
 import { stopMiddleware } from './middleware/stopMiddleware';
 
 const userId = 'ampli-user-id';
 
 // Read Configuration
 dotenv.config()
-const { AMPLITUDE_API_KEY } = process.env;
+const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 
 /**
  * Get a default Ampli instance via getInstance()
@@ -36,8 +37,14 @@ const ampli = Ampli.getInstance(client);
 /**
  * You can add middleware for 3rd party destination support
  */
-// const segmentMiddleware = getSegmentMiddleware();
+// const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addMiddleware(segmentMiddleware);
+
+/**
+ * Legacy Itly Plugins can also be adapted to middleware
+ */
+// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
+// ampli.client.addMiddleware(segmentItlyPluginMiddleware);
 
 /**
  * Middleware can also modify the event stream
@@ -73,6 +80,16 @@ ampli.eventWithAllProperties(userId, {
 ampli.track(userId, new EventWithOptionalProperties({
   optionalBoolean: true,
 }))
+
+/**
+ * Example Page Event
+ * See segmentItlyPluginMiddleware.ts
+ */
+ampli.track(userId, new Page({
+  name: 'Sign up',
+  category: 'Registration',
+  myPageProp: true,
+}));
 
 /**
  * Flush all pending events
