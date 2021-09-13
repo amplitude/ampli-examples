@@ -511,17 +511,16 @@ export class Ampli {
   eventWithOptionalProperties(userId: String | undefined, properties: EventWithOptionalPropertiesProperties, options?: TrackOptions, extra?: Extra) {
     return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }
-
 }
 
 export enum Environment {
-  DEV = 'DEV',
-  PROD = 'PROD',
+  development = 'development',
+  production = 'production'
 }
 
 export const ApiKey: Record<Environment, string> = {
-  DEV: '',
-  PROD: ''
+  development: '',
+  production: ''
 }
 
 export function init(apiKeyOrNodeClient: string | NodeClient) {
@@ -530,22 +529,22 @@ export function init(apiKeyOrNodeClient: string | NodeClient) {
   return new Ampli(nodeClient);
 }
 
-const DEFAULT_INSTANCE: string = Environment.DEV;
+const DEFAULT_INSTANCE: string = Environment.development;
 const _instances: { [name: string]: Ampli } = {};
 
 export function getInstance(instance: Environment | string = DEFAULT_INSTANCE): Ampli {
-  let ampli = _instances[name];
+  let ampli = _instances[instance];
   if (!ampli) {
-    const apiKey = ApiKey[name];
+    const apiKey = ApiKey[instance];
     if (apiKey === undefined || apiKey === '') {
-      throw new Error(`No API key or instance found for '${name}'. Provide a valid environment or call Ampli.setInstance('${name}', ...) before making this call.`);
+      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
     }
     ampli = init(apiKey);
-    setInstance(ampli, name);
+    setInstance(ampli, instance);
   }
   return ampli;
 }
 
 export function setInstance(ampli: Ampli, instance: Environment | string = DEFAULT_INSTANCE) {
-  _instances[name] = ampli;
+  _instances[instance] = ampli;
 }

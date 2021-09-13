@@ -24,7 +24,7 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 // const ampli = Ampli.getInstance(Environment.DEV);
 
 /** OR Provide a specific API key */
-const ampli = Ampli.init(AMPLITUDE_API_KEY)
+const ampli = Ampli.init(AMPLITUDE_API_KEY);
 
 /**
  * OR Use an existing Amplitude NodeClient
