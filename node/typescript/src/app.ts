@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import * as Ampli from './ampli';
+import { Environment, EventWithOptionalProperties } from './ampli';
 import * as Amplitude from './ampli/amplitude-node';
-import { EventWithOptionalProperties } from './ampli';
 import { getSegmentMiddleware } from './middleware/segmentMiddleware';
 import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
 import { stopMiddleware } from './middleware/stopMiddleware';
@@ -18,21 +18,25 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
  * which will set you API key in the generated Ampli SDK
  */
 // const ampli = Ampli.getInstance()
+/**
+ * OR Specify a Ampli.Environment
+ */
+// const ampli = Ampli.getInstance(Environment.DEV);
 
 /** OR Provide a specific API key */
-// const ampli = Ampli.getInstance(AMPLITUDE_API_KEY)
+const ampli = Ampli.init(AMPLITUDE_API_KEY)
 
 /**
  * OR Use an existing Amplitude NodeClient
  */
-const client = Amplitude.init(AMPLITUDE_API_KEY, { logLevel: 3 });
-const ampli = Ampli.getInstance(client);
+// const client = Amplitude.init(AMPLITUDE_API_KEY, { logLevel: 3 });
+// const ampli = Ampli.init(client);
 
 /**
  * OR Make your own Ampli instance
  */
 // const ampli = new Ampli.Ampli(client);
-// Ampli.setInstance(ampli);
+// Ampli.setInstance(ampli, 'myAmpli');
 
 /**
  * You can add middleware for 3rd party destination support
