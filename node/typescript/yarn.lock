@@ -2,36 +2,36 @@
 # yarn lockfile v1
 
 
-"@amplitude/identify@^1.8.2":
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.8.2.tgz#c5b11eb539c72554fdacaf5d0a3392f424f23390"
-  integrity sha512-B8Hoi/vpquPOhBLh9lyKNu+Hv15aUcKTFR/BstiBlNun5W6nk1PmeM48JQOKRuv3fbfNQECFuf/iswWjPDX6Rg==
+"@amplitude/identify@^1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.8.4.tgz#50d87af2856422c258ddcb410f7f7b5af18f9fc6"
+  integrity sha512-SvglcgQvIz2RlC7aEonprT4MRNgY896ALBk0z2z1ceDRhwke1/Y5ywIGo2JxQ3gkyFrYFKRwwanMPfvoozzpMA==
   dependencies:
-    "@amplitude/types" "^1.8.2"
-    "@amplitude/utils" "^1.8.2"
+    "@amplitude/types" "^1.8.4"
+    "@amplitude/utils" "^1.8.4"
     tslib "^1.9.3"
 
-"@amplitude/node@^1.8.2":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.8.3.tgz#5f969f8ee43e4b8b7e1f329df10ceda94bec948e"
-  integrity sha512-ueiNhW0HUo+XrvIGnQj+aIeoPEML3j+lFVApzwz7N58mjE4ll4xFSrHOvL5vm5rTefNkJGxE/DvdQnClN+Ax+Q==
+"@amplitude/node@^1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.8.4.tgz#b8e1f650890415eadc26942e386e495864c042fd"
+  integrity sha512-yCDym7ZVyJ/rda/qjiSdei/mdoC3hzR+UByjYtCGnbxG9uGoK+OPIIsRhAZMl+DFmiBasI07CUUzxEhFRSsLCA==
   dependencies:
-    "@amplitude/identify" "^1.8.2"
-    "@amplitude/types" "^1.8.2"
-    "@amplitude/utils" "^1.8.2"
+    "@amplitude/identify" "^1.8.4"
+    "@amplitude/types" "^1.8.4"
+    "@amplitude/utils" "^1.8.4"
     tslib "^1.9.3"
 
-"@amplitude/types@^1.8.2":
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.2.tgz#34315ba822de569c1d02a7c001913b7ac2fbc04c"
-  integrity sha512-VY0EDZyTes8yDHqCEFYC3nhFxfdlx5ah8YTWvCZoM+BklRO8PHE177H3kpKqs5TKG+M62ToNAiOQ7s/KDYgc6Q==
+"@amplitude/types@^1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.4.tgz#393e251bd284f501d560fa7de0a97b2c50b647ea"
+  integrity sha512-X9oZy+JAUAB9pBSTKZ7hanx1737YRYqQNWUkn4Y4P93APcYbaBciJFpEnHwgBMXBxOmag9NIK4pnaTBO1nuSvg==
 
-"@amplitude/utils@^1.8.2":
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.8.2.tgz#77a614e0921ee5b57b994bb82dc3f9a81a0e493d"
-  integrity sha512-b15pp5K/O/9xGjX61iNWob1GLJCP64/jp0+WklPzIJaZFPFe+gS5vi/PJmt7vDt+pCBqVvGLyKv7hX0/OLM9IA==
+"@amplitude/utils@^1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.8.4.tgz#b3f2fc8e0110b4818f3081c3b12809b89783d35d"
+  integrity sha512-4ERFRTekwNHKYDqWtrC4KkVfI33trobgbK+m3DGg6znRHcIEtJE/Z50A7dPKAnVkmOxXmEgv45jrIjl7VLWC8Q==
   dependencies:
-    "@amplitude/types" "^1.8.2"
+    "@amplitude/types" "^1.8.4"
     tslib "^1.9.3"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.14.5":

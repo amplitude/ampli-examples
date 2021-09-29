@@ -7,7 +7,7 @@ export function cloneDeep(obj: any) {
   return JSON.parse(JSON.stringify(obj));
 }
 
-export type Properties = { [name: string]: any; };
+export type Properties = { [name: string]: any };
 
 export type Event = {
   name: string;
@@ -29,7 +29,7 @@ export type IdentifyOptions = TrackOptions;
 // Middleware
 
 // Generic blob to let users pass data to middleware
-export type Extra = { [name: string]: any; };
+export type Extra = { [name: string]: any };
 
 export type IdentifyArgs = {
   deviceId?: string;
@@ -40,22 +40,22 @@ export enum AmpliMethod {
   Group,
   Track,
   Flush,
-  Reset
+  Reset,
 }
 
 export type Payload = {
-  userId?: string,
-  event: Event,
-  method: AmpliMethod,
+  userId?: string;
+  event: Event;
+  method: AmpliMethod;
   args?: IdentifyArgs;
-  options?: TrackOptions | IdentifyOptions,
-  extra?: Extra,
-}
+  options?: TrackOptions | IdentifyOptions;
+  extra?: Extra;
+};
 export type Next = () => void;
 
-export type PayloadInternal = Payload & { out: Payload }
+export type PayloadInternal = Payload & { out: Payload };
 
-export type Middleware = (payload: PayloadInternal, next: Next) => void
+export type Middleware = (payload: PayloadInternal, next: Next) => void;
 
 export class NodeClient extends Amplitude.NodeClient {
   private middlewares: Middleware[] = [];
@@ -71,8 +71,8 @@ export class NodeClient extends Amplitude.NodeClient {
       ...payload,
       out: {
         ...payload,
-      }
-    }
+      },
+    };
 
     if (mCount > 0) {
       const _next = () => {
@@ -80,13 +80,13 @@ export class NodeClient extends Amplitude.NodeClient {
         const { out } = curPayload;
         curPayload = { ...out, out: { ...out }};
         if (mIndex < mCount) {
-          this.middlewares[mIndex](curPayload, _next)
+          this.middlewares[mIndex](curPayload, _next);
         } else {
-          next(out)
+          next(out);
         }
       }
 
-      this.middlewares[0](curPayload, _next)
+      this.middlewares[0](curPayload, _next);
     } else {
       next(curPayload);
     }
