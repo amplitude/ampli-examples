@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 import * as Ampli from './ampli';
 import { Environment, EventWithOptionalProperties } from './ampli';
-import * as Amplitude from './ampli/amplitude-node';
 import { getSegmentMiddleware } from './middleware/segmentMiddleware';
 import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
 import { stopMiddleware } from './middleware/stopMiddleware';
@@ -41,8 +40,8 @@ const ampli = Ampli.init(AMPLITUDE_API_KEY);
 /**
  * You can add middleware for 3rd party destination support
  */
-// const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
-// ampli.client.addMiddleware(segmentMiddleware);
+const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
+ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
  * Legacy Itly Plugins can also be adapted to middleware
@@ -54,7 +53,7 @@ const ampli = Ampli.init(AMPLITUDE_API_KEY);
  * Middleware can also modify the event stream
  * Adding stop middleware will prevent events from going to Amplitude
  */
-// ampli.client.addMiddleware(stopMiddleware);
+// ampli.client.addEventMiddleware(stopMiddleware);
 
 /**
  * Identify the user

@@ -1,4 +1,4 @@
-import { Middleware } from '../ampli/amplitude-node';
+import { Middleware } from '@amplitude/types';
 
 /**
  * Stop Middleware

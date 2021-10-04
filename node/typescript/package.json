@@ -16,7 +16,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@amplitude/node": "^1.8.4",
+    "@amplitude/node": "1.8.5-alpha.1",
     "@itly/plugin-segment-node": "^2.3.4",
     "@itly/sdk": "^2.3.4",
     "@types/analytics-node": "^3.1.6",

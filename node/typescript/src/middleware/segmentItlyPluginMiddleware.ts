@@ -1,7 +1,7 @@
-import { Loggers } from '@itly/sdk';
+import { Loggers} from '@itly/sdk';
 import { SegmentPlugin } from '@itly/plugin-segment-node';
-import { AmpliMethod, Event, Middleware } from '../ampli/amplitude-node';
 import { UserTrackExtra } from '../types';
+import { BaseEvent, Middleware, SpecialEventType } from "@amplitude/types";
 
 /**
  * FIXME: Page should be part of the tracking plan & Ampli SDK
@@ -12,14 +12,14 @@ export interface PageProperties {
   myPageProp: boolean;
 }
 
-export class Page implements Event {
-  name = 'Page';
-  id = 'page';
-  version = '1.0.0';
-  properties: PageProperties;
+export class Page implements BaseEvent {
+  event_type = 'Page';
+  event_id_in_plan = 'page';
+  event_version = '1.0.0';
+  event_properties: PageProperties;
 
-  constructor(properties: PageProperties) {
-    this.properties = properties;
+  constructor(event_properties: PageProperties) {
+    this.event_properties = event_properties;
   }
 }
 
@@ -43,30 +43,32 @@ export function getSegmentItlyPluginMiddleware(writeKey: string): Middleware {
 
   // Create Segment Middleware
   const segmentItlyPluginMiddleware: Middleware = (payload, next) => {
-    const { userId, event, extra } = payload;
+    const { event, extra } = payload;
     const userExtra = extra as UserTrackExtra;
     const anonymousId = userExtra?.segment?.anonymousId;
+    const userId = event.user_id;
 
-    switch (payload.method) {
-      case AmpliMethod.Identify:
-        segmentItlyPlugin.identify(userId, event.properties)
+    switch (payload.event.event_type) {
+      case SpecialEventType.IDENTIFY:
+        segmentItlyPlugin.identify(userId, event.user_properties)
         break;
 
-      case AmpliMethod.Track:
-        switch (event.name) {
-          case 'Page':
-            // Send page events using the page() method
-            const { name, category, ...pageProperties } = (event as Page).properties;
-            segmentItlyPlugin.page(userId, category, name, pageProperties);
-            break;
+      case 'Page':
+        // Send page events using the page() method
+        const { name, category, ...pageProperties } = (event as Page).event_properties;
+        segmentItlyPlugin.page(userId, category, name, pageProperties);
+        break;
 
-          default:
-            // All other events can use standard track()
-            segmentItlyPlugin.track(userId, event)
-        }
+      default:
+        // All other events can use standard track()
+        segmentItlyPlugin.track(userId, {
+          name: event.event_type,
+          properties: event.event_properties,
+        })
         break;
     }
-    next();
+
+    next(payload);
   };
 
   // Return middleware

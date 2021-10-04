@@ -16,9 +16,8 @@
  */
 
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
-import {
-  init as initNodeClient, NodeClient, Event, AmpliMethod, IdentifyOptions, TrackOptions, Extra, cloneDeep,
-} from './amplitude-node';
+import {init as initNodeClient, NodeClient } from '@amplitude/node';
+import { BaseEvent, Event, Extra, IdentifyEvent } from '@amplitude/types';
 
 export enum Environment {
   development = 'development',
@@ -304,96 +303,109 @@ export interface IdentifyProperties {
 }
 
 
-export class Context implements Event {
-  name = 'Context';
-  id = 'context';
-  version = '0.0.0';
+export class Identify extends AmplitudeIdentify {
+  event_id_in_plan = 'identify';
+  event_version = '0.0.0';
+  user_properties: IdentifyProperties;
+  userId?: string;
+  deviceId?: string;
+
+  constructor(userId: string | undefined, deviceId: string | undefined, user_properties: IdentifyProperties) {
+    super();
+    this.userId = userId;
+    this.deviceId = deviceId;
+    this.user_properties = user_properties;
+  }
+
+  asIdentifyEvent(): IdentifyEvent {
+    const event = this.identifyUser(this.userId, this.deviceId);
+    event.event_id_in_plan = this.event_id_in_plan;
+    event.event_version = this.event_version;
+
+    return event;
+  }
+}
+
+export class Context implements BaseEvent {
+  event_type = 'Context';
+  event_id_in_plan = 'context';
+  event_version = '0.0.0';
   constructor() {}
 }
-export class Identify implements Event {
-  name = 'Identify';
-  id = 'identify';
-  version = '0.0.0';
-  properties: IdentifyProperties;
+export class Group implements BaseEvent {
+  event_type = 'Group';
+  event_id_in_plan = 'group';
+  event_version = '0.0.0';
+  event_properties: GroupProperties;
 
-  constructor(properties: IdentifyProperties) {
-    this.properties = properties;
-  }
-}
-export class Group implements Event {
-  name = 'Group';
-  id = 'group';
-  version = '0.0.0';
-  properties: GroupProperties;
-
-  constructor(properties: GroupProperties) {
-    this.properties = properties;
+  constructor(event_properties: GroupProperties) {
+    this.event_properties = event_properties;
   }
 }
 
-export class EventMaxIntForTest implements Event {
-  name = 'EventMaxIntForTest';
-  id = 'aa0f08ac-8928-4569-a524-c1699e7da6f4';
-  version = '1.0.0';
+export class EventMaxIntForTest implements BaseEvent {
+  event_type = 'EventMaxIntForTest';
+  event_id_in_plan = 'aa0f08ac-8928-4569-a524-c1699e7da6f4';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties: EventMaxIntForTestProperties,
+    public event_properties: EventMaxIntForTestProperties,
   ) {}
 }
 
-export class EventNoProperties implements Event {
-  name = 'Event No Properties';
-  id = '26af925a-be3a-40e5-947d-33da66a5352f';
-  version = '1.0.0';
+export class EventNoProperties implements BaseEvent {
+  event_type = 'Event No Properties';
+  event_id_in_plan = '26af925a-be3a-40e5-947d-33da66a5352f';
+  event_version = '1.0.0';
 }
 
-export class EventObjectTypes implements Event {
-  name = 'Event Object Types';
-  id = 'aea72ecc-5a10-4bd7-99a6-81a464aabaed';
-  version = '1.0.0';
+export class EventObjectTypes implements BaseEvent {
+  event_type = 'Event Object Types';
+  event_id_in_plan = 'aea72ecc-5a10-4bd7-99a6-81a464aabaed';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties: EventObjectTypesProperties,
+    public event_properties: EventObjectTypesProperties,
   ) {}
 }
 
-export class EventWithAllProperties implements Event {
-  name = 'Event With All Properties';
-  id = '311ba144-8532-4474-a9bd-8b430625e29a';
-  version = '1.0.0';
-  properties: EventWithAllPropertiesProperties & {
+export class EventWithAllProperties implements BaseEvent {
+  event_type = 'Event With All Properties';
+  event_id_in_plan = '311ba144-8532-4474-a9bd-8b430625e29a';
+  event_version = '1.0.0';
+  event_properties: EventWithAllPropertiesProperties & {
     'requiredConst': "some-const-value";
   };
 
 
   constructor(
-    properties: EventWithAllPropertiesProperties,
+    event_properties: EventWithAllPropertiesProperties,
   ) {
-    this.properties = {
-        ...properties,
+    this.event_properties = {
+        ...event_properties,
         'requiredConst': "some-const-value",
       };
   }
 }
 
-export class EventWithArrayTypes implements Event {
-  name = 'Event With Array Types';
-  id = '5ded19cd-6015-441b-a2be-f954425be1fe';
-  version = '1.0.0';
+export class EventWithArrayTypes implements BaseEvent {
+  event_type = 'Event With Array Types';
+  event_id_in_plan = '5ded19cd-6015-441b-a2be-f954425be1fe';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties: EventWithArrayTypesProperties,
+    public event_properties: EventWithArrayTypesProperties,
   ) {}
 }
 
-export class EventWithConstTypes implements Event {
-  name = 'Event With Const Types';
-  id = '321b8f02-1bb3-4b33-8c21-8c55401d62da';
-  version = '1.0.0';
-  properties = {
+export class EventWithConstTypes implements BaseEvent {
+  event_type = 'Event With Const Types';
+  event_id_in_plan = '321b8f02-1bb3-4b33-8c21-8c55401d62da';
+  event_version = '1.0.0';
+  event_properties = {
     'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
     'String Const': "String-Constant",
     'String Int Const': 0,
@@ -403,47 +415,47 @@ export class EventWithConstTypes implements Event {
   };
 }
 
-export class EventWithDifferentCasingTypes implements Event {
-  name = 'event withDifferent_CasingTypes';
-  id = 'fcb3d82d-208f-4bc2-b8e1-843683d9b595';
-  version = '1.0.0';
+export class EventWithDifferentCasingTypes implements BaseEvent {
+  event_type = 'event withDifferent_CasingTypes';
+  event_id_in_plan = 'fcb3d82d-208f-4bc2-b8e1-843683d9b595';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties: EventWithDifferentCasingTypesProperties,
+    public event_properties: EventWithDifferentCasingTypesProperties,
   ) {}
 }
 
-export class EventWithEnumTypes implements Event {
-  name = 'Event With Enum Types';
-  id = 'b4fc8366-b05d-40d3-b698-79795701624b';
-  version = '1.0.0';
+export class EventWithEnumTypes implements BaseEvent {
+  event_type = 'Event With Enum Types';
+  event_id_in_plan = 'b4fc8366-b05d-40d3-b698-79795701624b';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties: EventWithEnumTypesProperties,
+    public event_properties: EventWithEnumTypesProperties,
   ) {}
 }
 
-export class EventWithOptionalArrayTypes implements Event {
-  name = 'Event With Optional Array Types';
-  id = '2755da0e-a507-4b18-8f17-86d1d5c499ab';
-  version = '1.0.0';
+export class EventWithOptionalArrayTypes implements BaseEvent {
+  event_type = 'Event With Optional Array Types';
+  event_id_in_plan = '2755da0e-a507-4b18-8f17-86d1d5c499ab';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties?: EventWithOptionalArrayTypesProperties,
+    public event_properties?: EventWithOptionalArrayTypesProperties,
   ) {}
 }
 
-export class EventWithOptionalProperties implements Event {
-  name = 'Event With Optional Properties';
-  id = '00b99136-9d1a-48d8-89d5-25f165ff3ae0';
-  version = '1.0.0';
+export class EventWithOptionalProperties implements BaseEvent {
+  event_type = 'Event With Optional Properties';
+  event_id_in_plan = '00b99136-9d1a-48d8-89d5-25f165ff3ae0';
+  event_version = '1.0.0';
 
 
   constructor(
-    public properties?: EventWithOptionalPropertiesProperties,
+    public event_properties?: EventWithOptionalPropertiesProperties,
   ) {}
 }
 
@@ -459,34 +471,18 @@ export class Ampli {
     return this.amplitude;
   }
 
-  identify(userId?: string, deviceId?: string, properties?: IdentifyProperties, options?: IdentifyOptions, extra?: Extra) {
-    this.amplitude.runMiddleware({
-      method: AmpliMethod.Identify, args: { deviceId }, userId, event: new Identify(properties), options, extra
-    }, (payload) => {
-      const amplitudeIdentify = new AmplitudeIdentify();
-      for (const [key, value] of Object.entries({ ...properties })) {
-        amplitudeIdentify.set(key, value);
-      }
-      this.amplitude.logEvent({
-        ...(options || {}),
-        ...amplitudeIdentify.identifyUser(userId, deviceId)
-      });
-    });
+  identify(userId: string, deviceId: string | undefined, properties: IdentifyProperties, extra?: Extra) {
+    const identify = new Identify(userId, deviceId, properties);
+    this.amplitude.logEvent(identify.asIdentifyEvent(), extra);
   }
 
-  track(userId, event: Event, options?: TrackOptions, extra?: Extra) {
-    this.amplitude.runMiddleware({
-      method: AmpliMethod.Track, userId, event, options, extra
-    }, (payload) => {
-      // Merge in
-      const ampEvent = {
-        ...(options || {}),
-        event_type: payload.event.name,
-        user_id: payload.userId,
-        event_properties: payload.event.properties,
-      };
-      return this.amplitude.logEvent(ampEvent)
-    });
+  track(userId, event: Event, extra?: Extra) {
+    // Merge in
+    const ampEvent = {
+      ...event,
+      user_id: userId
+    };
+    return this.amplitude.logEvent(ampEvent, extra)
   }
 
   flush() {
@@ -500,16 +496,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. intMax10)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventMaxIntForTest(
     userId: string,
     properties: EventMaxIntForTestProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventMaxIntForTest(properties), options, extra);
+    return this.track(userId, new EventMaxIntForTest(properties), extra);
   }
 
   /**
@@ -517,15 +511,13 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventNoProperties(
     userId: string,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventNoProperties(), options, extra);
+    return this.track(userId, new EventNoProperties(), extra);
   }
 
   /**
@@ -534,16 +526,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredObjectArray)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventObjectTypes(
     userId: string,
     properties: EventObjectTypesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventObjectTypes(properties), options, extra);
+    return this.track(userId, new EventObjectTypes(properties), extra);
   }
 
   /**
@@ -552,16 +542,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredInteger)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithAllProperties(
     userId: string,
     properties: EventWithAllPropertiesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithAllProperties(properties), options, extra);
+    return this.track(userId, new EventWithAllProperties(properties), extra);
   }
 
   /**
@@ -570,16 +558,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredObjectArray)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithArrayTypes(
     userId: string,
     properties: EventWithArrayTypesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithArrayTypes(properties), extra);
   }
 
   /**
@@ -587,15 +573,13 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithConstTypes(
     userId: string,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithConstTypes(), options, extra);
+    return this.track(userId, new EventWithConstTypes(), extra);
   }
 
   /**
@@ -604,16 +588,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. EnumPascalCase)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithDifferentCasingTypes(
     userId: string,
     properties: EventWithDifferentCasingTypesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
+    return this.track(userId, new EventWithDifferentCasingTypes(properties), extra);
   }
 
   /**
@@ -622,16 +604,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. optional enum)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithEnumTypes(
     userId: string,
     properties: EventWithEnumTypesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithEnumTypes(properties), options, extra);
+    return this.track(userId, new EventWithEnumTypes(properties), extra);
   }
 
   /**
@@ -640,16 +620,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. optionalJSONArray)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithOptionalArrayTypes(
     userId: string,
     properties?: EventWithOptionalArrayTypesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithOptionalArrayTypes(properties), extra);
   }
 
   /**
@@ -658,16 +636,14 @@ export class Ampli {
    * Owner: Test codegen
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. optionalArrayNumber)
-   * @param options Amplitude client options.
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithOptionalProperties(
     userId: string,
     properties?: EventWithOptionalPropertiesProperties,
-    options?: TrackOptions,
     extra?: Extra,
   ) {
-    return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
+    return this.track(userId, new EventWithOptionalProperties(properties), extra);
   }
 }
 

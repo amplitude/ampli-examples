@@ -1,5 +1,5 @@
 import Segment from 'analytics-node';
-import { AmpliMethod, Middleware } from '../ampli/amplitude-node';
+import { Middleware, SpecialEventType } from '@amplitude/types';
 import { UserTrackExtra } from '../types';
 
 /**
@@ -15,29 +15,30 @@ export function getSegmentMiddleware(writeKey: string): Middleware {
 
   // Create Segment Middleware
   const segmentMiddleware: Middleware = (payload, next) => {
-    const { userId, event: { name, properties }, extra } = payload;
+    const { event: { event_type, event_properties, user_id: userId, user_properties }, extra } = payload;
     const userExtra = extra as UserTrackExtra;
     const anonymousId = userExtra?.segment?.anonymousId;
 
-    switch (payload.method) {
-      case AmpliMethod.Identify:
+    switch (event_type) {
+      case SpecialEventType.IDENTIFY:
         segment.identify({
           userId,
           anonymousId,
-          traits: properties,
+          traits: user_properties,
         })
         break;
 
-      case AmpliMethod.Track:
+      default:
         segment.track({
           userId,
           anonymousId,
-          event: name,
-          properties,
+          event: event_type,
+          properties: event_properties,
         })
         break;
     }
-    next();
+
+    next(payload);
   };
 
   // Return middleware
