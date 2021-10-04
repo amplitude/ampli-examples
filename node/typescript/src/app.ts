@@ -1,9 +1,11 @@
 import dotenv from 'dotenv';
+import { init as initAmplitudeNodeClient } from '@amplitude/node'
 import * as Ampli from './ampli';
 import { Environment, EventWithOptionalProperties } from './ampli';
 import { getSegmentMiddleware } from './middleware/segmentMiddleware';
 import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
 import { stopMiddleware } from './middleware/stopMiddleware';
+import { UserTrackExtra } from "./types";
 
 const userId = 'ampli-user-id';
 
@@ -23,13 +25,13 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 // const ampli = Ampli.getInstance(Environment.DEV);
 
 /** OR Provide a specific API key */
-const ampli = Ampli.init(AMPLITUDE_API_KEY);
+// const ampli = Ampli.init(AMPLITUDE_API_KEY);
 
 /**
  * OR Use an existing Amplitude NodeClient
  */
-// const client = Amplitude.init(AMPLITUDE_API_KEY, { logLevel: 3 });
-// const ampli = Ampli.init(client);
+const client = initAmplitudeNodeClient(AMPLITUDE_API_KEY, { logLevel: 3 });
+const ampli = Ampli.init(client);
 
 /**
  * OR Make your own Ampli instance
@@ -40,8 +42,8 @@ const ampli = Ampli.init(AMPLITUDE_API_KEY);
 /**
  * You can add middleware for 3rd party destination support
  */
-const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
-ampli.client.addEventMiddleware(segmentMiddleware);
+// const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
+// ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
  * Legacy Itly Plugins can also be adapted to middleware
@@ -58,11 +60,12 @@ ampli.client.addEventMiddleware(segmentMiddleware);
 /**
  * Identify the user
  */
-ampli.identify(userId, undefined, {
-  requiredNumber: 42,
-}, {
-  platform: process.platform,
-});
+ampli.identify(userId, undefined,
+  // Strongly typed user traits from your tracking plan
+  { requiredNumber: 42 },
+  // `options` allows setting additional Amplitude fields
+  { platform: process.platform },
+);
 
 /**
  * Track Events via strongly typed methods
@@ -75,14 +78,24 @@ ampli.eventWithAllProperties(userId, {
   requiredEnum: Ampli.RequiredEnum.Enum1,
   requiredInteger: 42,
   requiredString: 'Hi!',
-})
+});
 
 /**
  * Track Events with strongly typed Event classes
  */
 ampli.track(userId, new EventWithOptionalProperties({
   optionalBoolean: true,
-}))
+}));
+
+ampli.eventWithOptionalProperties(undefined,
+  {
+    optionalBoolean: true,
+  },
+  // `options` allows setting additional Amplitude fields
+  { device_id: '12345',  },
+  // `extra` can be used to pass unstructured data to middleware
+  { segment: { anonymousId: 'anon-id' } } as UserTrackExtra
+)
 
 /**
  * Example Page Event

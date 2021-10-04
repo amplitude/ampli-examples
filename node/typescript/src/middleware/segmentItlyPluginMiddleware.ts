@@ -64,6 +64,8 @@ export function getSegmentItlyPluginMiddleware(writeKey: string): Middleware {
         segmentItlyPlugin.track(userId, {
           name: event.event_type,
           properties: event.event_properties,
+        }, {
+          options: { anonymousId }
         })
         break;
     }
