@@ -5,14 +5,14 @@
  * To update run 'ampli pull node-ts-ampli'
  * 
  * Required dependencies: @amplitude/node@^1.8.5
- * Tracking Plan Version: 0.0.0
+ * Tracking Plan Version: 0
  * Build: 1.0.0
  *
  * Tracking Plan:
- * https://analytics.amplitude.com/amplitude/govern/events/main/latest
+ * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest
  *
  * Full setup Instuctions:
- * https://analytics.amplitude.com/amplitude/govern/implementation/node-ts-ampli
+ * https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-ts-ampli
  */
 
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
@@ -418,12 +418,12 @@ export class EventWithConstTypes implements BaseEvent {
     event_version: '1.0.0',
   };
   event_properties = {
-    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-    'String Const': "String-Constant",
-    'String Int Const': 0,
     'Integer Const': 10,
     'Boolean Const': true,
+    'String Int Const': 0,
     'Number Const': 2.2,
+    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+    'String Const': "String-Constant",
   };
 }
 
@@ -549,7 +549,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredObject)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -585,7 +585,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -637,7 +637,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optional enum)
+   * @param properties The event's properties (e.g. required enum)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -655,7 +655,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalJSONArray)
+   * @param properties The event's properties (e.g. optionalStringArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -673,7 +673,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalArrayNumber)
+   * @param properties The event's properties (e.g. optionalNumber)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
