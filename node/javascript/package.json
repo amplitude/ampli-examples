@@ -1,0 +1,24 @@
+{
+  "name": "ampli-node-javascript-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "jest"
+  },
+  "author": "Justin Fiedler (Amplitude)",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.1"
+  },
+  "dependencies": {
+    "@amplitude/node": "1.8.5-alpha.4",
+    "@amplitude/identify": "1.8.5-alpha.4",
+    "@itly/plugin-segment-node": "^2.3.4",
+    "@itly/sdk": "^2.3.4",
+    "@types/analytics-node": "^3.1.6",
+    "analytics-node": "^5.0.0",
+    "dotenv": "^10.0.0"
+  }
+}
