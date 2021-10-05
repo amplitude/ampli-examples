@@ -510,10 +510,14 @@ export class Ampli {
   }
 
   // GENERATED EVENT FUNCTIONS
-/**
+  /**
+   * EventMaxIntForTest
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest
+   *
    * Event to test schema validation
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. intMax10)
    * @param options Amplitude event options.
@@ -529,9 +533,13 @@ export class Ampli {
   }
 
   /**
+   * Event No Properties
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties
+   *
    * Event w no properties description
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
@@ -545,9 +553,13 @@ export class Ampli {
   }
 
   /**
+   * Event Object Types
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types
+   *
    * Event with Object and Object Array
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredObject)
    * @param options Amplitude event options.
@@ -563,9 +575,13 @@ export class Ampli {
   }
 
   /**
+   * Event With All Properties
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties
+   *
    * Event w all properties description
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredInteger)
    * @param options Amplitude event options.
@@ -581,9 +597,13 @@ export class Ampli {
   }
 
   /**
+   * Event With Array Types
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types
+   *
    * Description for event with Array Types
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. requiredBooleanArray)
    * @param options Amplitude event options.
@@ -599,9 +619,13 @@ export class Ampli {
   }
 
   /**
+   * Event With Const Types
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types
+   *
    * Description for event with const types
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
@@ -615,9 +639,13 @@ export class Ampli {
   }
 
   /**
+   * event withDifferent_CasingTypes
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes
+   *
    * Description for case with space
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. EnumPascalCase)
    * @param options Amplitude event options.
@@ -633,9 +661,13 @@ export class Ampli {
   }
 
   /**
+   * Event With Enum Types
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types
+   *
    * Description for event with enum types
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. required enum)
    * @param options Amplitude event options.
@@ -651,9 +683,13 @@ export class Ampli {
   }
 
   /**
+   * Event With Optional Array Types
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types
+   *
    * Description for event with optional array types
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. optionalStringArray)
    * @param options Amplitude event options.
@@ -669,9 +705,13 @@ export class Ampli {
   }
 
   /**
+   * Event With Optional Properties
+   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties
+   *
    * Event w optional properties description
    * 
    * Owner: Test codegen
+   *
    * @param userId The user's ID.
    * @param properties The event's properties (e.g. optionalNumber)
    * @param options Amplitude event options.
