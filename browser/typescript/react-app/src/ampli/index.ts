@@ -320,6 +320,7 @@ export class Context implements BaseEvent {
   };
   constructor() {}
 }
+
 export class Identify implements BaseEvent {
   event_type = 'Identify';
   plan = {
@@ -332,6 +333,7 @@ export class Identify implements BaseEvent {
     this.event_properties = event_properties;
   }
 }
+
 export class Group implements BaseEvent {
   event_type = 'Group';
   plan = {
@@ -507,7 +509,7 @@ export class Ampli {
       event_properties: properties,
       plan: { event_id: 'identify', event_version: '0.0.0' },
       user_id: userId,
-      device_id: deviceId,
+      device_id: deviceId
     };
     this.runMiddleware({ event, extra }, payload => {
       if (userId) {
@@ -826,6 +828,7 @@ export type BaseEvent = {
   event_type: string;
   event_properties?: { [key: string]: any },
   plan?: Plan;
+  user_id?: string;
 }
 export type IdentifyEvent = BaseEvent & {
   event_type: SpecialEventType.Identify,
