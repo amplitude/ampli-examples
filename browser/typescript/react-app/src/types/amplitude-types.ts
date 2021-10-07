@@ -1,0 +1,118 @@
+export type Foo = {};
+// export type Callback = (responseCode: number, responseBody: string, details?: { reason: string }) => void;
+// export type LogReturn = number | undefined;
+//
+// export interface Config {
+//     apiEndpoint?: string | undefined;
+//     batchEvents?: boolean | undefined;
+//     cookieExpiration?: number | undefined;
+//     cookieForceUpgrade?: boolean | undefined;
+//     cookieName?: string | undefined;
+//     userId?: string | undefined;
+//     deferInitialization?: boolean | undefined;
+//     deviceId?: string | undefined;
+//     deviceIdFromUrlParam?: boolean | undefined;
+//     disableCookies?: boolean | undefined;
+//     domain?: string | undefined;
+//     eventUploadPeriodMillis?: number | undefined;
+//     eventUploadThreshold?: number | undefined;
+//     forceHttps?: boolean | undefined;
+//     includeFbclid?: boolean | undefined;
+//     includeGclid?: boolean | undefined;
+//     includeReferrer?: boolean | undefined;
+//     includeUtm?: boolean | undefined;
+//     language?: string | undefined;
+//     logLevel?: 'DISABLE' | 'ERROR' | 'WARN' | 'INFO' | undefined;
+//     optOut?: boolean | undefined;
+//     onError?: (() => void) | undefined;
+//     platform?: string | undefined;
+//     sameSiteCookie?: 'Lax' | 'Strict' | 'None' | undefined;
+//     saveEvents?: boolean | undefined;
+//     savedMaxCount?: number | undefined;
+//     saveParamsReferrerOncePerSession?: boolean | undefined;
+//     secureCookie?: boolean | undefined;
+//     sessionTimeout?: number | undefined;
+//     trackingOptions?: {
+//         city?: boolean | undefined;
+//         country?: boolean | undefined;
+//         carrier?: boolean | undefined;
+//         device_manufacturer?: boolean | undefined;
+//         device_model?: boolean | undefined;
+//         dma?: boolean | undefined;
+//         ip_address?: boolean | undefined;
+//         language?: boolean | undefined;
+//         os_name?: boolean | undefined;
+//         os_version?: boolean | undefined;
+//         platform?: boolean | undefined;
+//         region?: boolean | undefined;
+//         version_name?: boolean | undefined;
+//     } | undefined;
+//     unsetParamsReferrerOnNewSession?: boolean | undefined;
+//     unsentKey?: string | undefined;
+//     unsentIdentifyKey?: string | undefined;
+//     uploadBatchSize?: number | undefined;
+//     useNativeDeviceInfo?: boolean | undefined;
+// }
+//
+// export interface Identify {
+//     /** increment a user property by a given value (can also be negative to decrement). */
+//     add(key: string, value: number | string): Identify;
+//     /** Append a value or values to a user property */
+//     append(key: string, value: number | string | any[] | object): Identify;
+//     /** Prepend a value or values to a user property */
+//     prepend(key: string, value: boolean | number | string | any[] | object): Identify;
+//     /** Sets the value of a given user property */
+//     set(key: string, value: boolean | number | string | any[] | object): Identify;
+//     /** Sets the value of a given user property only once */
+//     setOnce(key: string, value: boolean | number | string | any[] | object): Identify;
+//     /** Unset and remove a user property */
+//     unset(key: string): Identify;
+// }
+//
+// export interface Revenue {
+//     setProductId(productId: string): Revenue;
+//     setQuantity(quantity: number): Revenue;
+//     setPrice(price: number): Revenue;
+//     setRevenueType(revenueType: string): Revenue;
+//     setEventProperties(eventProperties: any): Revenue;
+// }
+//
+// export interface AmplitudeClient {
+//     // constructor(instanceName?: string);
+//
+//     options: Config;
+//
+//     init(apiKey: string, userId?: string, config?: Config, callback?: (client: AmplitudeClient) => void): void;
+//
+//     setVersionName(versionName: string): void;
+//
+//     isNewSession(): boolean;
+//     setSessionId(sessionId: number): void;
+//     getSessionId(): number;
+//
+//     setDomain(domain: string): void;
+//     setUserId(userId: string | null): void;
+//
+//     setDeviceId(id: string): void;
+//     regenerateDeviceId(): void;
+//
+//     identify(identify: Identify, callback?: Callback): void;
+//     groupIdentify(groupType: string, groupName: string | string[], identify: Identify, callback?: Callback): void;
+//
+//     setUserProperties(properties: any): void;
+//     setGlobalUserProperties(properties: any): void;
+//     clearUserProperties(): void;
+//
+//     setOptOut(enable: boolean): void;
+//
+//     setGroup(groupType: string, groupName: string | string[]): void;
+//
+//     logEvent(event: string, data?: any, callback?: Callback): LogReturn;
+//     logEventWithGroups(event: string, data?: any, groups?: any, callback?: Callback): LogReturn;
+//     logRevenueV2(revenue_obj: Revenue): LogReturn;
+//     logRevenue(pric: number, quantity: number, product: string): LogReturn;
+//     logEventWithTimestamp(event: string, data?: any, timestamp?: number, callback?: Callback): LogReturn;
+//
+//     Identify: Identify;
+//     Revenue: Revenue;
+// }

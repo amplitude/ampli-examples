@@ -49,7 +49,7 @@ const ampli = Ampli.init(client);
  * Legacy Itly Plugins can also be adapted to middleware
  */
 // const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
-// ampli.client.addMiddleware(segmentItlyPluginMiddleware);
+// ampli.client.addEventMiddleware(segmentItlyPluginMiddleware);
 
 /**
  * Middleware can also modify the event stream
