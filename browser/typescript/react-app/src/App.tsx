@@ -4,8 +4,11 @@ import './App.css';
 
 import * as Ampli from "./ampli";
 import { Environment, EventWithOptionalProperties } from "./ampli";
+import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
+import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
+import { stopMiddleware } from "./middleware/stopMiddleware";
 
-const { REACT_APP_AMPLITUDE_API_KEY = '' } = process.env;
+const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
 // Get the default Ampli instance
 // const ampli = Ampli.getInstance();
@@ -17,6 +20,24 @@ const { REACT_APP_AMPLITUDE_API_KEY = '' } = process.env;
 const ampli = Ampli.getInstance(undefined, { logLevel: "INFO" }, REACT_APP_AMPLITUDE_API_KEY);
 
 const userId = 'ampli-browser-ts-user-id';
+
+/**
+ * You can add middleware for 3rd party destination support
+ */
+// const segmentMiddleware = getSegmentMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
+// ampli.addEventMiddleware(segmentMiddleware);
+
+/**
+ * Legacy Itly Plugins can also be adapted to middleware
+ */
+// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
+// ampli.addEventMiddleware(segmentItlyPluginMiddleware);
+
+/**
+ * Middleware can also modify the event stream
+ * Adding stop middleware will prevent events from going to Amplitude
+ */
+// ampli.addEventMiddleware(stopMiddleware);
 
 function App() {
   return (
@@ -47,6 +68,17 @@ function App() {
             requiredString: 'Hi!',
           })
         }}>Event w/ All Properties</button>
+
+        <button onClick={() => {
+          ampli.track(new EventWithOptionalProperties({
+            optionalString: "Event with segment middleware extras",
+          }), undefined, {
+            segment: {
+              callback: () => { console.log('Segment track complete') },
+              anonymousId: 'anon-id',
+            }
+          } as SegmentExtra);
+        }}>Event w/ Segment</button>
       </header>
     </div>
   );

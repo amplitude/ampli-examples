@@ -503,9 +503,11 @@ export class Ampli {
     extra?: Extra
   ) {
     const event: IdentifyEvent = {
-      event_type: 'identify',
+      event_type: SpecialEventType.Identify,
       event_properties: properties,
-      plan: { event_id: 'identify', event_version: '0.0.0' }
+      plan: { event_id: 'identify', event_version: '0.0.0' },
+      user_id: userId,
+      device_id: deviceId,
     };
     this.runMiddleware({ event, extra }, payload => {
       if (userId) {
@@ -815,15 +817,25 @@ export type Plan = {
   event_version?: string;
 }
 
+export enum SpecialEventType {
+  Identify = "Identify",
+  Group = "Group"
+}
+
 export type BaseEvent = {
   event_type: string;
   event_properties?: { [key: string]: any },
   plan?: Plan;
 }
-
-export type Event = BaseEvent;
-export type IdentifyEvent = BaseEvent;
-export type GroupEvent = BaseEvent;
+export type IdentifyEvent = BaseEvent & {
+  event_type: SpecialEventType.Identify,
+  user_id?: string;
+  device_id?: string;
+};
+export type GroupEvent = BaseEvent & {
+  event_type: SpecialEventType.Group,
+};
+export type Event = BaseEvent | IdentifyEvent | GroupEvent;
 
 type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
   callback: Callback;
