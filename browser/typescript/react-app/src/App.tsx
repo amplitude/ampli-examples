@@ -3,10 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 
 import * as Ampli from "./ampli";
-import { EventWithOptionalProperties} from './ampli';
+import { Environment, EventWithOptionalProperties } from "./ampli";
 
 const { REACT_APP_AMPLITUDE_API_KEY = '' } = process.env;
-const ampli = Ampli.getInstance(REACT_APP_AMPLITUDE_API_KEY);
+
+// Get the default Ampli instance
+// const ampli = Ampli.getInstance();
+
+// Get Ampli instance for a particular Environment
+// const ampliProd = Ampli.getInstance(Environment.production);
+
+// Set your own Config and Amplitude API key
+const ampli = Ampli.getInstance(undefined, { logLevel: "INFO" }, REACT_APP_AMPLITUDE_API_KEY);
+
 const userId = 'ampli-browser-ts-user-id';
 
 function App() {
@@ -37,7 +46,7 @@ function App() {
             requiredInteger: 42,
             requiredString: 'Hi!',
           })
-        }}>Event w/ Optional Properties</button>
+        }}>Event w/ All Properties</button>
       </header>
     </div>
   );

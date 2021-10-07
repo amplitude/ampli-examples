@@ -15,27 +15,22 @@
  * https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli
  */
 
-import amplitude, { AmplitudeClient, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
-import {
-  BaseEvent, Event, Plan,
-  Middleware, MiddlewarePayload, Next, Extra,
-  EventOptions, IdentifyOptions, GroupOptions,
-} from '../types/types';
+import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
 
 export enum Environment {
   development = 'development',
   production = 'production'
 }
 
-export const ApiKey: Record<Environment, string> = {
+export const ApiKey: Record<Environment | string, string> = {
   development: '',
   production: ''
 };
 
 /**
-* Default NodeClient Options. Contains tracking plan information.
+* Default Amplitude Config. Contains tracking plan information.
 */
-export const DefaultOptions: Partial<Config> & { plan: Plan } = {
+export const DefaultConfig: ConfigExt = {
   plan: {
     version: '0',
     branch: 'main',
@@ -480,11 +475,15 @@ export class EventWithOptionalProperties implements BaseEvent {
 
 
 export class Ampli {
-  private amplitude: AmplitudeClient;
+  private readonly amplitude: AmplitudeClient;
   private middlewares: Middleware[] = [];
 
   constructor(amplitude: AmplitudeClient) {
     this.amplitude = amplitude;
+  }
+  
+  get client(): AmplitudeClient {
+    return this.amplitude;
   }
 
   /**
@@ -503,21 +502,28 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: Extra
   ) {
-    if (userId) {
-      this.amplitude.setUserId(userId);
-    }
-    if (deviceId) {
-      this.amplitude.setDeviceId(deviceId);
-    }
-    const amplitudeIdentify = new AmplitudeIdentify();
-    for (const [key, value] of Object.entries({ ...properties })) {
-      amplitudeIdentify.set(key, value as any);
-    }
-    this.amplitude.identify(
-      amplitudeIdentify,
-      options?.callback,
-      // options?.errorCallback
-    );
+    const event: IdentifyEvent = {
+      event_type: 'identify',
+      event_properties: properties,
+      plan: { event_id: 'identify', event_version: '0.0.0' }
+    };
+    this.runMiddleware({ event, extra }, payload => {
+      if (userId) {
+        this.amplitude.setUserId(userId);
+      }
+      if (deviceId) {
+        this.amplitude.setDeviceId(deviceId);
+      }
+      const amplitudeIdentify = new AmplitudeIdentify();
+      for (const [key, value] of Object.entries({ ...payload.event.event_properties })) {
+        amplitudeIdentify.set(key, value as any);
+      }
+      this.amplitude.identify(
+        amplitudeIdentify,
+        options?.callback,
+        // options?.errorCallback
+      );
+    });
   }
 
   /**
@@ -528,12 +534,14 @@ export class Ampli {
    * @param extra Extra unstructured data for middleware.
    */
   track(event: Event, options?: EventOptions, extra?: Extra) {
-    return this.amplitude.logEvent(
-      event.event_type,
-      event.event_properties,
-      options?.callback,
-      // options?.errorCallback,
-    );
+    this.runMiddleware({ event, extra }, payload => {
+      this.amplitude.logEvent(
+        payload.event.event_type,
+        payload.event.event_properties,
+        options?.callback,
+        // options?.errorCallback,
+      );
+    });
   }
 
   // GENERATED EVENT FUNCTIONS
@@ -732,11 +740,124 @@ export class Ampli {
   ) {
     return this.track(new EventWithOptionalProperties(properties), options, extra);
   }
+  
+  addEventMiddleware(middleware: Middleware): void {
+    this.middlewares.push(middleware);
+  }
+  
+  private runMiddleware(payload: MiddlewarePayload, next: Next): void {
+    let curMiddlewareIndex = -1;
+    const middlewareCount = this.middlewares.length;
+
+    const middlewareNext: Next = curPayload => {
+      curMiddlewareIndex += 1;
+      if (curMiddlewareIndex < middlewareCount) {
+        this.middlewares[curMiddlewareIndex](curPayload, _next);
+      } else {
+        next(curPayload);
+      }
+    };
+
+    const _next: Next = middlewareCount > 0 ? middlewareNext : next;
+
+    _next(payload);
+  }
 }
 
-export function getInstance(apiKey: string, instanceName?: string) {
-  const instance = instanceName ? instanceName : '';
-  const client = amplitude.getInstance(instance);
-  client.init(apiKey);
-  return new Ampli(client);
+const DEFAULT_INSTANCE: string = Environment.development;
+const _instances: { [name: string]: Ampli } = {};
+
+/**
+ * Get an Ampli instance
+ * 
+ * @param instance The Environment or name of the desired instance.
+ * @param config Amplitude configuration options.
+ * @param apiKey An Amplitude API key.
+ */ 
+export function getInstance(
+  instance: Environment | string = DEFAULT_INSTANCE,
+  config: ConfigExt = DefaultConfig,
+  apiKey?: string
+): Ampli {
+  let ampli = _instances[instance];
+  if (!ampli) {
+    const key = ApiKey[instance] || apiKey;
+    if (key === undefined || key === '') {
+      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
+    }
+    const amplitudeClient = amplitude.getInstance(instance);
+    amplitudeClient.init(key, undefined, config);
+    ampli = new Ampli(amplitudeClient);
+    setInstance(ampli, instance);
+  }
+  return ampli;
 }
+
+/**
+ * Stores and instance of Ampli for later retrieval via getInstance()
+ *
+ * @param ampli     The Ampli instance
+ * @param instance  The Environment or name of this instance
+ */
+export function setInstance(ampli: Ampli, instance: Environment | string = DEFAULT_INSTANCE) {
+  _instances[instance] = ampli;
+}
+
+
+// BASE TYPES
+type ConfigExt = Partial<Config> & { plan?: Plan };
+
+export type Plan = {
+  branch?: string;
+  source?: string;
+  version?: string;
+  event_id?: string;
+  event_version?: string;
+}
+
+export type BaseEvent = {
+  event_type: string;
+  event_properties?: { [key: string]: any },
+  plan?: Plan;
+}
+
+export type Event = BaseEvent;
+export type IdentifyEvent = BaseEvent;
+export type GroupEvent = BaseEvent;
+
+type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
+  callback: Callback;
+  errorCallback: Callback,
+};
+export type EventOptions = BaseEventOptions ;
+export type IdentifyOptions = BaseEventOptions;
+export type GroupOptions = BaseEventOptions;
+
+/**
+ * Unstructured object to let users pass extra data to middleware
+ */
+export interface Extra {
+  [name: string]: any;
+}
+
+/**
+ * Data to be processed by middleware
+ */
+export interface MiddlewarePayload {
+  event: Event;
+  extra?: Extra;
+}
+
+/**
+ * Function called at the end of each Middleware to run the next middleware in the chain
+ */
+export type Next = (payload: MiddlewarePayload) => void;
+
+/**
+ * A function to run on the Event stream (each logEvent call)
+ *
+ * @param payload The event and extra data being sent
+ * @param next Function to run the next middleware in the chain, not calling next will end the middleware chain
+ */
+export type Middleware = (payload: MiddlewarePayload, next: Next) => void;
+
