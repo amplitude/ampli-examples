@@ -44,7 +44,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo"/>
-        <h2>Welcome to Ampli Example with React</h2>
+        <h2>Ampli Browser JS Example with React</h2>
 
         <button onClick={() => {
           ampli.identify(userId, undefined, {
