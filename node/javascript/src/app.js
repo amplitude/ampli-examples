@@ -5,7 +5,7 @@ const { EventWithOptionalProperties } = require('./ampli');
 const { getSegmentMiddleware } = require('./middleware/segmentMiddleware');
 const { stopMiddleware } = require('./middleware/stopMiddleware');
 
-const userId = 'ampli-js-user-id';
+const userId = 'ampli-node-js-user-id';
 
 // Read Configuration
 dotenv.config()

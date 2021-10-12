@@ -7,7 +7,7 @@ import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPl
 import { stopMiddleware } from './middleware/stopMiddleware';
 import { UserTrackExtra } from "./types";
 
-const userId = 'ampli-user-id';
+const userId = 'ampli-node-ts-user-id';
 
 // Read Configuration
 dotenv.config()

@@ -5,10 +5,10 @@
  *
  * @type {Middleware}
  */
-const stopMiddleware = (payload, next) => {
+export const stopMiddleware = (payload, next) => {
   // We don't call next, so everything after this middleware won't run
-  // next()
+  // next(payload);
+  console.log('Skipping following middlewares and next method.');
 };
 
-module.exports.stopMiddleware = stopMiddleware;
-
+export default stopMiddleware;

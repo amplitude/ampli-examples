@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
@@ -44,7 +45,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo"/>
-        <h2>Welcome to Ampli Example with React</h2>
+        <h2>Ampli Browser TypeScript Example with React</h2>
 
         <button onClick={() => {
           ampli.identify(userId, undefined, {

@@ -2,11 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 
 import * as Ampli from "./ampli";
-import { EventWithOptionalProperties } from "./ampli";
-// import { Environment, EventWithOptionalProperties } from "./ampli";
-// import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
-// import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
-// import { stopMiddleware } from "./middleware/stopMiddleware";
+import { Environment, EventWithOptionalProperties } from "./ampli";
+import { getSegmentMiddleware } from "./middleware/segmentMiddleware";
+import { stopMiddleware } from "./middleware/stopMiddleware";
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
@@ -28,12 +26,6 @@ const userId = 'ampli-browser-ts-user-id';
 // ampli.addEventMiddleware(segmentMiddleware);
 
 /**
- * Legacy Itly Plugins can also be adapted to middleware
- */
-// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
-// ampli.addEventMiddleware(segmentItlyPluginMiddleware);
-
-/**
  * Middleware can also modify the event stream
  * Adding stop middleware will prevent events from going to Amplitude
  */
@@ -44,7 +36,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo"/>
-        <h2>Ampli Browser JS Example with React</h2>
+        <h2>Ampli Browser JavaScript Example with React</h2>
 
         <button onClick={() => {
           ampli.identify(userId, undefined, {

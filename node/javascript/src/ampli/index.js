@@ -20,18 +20,22 @@ const { init: initNodeClient, NodeClient } = require('@amplitude/node');
 
 /**
  * @typedef {Object} EventOptions
+ * @type {object}
  */
 
 /**
  * @typedef {Object} IdentifyOptions
+ * @type {object}
  */
 
 /**
  * @typedef {Object} GroupOptions
+ * @type {object}
  */
- 
+
 /**
  * @typedef {Object} Extra
+ * @type {Object.<string, *>}
  */
 
 /**
@@ -147,7 +151,7 @@ class EventWithOptionalProperties {
   }
 }
 
-// prettier-ignore
+
 class Ampli {
   constructor(amplitude) {
     this.amplitude = amplitude;
@@ -179,9 +183,11 @@ class Ampli {
   /**
    * EventMaxIntForTest
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest
+   *
    * Event to test schema validation
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {number} properties.intMax10 property to test schema validation
@@ -195,9 +201,11 @@ class Ampli {
   /**
    * EventNoProperties
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties
+   *
    * Event w no properties description
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {Extra} [extra] Extra untyped parameters for use in middleware.
@@ -209,9 +217,11 @@ class Ampli {
   /**
    * EventObjectTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types
+   *
    * Event with Object and Object Array
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {Object[]} properties.requiredObjectArray Property Object Array Type
@@ -226,9 +236,11 @@ class Ampli {
   /**
    * EventWithAllProperties
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties
+   *
    * Event w all properties description
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
@@ -248,9 +260,11 @@ class Ampli {
   /**
    * EventWithArrayTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types
+   *
    * Description for event with Array Types
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {Object[]} properties.requiredObjectArray Description for required object array
@@ -267,9 +281,11 @@ class Ampli {
   /**
    * EventWithConstTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types
+   *
    * Description for event with const types
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {Extra} [extra] Extra untyped parameters for use in middleware.
@@ -281,9 +297,11 @@ class Ampli {
   /**
    * EventWithDifferent_CasingTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes
+   *
    * Description for case with space
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
@@ -304,9 +322,11 @@ class Ampli {
   /**
    * EventWithEnumTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types
+   *
    * Description for event with enum types
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
    * @param {string} [properties.optional enum] Description for required enum
@@ -321,9 +341,11 @@ class Ampli {
   /**
    * EventWithOptionalArrayTypes
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types
+   *
    * Description for event with optional array types
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} [properties] The event's properties.
    * @param {Object[]} [properties.optionalJSONArray] Description for optional object array
@@ -340,9 +362,11 @@ class Ampli {
   /**
    * EventWithOptionalProperties
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties
+   *
    * Event w optional properties description
    * 
    * Owner: Test codegen
+   *
    * @param {string} userId The user's ID.
    * @param {Object} [properties] The event's properties.
    * @param {number[]} [properties.optionalArrayNumber] Property has no description in tracking plan.

@@ -314,19 +314,11 @@ export interface IdentifyProperties {
 
 export class Context implements BaseEvent {
   event_type = 'Context';
-  plan = {
-    event_id: 'context',
-    event_version: '0.0.0',
-  };
   constructor() {}
 }
 
 export class Identify implements BaseEvent {
   event_type = 'Identify';
-  plan = {
-    event_id: 'identify',
-    event_version: '0.0.0',
-  };
   event_properties: IdentifyProperties;
 
   constructor(event_properties: IdentifyProperties) {
@@ -336,10 +328,6 @@ export class Identify implements BaseEvent {
 
 export class Group implements BaseEvent {
   event_type = 'Group';
-  plan = {
-    event_id: 'group',
-    event_version: '0.0.0',
-  };
   event_properties: GroupProperties;
 
   constructor(event_properties: GroupProperties) {
@@ -349,10 +337,6 @@ export class Group implements BaseEvent {
 
 export class EventMaxIntForTest implements BaseEvent {
   event_type = 'EventMaxIntForTest';
-  plan = { 
-    event_id: 'aa0f08ac-8928-4569-a524-c1699e7da6f4',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties: EventMaxIntForTestProperties,
@@ -361,18 +345,10 @@ export class EventMaxIntForTest implements BaseEvent {
 
 export class EventNoProperties implements BaseEvent {
   event_type = 'Event No Properties';
-  plan = { 
-    event_id: '26af925a-be3a-40e5-947d-33da66a5352f',
-    event_version: '1.0.0',
-  };
 }
 
 export class EventObjectTypes implements BaseEvent {
   event_type = 'Event Object Types';
-  plan = { 
-    event_id: 'aea72ecc-5a10-4bd7-99a6-81a464aabaed',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties: EventObjectTypesProperties,
@@ -381,10 +357,6 @@ export class EventObjectTypes implements BaseEvent {
 
 export class EventWithAllProperties implements BaseEvent {
   event_type = 'Event With All Properties';
-  plan = { 
-    event_id: '311ba144-8532-4474-a9bd-8b430625e29a',
-    event_version: '1.0.0',
-  };
   event_properties: EventWithAllPropertiesProperties & {
     'requiredConst': "some-const-value";
   };
@@ -401,10 +373,6 @@ export class EventWithAllProperties implements BaseEvent {
 
 export class EventWithArrayTypes implements BaseEvent {
   event_type = 'Event With Array Types';
-  plan = { 
-    event_id: '5ded19cd-6015-441b-a2be-f954425be1fe',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties: EventWithArrayTypesProperties,
@@ -413,10 +381,6 @@ export class EventWithArrayTypes implements BaseEvent {
 
 export class EventWithConstTypes implements BaseEvent {
   event_type = 'Event With Const Types';
-  plan = { 
-    event_id: '321b8f02-1bb3-4b33-8c21-8c55401d62da',
-    event_version: '1.0.0',
-  };
   event_properties = {
     'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
     'String Const': "String-Constant",
@@ -429,10 +393,6 @@ export class EventWithConstTypes implements BaseEvent {
 
 export class EventWithDifferentCasingTypes implements BaseEvent {
   event_type = 'event withDifferent_CasingTypes';
-  plan = { 
-    event_id: 'fcb3d82d-208f-4bc2-b8e1-843683d9b595',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties: EventWithDifferentCasingTypesProperties,
@@ -441,10 +401,6 @@ export class EventWithDifferentCasingTypes implements BaseEvent {
 
 export class EventWithEnumTypes implements BaseEvent {
   event_type = 'Event With Enum Types';
-  plan = { 
-    event_id: 'b4fc8366-b05d-40d3-b698-79795701624b',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties: EventWithEnumTypesProperties,
@@ -453,10 +409,6 @@ export class EventWithEnumTypes implements BaseEvent {
 
 export class EventWithOptionalArrayTypes implements BaseEvent {
   event_type = 'Event With Optional Array Types';
-  plan = { 
-    event_id: '2755da0e-a507-4b18-8f17-86d1d5c499ab',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties?: EventWithOptionalArrayTypesProperties,
@@ -465,10 +417,6 @@ export class EventWithOptionalArrayTypes implements BaseEvent {
 
 export class EventWithOptionalProperties implements BaseEvent {
   event_type = 'Event With Optional Properties';
-  plan = { 
-    event_id: '00b99136-9d1a-48d8-89d5-25f165ff3ae0',
-    event_version: '1.0.0',
-  };
 
   constructor(
     public event_properties?: EventWithOptionalPropertiesProperties,
@@ -548,7 +496,6 @@ export class Ampli {
     });
   }
 
-  // GENERATED EVENT FUNCTIONS
   /**
    * EventMaxIntForTest
    * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest

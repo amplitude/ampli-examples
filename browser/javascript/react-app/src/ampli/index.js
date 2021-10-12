@@ -65,6 +65,7 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
 
 /**
  * @typedef {Object} IdentifyOptions
+ * @type {Object.<string, *>}
  */
 
 /**
