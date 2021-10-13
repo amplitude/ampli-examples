@@ -1,8 +1,8 @@
 // Segment Convenience Types
-import { TrackOptions } from './ampli/amplitude-node';
+import { Extra } from '@amplitude/types';
 
 export type SegmentIdentityOptions = { anonymousId?: string; };
 
-export type UserTrackExtra = TrackOptions & {
+export type UserTrackExtra = Extra & {
   segment?: SegmentIdentityOptions,
 }

@@ -1,13 +1,11 @@
-import dotenv from 'dotenv';
-import { init as initAmplitudeNodeClient } from '@amplitude/node'
-import * as Ampli from './ampli';
-import { Environment, EventWithOptionalProperties } from './ampli';
-import { getSegmentMiddleware } from './middleware/segmentMiddleware';
-import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
-import { stopMiddleware } from './middleware/stopMiddleware';
-import { UserTrackExtra } from "./types";
+const dotenv = require('dotenv');
+const { init: initAmplitudeNodeClient } = require('@amplitude/node');
+const Ampli = require('./ampli');
+const { EventWithOptionalProperties } = require('./ampli');
+const { getSegmentMiddleware } = require('./middleware/segmentMiddleware');
+const { stopMiddleware } = require('./middleware/stopMiddleware');
 
-const userId = 'ampli-node-ts-user-id';
+const userId = 'ampli-node-js-user-id';
 
 // Read Configuration
 dotenv.config()
@@ -46,12 +44,6 @@ const ampli = Ampli.init(client);
 // ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
- * Legacy Itly Plugins can also be adapted to middleware
- */
-// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
-// ampli.client.addEventMiddleware(segmentItlyPluginMiddleware);
-
-/**
  * Middleware can also modify the event stream
  * Adding stop middleware will prevent events from going to Amplitude
  */
@@ -75,7 +67,7 @@ ampli.eventWithAllProperties(userId, {
   requiredNumber: 1.23,
   requiredArray: ["I'm", 'required'],
   requiredBoolean: false,
-  requiredEnum: Ampli.RequiredEnum.Enum1,
+  requiredEnum: 'Enum1',
   requiredInteger: 42,
   requiredString: 'Hi!',
 });
@@ -94,18 +86,8 @@ ampli.eventWithOptionalProperties(undefined,
   // `options` allows setting additional Amplitude fields
   { device_id: '12345',  },
   // `extra` can be used to pass unstructured data to middleware
-  { segment: { anonymousId: 'anon-id' } } as UserTrackExtra
+  { segment: { anonymousId: 'anon-id' } }
 )
-
-/**
- * Example Page Event
- * See segmentItlyPluginMiddleware.ts
- */
-ampli.track(userId, new Page({
-  name: 'Sign up',
-  category: 'Registration',
-  myPageProp: true,
-}));
 
 /**
  * Flush all pending events

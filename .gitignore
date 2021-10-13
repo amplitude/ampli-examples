@@ -8,7 +8,10 @@
 node_modules
 *.tsbuildinfo
 .DS_Store
+
+# Configuration
 .env
+.npmrc
 
 # IDE project files
 *.iml

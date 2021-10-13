@@ -1,7 +1,7 @@
-import { Loggers} from '@itly/sdk';
-import { SegmentPlugin } from '@itly/plugin-segment-node';
-import { UserTrackExtra } from '../types';
-import { BaseEvent, Middleware, SpecialEventType } from "@amplitude/types";
+import { Loggers } from '@itly/sdk';
+import { SegmentPlugin } from '@itly/plugin-segment';
+import { BaseEvent, IdentifyEvent, Middleware, SpecialEventType } from "../ampli";
+import { SegmentExtra } from "./segmentMiddleware";
 
 /**
  * FIXME: Page should be part of the tracking plan & Ampli SDK
@@ -14,8 +14,6 @@ export interface PageProperties {
 
 export class Page implements BaseEvent {
   event_type = 'Page';
-  event_id_in_plan = 'page';
-  event_version = '1.0.0';
   event_properties: PageProperties;
 
   constructor(event_properties: PageProperties) {
@@ -44,29 +42,29 @@ export function getSegmentItlyPluginMiddleware(writeKey: string): Middleware {
   // Create Segment Middleware
   const segmentItlyPluginMiddleware: Middleware = (payload, next) => {
     const { event, extra } = payload;
-    const userExtra = extra as UserTrackExtra;
-    const anonymousId = userExtra?.segment?.anonymousId;
-    const userId = event.user_id;
+    const segmentExtra = extra as SegmentExtra;
+    const anonymousId = segmentExtra?.segment?.anonymousId;
 
-    switch (payload.event.event_type) {
-      case SpecialEventType.IDENTIFY:
-        segmentItlyPlugin.identify(userId, event.user_properties)
+    switch (event.event_type) {
+      case SpecialEventType.Identify:
+        const { user_id } = (event as IdentifyEvent);
+        segmentItlyPlugin.identify(user_id, event.event_properties)
         break;
 
       case 'Page':
         // Send page events using the page() method
         const { name, category, ...pageProperties } = (event as Page).event_properties;
-        segmentItlyPlugin.page(userId, category, name, pageProperties);
+        segmentItlyPlugin.page(undefined, category, name, pageProperties);
         break;
 
       default:
         // All other events can use standard track()
-        segmentItlyPlugin.track(userId, {
+        segmentItlyPlugin.track(undefined, {
           name: event.event_type,
           properties: event.event_properties,
         }, {
           options: { anonymousId }
-        })
+        });
         break;
     }
 

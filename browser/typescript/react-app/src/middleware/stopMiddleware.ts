@@ -1,4 +1,4 @@
-import { Middleware } from '@amplitude/types';
+import { Middleware } from '../ampli';
 
 /**
  * Stop Middleware
@@ -10,7 +10,8 @@ import { Middleware } from '@amplitude/types';
  */
 export const stopMiddleware:Middleware = (payload, next) => {
   // We don't call next, so everything after this middleware won't run
-  // next()
+  // next(payload);
+  console.log('Stopping');
 };
 
 export default stopMiddleware;

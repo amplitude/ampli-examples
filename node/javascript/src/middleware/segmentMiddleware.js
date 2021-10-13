@@ -1,23 +1,25 @@
-import Segment from 'analytics-node';
-import { Middleware, SpecialEventType } from '@amplitude/types';
-import { UserTrackExtra } from '../types';
+const Segment = require( 'analytics-node');
+const { SpecialEventType } = require('@amplitude/types');
 
 /**
  * getSegmentMiddleware
  *
  * Initializes Segment tracker and returns Segment Middleware
+ *
+ * @param {string} writeKey
+ *
+ * @return {Middleware}
  */
-export function getSegmentMiddleware(writeKey: string): Middleware {
+function getSegmentMiddleware(writeKey) {
   // Create Segment tracker
   const segment = new Segment(writeKey, {
     flushAt: 1
   });
 
   // Create Segment Middleware
-  const segmentMiddleware: Middleware = (payload, next) => {
+  const segmentMiddleware = (payload, next) => {
     const { event: { event_type, event_properties, user_id: userId, user_properties }, extra } = payload;
-    const userExtra = extra as UserTrackExtra;
-    const anonymousId = userExtra?.segment?.anonymousId;
+    const anonymousId = extra?.segment?.anonymousId;
 
     switch (event_type) {
       case SpecialEventType.IDENTIFY:
@@ -44,3 +46,5 @@ export function getSegmentMiddleware(writeKey: string): Middleware {
   // Return middleware
   return segmentMiddleware;
 }
+
+module.exports.getSegmentMiddleware = getSegmentMiddleware;
