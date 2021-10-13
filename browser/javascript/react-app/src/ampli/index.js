@@ -9,10 +9,10 @@
  * Build: 1.0.0
  *
  * Tracking Plan:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest}
  *
- * Full setup Instuctions:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-js-ampli
+ * Full Setup Instructions:
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-js-ampli}
  */
 
 import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
@@ -61,15 +61,17 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
 
 /**
  * @typedef {Object} EventOptions
+ * @type {object}
  */
 
 /**
  * @typedef {Object} IdentifyOptions
- * @type {Object.<string, *>}
+ * @type {object}
  */
 
 /**
  * @typedef {Object} GroupOptions
+ * @type {object}
  */
 
 /**
@@ -207,7 +209,6 @@ export class Ampli {
   get client() {
     return this.amplitude;
   }
-  
 
   /**
    * Identify a user and set user properties.
@@ -241,7 +242,7 @@ export class Ampli {
       this.amplitude.identify(
         amplitudeIdentify,
         options?.callback,
-        // options?.errorCallback
+        options?.errorCallback
       );
     });
   }
@@ -260,15 +261,15 @@ export class Ampli {
         payload.event.event_type,
         payload.event.event_properties,
         options?.callback,
-        // options?.errorCallback,
+        options?.errorCallback,
       );
     });
   }
 
-  // GENERATED EVENT FUNCTIONS
   /**
    * EventMaxIntForTest
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest View in Tracking Plan}
    *
    * Event to test schema validation
    * 
@@ -285,7 +286,8 @@ export class Ampli {
 
   /**
    * EventNoProperties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties View in Tracking Plan}
    *
    * Event w no properties description
    * 
@@ -294,13 +296,14 @@ export class Ampli {
    * @param {EventOptions} [options] Options for this track call.
    * @param {Extra} [extra] Extra untyped parameters for use in middleware.
    */
-  eventNoProperties( options, extra) {
+  eventNoProperties(options, extra) {
     this.track(new EventNoProperties(), options, extra);
   }
 
   /**
    * EventObjectTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types View in Tracking Plan}
    *
    * Event with Object and Object Array
    * 
@@ -318,7 +321,8 @@ export class Ampli {
 
   /**
    * EventWithAllProperties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties View in Tracking Plan}
    *
    * Event w all properties description
    * 
@@ -341,7 +345,8 @@ export class Ampli {
 
   /**
    * EventWithArrayTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types View in Tracking Plan}
    *
    * Description for event with Array Types
    * 
@@ -361,7 +366,8 @@ export class Ampli {
 
   /**
    * EventWithConstTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types View in Tracking Plan}
    *
    * Description for event with const types
    * 
@@ -370,13 +376,14 @@ export class Ampli {
    * @param {EventOptions} [options] Options for this track call.
    * @param {Extra} [extra] Extra untyped parameters for use in middleware.
    */
-  eventWithConstTypes( options, extra) {
+  eventWithConstTypes(options, extra) {
     this.track(new EventWithConstTypes(), options, extra);
   }
 
   /**
    * EventWithDifferent_CasingTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes View in Tracking Plan}
    *
    * Description for case with space
    * 
@@ -400,7 +407,8 @@ export class Ampli {
 
   /**
    * EventWithEnumTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types View in Tracking Plan}
    *
    * Description for event with enum types
    * 
@@ -418,7 +426,8 @@ export class Ampli {
 
   /**
    * EventWithOptionalArrayTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types View in Tracking Plan}
    *
    * Description for event with optional array types
    * 
@@ -438,7 +447,8 @@ export class Ampli {
 
   /**
    * EventWithOptionalProperties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties View in Tracking Plan}
    *
    * Event w optional properties description
    * 
@@ -469,7 +479,7 @@ export class Ampli {
   /**
    * Runs all middleware
    * 
-   * @param {{extra: Extra, event: BaseEvent}} payload
+   * @param {MiddlewarePayload} payload
    * @param {Next} next The method to run after all middleware.
    * 
    * @protected
@@ -512,7 +522,7 @@ const _instances = {};
 export function getInstance(instance = DefaultInstance, config = DefaultConfig, apiKey) {
   let ampli = _instances[instance];
   if (!ampli) {
-    const key = ApiKey[instance] || apiKey;
+    const key = apiKey || ApiKey[instance];
     if (key === undefined || key === '') {
       throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
     }
