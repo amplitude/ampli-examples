@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@amplitude/identify@1.8.5-alpha.4", "@amplitude/identify@^1.8.5-alpha.4":
+"@amplitude/identify@1.8.5-alpha.4":
   version "1.8.5-alpha.4"
   resolved "https://npm.pkg.github.com/download/@amplitude/identify/1.8.5-alpha.4/747bcee04268da05ddbad04700531ca68e43650e1295b055e83993c0073a9543#d1a6fe414a39866f73995cc46f0a137edc5d1d90"
   integrity sha512-Y0+q00hyaeOxWxF0VHMZwMHy2y+twauhwoeY6IRY3Yz//xmgaWjgHLY482QNysz75Yy5D0JVpdTMsufN01LlzA==
@@ -11,14 +11,23 @@
     "@amplitude/utils" "^1.8.5-alpha.4"
     tslib "^1.9.3"
 
-"@amplitude/node@1.8.5-alpha.4":
-  version "1.8.5-alpha.4"
-  resolved "https://npm.pkg.github.com/download/@amplitude/node/1.8.5-alpha.4/5760da74b00cf58c5186b04e48a88b63652b5918f2e50795c86f12a53eab5f78#586bf3070b4d2bdb7c41ba7b2b1b9f8841d26b13"
-  integrity sha512-CIfeleEYbab7NIEqpAcO00F7YGdHRfijWhEKutiCIt43aJ2wDnyoD29S1WRopCU4bpyMi0/HDH+KOnZlrTDnTg==
+"@amplitude/identify@^1.8.5-alpha.5":
+  version "1.8.5-alpha.5"
+  resolved "https://npm.pkg.github.com/download/@amplitude/identify/1.8.5-alpha.5/1b30ce0dfea5cd3eac0d308d71c5175c4b93d62313736b6d53e0a1f5b6393fbe#111963386463d279c43fbbdb83576bd9f49a3757"
+  integrity sha512-HTRZBTXN95bkTnBLBUQ7R574SaMv/ASRIBMzDSL4d82kTMw6akMHFoG9gf2nOsi6vc3KuEgKKmDPNKUraqGR0Q==
   dependencies:
-    "@amplitude/identify" "^1.8.5-alpha.4"
-    "@amplitude/types" "^1.8.5-alpha.4"
-    "@amplitude/utils" "^1.8.5-alpha.4"
+    "@amplitude/types" "^1.8.5-alpha.5"
+    "@amplitude/utils" "^1.8.5-alpha.5"
+    tslib "^1.9.3"
+
+"@amplitude/node@1.8.5-alpha.5":
+  version "1.8.5-alpha.5"
+  resolved "https://npm.pkg.github.com/download/@amplitude/node/1.8.5-alpha.5/76bcc76f48a4ece8f05b6e9d27c3d6874f2930febd6ee3b3aaedc9ea6a0cf2df#1244274fe3bcbb716fa3806076b0f7b78bcdfc43"
+  integrity sha512-pFj6JettuaCSEBoZQlhiiIGsgJysCoZX1XbJ59ajlrT5GItL710V8OdCZXcuoVIoKqg2L5I2UPtJq6c3t6pajg==
+  dependencies:
+    "@amplitude/identify" "^1.8.5-alpha.5"
+    "@amplitude/types" "^1.8.5-alpha.5"
+    "@amplitude/utils" "^1.8.5-alpha.5"
     tslib "^1.9.3"
 
 "@amplitude/types@^1.8.5-alpha.4":
@@ -26,12 +35,25 @@
   resolved "https://npm.pkg.github.com/download/@amplitude/types/1.8.5-alpha.4/f6b8c27193c0cdabe3659876193fc32c0c79073d11adae7e77cc3daec89090ac#f0ccf5ab75f2a16924c77bb3f500747f521585bd"
   integrity sha512-XCoYtpu0kenmoMQUOZbwlfsegcFLvlHSeB/bOfrHsZDXiQ9VXpm11jqu92jTSE98P6vZKcY3za7DmPUobCM2FA==
 
+"@amplitude/types@^1.8.5-alpha.5":
+  version "1.8.5-alpha.5"
+  resolved "https://npm.pkg.github.com/download/@amplitude/types/1.8.5-alpha.5/d7211be876e2f355a886c97c7ef622a33d2140f999ea35bc74e88fcef3d3c00a#9f1550f945da1bc4b7bb7c0df734fa1dd85aae95"
+  integrity sha512-I90pWz/lW9x72v8m3L9OlciyHmHovEEzyt5R8TtEEB7ce2WvVQNN2uRmUTLxVuEiCvVdXKumkB7MiEUSULpk3A==
+
 "@amplitude/utils@^1.8.5-alpha.4":
   version "1.8.5-alpha.4"
   resolved "https://npm.pkg.github.com/download/@amplitude/utils/1.8.5-alpha.4/05595a194535cabd3ec5b6c4679ed0ab4586a806efe87fae866e650fbec6b32e#281b304f8e3509a80382ad5c32ad424dcaddb7fa"
   integrity sha512-2F90QryBDi6HGPvyBcmvzTlTdBqheXe6F22jnvq+KfInxJNvKuCWtWx1IKHx0cNYZxdO6Zz+bgcSsjszIaa+PA==
   dependencies:
     "@amplitude/types" "^1.8.5-alpha.4"
+    tslib "^1.9.3"
+
+"@amplitude/utils@^1.8.5-alpha.5":
+  version "1.8.5-alpha.5"
+  resolved "https://npm.pkg.github.com/download/@amplitude/utils/1.8.5-alpha.5/83b892c2e0b1159a2a53fe5adf9a3a8004c3e777b1030f428f520620bfb874ab#7cf08685fbca4ff0ee68c107aaa1036b341ab86e"
+  integrity sha512-pqtcy7X3jFAgDo5QQ68ERZHXkeJpJ8mqpuJ+2V4j8VLLj+JSd1/G3vVd2MkHcO+RQagNs4rOQi2K2cCkZnMCKA==
+  dependencies:
+    "@amplitude/types" "^1.8.5-alpha.5"
     tslib "^1.9.3"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.14.5":

@@ -451,7 +451,7 @@ export class Ampli {
     deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
-    extra?: Extra
+    extra?: MiddlewareExtra
   ) {
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
@@ -485,7 +485,7 @@ export class Ampli {
    * @param options Optional event options.
    * @param extra Extra unstructured data for middleware.
    */
-  track(event: Event, options?: EventOptions, extra?: Extra) {
+  track(event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
     this.runMiddleware({ event, extra }, payload => {
       this.amplitude.logEvent(
         payload.event.event_type,
@@ -512,7 +512,7 @@ export class Ampli {
   eventMaxIntForTest(
     properties: EventMaxIntForTestProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventMaxIntForTest(properties), options, extra);
   }
@@ -531,7 +531,7 @@ export class Ampli {
    */
   eventNoProperties(
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventNoProperties(), options, extra);
   }
@@ -552,7 +552,7 @@ export class Ampli {
   eventObjectTypes(
     properties: EventObjectTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventObjectTypes(properties), options, extra);
   }
@@ -573,7 +573,7 @@ export class Ampli {
   eventWithAllProperties(
     properties: EventWithAllPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithAllProperties(properties), options, extra);
   }
@@ -594,7 +594,7 @@ export class Ampli {
   eventWithArrayTypes(
     properties: EventWithArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithArrayTypes(properties), options, extra);
   }
@@ -613,7 +613,7 @@ export class Ampli {
    */
   eventWithConstTypes(
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithConstTypes(), options, extra);
   }
@@ -634,7 +634,7 @@ export class Ampli {
   eventWithDifferentCasingTypes(
     properties: EventWithDifferentCasingTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
   }
@@ -655,7 +655,7 @@ export class Ampli {
   eventWithEnumTypes(
     properties: EventWithEnumTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithEnumTypes(properties), options, extra);
   }
@@ -676,7 +676,7 @@ export class Ampli {
   eventWithOptionalArrayTypes(
     properties?: EventWithOptionalArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithOptionalArrayTypes(properties), options, extra);
   }
@@ -697,7 +697,7 @@ export class Ampli {
   eventWithOptionalProperties(
     properties?: EventWithOptionalPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithOptionalProperties(properties), options, extra);
   }
@@ -706,11 +706,11 @@ export class Ampli {
     this.middlewares.push(middleware);
   }
   
-  private runMiddleware(payload: MiddlewarePayload, next: Next): void {
+  private runMiddleware(payload: MiddlewarePayload, next: MiddlewareNext): void {
     let curMiddlewareIndex = -1;
     const middlewareCount = this.middlewares.length;
 
-    const middlewareNext: Next = curPayload => {
+    const middlewareNext: MiddlewareNext = curPayload => {
       curMiddlewareIndex += 1;
       if (curMiddlewareIndex < middlewareCount) {
         this.middlewares[curMiddlewareIndex](curPayload, _next);
@@ -719,7 +719,7 @@ export class Ampli {
       }
     };
 
-    const _next: Next = middlewareCount > 0 ? middlewareNext : next;
+    const _next: MiddlewareNext = middlewareCount > 0 ? middlewareNext : next;
 
     _next(payload);
   }
@@ -806,7 +806,7 @@ export type GroupOptions = BaseEventOptions;
 /**
  * Unstructured object to let users pass extra data to middleware
  */
-export interface Extra {
+export interface MiddlewareExtra {
   [name: string]: any;
 }
 
@@ -815,13 +815,13 @@ export interface Extra {
  */
 export interface MiddlewarePayload {
   event: Event;
-  extra?: Extra;
+  extra?: MiddlewareExtra;
 }
 
 /**
  * Function called at the end of each Middleware to run the next middleware in the chain
  */
-export type Next = (payload: MiddlewarePayload) => void;
+export type MiddlewareNext = (payload: MiddlewarePayload) => void;
 
 /**
  * A function to run on the Event stream (each logEvent call)
@@ -829,5 +829,5 @@ export type Next = (payload: MiddlewarePayload) => void;
  * @param payload The event and extra data being sent
  * @param next Function to run the next middleware in the chain, not calling next will end the middleware chain
  */
-export type Middleware = (payload: MiddlewarePayload, next: Next) => void;
+export type Middleware = (payload: MiddlewarePayload, next: MiddlewareNext) => void;
 

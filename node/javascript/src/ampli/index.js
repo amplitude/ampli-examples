@@ -34,7 +34,7 @@ const { init: initNodeClient, NodeClient } = require('@amplitude/node');
  */
 
 /**
- * @typedef {Object} Extra
+ * @typedef {Object} MiddlewareExtra
  * @type {Object.<string, *>}
  */
 
@@ -170,7 +170,7 @@ class Ampli {
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
    * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Options for this identify call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   identify(userId, deviceId, properties, options, extra) {
     const amplitudeIdentify = new AmplitudeIdentify();
@@ -194,7 +194,7 @@ class Ampli {
    * @param {Object} properties The event's properties.
    * @param {number} properties.intMax10 property to test schema validation
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventMaxIntForTest(userId, properties, options, extra) {
     this.track(userId, new EventMaxIntForTest(properties), options, extra);
@@ -211,7 +211,7 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventNoProperties(userId, options, extra) {
     this.track(userId, new EventNoProperties(), options, extra);
@@ -231,7 +231,7 @@ class Ampli {
    * @param {Object[]} properties.requiredObjectArray Property Object Array Type
    * @param {Object} properties.requiredObject Property Object Type
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventObjectTypes(userId, properties, options, extra) {
     this.track(userId, new EventObjectTypes(properties), options, extra);
@@ -256,7 +256,7 @@ class Ampli {
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithAllProperties(userId, properties, options, extra) {
     this.track(userId, new EventWithAllProperties(properties), options, extra);
@@ -278,7 +278,7 @@ class Ampli {
    * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithArrayTypes(userId, properties, options, extra) {
     this.track(userId, new EventWithArrayTypes(properties), options, extra);
@@ -295,7 +295,7 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithConstTypes(userId, options, extra) {
     this.track(userId, new EventWithConstTypes(), options, extra);
@@ -321,7 +321,7 @@ class Ampli {
    * @param {string} properties.property_with_snake_case Description_for_snake_case
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithDifferentCasingTypes(userId, properties, options, extra) {
     this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
@@ -341,7 +341,7 @@ class Ampli {
    * @param {string} [properties.optional enum] Description for required enum
    * @param {string} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithEnumTypes(userId, properties, options, extra) {
     this.track(userId, new EventWithEnumTypes(properties), options, extra);
@@ -363,7 +363,7 @@ class Ampli {
    * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithOptionalArrayTypes(userId, properties, options, extra) {
     this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
@@ -386,7 +386,7 @@ class Ampli {
    * @param {boolean} [properties.optionalBoolean] Property has no description in tracking plan.
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithOptionalProperties(userId, properties, options, extra) {
     this.track(userId, new EventWithOptionalProperties(properties), options, extra);
@@ -397,7 +397,7 @@ class Ampli {
    * @param {string} userId The user's ID.
    * @param {BaseEvent} event The event.
    * @param {EventOptions} [options] Amplitude event options.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   track(userId, event, options, extra) {
     return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);

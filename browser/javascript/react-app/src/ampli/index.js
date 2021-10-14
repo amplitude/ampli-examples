@@ -43,7 +43,7 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
 
 /**
  * Function called at the end of each Middleware to run the next middleware in the chain
- * @typedef {Next}
+ * @typedef {MiddlewareNext}
  * @type {function}
  * @param {MiddlewarePayload} payload
  * 
@@ -55,7 +55,7 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
  * @typedef {Middleware}
  * @type {function}
  * @param {MiddlewarePayload} payload The event and extra data being sent
- * @param {Next} next Function to run the next middleware in the chain, not calling next will end the middleware chain
+ * @param {MiddlewareNext} next Function to run the next middleware in the chain, not calling next will end the middleware chain
  * @return
  */
 
@@ -75,7 +75,7 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
  */
 
 /**
- * @typedef {Object} Extra
+ * @typedef {Object} MiddlewareExtra
  * @type {Object.<string, *>}
  */
 
@@ -219,7 +219,7 @@ export class Ampli {
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
      * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.
-   * @param {Extra} [extra] Extra unstructured data for middleware.
+   * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   identify(userId, deviceId, properties, options, extra) {
     const event = {
@@ -253,7 +253,7 @@ export class Ampli {
    *
    * @param {BaseEvent} event The event to track.
    * @param {EventOptions} [options] Optional event options.
-   * @param {Extra} [extra] Extra unstructured data for middleware.
+   * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   track(event, options, extra) {
     this.runMiddleware({ event, extra }, payload => {
@@ -278,7 +278,7 @@ export class Ampli {
    * @param {Object} properties The event's properties.
    * @param {number} properties.intMax10 property to test schema validation
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventMaxIntForTest(properties, options, extra) {
     this.track(new EventMaxIntForTest(properties), options, extra);
@@ -294,7 +294,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventNoProperties(options, extra) {
     this.track(new EventNoProperties(), options, extra);
@@ -313,7 +313,7 @@ export class Ampli {
    * @param {Object[]} properties.requiredObjectArray Property Object Array Type
    * @param {Object} properties.requiredObject Property Object Type
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventObjectTypes(properties, options, extra) {
     this.track(new EventObjectTypes(properties), options, extra);
@@ -337,7 +337,7 @@ export class Ampli {
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithAllProperties(properties, options, extra) {
     this.track(new EventWithAllProperties(properties), options, extra);
@@ -358,7 +358,7 @@ export class Ampli {
    * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithArrayTypes(properties, options, extra) {
     this.track(new EventWithArrayTypes(properties), options, extra);
@@ -374,7 +374,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithConstTypes(options, extra) {
     this.track(new EventWithConstTypes(), options, extra);
@@ -399,7 +399,7 @@ export class Ampli {
    * @param {string} properties.property_with_snake_case Description_for_snake_case
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithDifferentCasingTypes(properties, options, extra) {
     this.track(new EventWithDifferentCasingTypes(properties), options, extra);
@@ -418,7 +418,7 @@ export class Ampli {
    * @param {string} [properties.optional enum] Description for required enum
    * @param {string} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithEnumTypes(properties, options, extra) {
     this.track(new EventWithEnumTypes(properties), options, extra);
@@ -439,7 +439,7 @@ export class Ampli {
    * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithOptionalArrayTypes(properties, options, extra) {
     this.track(new EventWithOptionalArrayTypes(properties), options, extra);
@@ -461,7 +461,7 @@ export class Ampli {
    * @param {boolean} [properties.optionalBoolean] Property has no description in tracking plan.
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
-   * @param {Extra} [extra] Extra untyped parameters for use in middleware.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithOptionalProperties(properties, options, extra) {
     this.track(new EventWithOptionalProperties(properties), options, extra);
@@ -480,7 +480,7 @@ export class Ampli {
    * Runs all middleware
    * 
    * @param {MiddlewarePayload} payload
-   * @param {Next} next The method to run after all middleware.
+   * @param {MiddlewareNext} next The method to run after all middleware.
    * 
    * @protected
    */

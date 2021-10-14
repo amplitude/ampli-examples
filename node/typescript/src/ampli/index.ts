@@ -17,7 +17,9 @@
 
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { init as initNodeClient, NodeClient } from '@amplitude/node';
-import { BaseEvent, Event, Extra, EventOptions, IdentifyOptions, GroupOptions, Options } from '@amplitude/types';
+import {
+  BaseEvent, Event, MiddlewareExtra, EventOptions, IdentifyOptions, GroupOptions, Options,
+} from '@amplitude/types';
 
 export enum Environment {
   development = 'development',
@@ -441,7 +443,7 @@ export class Ampli {
     deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
-    extra?: Extra
+    extra?: MiddlewareExtra
   ) {
     const amplitudeIdentify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
@@ -450,7 +452,7 @@ export class Ampli {
     return this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
   }
 
-  track(userId: string | undefined, event: Event, options?: EventOptions, extra?: Extra) {
+  track(userId: string | undefined, event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
     return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);
   }
 
@@ -476,7 +478,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventMaxIntForTestProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventMaxIntForTest(properties), options, extra);
   }
@@ -497,7 +499,7 @@ export class Ampli {
   eventNoProperties(
     userId: string | undefined,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventNoProperties(), options, extra);
   }
@@ -520,7 +522,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventObjectTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventObjectTypes(properties), options, extra);
   }
@@ -543,7 +545,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithAllPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithAllProperties(properties), options, extra);
   }
@@ -566,7 +568,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithArrayTypes(properties), options, extra);
   }
@@ -587,7 +589,7 @@ export class Ampli {
   eventWithConstTypes(
     userId: string | undefined,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithConstTypes(), options, extra);
   }
@@ -610,7 +612,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithDifferentCasingTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
   }
@@ -633,7 +635,7 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithEnumTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithEnumTypes(properties), options, extra);
   }
@@ -656,7 +658,7 @@ export class Ampli {
     userId: string | undefined,
     properties?: EventWithOptionalArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
   }
@@ -679,7 +681,7 @@ export class Ampli {
     userId: string | undefined,
     properties?: EventWithOptionalPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }

@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import * as Ampli from "./ampli";
-import { Environment, EventWithOptionalProperties } from "./ampli";
+import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli";
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
 import { stopMiddleware } from "./middleware/stopMiddleware";
@@ -18,7 +18,10 @@ const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = p
 // const ampliProd = Ampli.getInstance(Environment.production);
 
 // Set your own Config and Amplitude API key
-const ampli = Ampli.getInstance(undefined, { logLevel: "INFO" }, REACT_APP_AMPLITUDE_API_KEY);
+const ampli = Ampli.getInstance(undefined, {
+  ...DefaultConfig,
+  logLevel: "INFO",
+}, REACT_APP_AMPLITUDE_API_KEY);
 
 const userId = 'ampli-browser-ts-user-id';
 

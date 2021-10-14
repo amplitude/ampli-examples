@@ -17,7 +17,8 @@ function getSegmentMiddleware(writeKey) {
   });
 
   // Create Segment Middleware
-  const segmentMiddleware = (payload, next) => {
+  /** @type {Middleware} */
+  return (payload, next) => {
     const { event: { event_type, event_properties, user_id: userId, user_properties }, extra } = payload;
     const anonymousId = extra?.segment?.anonymousId;
 
@@ -42,9 +43,6 @@ function getSegmentMiddleware(writeKey) {
 
     next(payload);
   };
-
-  // Return middleware
-  return segmentMiddleware;
 }
 
 module.exports.getSegmentMiddleware = getSegmentMiddleware;
