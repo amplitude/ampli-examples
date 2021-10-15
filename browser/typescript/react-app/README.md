@@ -27,6 +27,6 @@ If you want to use your own tracking plan and Ampli SDK
 * * src/
 * [App.tsx](src/App.tsx) - Example user app using Amply SDK. A good place to start.
 * ampli/
-   * [index.js](src/ampli/index.ts) - Generated SDK, don't modify by hand. Update with `ampli pull`
+   * [index.ts](src/ampli/index.ts) - Generated SDK, don't modify by hand. Update with `ampli pull`
    * [schema.json](src/ampli/schema.json) - The full event schema for the tracking plan
 * [middleware/*](src/middleware) - Example middlewares for Segment and Event filtering
