@@ -1,4 +1,4 @@
-# Ampli Node SDK (TypeScript)
+# Ampli Node SDK (JavaScript)
 An example app using the Ampli Node SDK
 
 # Usage
@@ -25,8 +25,8 @@ If you want to use your own tracking plan and Ampli SDK
 # Project structure
 * README.md - you are here *
 * src/ 
-  * [app.ts](src/app.ts) - Example user app using Amply SDK. A good place to start.
+  * [app.js](src/app.js) - Example user app using Amply SDK. A good place to start.
   * ampli/
-    * [index.ts](src/ampli/index.ts) - Generated SDK, don't modify by hand. Update with `ampli pull`
+    * [index.js](src/ampli/index.js) - Generated SDK, don't modify by hand. Update with `ampli pull`
     * [schema.json](src/ampli/schema.json) - The full event schema for the tracking plan
   * [middleware/*](src/middleware) - Example middlewares for Segment and Event filtering
