@@ -9,15 +9,17 @@
  * Build: 1.0.0
  *
  * Tracking Plan:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest}
  *
- * Full setup Instuctions:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-ts-ampli
+ * Full Setup Instructions:
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-ts-ampli}
  */
 
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { init as initNodeClient, NodeClient } from '@amplitude/node';
-import { BaseEvent, Event, Extra, EventOptions, IdentifyOptions, GroupOptions, Options } from '@amplitude/types';
+import {
+  BaseEvent, Event, MiddlewareExtra, EventOptions, IdentifyOptions, GroupOptions, Options,
+} from '@amplitude/types';
 
 export enum Environment {
   development = 'development',
@@ -424,6 +426,7 @@ export class EventWithOptionalProperties implements BaseEvent {
 }
 
 
+// prettier-ignore
 export class Ampli {
   private amplitude: NodeClient;
 
@@ -440,16 +443,16 @@ export class Ampli {
     deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
-    extra?: Extra
+    extra?: MiddlewareExtra
   ) {
     const amplitudeIdentify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
       amplitudeIdentify.set(key, value);
     }
-    this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
+    return this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
   }
 
-  track(userId: string | undefined, event: Event, options?: EventOptions, extra?: Extra) {
+  track(userId: string | undefined, event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
     return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);
   }
 
@@ -459,7 +462,8 @@ export class Ampli {
 
   /**
    * EventMaxIntForTest
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest View in Tracking Plan}
    *
    * Event to test schema validation
    * 
@@ -474,14 +478,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventMaxIntForTestProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventMaxIntForTest(properties), options, extra);
   }
 
   /**
    * Event No Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties View in Tracking Plan}
    *
    * Event w no properties description
    * 
@@ -494,14 +499,15 @@ export class Ampli {
   eventNoProperties(
     userId: string | undefined,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventNoProperties(), options, extra);
   }
 
   /**
    * Event Object Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types View in Tracking Plan}
    *
    * Event with Object and Object Array
    * 
@@ -516,14 +522,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventObjectTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventObjectTypes(properties), options, extra);
   }
 
   /**
    * Event With All Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties View in Tracking Plan}
    *
    * Event w all properties description
    * 
@@ -538,14 +545,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithAllPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithAllProperties(properties), options, extra);
   }
 
   /**
    * Event With Array Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types View in Tracking Plan}
    *
    * Description for event with Array Types
    * 
@@ -560,14 +568,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithArrayTypes(properties), options, extra);
   }
 
   /**
    * Event With Const Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types View in Tracking Plan}
    *
    * Description for event with const types
    * 
@@ -580,14 +589,15 @@ export class Ampli {
   eventWithConstTypes(
     userId: string | undefined,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithConstTypes(), options, extra);
   }
 
   /**
    * event withDifferent_CasingTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes View in Tracking Plan}
    *
    * Description for case with space
    * 
@@ -602,14 +612,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithDifferentCasingTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
   }
 
   /**
    * Event With Enum Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types View in Tracking Plan}
    *
    * Description for event with enum types
    * 
@@ -624,14 +635,15 @@ export class Ampli {
     userId: string | undefined,
     properties: EventWithEnumTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithEnumTypes(properties), options, extra);
   }
 
   /**
    * Event With Optional Array Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types View in Tracking Plan}
    *
    * Description for event with optional array types
    * 
@@ -646,14 +658,15 @@ export class Ampli {
     userId: string | undefined,
     properties?: EventWithOptionalArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
   }
 
   /**
    * Event With Optional Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties View in Tracking Plan}
    *
    * Event w optional properties description
    * 
@@ -668,7 +681,7 @@ export class Ampli {
     userId: string | undefined,
     properties?: EventWithOptionalPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }
@@ -677,11 +690,10 @@ export class Ampli {
 /**
  * Initializes and returns a Ampli instance
  * 
- * @param apiKeyOrNodeClient  A API key (string) or Amplitude NodeClient instance
- * @param options Amplitude NodeClient options
- * @return {Ampli}
+ * @param apiKeyOrNodeClient - An API key (string) or Amplitude NodeClient instance
+ * @param options - Amplitude NodeClient options
  */
-export function init(apiKeyOrNodeClient: string | NodeClient, options: Partial<Options> = DefaultOptions) {
+export function init(apiKeyOrNodeClient: string | NodeClient, options: Partial<Options> = DefaultOptions): Ampli {
   const apiKey = typeof(apiKeyOrNodeClient) === 'string' ? apiKeyOrNodeClient : undefined;
   const nodeClient = typeof(apiKeyOrNodeClient) === 'object' ? apiKeyOrNodeClient : initNodeClient(apiKey, options);
   return new Ampli(nodeClient);
@@ -693,7 +705,7 @@ const _instances: { [name: string]: Ampli } = {};
 /**
  * Get an Ampli instance
  * 
- * @param instance The Environment or name of the desired instance 
+ * @param instance - The Environment or name of the desired instance 
  */ 
 export function getInstance(instance: Environment | string = DEFAULT_INSTANCE): Ampli {
   let ampli = _instances[instance];
@@ -711,8 +723,8 @@ export function getInstance(instance: Environment | string = DEFAULT_INSTANCE): 
 /**
  * Stores and instance of Ampli for later retrieval via getInstance()
  * 
- * @param ampli     The Ampli instance 
- * @param instance  The Environment or name of this instance
+ * @param ampli - The Ampli instance 
+ * @param instance - The Environment or name of this instance
  */
 export function setInstance(ampli: Ampli, instance: Environment | string = DEFAULT_INSTANCE) {
   _instances[instance] = ampli;

@@ -9,10 +9,10 @@
  * Build: 1.0.0
  *
  * Tracking Plan:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest}
  *
- * Full setup Instuctions:
- * https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli
+ * Full Setup Instructions:
+ * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli}
  */
 
 import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
@@ -424,6 +424,7 @@ export class EventWithOptionalProperties implements BaseEvent {
 }
 
 
+// prettier-ignore
 export class Ampli {
   private readonly amplitude: AmplitudeClient;
   private middlewares: Middleware[] = [];
@@ -450,12 +451,11 @@ export class Ampli {
     deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
-    extra?: Extra
+    extra?: MiddlewareExtra
   ) {
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
-      plan: { event_id: 'identify', event_version: '0.0.0' },
       user_id: userId,
       device_id: deviceId
     };
@@ -485,7 +485,7 @@ export class Ampli {
    * @param options Optional event options.
    * @param extra Extra unstructured data for middleware.
    */
-  track(event: Event, options?: EventOptions, extra?: Extra) {
+  track(event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
     this.runMiddleware({ event, extra }, payload => {
       this.amplitude.logEvent(
         payload.event.event_type,
@@ -498,7 +498,8 @@ export class Ampli {
 
   /**
    * EventMaxIntForTest
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest View in Tracking Plan}
    *
    * Event to test schema validation
    * 
@@ -511,14 +512,15 @@ export class Ampli {
   eventMaxIntForTest(
     properties: EventMaxIntForTestProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventMaxIntForTest(properties), options, extra);
   }
 
   /**
    * Event No Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties View in Tracking Plan}
    *
    * Event w no properties description
    * 
@@ -529,14 +531,15 @@ export class Ampli {
    */
   eventNoProperties(
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventNoProperties(), options, extra);
   }
 
   /**
    * Event Object Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types View in Tracking Plan}
    *
    * Event with Object and Object Array
    * 
@@ -549,14 +552,15 @@ export class Ampli {
   eventObjectTypes(
     properties: EventObjectTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventObjectTypes(properties), options, extra);
   }
 
   /**
    * Event With All Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties View in Tracking Plan}
    *
    * Event w all properties description
    * 
@@ -569,14 +573,15 @@ export class Ampli {
   eventWithAllProperties(
     properties: EventWithAllPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithAllProperties(properties), options, extra);
   }
 
   /**
    * Event With Array Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types View in Tracking Plan}
    *
    * Description for event with Array Types
    * 
@@ -589,14 +594,15 @@ export class Ampli {
   eventWithArrayTypes(
     properties: EventWithArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithArrayTypes(properties), options, extra);
   }
 
   /**
    * Event With Const Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types View in Tracking Plan}
    *
    * Description for event with const types
    * 
@@ -607,14 +613,15 @@ export class Ampli {
    */
   eventWithConstTypes(
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithConstTypes(), options, extra);
   }
 
   /**
    * event withDifferent_CasingTypes
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes View in Tracking Plan}
    *
    * Description for case with space
    * 
@@ -627,14 +634,15 @@ export class Ampli {
   eventWithDifferentCasingTypes(
     properties: EventWithDifferentCasingTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
   }
 
   /**
    * Event With Enum Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types View in Tracking Plan}
    *
    * Description for event with enum types
    * 
@@ -647,14 +655,15 @@ export class Ampli {
   eventWithEnumTypes(
     properties: EventWithEnumTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithEnumTypes(properties), options, extra);
   }
 
   /**
    * Event With Optional Array Types
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types View in Tracking Plan}
    *
    * Description for event with optional array types
    * 
@@ -667,14 +676,15 @@ export class Ampli {
   eventWithOptionalArrayTypes(
     properties?: EventWithOptionalArrayTypesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithOptionalArrayTypes(properties), options, extra);
   }
 
   /**
    * Event With Optional Properties
-   * https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties
+   *
+   * {@link https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties View in Tracking Plan}
    *
    * Event w optional properties description
    * 
@@ -687,7 +697,7 @@ export class Ampli {
   eventWithOptionalProperties(
     properties?: EventWithOptionalPropertiesProperties,
     options?: EventOptions,
-    extra?: Extra,
+    extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithOptionalProperties(properties), options, extra);
   }
@@ -696,11 +706,11 @@ export class Ampli {
     this.middlewares.push(middleware);
   }
   
-  private runMiddleware(payload: MiddlewarePayload, next: Next): void {
+  private runMiddleware(payload: MiddlewarePayload, next: MiddlewareNext): void {
     let curMiddlewareIndex = -1;
     const middlewareCount = this.middlewares.length;
 
-    const middlewareNext: Next = curPayload => {
+    const middlewareNext: MiddlewareNext = curPayload => {
       curMiddlewareIndex += 1;
       if (curMiddlewareIndex < middlewareCount) {
         this.middlewares[curMiddlewareIndex](curPayload, _next);
@@ -709,7 +719,7 @@ export class Ampli {
       }
     };
 
-    const _next: Next = middlewareCount > 0 ? middlewareNext : next;
+    const _next: MiddlewareNext = middlewareCount > 0 ? middlewareNext : next;
 
     _next(payload);
   }
@@ -732,7 +742,7 @@ export function getInstance(
 ): Ampli {
   let ampli = _instances[instance];
   if (!ampli) {
-    const key = ApiKey[instance] || apiKey;
+    const key = apiKey || ApiKey[instance];
     if (key === undefined || key === '') {
       throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
     }
@@ -762,8 +772,6 @@ export type Plan = {
   branch?: string;
   source?: string;
   version?: string;
-  event_id?: string;
-  event_version?: string;
 }
 
 export enum SpecialEventType {
@@ -798,7 +806,7 @@ export type GroupOptions = BaseEventOptions;
 /**
  * Unstructured object to let users pass extra data to middleware
  */
-export interface Extra {
+export interface MiddlewareExtra {
   [name: string]: any;
 }
 
@@ -807,13 +815,13 @@ export interface Extra {
  */
 export interface MiddlewarePayload {
   event: Event;
-  extra?: Extra;
+  extra?: MiddlewareExtra;
 }
 
 /**
  * Function called at the end of each Middleware to run the next middleware in the chain
  */
-export type Next = (payload: MiddlewarePayload) => void;
+export type MiddlewareNext = (payload: MiddlewarePayload) => void;
 
 /**
  * A function to run on the Event stream (each logEvent call)
@@ -821,5 +829,5 @@ export type Next = (payload: MiddlewarePayload) => void;
  * @param payload The event and extra data being sent
  * @param next Function to run the next middleware in the chain, not calling next will end the middleware chain
  */
-export type Middleware = (payload: MiddlewarePayload, next: Next) => void;
+export type Middleware = (payload: MiddlewarePayload, next: MiddlewareNext) => void;
 
