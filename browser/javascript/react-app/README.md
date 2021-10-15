@@ -1,4 +1,4 @@
-# Ampli Browser SDK (TypeScript)
+# Ampli Browser SDK (JavaScript)
 An example React app using the Ampli Browser SDK. Based on create-react-app.
 
 # Usage
