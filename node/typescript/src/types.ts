@@ -1,8 +1,8 @@
 // Segment Convenience Types
-import { Extra } from '@amplitude/types';
+import { MiddlewareExtra } from '@amplitude/types';
 
 export type SegmentIdentityOptions = { anonymousId?: string; };
 
-export type UserTrackExtra = Extra & {
+export type UserTrackExtra = MiddlewareExtra & {
   segment?: SegmentIdentityOptions,
 }

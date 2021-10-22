@@ -97,6 +97,10 @@ ampli.eventWithOptionalProperties(undefined,
   { segment: { anonymousId: 'anon-id' } } as UserTrackExtra
 )
 
+Ampli.getInstance().eventMaxIntForTest(userId, {
+  intMax10: 5,
+});
+
 /**
  * Example Page Event
  * See segmentItlyPluginMiddleware.ts
