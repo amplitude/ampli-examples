@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -13,14 +15,9 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-ts-ampli)
  */
 
-/* tslint:disable */
-/* eslint-disable */
-
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
-import { init as initNodeClient, NodeClient } from '@amplitude/node';
-import {
-  BaseEvent, Event, MiddlewareExtra, EventOptions, IdentifyOptions, GroupOptions, Options,
-} from '@amplitude/types';
+import { init as initNodeClient, NodeClient, Response, Status } from '@amplitude/node';
+import { BaseEvent, Event, EventOptions, IdentifyOptions, MiddlewareExtra, Options, } from '@amplitude/types';
 
 export enum Environment {
   development = 'development',
@@ -385,12 +382,12 @@ export class EventWithArrayTypes implements BaseEvent {
 export class EventWithConstTypes implements BaseEvent {
   event_type = 'Event With Const Types';
   event_properties = {
-    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-    'String Const': "String-Constant",
-    'String Int Const': 0,
     'Integer Const': 10,
     'Boolean Const': true,
+    'String Int Const': 0,
     'Number Const': 2.2,
+    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+    'String Const': "String-Constant",
   };
 }
 
@@ -426,17 +423,62 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
+// TODO: Should we keep LoadOptions flat?
+// export interface LoadOptions {
+//   environment?: Environment;
+//   disabled?: boolean;
+//
+//   apiKey?: string;
+//   clientOptions?: Partial<Options>;
+//   client?: NodeClient;
+// }
+
+// export const LoadOptionsDefault: LoadOptions = {
+//   environment: Environment.development,
+//   clientOptions: DefaultOptions,
+//   disabled: false,
+// };
+
+export interface LoadOptions {
+  environment?: Environment;
+  disabled?: boolean;
+  client?: {
+    apiKey?: string;
+    options?: Partial<Options>;
+    instance?: NodeClient;
+  }
+}
+
+function getDefaultPromiseResponse(): Promise<Response> {
+  return Promise.resolve<Response>({
+    status: Status.Skipped,
+    statusCode: 200,
+  });
+}
 
 // prettier-ignore
 export class Ampli {
-  private amplitude: NodeClient;
-
-  constructor(amplitude: NodeClient) {
-    this.amplitude = amplitude;
-  }
+  private disabled: boolean;
+  private amplitude: NodeClient | undefined;
   
   get client() {
     return this.amplitude;
+  }
+
+  private isInitializedAndEnabled(): boolean {
+    if (!this.amplitude) {
+      throw new Error('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+    }
+    return !this.disabled;
+  }
+
+  load(options: LoadOptions): void {
+    this.disabled = options.disabled || false;
+    const apiKey = options.client.apiKey || ApiKey[options.environment];
+    if (!apiKey) {
+      throw new Error(`No 'environment' or 'apiKey' provided to ampli.load()`);
+    }
+    this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options.client.options });
   }
 
   identify(
@@ -448,17 +490,30 @@ export class Ampli {
   ) {
     const amplitudeIdentify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
-      amplitudeIdentify.set(key, value);
+      if (value !== undefined) {
+        amplitudeIdentify.set(key, value);
+      }
     }
-    return this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent(
+          { ...options, ...amplitudeIdentify.identifyUser(userId || null, deviceId) }, extra,
+        )
+      : getDefaultPromiseResponse();
+    return { promise };
   }
 
   track(userId: string | undefined, event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
-    return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra)
+      : getDefaultPromiseResponse();
+    return { promise };
   }
 
   flush() {
-    return this.amplitude.flush();
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.flush()
+      : getDefaultPromiseResponse();
+    return { promise };
   }
 
   /**
@@ -515,7 +570,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredObject)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -561,7 +616,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -628,7 +683,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optional enum)
+   * @param properties The event's properties (e.g. required enum)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -651,7 +706,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalJSONArray)
+   * @param properties The event's properties (e.g. optionalStringArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -674,7 +729,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalArrayNumber)
+   * @param properties The event's properties (e.g. optionalNumber)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -688,45 +743,4 @@ export class Ampli {
   }
 }
 
-/**
- * Initializes and returns a Ampli instance
- * 
- * @param apiKeyOrNodeClient - An API key (string) or Amplitude NodeClient instance
- * @param options - Amplitude NodeClient options
- */
-export function init(apiKeyOrNodeClient: string | NodeClient, options: Partial<Options> = DefaultOptions): Ampli {
-  const apiKey = typeof(apiKeyOrNodeClient) === 'string' ? apiKeyOrNodeClient : undefined;
-  const nodeClient = typeof(apiKeyOrNodeClient) === 'object' ? apiKeyOrNodeClient : initNodeClient(apiKey, options);
-  return new Ampli(nodeClient);
-}
-
-const DEFAULT_INSTANCE: string = Environment.development;
-const _instances: { [name: string]: Ampli } = {};
-
-/**
- * Get an Ampli instance
- * 
- * @param instance - The Environment or name of the desired instance 
- */ 
-export function getInstance(instance: Environment | string = DEFAULT_INSTANCE): Ampli {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const apiKey = ApiKey[instance];
-    if (apiKey === undefined || apiKey === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    ampli = init(apiKey, DefaultOptions);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- * 
- * @param ampli - The Ampli instance 
- * @param instance - The Environment or name of this instance
- */
-export function setInstance(ampli: Ampli, instance: Environment | string = DEFAULT_INSTANCE) {
-  _instances[instance] = ampli;
-}
+export const ampli = new Ampli();
