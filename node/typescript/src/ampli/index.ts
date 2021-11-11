@@ -17,7 +17,10 @@
 
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { init as initNodeClient, NodeClient, Response, Status } from '@amplitude/node';
-import { BaseEvent, Event, EventOptions, IdentifyOptions, MiddlewareExtra, Options, } from '@amplitude/types';
+import {
+  BaseEvent, Event, EventOptions, GroupOptions, IdentifyOptions, MiddlewareExtra, Options,
+} from '@amplitude/types';
+import { IdentifyEvent } from "../../../../browser/typescript/react-app/src/ampli";
 
 export enum Environment {
   development = 'development',
@@ -456,6 +459,15 @@ function getDefaultPromiseResponse(): Promise<Response> {
   });
 }
 
+function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string, deviceId?: string): IdentifyEvent {
+  // TODO: Hack to allow for undefined user_id and device_id until after middleware
+  const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
+  identifyEvent.user_id = userId;
+  identifyEvent.device_id = deviceId;
+
+  return identifyEvent as any;
+}
+
 // prettier-ignore
 export class Ampli {
   private disabled: boolean;
@@ -474,11 +486,13 @@ export class Ampli {
 
   load(options: LoadOptions): void {
     this.disabled = options.disabled || false;
-    const apiKey = options.client.apiKey || ApiKey[options.environment];
+    const apiKey = options.client?.apiKey || ApiKey[options.environment];
     if (!apiKey) {
       throw new Error(`No 'environment' or 'apiKey' provided to ampli.load()`);
     }
-    this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options.client.options });
+    this.amplitude = options.client?.instance || initNodeClient(apiKey, {
+      ...DefaultOptions, ...options.client?.options,
+    });
   }
 
   identify(
@@ -488,17 +502,31 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra
   ) {
-    const amplitudeIdentify = new AmplitudeIdentify();
+    const identify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
       if (value !== undefined) {
-        amplitudeIdentify.set(key, value);
+        identify.set(key, value);
       }
     }
+    const identifyEvent = getIdentifyEvent(
+      identify,
+      userId || options.user_id,
+      deviceId || options.device_id,
+    );
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent(
-          { ...options, ...amplitudeIdentify.identifyUser(userId || null, deviceId) }, extra,
-        )
+      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra)
       : getDefaultPromiseResponse();
+
+    return { promise };
+  }
+
+  setGroup(name: string, value: string, options?: GroupOptions, extra?: MiddlewareExtra) {
+    const identify = new AmplitudeIdentify().setGroup(name, value);
+    const identifyEvent = getIdentifyEvent(identify, options?.user_id, options?.device_id);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      : getDefaultPromiseResponse();
+
     return { promise };
   }
 
@@ -506,6 +534,7 @@ export class Ampli {
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra)
       : getDefaultPromiseResponse();
+
     return { promise };
   }
 
@@ -513,6 +542,7 @@ export class Ampli {
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude.flush()
       : getDefaultPromiseResponse();
+
     return { promise };
   }
 

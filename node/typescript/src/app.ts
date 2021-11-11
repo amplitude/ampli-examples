@@ -1,10 +1,10 @@
 import dotenv from 'dotenv';
 import { LogLevel } from "@amplitude/types";
-import { Ampli, ampli, DefaultOptions, Environment, EventWithOptionalProperties, RequiredEnum } from './ampli';
+import { Ampli, ampli, Environment, EventWithOptionalProperties, RequiredEnum } from './ampli';
 import { Page } from './middleware/segmentItlyPluginMiddleware';
-import { getSegmentMiddleware } from "./middleware/segmentMiddleware";
 import { UserTrackExtra } from "./types";
 import { Service1 } from "./services/service-1";
+import { getUserIdMiddleware } from "./middleware/userIdMiddleware";
 
 export const userId = 'ampli-node-ts-user-id';
 
@@ -44,6 +44,8 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
  * OR Specify NodeClient 'options'
  */
 ampli.load({
+  // environment: Environment.development,
+  // disabled: false,
   client: {
     apiKey: AMPLITUDE_API_KEY,
     options: {
@@ -72,6 +74,14 @@ ampli.load({
 // ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
+ * Middleware can also be used to centralize user info
+ */
+// ampli.client.addEventMiddleware(getUserIdMiddleware(
+//   () => 'ampli-user-id-from-resolver',
+//   () => 'ampli-device-id-from-resolver'
+// ));
+
+/**
  * Legacy Itly Plugins can also be adapted to middleware
  */
 // const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
@@ -92,6 +102,8 @@ ampli.identify(userId, undefined,
   // `options` allows setting additional Amplitude fields
   { platform: process.platform },
 );
+
+ampli.setGroup('test-group', 'a-group-value', { user_id: userId });
 
 /**
  * Track Events via strongly typed methods
@@ -123,7 +135,8 @@ ampli.eventWithOptionalProperties(undefined,
   { segment: { anonymousId: 'anon-id' } } as UserTrackExtra
 )
 
-ampli.eventMaxIntForTest(userId, {
+// NOTICE: This will show a warning in the console about missing 'user_id' unless you add UserIdMiddleware
+ampli.eventMaxIntForTest(undefined, {
   intMax10: 5,
 });
 
