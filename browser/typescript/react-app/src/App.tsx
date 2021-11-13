@@ -3,7 +3,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import * as Ampli from "./ampli";
+import { ampli, RequiredEnum } from "./ampli";
 import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli";
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
@@ -18,10 +18,26 @@ const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = p
 // const ampliProd = Ampli.getInstance(Environment.production);
 
 // Set your own Config and Amplitude API key
-const ampli = Ampli.getInstance(undefined, {
-  ...DefaultConfig,
-  logLevel: "INFO",
-}, REACT_APP_AMPLITUDE_API_KEY);
+// const ampli = Ampli.getInstance(undefined, {
+//   ...DefaultConfig,
+//   logLevel: "INFO",
+// }, REACT_APP_AMPLITUDE_API_KEY);
+// console.log('REACT_APP_AMPLITUDE_API_KEY', REACT_APP_AMPLITUDE_API_KEY);
+ampli.load({
+  client: {
+    apiKey: REACT_APP_AMPLITUDE_API_KEY,
+    config: { ...DefaultConfig, logLevel: "INFO" }
+  }
+})
+
+/**
+ * Use existing amplitude instance from window
+ */
+// console.log('window.amplitude', window.amplitude);
+// window.amplitude.getInstance().init(REACT_APP_AMPLITUDE_API_KEY);
+// ampli.load({
+//   client: { instance: window.amplitude as any }
+// })
 
 const userId = 'ampli-browser-ts-user-id';
 
@@ -67,7 +83,7 @@ function App() {
             requiredNumber: 1.23,
             requiredArray: ["I'm", 'required'],
             requiredBoolean: false,
-            requiredEnum: Ampli.RequiredEnum.Enum1,
+            requiredEnum: RequiredEnum.Enum1,
             requiredInteger: 42,
             requiredString: 'Hi!',
           })
