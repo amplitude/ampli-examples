@@ -73,6 +73,10 @@ function App() {
         }}>Identify</button>
 
         <button onClick={() => {
+          ampli.setGroup('test group', 'test group 1')
+        }}>Group</button>
+
+        <button onClick={() => {
           ampli.track(new EventWithOptionalProperties({
             optionalBoolean: true,
           }));

@@ -507,6 +507,10 @@ export class Ampli {
     });
   }
 
+  setGroup(name: string, value: string | string[], options?:GroupOptions, extra?: MiddlewareExtra) {
+    this.amplitude?.setGroup(name, value);
+  }
+
   /**
    * Track event
    *
