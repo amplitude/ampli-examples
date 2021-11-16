@@ -24,6 +24,7 @@ const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = p
 // }, REACT_APP_AMPLITUDE_API_KEY);
 // console.log('REACT_APP_AMPLITUDE_API_KEY', REACT_APP_AMPLITUDE_API_KEY);
 ampli.load({
+  disabled: false,
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
     config: { ...DefaultConfig, logLevel: "INFO" }

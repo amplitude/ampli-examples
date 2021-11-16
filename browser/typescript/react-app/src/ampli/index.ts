@@ -452,9 +452,9 @@ export class Ampli {
   }
 
   load(options: LoadOptions): void {
-    this.disabled = (options.disabled === undefined) ? false: options.disabled;
-    const env = options.environment || Environment.development;
-    const apiKey = options.client?.apiKey || ApiKey[env];
+    this.disabled = options.disabled ?? false;
+    const env = options.environment ?? Environment.development;
+    const apiKey = options.client?.apiKey ?? ApiKey[env];
 
     if (options.client?.instance) {
       this.amplitude = options.client?.instance;
@@ -488,6 +488,10 @@ export class Ampli {
       user_id: userId,
       device_id: deviceId
     };
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runMiddleware({ event, extra }, payload => {
       if (userId) {
         this.amplitude?.setUserId(userId);
@@ -508,6 +512,10 @@ export class Ampli {
   }
 
   setGroup(name: string, value: string | string[], options?:GroupOptions, extra?: MiddlewareExtra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.amplitude?.setGroup(name, value);
   }
 
@@ -519,6 +527,10 @@ export class Ampli {
    * @param extra Extra unstructured data for middleware.
    */
   track(event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runMiddleware({ event, extra }, payload => {
       this.amplitude?.logEvent(
         payload.event.event_type,
