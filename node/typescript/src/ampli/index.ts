@@ -18,9 +18,8 @@
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { init as initNodeClient, NodeClient, Response, Status } from '@amplitude/node';
 import {
-  BaseEvent, Event, EventOptions, GroupOptions, IdentifyOptions, MiddlewareExtra, Options,
+  BaseEvent, Event, EventOptions, GroupOptions, IdentifyEvent, IdentifyOptions, Options, MiddlewareExtra,
 } from '@amplitude/types';
-import { IdentifyEvent } from "../../../../browser/typescript/react-app/src/ampli";
 
 export enum Environment {
   development = 'development',
@@ -42,6 +41,16 @@ export const DefaultOptions: Partial<Options> = {
     source: 'node-ts-ampli'
   }
 };
+
+export interface LoadOptions {
+  environment?: Environment;
+  disabled?: boolean;
+  client?: {
+    apiKey?: string;
+    options?: Partial<Options>;
+    instance?: NodeClient;
+  }
+}
 
 export interface EventProperties {
     Context?:                       ContextProperties;
@@ -385,12 +394,12 @@ export class EventWithArrayTypes implements BaseEvent {
 export class EventWithConstTypes implements BaseEvent {
   event_type = 'Event With Const Types';
   event_properties = {
-    'Integer Const': 10,
-    'Boolean Const': true,
-    'String Int Const': 0,
-    'Number Const': 2.2,
     'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
     'String Const': "String-Constant",
+    'String Int Const': 0,
+    'Integer Const': 10,
+    'Boolean Const': true,
+    'Number Const': 2.2,
   };
 }
 
@@ -426,31 +435,6 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
-// TODO: Should we keep LoadOptions flat?
-// export interface LoadOptions {
-//   environment?: Environment;
-//   disabled?: boolean;
-//
-//   apiKey?: string;
-//   clientOptions?: Partial<Options>;
-//   client?: NodeClient;
-// }
-
-// export const LoadOptionsDefault: LoadOptions = {
-//   environment: Environment.development,
-//   clientOptions: DefaultOptions,
-//   disabled: false,
-// };
-
-export interface LoadOptions {
-  environment?: Environment;
-  disabled?: boolean;
-  client?: {
-    apiKey?: string;
-    options?: Partial<Options>;
-    instance?: NodeClient;
-  }
-}
 
 const getDefaultPromiseResponse = () => Promise.resolve<Response>({
   status: Status.Skipped,
@@ -481,9 +465,9 @@ export class Ampli {
     }
     return !this.disabled;
   }
-
+  
   load(options: LoadOptions): void {
-    this.disabled = options.disabled || false;
+    this.disabled = options.disabled ?? false;
     const apiKey = options.client?.apiKey || ApiKey[options.environment];
     if (!apiKey) {
       throw new Error(`No 'environment' or 'apiKey' provided to ampli.load()`);
@@ -598,7 +582,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObject)
+   * @param properties The event's properties (e.g. requiredObjectArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -644,7 +628,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredBooleanArray)
+   * @param properties The event's properties (e.g. requiredObjectArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -711,7 +695,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. required enum)
+   * @param properties The event's properties (e.g. optional enum)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -734,7 +718,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalStringArray)
+   * @param properties The event's properties (e.g. optionalJSONArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -757,7 +741,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalNumber)
+   * @param properties The event's properties (e.g. optionalArrayNumber)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -771,4 +755,9 @@ export class Ampli {
   }
 }
 
+/**
+ * Export 'ampli' the default instance of Ampli.
+ * 
+ * More instances can be created with 'const a = new Ampli()'
+ */
 export const ampli = new Ampli();
