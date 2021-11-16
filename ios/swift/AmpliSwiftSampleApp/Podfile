@@ -1,0 +1,17 @@
+def import_pods
+
+pod 'Amplitude', :path => '~/DIRECTORY_WITH_REPOSITORIES/Amplitude-iOS/'
+
+end
+
+target 'AmpliSwiftSampleApp (iOS)' do
+    project "AmpliSwiftSampleApp"
+
+    import_pods
+end
+
+target 'AmpliSwiftSampleApp (macOS)' do
+    project "AmpliSwiftSampleApp"
+
+    import_pods
+end
