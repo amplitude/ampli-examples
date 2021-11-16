@@ -452,12 +452,10 @@ export interface LoadOptions {
   }
 }
 
-function getDefaultPromiseResponse(): Promise<Response> {
-  return Promise.resolve<Response>({
-    status: Status.Skipped,
-    statusCode: 200,
-  });
-}
+const getDefaultPromiseResponse = () => Promise.resolve<Response>({
+  status: Status.Skipped,
+  statusCode: 200,
+});
 
 function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string, deviceId?: string): IdentifyEvent {
   // TODO: Hack to allow for undefined user_id and device_id until after middleware
