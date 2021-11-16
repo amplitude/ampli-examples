@@ -442,7 +442,6 @@ const getDefaultPromiseResponse = () => Promise.resolve<Response>({
 });
 
 function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string, deviceId?: string): IdentifyEvent {
-  // TODO: Hack to allow for undefined user_id and device_id until after middleware
   const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
   identifyEvent.user_id = userId;
   identifyEvent.device_id = deviceId;
@@ -454,7 +453,7 @@ function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string,
 export class Ampli {
   private disabled: boolean;
   private amplitude: NodeClient | undefined;
-  
+
   get client() {
     return this.amplitude;
   }
@@ -465,15 +464,19 @@ export class Ampli {
     }
     return !this.disabled;
   }
-  
-  load(options: LoadOptions): void {
-    this.disabled = options.disabled ?? false;
-    const apiKey = options.client?.apiKey || ApiKey[options.environment];
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param options Configuration options to initialize the Ampli SDK with.
+   */
+  load(options?: LoadOptions): void {
+    this.disabled = options?.disabled ?? false;
+    const apiKey = options?.client?.apiKey || ApiKey[options?.environment || Environment.development];
     if (!apiKey) {
       throw new Error(`No 'environment' or 'apiKey' provided to ampli.load()`);
     }
-    this.amplitude = options.client?.instance || initNodeClient(apiKey, {
-      ...DefaultOptions, ...options.client?.options,
+    this.amplitude = options?.client?.instance || initNodeClient(apiKey, {
+      ...DefaultOptions, ...options?.client?.options,
     });
   }
 

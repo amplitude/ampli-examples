@@ -39,6 +39,16 @@ export const DefaultConfig: ConfigExt = {
   }
 };
 
+export interface LoadOptions {
+  environment?: Environment;
+  disabled?: boolean;
+  client?: {
+    apiKey?: string;
+    config?: Partial<ConfigExt>;
+    instance?: AmplitudeClient;
+  }
+}
+
 export interface EventProperties {
     Context?:                       ContextProperties;
     EventMaxIntForTest?:            EventMaxIntForTestProperties;
@@ -424,16 +434,6 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
-export interface LoadOptions {
-  environment?: Environment;
-  disabled?: boolean;
-  client?: {
-    apiKey?: string;
-    config?: Partial<ConfigExt>;
-    instance?: AmplitudeClient;
-  }
-}
-
 // prettier-ignore
 export class Ampli {
   private disabled: boolean = false;
@@ -451,18 +451,24 @@ export class Ampli {
     return !this.disabled;
   }
 
-  load(options: LoadOptions): void {
-    this.disabled = options.disabled ?? false;
-    const env = options.environment ?? Environment.development;
-    const apiKey = options.client?.apiKey ?? ApiKey[env];
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param options Configuration options to initialize the Ampli SDK with.
+   */
+  load(options?: LoadOptions): void {
+    this.disabled = options?.disabled ?? false;
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey ?? ApiKey[env];
 
-    if (options.client?.instance) {
-      this.amplitude = options.client?.instance;
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude.init(apiKey, undefined, options.client?.config);
+      this.amplitude.init(apiKey, undefined, options?.client?.config);
+    } else if (window.amplitude) {
+      this.amplitude = window.amplitude as any;
     } else {
-      throw new Error(`ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`);
+      throw new Error(`ampli.load() requires 'environment', 'client.apiKey', 'client.instance', or 'window.amplitude'`);
     }
   }
 

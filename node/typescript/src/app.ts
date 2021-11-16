@@ -44,13 +44,9 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
  * OR Specify NodeClient 'options'
  */
 ampli.load({
-  // environment: Environment.development,
-  // disabled: false,
   client: {
     apiKey: AMPLITUDE_API_KEY,
-    options: {
-      logLevel: LogLevel.Verbose
-    },
+    options: { logLevel: LogLevel.Verbose },
   }
 });
 
