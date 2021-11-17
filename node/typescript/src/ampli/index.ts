@@ -460,7 +460,7 @@ export class Ampli {
 
   private isInitializedAndEnabled(): boolean {
     if (!this.amplitude) {
-      throw new Error('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
     }
     return !this.disabled;
   }
@@ -471,13 +471,15 @@ export class Ampli {
    */
   load(options?: LoadOptions): void {
     this.disabled = options?.disabled ?? false;
-    const apiKey = options?.client?.apiKey || ApiKey[options?.environment || Environment.development];
-    if (!apiKey) {
-      throw new Error(`No 'environment' or 'apiKey' provided to ampli.load()`);
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey || ApiKey[env];
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
-    this.amplitude = options?.client?.instance || initNodeClient(apiKey, {
-      ...DefaultOptions, ...options?.client?.options,
-    });
   }
 
   identify(
