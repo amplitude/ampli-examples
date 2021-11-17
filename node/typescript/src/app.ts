@@ -5,6 +5,7 @@ import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
 import { Service1 } from "./services/service-1";
 import { getUserIdMiddleware } from "./middleware/userIdMiddleware";
+import loggingMiddleware from "../../../browser/typescript/react-app/src/middleware/loggingMiddleware";
 
 export const userId = 'ampli-node-ts-user-id';
 
@@ -64,13 +65,23 @@ ampli.load({
 // ampli2.load({ client: { apiKey: 'api-key-2' } });
 
 /**
- * You can add middleware for 3rd party destination support
+ * Middleware can be used for many things including
+ * logging, filtering, event modification and more.
+ */
+
+/**
+ * Logging
+ */
+ampli.client.addEventMiddleware(loggingMiddleware);
+
+/**
+ * 3rd party destination support
  */
 // const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
- * Middleware can also be used to centralize user info
+ * Centralize user id logic
  */
 // ampli.client.addEventMiddleware(getUserIdMiddleware(
 //   () => 'ampli-user-id-from-resolver',
@@ -78,7 +89,7 @@ ampli.load({
 // ));
 
 /**
- * Legacy Itly Plugins can also be adapted to middleware
+ * Use Legacy Itly Plugins by adapting them to middleware
  */
 // const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addEventMiddleware(segmentItlyPluginMiddleware);

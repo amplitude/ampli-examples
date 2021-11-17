@@ -8,8 +8,11 @@ import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
 import { stopMiddleware } from "./middleware/stopMiddleware";
+import loggingMiddleware from "./middleware/loggingMiddleware";
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
+
+const userId = 'ampli-browser-ts-user-id';
 
 /**
  * Start by calling ampli.load()
@@ -35,7 +38,7 @@ const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = p
 
 /**
  * OR Use an existing Amplitude instance
- * (requires import amplitude from 'amplitude-js';)
+ * requires "import amplitude from 'amplitude-js';"
  */
 // const instance = amplitude.getInstance();
 // instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultConfig, logLevel: "INFO" });
@@ -70,10 +73,18 @@ ampli.load({
 // const ampli2 = new Ampli();
 // ampli2.load({ client: { apiKey: 'api-key-2' } });
 
-const userId = 'ampli-browser-ts-user-id';
+/**
+ * Middleware can be used for many things including
+ * logging, filtering, event modification and more.
+ */
 
 /**
- * You can add middleware for 3rd party destination support
+ * Logging
+ */
+ampli.addEventMiddleware(loggingMiddleware);
+
+/**
+ * 3rd party destination support
  */
 // const segmentMiddleware = getSegmentMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
 // ampli.addEventMiddleware(segmentMiddleware);

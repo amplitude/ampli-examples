@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -13,9 +15,6 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli)
  */
 
-/* tslint:disable */
-/* eslint-disable */
-
 import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
 
 export enum Environment {
@@ -23,7 +22,7 @@ export enum Environment {
   production = 'production'
 }
 
-export const ApiKey: Record<Environment | string, string> = {
+export const ApiKey: Record<Environment, string> = {
   development: '',
   production: ''
 };
@@ -434,6 +433,7 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
+
 // prettier-ignore
 export class Ampli {
   private disabled: boolean = false;
@@ -446,7 +446,7 @@ export class Ampli {
 
   private isInitializedAndEnabled(): boolean {
     if (!this.amplitude) {
-      throw new Error('Itly is not yet initialized. Have you called `itly.load()` on app start?');
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
     }
     return !this.disabled;
   }
@@ -464,11 +464,9 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude.init(apiKey, undefined, options?.client?.config);
-    } else if (window.amplitude) {
-      this.amplitude = window.amplitude as any;
+      this.amplitude?.init(apiKey, undefined, options?.client?.config);
     } else {
-      throw new Error(`ampli.load() requires 'environment', 'client.apiKey', 'client.instance', or 'window.amplitude'`);
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
   }
 
@@ -488,16 +486,16 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra
   ) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
       user_id: userId,
       device_id: deviceId
     };
-    if(!this.isInitializedAndEnabled()) {
-      return;
-    }
-
     this.runMiddleware({ event, extra }, payload => {
       if (userId) {
         this.amplitude?.setUserId(userId);
@@ -797,11 +795,10 @@ export type BaseEvent = {
   event_properties?: { [key: string]: any },
   plan?: Plan;
   user_id?: string;
+  device_id?: string;
 }
 export type IdentifyEvent = BaseEvent & {
   event_type: SpecialEventType.Identify,
-  user_id?: string;
-  device_id?: string;
 };
 export type GroupEvent = BaseEvent & {
   event_type: SpecialEventType.Group,
