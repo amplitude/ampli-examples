@@ -797,17 +797,13 @@ export type BaseEvent = {
   user_id?: string;
   device_id?: string;
 }
-export type IdentifyEvent = BaseEvent & {
-  event_type: SpecialEventType.Identify,
-};
-export type GroupEvent = BaseEvent & {
-  event_type: SpecialEventType.Group,
-};
+export type IdentifyEvent = BaseEvent & { event_type: SpecialEventType.Identify };
+export type GroupEvent = BaseEvent & { event_type: SpecialEventType.Group };
 export type Event = BaseEvent | IdentifyEvent | GroupEvent;
 
 type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
   callback: Callback;
-  errorCallback: Callback,
+  errorCallback: Callback;
 };
 export type EventOptions = BaseEventOptions ;
 export type IdentifyOptions = BaseEventOptions;
