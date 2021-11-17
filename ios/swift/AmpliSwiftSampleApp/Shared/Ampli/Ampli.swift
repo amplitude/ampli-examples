@@ -24,7 +24,7 @@ public enum AmpliEnvironment: Int {
 
 let ApiKey: [AmpliEnvironment: String] = [
   .development:"00aa083ba31d20782808820370c15a71",
-.production:"af568af728fe7ecab9800979089ad112"
+  .production:"af568af728fe7ecab9800979089ad112"
 ];
 
 let DefaultOptions = [
@@ -34,11 +34,25 @@ let DefaultOptions = [
     "version": "0"
   ]];
 
+func objectToDictionary(propertyObj: Any?) -> [String: Any] {
+  var dictionary = [String: Any]();
+  if (propertyObj == nil) {
+      return dictionary;
+  }
+  let mirror = Mirror(reflecting: propertyObj!);
+  for (key, value) in mirror.children {
+      if let key = key {
+          dictionary[key] = value;
+      }
+  }
+  return dictionary
+}
+
 public class Event {
   var eventType: String
-  var eventProperties: Any?
+  var eventProperties: [String:Any]?
 
-  init(eventType: String, eventProperties: Any?) {
+  init(eventType: String, eventProperties: [String:Any]?) {
       self.eventType = eventType;
       self.eventProperties = eventProperties;
   }
@@ -331,153 +345,174 @@ public struct IdentifyProperties {
 }
 
 public class Context : Event {
-    init() {
-        super.init(
-          eventType: "Context",
-          eventProperties: nil
-        );
-      }
+  init() {
+    super.init(
+      eventType: "Context",
+      eventProperties: nil
+    );
+  }
 }
 
 public class Identify : Event {
-        init(
-        eventProperties: IdentifyProperties
-      ) {
-        super.init(
-          eventType: "Identify",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: IdentifyProperties
+  ) {
+    super.init(
+      eventType: "Identify",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class Group : Event {
-        init(
-        eventProperties: GroupProperties
-      ) {
-        super.init(
-          eventType: "Group",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: GroupProperties
+  ) {
+    super.init(
+      eventType: "Group",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventMaxIntForTest : Event {
-        init(
-        eventProperties: EventMaxIntForTestProperties
-      ) {
-        super.init(
-          eventType: "EventMaxIntForTest",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventMaxIntForTestProperties
+  ) {
+    super.init(
+      eventType: "EventMaxIntForTest",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventNoProperties : Event {
-    init() {
-        super.init(
-          eventType: "Event No Properties",
-          eventProperties: nil
-        );
-      }
+  init() {
+    super.init(
+      eventType: "Event No Properties",
+      eventProperties: nil
+    );
+  }
 }
 
 public class EventObjectTypes : Event {
-        init(
-        eventProperties: EventObjectTypesProperties
-      ) {
-        super.init(
-          eventType: "Event Object Types",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventObjectTypesProperties
+  ) {
+    super.init(
+      eventType: "Event Object Types",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventWithAllProperties : Event {
-        init(
-        eventProperties: EventWithAllPropertiesProperties
-      ) {
-        super.init(
-          eventType: "Event With All Properties",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithAllPropertiesProperties
+  ) {
+    let propertyDict: [String: Any] = [
+      "requiredConst": "some-const-value"
+    ];
+    let combinedDict = propertyDict.merging(objectToDictionary(propertyObj: eventProperties))  { (current, _) in current };
+    super.init(
+      eventType: "Event With All Properties",
+      eventProperties: combinedDict
+    );
+  }
 }
 
 public class EventWithArrayTypes : Event {
-        init(
-        eventProperties: EventWithArrayTypesProperties
-      ) {
-        super.init(
-          eventType: "Event With Array Types",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithArrayTypesProperties
+  ) {
+    super.init(
+      eventType: "Event With Array Types",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventWithConstTypes : Event {
-        init(
-        eventProperties: EventWithConstTypesProperties
-      ) {
-        super.init(
-          eventType: "Event With Const Types",
-          eventProperties: eventProperties
-        );
-      }
+  init() {
+    let propertyDict: [String: Any] = [
+      "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
+      "String Const": "String-Constant",
+      "String Int Const": 0,
+      "Integer Const": 10,
+      "Boolean Const": true,
+      "Number Const": 2.2
+    ];
+  super.init(
+      eventType: "Event With Const Types",
+      eventProperties: propertyDict
+    );
+  }
 }
 
 public class EventWithDifferentCasingTypes : Event {
-        init(
-        eventProperties: EventWithDifferentCasingTypesProperties
-      ) {
-        super.init(
-          eventType: "event withDifferent_CasingTypes",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithDifferentCasingTypesProperties
+  ) {
+    super.init(
+      eventType: "event withDifferent_CasingTypes",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventWithEnumTypes : Event {
-        init(
-        eventProperties: EventWithEnumTypesProperties
-      ) {
-        super.init(
-          eventType: "Event With Enum Types",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithEnumTypesProperties
+  ) {
+    super.init(
+      eventType: "Event With Enum Types",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventWithOptionalArrayTypes : Event {
-        init(
-        eventProperties: EventWithOptionalArrayTypesProperties
-      ) {
-        super.init(
-          eventType: "Event With Optional Array Types",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithOptionalArrayTypesProperties
+  ) {
+    super.init(
+      eventType: "Event With Optional Array Types",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public class EventWithOptionalProperties : Event {
-        init(
-        eventProperties: EventWithOptionalPropertiesProperties
-      ) {
-        super.init(
-          eventType: "Event With Optional Properties",
-          eventProperties: eventProperties
-        );
-      }
+  init(
+    eventProperties: EventWithOptionalPropertiesProperties
+  ) {
+    super.init(
+      eventType: "Event With Optional Properties",
+      eventProperties: objectToDictionary(propertyObj: eventProperties)
+    );
+  }
 }
 
 public struct LoadClient {
   let apiKey: String?
   let instance: Amplitude?
+
+    init(apiKey: String? = nil, instance: Amplitude? = nil) {
+        self.apiKey = apiKey
+        self.instance = instance
+    }
 }
 
 public struct LoadOptions {
   let environment: AmpliEnvironment?
   let disabled: Bool?
   let client: LoadClient?
+
+  init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClient? = nil) {
+    self.environment = environment
+    self.disabled = disabled
+    self.client = client
+  }
 }
 
 public class Ampli {
@@ -505,7 +540,7 @@ public class Ampli {
     if (!isInitializedAndEnabld()) {
         return;
     }
-    amplitude?.logEvent(event.eventType, withEventProperties: self.objectToDictionary(propertyObj: event.eventProperties), withMiddlewareExtra: extra as? NSMutableDictionary);
+    amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
   }
 
   public func identify(userId: String?, deviceId: String?, properties: IdentifyProperties?, extra: MiddlewareExtra?) -> Void {
@@ -519,7 +554,7 @@ public class Ampli {
           amplitude?.setDeviceId(deviceId!);
       }
       let identifyArgs = AMPIdentify()
-      self.objectToDictionary(propertyObj: properties).forEach{ key, value in
+      objectToDictionary(propertyObj: properties).forEach{ key, value in
           identifyArgs.set(key, value: value as? NSObject)
       }
 
@@ -627,11 +662,10 @@ public class Ampli {
   Owner: Test codegen
 
   - Parameter userId The user's ID.
-  - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithConstTypes(userId: String?, properties: EventWithConstTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithConstTypes(eventProperties: properties), extra: extra);
+  public func eventWithConstTypes(userId: String?, extra: MiddlewareExtra?) {
+      self.track(userId: userId, event: EventWithConstTypes(), extra: extra);
   }
 
   /**

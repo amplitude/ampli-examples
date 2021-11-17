@@ -15,6 +15,8 @@ struct ContentView: View {
         sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
         animation: .default)
     private var items: FetchedResults<Item>
+    private var ampli: Ampli = Ampli()
+    
 
     var body: some View {
         NavigationView {
@@ -36,7 +38,7 @@ struct ContentView: View {
 #endif
                 ToolbarItem {
                     Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                        Label("Add Item With Event Sent", systemImage: "plus")
                     }
                 }
             }
@@ -45,11 +47,37 @@ struct ContentView: View {
     }
 
     private func addItem() {
-        let ampli = Ampli();
+        //    Start by calling ampli.load()
+        //
+        //    'ampli' is the default instance of Ampli()
+        //
+        //    When you pull your tracking plan you can use the defaults and call load() without arguments
+        //    This requires connecting your account via `ampli pull` which will set you API key in the generated Ampli SDK
+        //
+        //    OR Specify a AmpliEnvironment
+        //    ampli.load(options: LoadOptions(environment: AmpliEnvironment.development)
+        //
+        //    OR Provide a specific Amplitude API key
+        //    ampli.load(options: LoadOptions(client: LoadClient(apiKey: "Custom api key"))
+        //
+        //    OR Use an existing Amplitude instance
+        //    requires "import Amplitude"
+        //    let instance = Amplitude.instance("instanceName");
+        //    instance.initializeApiKey("Custom api key");
+        //    ampli.load(options: LoadOptions(client: LoadClient(instance: instance)))
+        //
+        //    For testing you can disable ampli
+        //    ampli.load(options: LoadOptions(disabled: ENV.IS_TESTING ? true: false))
+        //
+        //    Make as many Ampli instances as you want
+        //    let ampli2 = new Ampli();
+        //    ampli2.load(options: LoadOptions(client: LoadClient(apiKey: "api-key-2"))
         ampli.load(options: LoadOptions(environment: AmpliEnvironment.development, disabled: false, client: LoadClient(apiKey: ApiKey[AmpliEnvironment.development], instance: nil)));
         ampli.eventNoProperties(userId: nil, extra: nil)
         let extraDict = ["test" : "extra test"];
         ampli.eventMaxIntForTest(userId: nil, properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
+        ampli.eventWithConstTypes(userId: nil, extra: extraDict)
+        ampli.track(userId: nil, event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: nil)
         withAnimation {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()
