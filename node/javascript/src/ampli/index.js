@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -12,9 +14,6 @@
  *
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-js-ampli)
  */
-
-/* tslint:disable */
-/* eslint-disable */
 
 const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 const { init: initNodeClient, NodeClient } = require('@amplitude/node');
@@ -114,12 +113,12 @@ class EventWithConstTypes {
   constructor() {
     this.event_type = 'Event With Const Types';
     this.event_properties = {
-      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-      'String Const': "String-Constant",
-      'String Int Const': 0,
-      'Integer Const': 10,
       'Boolean Const': true,
+      'Integer Const': 10,
       'Number Const': 2.2,
+      'String Const': "String-Constant",
+      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+      'String Int Const': 0,
     };
   }
 }
@@ -229,8 +228,8 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Property Object Array Type
-   * @param {Object} properties.requiredObject Property Object Type
+   * @param {*} properties.requiredObject Property Object Type
+   * @param {*[]} properties.requiredObjectArray Property Object Array Type
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -249,11 +248,11 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {string} [properties.optionalString] Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-   * @param {string} properties.requiredEnum Event 2 Property - Enum
    * @param {string[]} properties.requiredArray Event 2 Property - Array
    * @param {boolean} properties.requiredBoolean Event 2 Property - Boolean
+   * @param {string} properties.requiredEnum Event 2 Property - Enum
+   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
@@ -274,10 +273,10 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Description for required object array
-   * @param {string[]} properties.requiredStringArray description for required string array
-   * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
+   * @param {number[]} properties.requiredNumberArray Description for required number array
+   * @param {*[]} properties.requiredObjectArray Description for required object array
+   * @param {string[]} properties.requiredStringArray description for required string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -313,12 +312,12 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
+   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
    * @param {string} properties.enum_snake_case description_for_enum_snake_case
    * @param {string} properties.enum with space Description for enum with space
-   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
-   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
+   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
    * @param {string} properties.property_with_snake_case Description_for_snake_case
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
@@ -359,10 +358,10 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} [properties] The event's properties.
-   * @param {Object[]} [properties.optionalJSONArray] Description for optional object array
-   * @param {string[]} [properties.optionalStringArray] Description for optional string array
-   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
+   * @param {*[]} [properties.optionalJSONArray] Description for optional object array
+   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
+   * @param {string[]} [properties.optionalStringArray] Description for optional string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -383,8 +382,8 @@ class Ampli {
    * @param {Object} [properties] The event's properties.
    * @param {number[]} [properties.optionalArrayNumber] Property has no description in tracking plan.
    * @param {string[]} [properties.optionalArrayString] Property has no description in tracking plan.
-   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {boolean} [properties.optionalBoolean] Property has no description in tracking plan.
+   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
