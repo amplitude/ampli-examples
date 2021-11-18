@@ -23,8 +23,8 @@ public enum AmpliEnvironment: Int {
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
-  .development:"00aa083ba31d20782808820370c15a71",
-  .production:"af568af728fe7ecab9800979089ad112"
+  .development:"",
+  .production:""
 ];
 
 let AmpliObservePlan = AMPPlan()
@@ -112,11 +112,11 @@ public struct EventNoPropertiesProperties {
 // MARK: - EventObjectTypesProperties
 public struct EventObjectTypesProperties {
     /// Property Object Type
-    public let requiredObject: [String: Any?]
+    public let requiredObject: Any?
     /// Property Object Array Type
-    public let requiredObjectArray: [[String: Any?]]
+    public let requiredObjectArray: [Any?]
 
-    public init(requiredObject: [String: Any?], requiredObjectArray: [[String: Any?]]) {
+    public init(requiredObject: Any?, requiredObjectArray: [Any?]) {
         self.requiredObject = requiredObject
         self.requiredObjectArray = requiredObjectArray
     }
@@ -165,11 +165,11 @@ public struct EventWithArrayTypesProperties {
     /// Description for required number array
     public let requiredNumberArray: [Double]
     /// Description for required object array
-    public let requiredObjectArray: [[String: Any?]]
+    public let requiredObjectArray: [Any?]
     /// description for required string array
     public let requiredStringArray: [String]
 
-    public init(requiredBooleanArray: [Bool], requiredNumberArray: [Double], requiredObjectArray: [[String: Any?]], requiredStringArray: [String]) {
+    public init(requiredBooleanArray: [Bool], requiredNumberArray: [Double], requiredObjectArray: [Any?], requiredStringArray: [String]) {
         self.requiredBooleanArray = requiredBooleanArray
         self.requiredNumberArray = requiredNumberArray
         self.requiredObjectArray = requiredObjectArray
@@ -269,13 +269,13 @@ public struct EventWithOptionalArrayTypesProperties {
     /// Description for optional boolean array
     public let optionalBooleanArray: [Bool]?
     /// Description for optional object array
-    public let optionalJsonArray: [[String: Any?]]?
+    public let optionalJsonArray: [Any?]?
     /// Description for optional number array
     public let optionalNumberArray: [Double]?
     /// Description for optional string array
     public let optionalStringArray: [String]?
 
-    public init(optionalBooleanArray: [Bool]?, optionalJsonArray: [[String: Any?]]?, optionalNumberArray: [Double]?, optionalStringArray: [String]?) {
+    public init(optionalBooleanArray: [Bool]?, optionalJsonArray: [Any?]?, optionalNumberArray: [Double]?, optionalStringArray: [String]?) {
         self.optionalBooleanArray = optionalBooleanArray
         self.optionalJsonArray = optionalJsonArray
         self.optionalNumberArray = optionalNumberArray
@@ -357,8 +357,8 @@ public class Group : Event {
     eventProperties: GroupProperties
   ) {
     let propertyDict: [String: Any] = [
-      "requiredBoolean": eventProperties.requiredBoolean,
-      "optionalString": eventProperties.optionalString as Any
+      "optionalString": eventProperties.optionalString as Any,
+      "requiredBoolean": eventProperties.requiredBoolean
     ];
     super.init(
       eventType: "Group",
@@ -395,8 +395,8 @@ public class EventObjectTypes : Event {
     eventProperties: EventObjectTypesProperties
   ) {
     let propertyDict: [String: Any] = [
-      "requiredObjectArray": eventProperties.requiredObjectArray,
-      "requiredObject": eventProperties.requiredObject
+      "requiredObject": eventProperties.requiredObject,
+      "requiredObjectArray": eventProperties.requiredObjectArray
     ];
     super.init(
       eventType: "Event Object Types",
@@ -412,11 +412,11 @@ public class EventWithAllProperties : Event {
     let propertyDict: [String: Any] = [
       "requiredConst": "some-const-value",
 
-      "requiredInteger": eventProperties.requiredInteger,
       "optionalString": eventProperties.optionalString as Any,
-      "requiredEnum": eventProperties.requiredEnum,
       "requiredArray": eventProperties.requiredArray,
       "requiredBoolean": eventProperties.requiredBoolean,
+      "requiredEnum": eventProperties.requiredEnum,
+      "requiredInteger": eventProperties.requiredInteger,
       "requiredNumber": eventProperties.requiredNumber,
       "requiredString": eventProperties.requiredString
     ];
@@ -432,10 +432,10 @@ public class EventWithArrayTypes : Event {
     eventProperties: EventWithArrayTypesProperties
   ) {
     let propertyDict: [String: Any] = [
-      "requiredObjectArray": eventProperties.requiredObjectArray,
-      "requiredStringArray": eventProperties.requiredStringArray,
+      "requiredBooleanArray": eventProperties.requiredBooleanArray,
       "requiredNumberArray": eventProperties.requiredNumberArray,
-      "requiredBooleanArray": eventProperties.requiredBooleanArray
+      "requiredObjectArray": eventProperties.requiredObjectArray,
+      "requiredStringArray": eventProperties.requiredStringArray
     ];
     super.init(
       eventType: "Event With Array Types",
@@ -447,12 +447,12 @@ public class EventWithArrayTypes : Event {
 public class EventWithConstTypes : Event {
   init() {
     let propertyDict: [String: Any] = [
-      "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
-      "String Const": "String-Constant",
-      "String Int Const": 0,
-      "Integer Const": 10,
       "Boolean Const": true,
-      "Number Const": 2.2
+      "Integer Const": 10,
+      "Number Const": 2.2,
+      "String Const": "String-Constant",
+      "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
+      "String Int Const": 0
     ];
     super.init(
       eventType: "Event With Const Types",
@@ -466,12 +466,12 @@ public class EventWithDifferentCasingTypes : Event {
     eventProperties: EventWithDifferentCasingTypesProperties
   ) {
     let propertyDict: [String: Any] = [
+      "enumCamelCase": eventProperties.enumCamelCase,
       "EnumPascalCase": eventProperties.enumPascalCase,
       "enum_snake_case": eventProperties.enumSnakeCase,
       "enum with space": eventProperties.enumWithSpace,
-      "PropertyWithPascalCase": eventProperties.propertyWithPascalCase,
-      "enumCamelCase": eventProperties.enumCamelCase,
       "propertyWithCamelCase": eventProperties.propertyWithCamelCase,
+      "PropertyWithPascalCase": eventProperties.propertyWithPascalCase,
       "property_with_snake_case": eventProperties.propertyWithSnakeCase,
       "property with space": eventProperties.propertyWithSpace
     ];
@@ -502,10 +502,10 @@ public class EventWithOptionalArrayTypes : Event {
     eventProperties: EventWithOptionalArrayTypesProperties
   ) {
     let propertyDict: [String: Any] = [
+      "optionalBooleanArray": eventProperties.optionalBooleanArray as Any,
       "optionalJSONArray": eventProperties.optionalJsonArray as Any,
-      "optionalStringArray": eventProperties.optionalStringArray as Any,
       "optionalNumberArray": eventProperties.optionalNumberArray as Any,
-      "optionalBooleanArray": eventProperties.optionalBooleanArray as Any
+      "optionalStringArray": eventProperties.optionalStringArray as Any
     ];
     super.init(
       eventType: "Event With Optional Array Types",
@@ -521,8 +521,8 @@ public class EventWithOptionalProperties : Event {
     let propertyDict: [String: Any] = [
       "optionalArrayNumber": eventProperties.optionalArrayNumber as Any,
       "optionalArrayString": eventProperties.optionalArrayString as Any,
-      "optionalNumber": eventProperties.optionalNumber as Any,
       "optionalBoolean": eventProperties.optionalBoolean as Any,
+      "optionalNumber": eventProperties.optionalNumber as Any,
       "optionalString": eventProperties.optionalString as Any
     ];
     super.init(

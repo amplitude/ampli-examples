@@ -58,26 +58,26 @@ struct ContentView: View {
         //    ampli.load(options: LoadOptions(environment: AmpliEnvironment.development)
         //
         //    OR Provide a specific Amplitude API key
-        //    ampli.load(options: LoadOptions(client: LoadClient(apiKey: "Custom api key"))
+        //    ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: "Custom api key"))
         //
         //    OR Use an existing Amplitude instance
         //    requires "import Amplitude"
         //    let instance = Amplitude.instance("instanceName");
         //    instance.initializeApiKey("Custom api key");
-        //    ampli.load(options: LoadOptions(client: LoadClient(instance: instance)))
+        //    ampli.load(options: LoadOptions(client: LoadClientOptions(instance: instance)))
         //
         //    For testing you can disable ampli
         //    ampli.load(options: LoadOptions(disabled: ENV.IS_TESTING ? true: false))
         //
         //    Make as many Ampli instances as you want
         //    let ampli2 = new Ampli();
-        //    ampli2.load(options: LoadOptions(client: LoadClient(apiKey: "api-key-2"))
-        ampli.load(options: LoadOptions(environment: AmpliEnvironment.development, disabled: false, client: LoadClient(apiKey: ApiKey[AmpliEnvironment.development], instance: nil)));
-        ampli.eventNoProperties(userId: nil, extra: nil)
+        //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2"))
+        ampli.load();
+        ampli.eventNoProperties(extra: nil)
         let extraDict = ["test" : "extra test"];
-        ampli.eventMaxIntForTest(userId: nil, properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
-        ampli.eventWithConstTypes(userId: nil, extra: extraDict)
-        ampli.track(userId: nil, event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: nil)
+        ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
+        ampli.eventWithConstTypes(extra: extraDict)
+        ampli.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: nil)
         withAnimation {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()
