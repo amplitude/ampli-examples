@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import logo from './logo.svg';
 import './App.css';
 
 import * as Ampli from "./ampli";
 import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli";
-import { getSegmentMiddleware } from "./middleware/segmentMiddleware";
-import { stopMiddleware } from "./middleware/stopMiddleware";
+import { getSegmentMiddleware, loggingMiddleware, stopMiddleware } from "./middleware";
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
@@ -21,6 +21,8 @@ const ampli = Ampli.getInstance(undefined, {
 }, REACT_APP_AMPLITUDE_API_KEY);
 
 const userId = 'ampli-browser-js-user-id';
+
+ampli.addEventMiddleware(loggingMiddleware);
 
 /**
  * You can add middleware for 3rd party destination support

@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 const dotenv = require('dotenv');
 const { init: initAmplitudeNodeClient } = require('@amplitude/node');
 const Ampli = require('./ampli');
 const { EventWithOptionalProperties } = require('./ampli');
-const { getSegmentMiddleware } = require('./middleware/segmentMiddleware');
-const { stopMiddleware } = require('./middleware/stopMiddleware');
+const { getSegmentMiddleware, loggingMiddleware, stopMiddleware } = require('./middleware');
 
 const userId = 'ampli-node-js-user-id';
 
@@ -36,6 +36,11 @@ const ampli = Ampli.init(client);
  */
 // const ampli = new Ampli.Ampli(client);
 // Ampli.setInstance(ampli, 'myAmpli');
+
+/**
+ * Logging middleware
+ */
+ampli.client.addEventMiddleware(loggingMiddleware);
 
 /**
  * You can add middleware for 3rd party destination support
