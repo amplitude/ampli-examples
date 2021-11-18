@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -13,9 +15,6 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli)
  */
 
-/* tslint:disable */
-/* eslint-disable */
-
 import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
 
 export enum Environment {
@@ -23,7 +22,7 @@ export enum Environment {
   production = 'production'
 }
 
-export const ApiKey: Record<Environment | string, string> = {
+export const ApiKey: Record<Environment, string> = {
   development: '',
   production: ''
 };
@@ -38,6 +37,16 @@ export const DefaultConfig: ConfigExt = {
     source: 'browser-ts-ampli'
   }
 };
+
+export interface LoadOptions {
+  environment?: Environment;
+  disabled?: boolean;
+  client?: {
+    apiKey?: string;
+    config?: Partial<ConfigExt>;
+    instance?: AmplitudeClient;
+  }
+}
 
 export interface EventProperties {
     Context?:                       ContextProperties;
@@ -427,15 +436,38 @@ export class EventWithOptionalProperties implements BaseEvent {
 
 // prettier-ignore
 export class Ampli {
-  private readonly amplitude: AmplitudeClient;
+  private disabled: boolean = false;
+  private amplitude?: AmplitudeClient;
   private middlewares: Middleware[] = [];
-
-  constructor(amplitude: AmplitudeClient) {
-    this.amplitude = amplitude;
-  }
   
-  get client(): AmplitudeClient {
+  get client(): AmplitudeClient | undefined {
     return this.amplitude;
+  }
+
+  private isInitializedAndEnabled(): boolean {
+    if (!this.amplitude) {
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+    }
+    return !this.disabled;
+  }
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param options Configuration options to initialize the Ampli SDK with.
+   */
+  load(options?: LoadOptions): void {
+    this.disabled = options?.disabled ?? false;
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey ?? ApiKey[env];
+
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = amplitude.getInstance();
+      this.amplitude?.init(apiKey, undefined, options?.client?.config);
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+    }
   }
 
   /**
@@ -454,6 +486,10 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra
   ) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
@@ -462,21 +498,29 @@ export class Ampli {
     };
     this.runMiddleware({ event, extra }, payload => {
       if (userId) {
-        this.amplitude.setUserId(userId);
+        this.amplitude?.setUserId(userId);
       }
       if (deviceId) {
-        this.amplitude.setDeviceId(deviceId);
+        this.amplitude?.setDeviceId(deviceId);
       }
       const amplitudeIdentify = new AmplitudeIdentify();
       for (const [key, value] of Object.entries({ ...payload.event.event_properties })) {
         amplitudeIdentify.set(key, value as any);
       }
-      this.amplitude.identify(
+      this.amplitude?.identify(
         amplitudeIdentify,
         options?.callback,
         // options?.errorCallback
       );
     });
+  }
+
+  setGroup(name: string, value: string | string[], options?:GroupOptions, extra?: MiddlewareExtra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
+    this.amplitude?.setGroup(name, value);
   }
 
   /**
@@ -487,8 +531,12 @@ export class Ampli {
    * @param extra Extra unstructured data for middleware.
    */
   track(event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runMiddleware({ event, extra }, payload => {
-      this.amplitude.logEvent(
+      this.amplitude?.logEvent(
         payload.event.event_type,
         payload.event.event_properties,
         options?.callback,
@@ -726,45 +774,7 @@ export class Ampli {
   }
 }
 
-const DEFAULT_INSTANCE: string = Environment.development;
-const _instances: { [name: string]: Ampli } = {};
-
-/**
- * Get an Ampli instance
- * 
- * @param instance The Environment or name of the desired instance.
- * @param config Amplitude configuration options.
- * @param apiKey An Amplitude API key.
- */ 
-export function getInstance(
-  instance: Environment | string = DEFAULT_INSTANCE,
-  config: ConfigExt = DefaultConfig,
-  apiKey?: string
-): Ampli {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const key = apiKey || ApiKey[instance];
-    if (key === undefined || key === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    const amplitudeClient = amplitude.getInstance(instance);
-    amplitudeClient.init(key, undefined, config);
-    ampli = new Ampli(amplitudeClient);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- *
- * @param ampli     The Ampli instance
- * @param instance  The Environment or name of this instance
- */
-export function setInstance(ampli: Ampli, instance: Environment | string = DEFAULT_INSTANCE) {
-  _instances[instance] = ampli;
-}
-
+export const ampli = new Ampli();
 
 // BASE TYPES
 type ConfigExt = Partial<Config> & { plan?: Plan };
@@ -785,20 +795,15 @@ export type BaseEvent = {
   event_properties?: { [key: string]: any },
   plan?: Plan;
   user_id?: string;
-}
-export type IdentifyEvent = BaseEvent & {
-  event_type: SpecialEventType.Identify,
-  user_id?: string;
   device_id?: string;
-};
-export type GroupEvent = BaseEvent & {
-  event_type: SpecialEventType.Group,
-};
+}
+export type IdentifyEvent = BaseEvent & { event_type: SpecialEventType.Identify };
+export type GroupEvent = BaseEvent & { event_type: SpecialEventType.Group };
 export type Event = BaseEvent | IdentifyEvent | GroupEvent;
 
 type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
   callback: Callback;
-  errorCallback: Callback,
+  errorCallback: Callback;
 };
 export type EventOptions = BaseEventOptions ;
 export type IdentifyOptions = BaseEventOptions;

@@ -1,52 +1,95 @@
 import dotenv from 'dotenv';
-import { init as initAmplitudeNodeClient } from '@amplitude/node'
-import * as Ampli from './ampli';
-import { Environment, EventWithOptionalProperties } from './ampli';
-import { getSegmentMiddleware } from './middleware/segmentMiddleware';
-import { getSegmentItlyPluginMiddleware, Page } from './middleware/segmentItlyPluginMiddleware';
-import { stopMiddleware } from './middleware/stopMiddleware';
+import { LogLevel } from "@amplitude/types";
+import { Ampli, ampli, Environment, EventWithOptionalProperties, RequiredEnum } from './ampli';
+import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
+import { Service1 } from "./services/service-1";
+import { getUserIdMiddleware } from "./middleware/userIdMiddleware";
+import loggingMiddleware from "../../../browser/typescript/react-app/src/middleware/loggingMiddleware";
 
-const userId = 'ampli-node-ts-user-id';
+export const userId = 'ampli-node-ts-user-id';
 
 // Read Configuration
 dotenv.config()
 const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 
 /**
- * Get a default Ampli instance via getInstance()
+ * Start by calling ampli.load()
+ *
+ * 'ampli' is the default instance of Ampli()
+ */
+
+/**
+ * When you pull your tracking plan you can use the defaults and call load() without arguments
+ *
  * This requires connecting your account via `ampli pull`
  * which will set you API key in the generated Ampli SDK
  */
-// const ampli = Ampli.getInstance()
+// ampli.load();
+
 /**
  * OR Specify a Ampli.Environment
  */
-// const ampli = Ampli.getInstance(Environment.DEV);
+// ampli.load({ environment: Environment.development})
 
-/** OR Provide a specific API key */
-// const ampli = Ampli.init(AMPLITUDE_API_KEY);
+/** OR Provide a specific Amplitude API key */
+// ampli.load({ client: { apiKey: AMPLITUDE_API_KEY } })
 
 /**
  * OR Use an existing Amplitude NodeClient
  */
-const client = initAmplitudeNodeClient(AMPLITUDE_API_KEY, { logLevel: 3 });
-const ampli = Ampli.init(client);
+// const amplitudeNodeClient = init(AMPLITUDE_API_KEY, { logLevel: 3 });
+// ampli.load({ client: { instance: amplitudeNodeClient } });
 
 /**
- * OR Make your own Ampli instance
+ * OR Specify NodeClient 'options'
  */
-// const ampli = new Ampli.Ampli(client);
-// Ampli.setInstance(ampli, 'myAmpli');
+ampli.load({
+  client: {
+    apiKey: AMPLITUDE_API_KEY,
+    options: { logLevel: LogLevel.Verbose },
+  }
+});
 
 /**
- * You can add middleware for 3rd party destination support
+ * For testing you can disable ampli
+ */
+// ampli.load({
+//   disabled: process.env.IS_TESTING ? true : false,
+// });
+
+/**
+ * Make as many Ampli instances as you want
+ */
+// const ampli2 = new Ampli();
+// ampli2.load({ client: { apiKey: 'api-key-2' } });
+
+/**
+ * Middleware can be used for many things including
+ * logging, filtering, event modification and more.
+ */
+
+/**
+ * Logging
+ */
+ampli.client.addEventMiddleware(loggingMiddleware);
+
+/**
+ * 3rd party destination support
  */
 // const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
- * Legacy Itly Plugins can also be adapted to middleware
+ * Centralize user id logic
+ */
+// ampli.client.addEventMiddleware(getUserIdMiddleware(
+//   () => 'ampli-user-id-from-resolver',
+//   () => 'ampli-device-id-from-resolver'
+// ));
+
+/**
+ * Use Legacy Itly Plugins by adapting them to middleware
  */
 // const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addEventMiddleware(segmentItlyPluginMiddleware);
@@ -67,6 +110,8 @@ ampli.identify(userId, undefined,
   { platform: process.platform },
 );
 
+ampli.setGroup('test-group', 'a-group-value', { user_id: userId });
+
 /**
  * Track Events via strongly typed methods
  */
@@ -75,7 +120,7 @@ ampli.eventWithAllProperties(userId, {
   requiredNumber: 1.23,
   requiredArray: ["I'm", 'required'],
   requiredBoolean: false,
-  requiredEnum: Ampli.RequiredEnum.Enum1,
+  requiredEnum: RequiredEnum.Enum1,
   requiredInteger: 42,
   requiredString: 'Hi!',
 });
@@ -97,7 +142,8 @@ ampli.eventWithOptionalProperties(undefined,
   { segment: { anonymousId: 'anon-id' } } as UserTrackExtra
 )
 
-Ampli.getInstance().eventMaxIntForTest(userId, {
+// NOTICE: This will show a warning in the console about missing 'user_id' unless you add UserIdMiddleware
+ampli.eventMaxIntForTest(undefined, {
   intMax10: 5,
 });
 
@@ -111,9 +157,17 @@ ampli.track(userId, new Page({
   myPageProp: true,
 }));
 
+const myService = new Service1();
+myService.doAction1();
+myService.doAction2().then(() => {
+  console.log('Action 2 complete!');
+});
+
 /**
  * Flush all pending events
+ *
+ * Wait for returned promise to complete
  */
-ampli.flush().then(() => {
+ampli.flush().promise.then(() => {
   console.log("Ampli event tracking complete!");
 });
