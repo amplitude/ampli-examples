@@ -18,6 +18,22 @@
 import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
 
 /**
+ * @typedef {LoadClientOptions}
+ * @type {object}
+ * @property {string} [apiKey]
+ * @property {Config} [config]
+ * @property {AmplitudeClient} [instance]
+ */
+
+/**
+ * @typedef {LoadOptions}
+ * @type {object}
+ * @property {Environment.development|Environment.production} [environment]
+ * @property {boolean} [disabled]
+ * @property {LoadClientOptions} [client]
+ */
+
+/**
  * @typedef {BaseEvent}
  * @type {object}
  * @property {string} event_type
@@ -198,16 +214,44 @@ export class EventWithOptionalProperties {
   }
 }
 
-
 // prettier-ignore
 export class Ampli {
-  constructor(amplitude) {
-    this.amplitude = amplitude;
+  constructor() {
+    /* @type {AmplitudeClient|undefined} */
+    this.amplitude = undefined;
+    this.disabled = false;
+    /* @type {Middleware[]} */
     this.middlewares = [];
   }
 
   get client() {
     return this.amplitude;
+  }
+
+  isInitializedAndEnabled() {
+    if (!this.amplitude) {
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+    }
+    return !this.disabled;
+  }
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   */
+  load(options) {
+    this.disabled = options?.disabled ?? false;
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey ?? ApiKey[env];
+
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = amplitude.getInstance();
+      this.amplitude?.init(apiKey, undefined, options?.client?.config);
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+    }
   }
 
   /**
@@ -222,6 +266,10 @@ export class Ampli {
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   identify(userId, deviceId, properties, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     const event = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
@@ -247,6 +295,22 @@ export class Ampli {
     });
   }
 
+  /**
+   * Set Group for the current user
+   *
+   * @param {String} name
+   * @param {String|String[]} value
+   * @param {GroupOptions} [options]
+   * @param {MiddlewareExtra} [extra]
+   */
+  setGroup(name, value, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
+    this.amplitude?.setGroup(name, value);
+  }
+
 
   /**
    * Track event
@@ -256,6 +320,10 @@ export class Ampli {
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   track(event, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runMiddleware({ event, extra }, payload => {
       this.amplitude.logEvent(
         payload.event.event_type,
@@ -503,43 +571,4 @@ export class Ampli {
   }
 }
 
-export const DefaultInstance = Environment.development;
-/**
-* @type {Object.<string, {Ampli}> }
-* @private
-*/
-const _instances = {};
-
-/**
- * Get an Ampli instance
- *
- * @param {(Environment.development|Environment.production|string)} [instance] The Environment or name of the desired instance.
- * @param {Config} [config] Amplitude configuration options.
- * @param {string} [apiKey] An Amplitude API key.
- *
- * @return {Ampli}
- */
-export function getInstance(instance = DefaultInstance, config = DefaultConfig, apiKey) {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const key = apiKey || ApiKey[instance];
-    if (key === undefined || key === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    const amplitudeClient = amplitude.getInstance(instance);
-    amplitudeClient.init(key, undefined, config);
-    ampli = new Ampli(amplitudeClient);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- *
- * @param {Ampli} ampli The Ampli instance
- * @param {(Environment.development|Environment.production|string)} instance  The Environment or name of this instance
- */
-export function setInstance(ampli, instance = DefaultInstance) {
-  _instances[instance] = ampli;
-}
+export const ampli = new Ampli();
