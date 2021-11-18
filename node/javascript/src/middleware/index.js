@@ -1,3 +1,3 @@
-export { loggingMiddleware } from './loggingMiddleware';
-export { getSegmentMiddleware } from './segmentMiddleware';
-export { stopMiddleware } from './stopMiddleware';
+module.exports.loggingMiddleware = require('./loggingMiddleware').loggingMiddleware;
+module.exports.getSegmentMiddleware = require('./segmentMiddleware').getSegmentMiddleware;
+module.exports.stopMiddleware = require('./stopMiddleware').stopMiddleware;

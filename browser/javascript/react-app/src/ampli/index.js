@@ -228,6 +228,10 @@ export class Ampli {
     return this.amplitude;
   }
 
+  /**
+   * @private
+   * @return {boolean}
+   */
   isInitializedAndEnabled() {
     if (!this.amplitude) {
       throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');

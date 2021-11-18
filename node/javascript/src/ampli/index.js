@@ -19,6 +19,22 @@ const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 const { init: initNodeClient, NodeClient } = require('@amplitude/node');
 
 /**
+ * @typedef {LoadClientOptions}
+ * @type {object}
+ * @property {string} [apiKey]
+ * @property {Config} [config]
+ * @property {AmplitudeClient} [instance]
+ */
+
+/**
+ * @typedef {LoadOptions}
+ * @type {object}
+ * @property {Environment.development|Environment.production} [environment]
+ * @property {boolean} [disabled]
+ * @property {LoadClientOptions} [client]
+ */
+
+/**
  * @typedef {Object} EventOptions
  * @type {object}
  */
@@ -151,15 +167,67 @@ class EventWithOptionalProperties {
   }
 }
 
+const getDefaultPromiseResponse = () => Promise.resolve<Response>({
+  status: Status.Skipped,
+  statusCode: 200,
+});
+
+/**
+ * getIdentifyEvent
+ * @param {AmplitudeIdentify} amplitudeIdentify
+ * @param {string} [userId]
+ * @param {string} [deviceId]
+ * @return {IdentifyEvent}
+ */
+function getIdentifyEvent(amplitudeIdentify , userId, deviceId) {
+  const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
+  identifyEvent.user_id = userId;
+  identifyEvent.device_id = deviceId;
+
+  return identifyEvent;
+}
 
 // prettier-ignore
 class Ampli {
-  constructor(amplitude) {
-    this.amplitude = amplitude;
+  constructor() {
+    /* @type {NodeClient|undefined} */
+    this.amplitude = undefined;
+    this.disabled = false;
   }
-  
+
+  /**
+   * @return {NodeClient|undefined}
+   */
   get client() {
     return this.amplitude;
+  }
+
+  /**
+   * @private
+   * @return {boolean}
+   */
+  isInitializedAndEnabled() {
+    if (!this.amplitude) {
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+    }
+    return !this.disabled;
+  }
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   */
+  load(options) {
+    this.disabled = options?.disabled ?? false;
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey || ApiKey[env];
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+    }
   }
 
   /**
@@ -171,14 +239,45 @@ class Ampli {
    * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Options for this identify call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   identify(userId, deviceId, properties, options, extra) {
-    const amplitudeIdentify = new AmplitudeIdentify();
+    const identify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
-      amplitudeIdentify.set(key, value);
+      if (value !== undefined) {
+        identify.set(key, value);
+      }
     }
+    const identifyEvent = getIdentifyEvent(
+      identify,
+      userId || options.user_id,
+      deviceId || options.device_id,
+    );
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude?.logEvent({ ...options, ...identifyEvent }, extra)
+      : getDefaultPromiseResponse();
 
-    this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
+    return { promise };
+  }
+
+  /**
+   *
+   * @param {string} name
+   * @param {string} value
+   * @param {GroupOptions} [options]
+   * @param {MiddlewareExtra} [extra]
+   *
+   * @return {{promise: Promise<Response>}}
+   */
+  setGroup(name, value, options, extra) {
+    const identify = new AmplitudeIdentify().setGroup(name, value);
+    const identifyEvent = getIdentifyEvent(identify, options?.user_id, options?.device_id);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
 
   /**
@@ -366,7 +465,7 @@ class Ampli {
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
   eventWithOptionalArrayTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
   }
 
   /**
@@ -387,9 +486,11 @@ class Ampli {
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithOptionalProperties(userId, properties, options, extra) {
-    this.track(userId, new EventWithOptionalProperties(properties), options, extra);
+    return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }
   
   /**
@@ -398,72 +499,33 @@ class Ampli {
    * @param {BaseEvent} event The event.
    * @param {EventOptions} [options] Amplitude event options.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   track(userId, event, options, extra) {
-    return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra)
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
 
+  /**
+   * @return {{promise: Promise<Response>}}
+   */
   flush() {
-    return this.amplitude.flush();
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.flush()
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
 }
 
-/**
- * Initializes and returns a Ampli instance
- *
- * @param {(string|NodeClient)} apiKeyOrNodeClient  A API key (string) or Amplitude NodeClient instance
- * @param {Partial<Options>} options Amplitude NodeClient options
- * @return {Ampli}
- */
-function init(apiKeyOrNodeClient, options = DefaultOptions) {
-  const apiKey = typeof(apiKeyOrNodeClient) === 'string' ? apiKeyOrNodeClient : undefined;
-  const nodeClient = typeof(apiKeyOrNodeClient) === 'object' ? apiKeyOrNodeClient : initNodeClient(apiKey, options);
-  return new Ampli(nodeClient);
-}
-
-const DefaultInstance = Environment.development;
-/**
-* @type {Object.<string, {Ampli}> }
-* @private
-*/
-const _instances = {};
-
-/**
- * Get an Ampli instance
- *
- * @param {(Environment.development|Environment.production|string)} [instance] The Environment or name of the desired instance
- *
- * @return {Ampli}
- */
-function getInstance(instance = DefaultInstance) {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const apiKey = ApiKey[instance];
-    if (apiKey === undefined || apiKey === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    ampli = init(apiKey, DefaultOptions);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- *
- * @param {Ampli} ampli The Ampli instance
- * @param {(Environment.development|Environment.production|string)} instance  The Environment or name of this instance
- */
-function setInstance(ampli, instance = DefaultInstance) {
-  _instances[instance] = ampli;
-}
-
+module.exports.ampli = new Ampli();
 module.exports.Ampli = Ampli;
 module.exports.Environment = Environment;
 module.exports.DefaultOptions = DefaultOptions;
-module.exports.init = init;
-module.exports.getInstance = getInstance;
-module.exports.setInstance = setInstance;
 module.exports.EventMaxIntForTest = EventMaxIntForTest;
 module.exports.EventNoProperties = EventNoProperties;
 module.exports.EventObjectTypes = EventObjectTypes;
