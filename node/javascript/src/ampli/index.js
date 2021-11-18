@@ -524,6 +524,7 @@ class Ampli {
 
 module.exports.ampli = new Ampli();
 module.exports.Ampli = Ampli;
+module.exports.ApiKey = ApiKey;
 module.exports.Environment = Environment;
 module.exports.DefaultOptions = DefaultOptions;
 module.exports.EventMaxIntForTest = EventMaxIntForTest;
