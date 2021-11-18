@@ -27,26 +27,10 @@ let ApiKey: [AmpliEnvironment: String] = [
   .production:"af568af728fe7ecab9800979089ad112"
 ];
 
-let DefaultOptions = [
-  "plan":[
-    "branch": "main",
-    "source": "swift-ampli",
-    "version": "0"
-  ]];
-
-func objectToDictionary(propertyObj: Any?) -> [String: Any] {
-  var dictionary = [String: Any]();
-  if (propertyObj == nil) {
-      return dictionary;
-  }
-  let mirror = Mirror(reflecting: propertyObj!);
-  for (key, value) in mirror.children {
-      if let key = key {
-          dictionary[key] = value;
-      }
-  }
-  return dictionary
-}
+let AmpliObservePlan = AMPPlan()
+                      .setBranch("main")
+                      .setSource("swift-ampli")
+                      .setVersion("0");
 
 public class Event {
   var eventType: String
@@ -285,15 +269,15 @@ public struct EventWithOptionalArrayTypesProperties {
     /// Description for optional boolean array
     public let optionalBooleanArray: [Bool]?
     /// Description for optional object array
-    public let optionalJSONArray: [[String: Any?]]?
+    public let optionalJsonArray: [[String: Any?]]?
     /// Description for optional number array
     public let optionalNumberArray: [Double]?
     /// Description for optional string array
     public let optionalStringArray: [String]?
 
-    public init(optionalBooleanArray: [Bool]?, optionalJSONArray: [[String: Any?]]?, optionalNumberArray: [Double]?, optionalStringArray: [String]?) {
+    public init(optionalBooleanArray: [Bool]?, optionalJsonArray: [[String: Any?]]?, optionalNumberArray: [Double]?, optionalStringArray: [String]?) {
         self.optionalBooleanArray = optionalBooleanArray
-        self.optionalJSONArray = optionalJSONArray
+        self.optionalJsonArray = optionalJsonArray
         self.optionalNumberArray = optionalNumberArray
         self.optionalStringArray = optionalStringArray
     }
@@ -357,9 +341,13 @@ public class Identify : Event {
   init(
     eventProperties: IdentifyProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "optionalArray": eventProperties.optionalArray as Any,
+      "requiredNumber": eventProperties.requiredNumber
+    ];
     super.init(
       eventType: "Identify",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -368,9 +356,13 @@ public class Group : Event {
   init(
     eventProperties: GroupProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "requiredBoolean": eventProperties.requiredBoolean,
+      "optionalString": eventProperties.optionalString as Any
+    ];
     super.init(
       eventType: "Group",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -379,9 +371,12 @@ public class EventMaxIntForTest : Event {
   init(
     eventProperties: EventMaxIntForTestProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "intMax10": eventProperties.intMax10
+    ];
     super.init(
       eventType: "EventMaxIntForTest",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -399,9 +394,13 @@ public class EventObjectTypes : Event {
   init(
     eventProperties: EventObjectTypesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "requiredObjectArray": eventProperties.requiredObjectArray,
+      "requiredObject": eventProperties.requiredObject
+    ];
     super.init(
       eventType: "Event Object Types",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -411,12 +410,19 @@ public class EventWithAllProperties : Event {
     eventProperties: EventWithAllPropertiesProperties
   ) {
     let propertyDict: [String: Any] = [
-      "requiredConst": "some-const-value"
+      "requiredConst": "some-const-value",
+
+      "requiredInteger": eventProperties.requiredInteger,
+      "optionalString": eventProperties.optionalString as Any,
+      "requiredEnum": eventProperties.requiredEnum,
+      "requiredArray": eventProperties.requiredArray,
+      "requiredBoolean": eventProperties.requiredBoolean,
+      "requiredNumber": eventProperties.requiredNumber,
+      "requiredString": eventProperties.requiredString
     ];
-    let combinedDict = propertyDict.merging(objectToDictionary(propertyObj: eventProperties))  { (current, _) in current };
     super.init(
       eventType: "Event With All Properties",
-      eventProperties: combinedDict
+      eventProperties: propertyDict
     );
   }
 }
@@ -425,9 +431,15 @@ public class EventWithArrayTypes : Event {
   init(
     eventProperties: EventWithArrayTypesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "requiredObjectArray": eventProperties.requiredObjectArray,
+      "requiredStringArray": eventProperties.requiredStringArray,
+      "requiredNumberArray": eventProperties.requiredNumberArray,
+      "requiredBooleanArray": eventProperties.requiredBooleanArray
+    ];
     super.init(
       eventType: "Event With Array Types",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -442,7 +454,7 @@ public class EventWithConstTypes : Event {
       "Boolean Const": true,
       "Number Const": 2.2
     ];
-  super.init(
+    super.init(
       eventType: "Event With Const Types",
       eventProperties: propertyDict
     );
@@ -453,9 +465,19 @@ public class EventWithDifferentCasingTypes : Event {
   init(
     eventProperties: EventWithDifferentCasingTypesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "EnumPascalCase": eventProperties.enumPascalCase,
+      "enum_snake_case": eventProperties.enumSnakeCase,
+      "enum with space": eventProperties.enumWithSpace,
+      "PropertyWithPascalCase": eventProperties.propertyWithPascalCase,
+      "enumCamelCase": eventProperties.enumCamelCase,
+      "propertyWithCamelCase": eventProperties.propertyWithCamelCase,
+      "property_with_snake_case": eventProperties.propertyWithSnakeCase,
+      "property with space": eventProperties.propertyWithSpace
+    ];
     super.init(
       eventType: "event withDifferent_CasingTypes",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -464,9 +486,13 @@ public class EventWithEnumTypes : Event {
   init(
     eventProperties: EventWithEnumTypesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "optional enum": eventProperties.optionalEnum as Any,
+      "required enum": eventProperties.requiredEnum
+    ];
     super.init(
       eventType: "Event With Enum Types",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -475,9 +501,15 @@ public class EventWithOptionalArrayTypes : Event {
   init(
     eventProperties: EventWithOptionalArrayTypesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "optionalJSONArray": eventProperties.optionalJsonArray as Any,
+      "optionalStringArray": eventProperties.optionalStringArray as Any,
+      "optionalNumberArray": eventProperties.optionalNumberArray as Any,
+      "optionalBooleanArray": eventProperties.optionalBooleanArray as Any
+    ];
     super.init(
       eventType: "Event With Optional Array Types",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
@@ -486,14 +518,20 @@ public class EventWithOptionalProperties : Event {
   init(
     eventProperties: EventWithOptionalPropertiesProperties
   ) {
+    let propertyDict: [String: Any] = [
+      "optionalArrayNumber": eventProperties.optionalArrayNumber as Any,
+      "optionalArrayString": eventProperties.optionalArrayString as Any,
+      "optionalNumber": eventProperties.optionalNumber as Any,
+      "optionalBoolean": eventProperties.optionalBoolean as Any,
+      "optionalString": eventProperties.optionalString as Any
+    ];
     super.init(
       eventType: "Event With Optional Properties",
-      eventProperties: objectToDictionary(propertyObj: eventProperties)
+      eventProperties: propertyDict
     );
   }
 }
-
-public struct LoadClient {
+public struct LoadClientOptions {
   let apiKey: String?
   let instance: Amplitude?
 
@@ -506,9 +544,9 @@ public struct LoadClient {
 public struct LoadOptions {
   let environment: AmpliEnvironment?
   let disabled: Bool?
-  let client: LoadClient?
+  let client: LoadClientOptions?
 
-  init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClient? = nil) {
+  init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
     self.environment = environment
     self.disabled = disabled
     self.client = client
@@ -523,20 +561,22 @@ public class Ampli {
       disabled = false;
   }
 
-  public func load(options: LoadOptions) -> Void {
-      self.disabled = options.disabled ?? false;
-      let apiKey = options.client?.apiKey ?? (ApiKey[options.environment!] ?? "");
-      if (apiKey.isEmpty) {
-          NSLog("No 'environment' or 'apiKey' provided to ampli.load()");
-          return;
-      }
-      self.amplitude = options.client?.instance ?? initAmplitudeClient(apiKey: apiKey);
-      let plan = AMPPlan().setBranch(DefaultOptions["plan"]?["branch"])
-          .setSource(DefaultOptions["plan"]?["source"]).setVersion(DefaultOptions["plan"]?["version"]);
-      self.amplitude?.setPlan(plan!);
-  }
+  public func load(options: LoadOptions? = nil) -> Void {
+    self.disabled = options?.disabled ?? false;
+    let env = options?.environment ?? AmpliEnvironment.development;
+    let apiKey = options?.client?.apiKey ?? ApiKey[env];
 
-  public func track(userId: String?, event: Event, extra: MiddlewareExtra?) -> Void {
+    if (options?.client?.instance != nil) {
+        self.amplitude = options?.client?.instance;
+    } else if (apiKey != nil) {
+        self.amplitude = Amplitude.instance();
+        self.amplitude?.initializeApiKey(apiKey!);
+    }
+
+    self.amplitude?.setPlan(AmpliObservePlan!);
+}
+
+  public func track(event: Event, extra: MiddlewareExtra?) -> Void {
     if (!isInitializedAndEnabld()) {
         return;
     }
@@ -581,8 +621,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventMaxIntForTest(userId: String?, properties: EventMaxIntForTestProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventMaxIntForTest(eventProperties: properties), extra: extra);
+  public func eventMaxIntForTest(properties: EventMaxIntForTestProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventMaxIntForTest(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -597,8 +637,8 @@ public class Ampli {
   - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventNoProperties(userId: String?, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventNoProperties(), extra: extra);
+  public func eventNoProperties(extra: MiddlewareExtra?) {
+      self.track(event: EventNoProperties(), extra: extra);
   }
 
   /**
@@ -614,8 +654,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventObjectTypes(userId: String?, properties: EventObjectTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventObjectTypes(eventProperties: properties), extra: extra);
+  public func eventObjectTypes(properties: EventObjectTypesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventObjectTypes(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -631,8 +671,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithAllProperties(userId: String?, properties: EventWithAllPropertiesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithAllProperties(eventProperties: properties), extra: extra);
+  public func eventWithAllProperties(properties: EventWithAllPropertiesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithAllProperties(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -648,8 +688,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithArrayTypes(userId: String?, properties: EventWithArrayTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithArrayTypes(eventProperties: properties), extra: extra);
+  public func eventWithArrayTypes(properties: EventWithArrayTypesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithArrayTypes(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -664,8 +704,8 @@ public class Ampli {
   - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithConstTypes(userId: String?, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithConstTypes(), extra: extra);
+  public func eventWithConstTypes(extra: MiddlewareExtra?) {
+      self.track(event: EventWithConstTypes(), extra: extra);
   }
 
   /**
@@ -681,8 +721,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithDifferentCasingTypes(userId: String?, properties: EventWithDifferentCasingTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithDifferentCasingTypes(eventProperties: properties), extra: extra);
+  public func eventWithDifferentCasingTypes(properties: EventWithDifferentCasingTypesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithDifferentCasingTypes(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -698,8 +738,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithEnumTypes(userId: String?, properties: EventWithEnumTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithEnumTypes(eventProperties: properties), extra: extra);
+  public func eventWithEnumTypes(properties: EventWithEnumTypesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithEnumTypes(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -715,8 +755,8 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithOptionalArrayTypes(userId: String?, properties: EventWithOptionalArrayTypesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithOptionalArrayTypes(eventProperties: properties), extra: extra);
+  public func eventWithOptionalArrayTypes(properties: EventWithOptionalArrayTypesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithOptionalArrayTypes(eventProperties: properties), extra: extra);
   }
 
   /**
@@ -732,16 +772,9 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithOptionalProperties(userId: String?, properties: EventWithOptionalPropertiesProperties, extra: MiddlewareExtra?) {
-      self.track(userId: userId, event: EventWithOptionalProperties(eventProperties: properties), extra: extra);
+  public func eventWithOptionalProperties(properties: EventWithOptionalPropertiesProperties, extra: MiddlewareExtra?) {
+      self.track(event: EventWithOptionalProperties(eventProperties: properties), extra: extra);
   }
-
-  private func initAmplitudeClient(apiKey: String) -> Amplitude {
-    let amplitude = Amplitude.instance();
-    amplitude.initializeApiKey(apiKey);
-    return amplitude;
-  }
-
   private func isInitializedAndEnabld() -> Bool {
     if (self.amplitude == nil) {
         NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
