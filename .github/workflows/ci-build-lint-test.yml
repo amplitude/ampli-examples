@@ -20,26 +20,26 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      - name: Node JavaScript
-        run: cd node/javascript
-
-      - name: Install
+      - name: Node JS - Install
+        working-directory: node/javascript
         run: yarn install --frozen-lockfile
 
-      - name: Build
+      - name: Node JS - Build
+        working-directory: node/javascript
         run: yarn build
 
-      - name: Test
+      - name: Node JS - Test
+        working-directory: node/javascript
         run: yarn test
 
-      - name: Browser JavaScript
-        run: cd ../../browser/javascript
-
-      - name: Install
+      - name: Browser JS - Install
+        working-directory: browser/javascript
         run: yarn install --frozen-lockfile
 
-      - name: Build
+      - name: Browser JS - Build
+        working-directory: browser/javascript
         run: yarn build
 
-      - name: Test
+      - name: Browser JS - Test
+        working-directory: browser/javascript
         run: yarn test
