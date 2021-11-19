@@ -71,8 +71,9 @@ struct ContentView: View {
         //
         //    Make as many Ampli instances as you want
         //    let ampli2 = new Ampli();
-        //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2"))
-        ampli.load();
+        //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
+        let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"];
+        ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
         ampli.eventNoProperties(extra: nil)
         let extraDict = ["test" : "extra test"];
         ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
