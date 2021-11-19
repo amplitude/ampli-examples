@@ -179,7 +179,7 @@ const getDefaultPromiseResponse = () => Promise.resolve<Response>({
  * @param {string} [deviceId]
  * @return {IdentifyEvent}
  */
-function getIdentifyEvent(amplitudeIdentify , userId, deviceId) {
+function getIdentifyEvent(amplitudeIdentify, userId, deviceId) {
   const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
   identifyEvent.user_id = userId;
   identifyEvent.device_id = deviceId;
@@ -249,6 +249,7 @@ class Ampli {
         identify.set(key, value);
       }
     }
+
     const identifyEvent = getIdentifyEvent(
       identify,
       userId || options.user_id,
@@ -262,6 +263,7 @@ class Ampli {
   }
 
   /**
+   * Set Group name and value
    *
    * @param {string} name
    * @param {string} value
@@ -294,9 +296,11 @@ class Ampli {
    * @param {number} properties.intMax10 property to test schema validation
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventMaxIntForTest(userId, properties, options, extra) {
-    this.track(userId, new EventMaxIntForTest(properties), options, extra);
+    return this.track(userId, new EventMaxIntForTest(properties), options, extra);
   }
 
   /**
@@ -311,9 +315,11 @@ class Ampli {
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventNoProperties(userId, options, extra) {
-    this.track(userId, new EventNoProperties(), options, extra);
+    return this.track(userId, new EventNoProperties(), options, extra);
   }
 
   /**
@@ -331,9 +337,11 @@ class Ampli {
    * @param {*[]} properties.requiredObjectArray Property Object Array Type
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventObjectTypes(userId, properties, options, extra) {
-    this.track(userId, new EventObjectTypes(properties), options, extra);
+    return this.track(userId, new EventObjectTypes(properties), options, extra);
   }
 
   /**
@@ -356,9 +364,11 @@ class Ampli {
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithAllProperties(userId, properties, options, extra) {
-    this.track(userId, new EventWithAllProperties(properties), options, extra);
+    return this.track(userId, new EventWithAllProperties(properties), options, extra);
   }
 
   /**
@@ -378,9 +388,11 @@ class Ampli {
    * @param {string[]} properties.requiredStringArray description for required string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithArrayTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithArrayTypes(properties), options, extra);
   }
 
   /**
@@ -395,9 +407,11 @@ class Ampli {
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithConstTypes(userId, options, extra) {
-    this.track(userId, new EventWithConstTypes(), options, extra);
+    return this.track(userId, new EventWithConstTypes(), options, extra);
   }
 
   /**
@@ -421,9 +435,11 @@ class Ampli {
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithDifferentCasingTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
+    return this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
   }
 
   /**
@@ -441,9 +457,11 @@ class Ampli {
    * @param {string} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithEnumTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithEnumTypes(properties), options, extra);
+    return this.track(userId, new EventWithEnumTypes(properties), options, extra);
   }
 
   /**
@@ -463,6 +481,8 @@ class Ampli {
    * @param {string[]} [properties.optionalStringArray] Description for optional string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithOptionalArrayTypes(userId, properties, options, extra) {
     return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
@@ -492,7 +512,7 @@ class Ampli {
   eventWithOptionalProperties(userId, properties, options, extra) {
     return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }
-  
+
   /**
    * Track any event.
    * @param {string} userId The user's ID.
@@ -511,6 +531,8 @@ class Ampli {
   }
 
   /**
+   * Flush pending events in queue 
+   *
    * @return {{promise: Promise<Response>}}
    */
   flush() {
@@ -522,7 +544,6 @@ class Ampli {
   }
 }
 
-module.exports.ampli = new Ampli();
 module.exports.Ampli = Ampli;
 module.exports.ApiKey = ApiKey;
 module.exports.Environment = Environment;
@@ -537,3 +558,4 @@ module.exports.EventWithDifferentCasingTypes = EventWithDifferentCasingTypes;
 module.exports.EventWithEnumTypes = EventWithEnumTypes;
 module.exports.EventWithOptionalArrayTypes = EventWithOptionalArrayTypes;
 module.exports.EventWithOptionalProperties = EventWithOptionalProperties;
+module.exports.ampli = new Ampli();
