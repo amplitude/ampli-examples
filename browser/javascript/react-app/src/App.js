@@ -7,7 +7,7 @@ import { getSegmentMiddleware, loggingMiddleware, stopMiddleware } from './middl
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
-const userId = 'ampli-browser-ts-user-id';
+const userId = 'ampli-browser-js-user-id';
 
 /**
  * Start by calling ampli.load()

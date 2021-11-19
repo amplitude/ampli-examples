@@ -18,22 +18,6 @@
 import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
 
 /**
- * @typedef {LoadClientOptions}
- * @type {object}
- * @property {string} [apiKey]
- * @property {Config} [config]
- * @property {AmplitudeClient} [instance]
- */
-
-/**
- * @typedef {LoadOptions}
- * @type {object}
- * @property {Environment.development|Environment.production} [environment]
- * @property {boolean} [disabled]
- * @property {LoadClientOptions} [client]
- */
-
-/**
  * @typedef {BaseEvent}
  * @type {object}
  * @property {string} event_type
@@ -73,6 +57,22 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
  * @param {MiddlewarePayload} payload The event and extra data being sent
  * @param {MiddlewareNext} next Function to run the next middleware in the chain, not calling next will end the middleware chain
  * @return
+ */
+
+/**
+ * @typedef {LoadClientOptions}
+ * @type {object}
+ * @property {string} [apiKey]
+ * @property {Config} [config]
+ * @property {AmplitudeClient} [instance]
+ */
+
+/**
+ * @typedef {LoadOptions}
+ * @type {object}
+ * @property {Environment.development|Environment.production} [environment]
+ * @property {boolean} [disabled]
+ * @property {LoadClientOptions} [client]
  */
 
 /**
@@ -214,6 +214,7 @@ export class EventWithOptionalProperties {
   }
 }
 
+
 // prettier-ignore
 export class Ampli {
   constructor() {
@@ -314,7 +315,6 @@ export class Ampli {
 
     this.amplitude?.setGroup(name, value);
   }
-
 
   /**
    * Track event
