@@ -9,7 +9,6 @@ jobs:
     strategy:
       matrix:
         node-version: [ 12.x ]
-        dotnet: [ 3.1.x ]
 
     steps:
       - uses: actions/checkout@v2
@@ -29,13 +28,13 @@ jobs:
         run: yarn test
 
       - name: Browser JS - Install
-        working-directory: browser/javascript
+        working-directory: browser/javascript/react-app
         run: yarn install --frozen-lockfile
 
       - name: Browser JS - Build
-        working-directory: browser/javascript
+        working-directory: browser/javascript/react-app
         run: yarn build
 
       - name: Browser JS - Test
-        working-directory: browser/javascript
+        working-directory: browser/javascript/react-app
         run: yarn test

@@ -26,7 +26,7 @@ describe('Ampli Node JS SDK tests', () => {
 
   test('should track an event with no properties', done => {
     ampli.load();
-    ampli.client?.addEventMiddleware((payload) => {
+    ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event No Properties');
       done();
     });
