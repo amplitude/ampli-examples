@@ -24,10 +24,6 @@ jobs:
         working-directory: node/javascript
         run: yarn install --frozen-lockfile
 
-      - name: Node JS - Build
-        working-directory: node/javascript
-        run: yarn build
-
       - name: Node JS - Test
         working-directory: node/javascript
         run: yarn test
