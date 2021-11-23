@@ -24,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "gpr:fix": "rm -rf node_modules/amplitude-js && mv node_modules/@amplitude/amplitude-js node_modules/amplitude-js"
   },

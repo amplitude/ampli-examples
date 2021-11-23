@@ -38,3 +38,23 @@ jobs:
       - name: Browser JS - Test
         working-directory: browser/javascript/react-app
         run: yarn test
+
+      - name: Node TS - Install
+        working-directory: node/typescript
+        run: yarn install --frozen-lockfile
+
+      - name: Node TS - Test
+        working-directory: node/typescript
+        run: yarn test
+
+      - name: Browser TS - Install
+        working-directory: browser/typescript/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser TS - Build
+        working-directory: browser/typescript/react-app
+        run: yarn build
+
+      - name: Browser TS - Test
+        working-directory: browser/typescript/react-app
+        run: yarn test

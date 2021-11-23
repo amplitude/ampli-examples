@@ -94,11 +94,11 @@ export interface EventObjectTypesProperties {
     /**
      * Property Object Type
      */
-    requiredObject: { [key: string]: any };
+    requiredObject: any;
     /**
      * Property Object Array Type
      */
-    requiredObjectArray: { [key: string]: any }[];
+    requiredObjectArray: any[];
 }
 
 /**
@@ -158,7 +158,7 @@ export interface EventWithArrayTypesProperties {
     /**
      * Description for required object array
      */
-    requiredObjectArray: { [key: string]: any }[];
+    requiredObjectArray: any[];
     /**
      * description for required string array
      */
@@ -278,7 +278,7 @@ export interface EventWithOptionalArrayTypesProperties {
     /**
      * Description for optional object array
      */
-    optionalJSONArray?: { [key: string]: any }[];
+    optionalJSONArray?: any[];
     /**
      * Description for optional number array
      */
@@ -394,12 +394,12 @@ export class EventWithArrayTypes implements BaseEvent {
 export class EventWithConstTypes implements BaseEvent {
   event_type = 'Event With Const Types';
   event_properties = {
-    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-    'String Const': "String-Constant",
-    'String Int Const': 0,
-    'Integer Const': 10,
     'Boolean Const': true,
+    'Integer Const': 10,
     'Number Const': 2.2,
+    'String Const': "String-Constant",
+    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+    'String Int Const': 0,
   };
 }
 
@@ -484,10 +484,9 @@ export class Ampli {
 
   identify(
     userId: string | undefined,
-    deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
-    extra?: MiddlewareExtra
+    extra?: MiddlewareExtra,
   ) {
     const identify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
@@ -495,23 +494,25 @@ export class Ampli {
         identify.set(key, value);
       }
     }
-    const identifyEvent = getIdentifyEvent(
-      identify,
-      userId || options.user_id,
-      deviceId || options.device_id,
-    );
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra)
+      ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };
   }
 
-  setGroup(name: string, value: string, options?: GroupOptions, extra?: MiddlewareExtra) {
+  setGroup(
+    userId: string | undefined,
+    name: string,
+    value: string,
+    options?: GroupOptions,
+    extra?: MiddlewareExtra,
+  ) {
     const identify = new AmplitudeIdentify().setGroup(name, value);
-    const identifyEvent = getIdentifyEvent(identify, options?.user_id, options?.device_id);
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra,)
       : getDefaultPromiseResponse();
 
     return { promise };
@@ -519,7 +520,7 @@ export class Ampli {
 
   track(userId: string | undefined, event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra)
+      ? this.amplitude!.logEvent({ ...options, ...event,  user_id: userId }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };
@@ -527,7 +528,7 @@ export class Ampli {
 
   flush() {
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.flush()
+      ? this.amplitude!.flush()
       : getDefaultPromiseResponse();
 
     return { promise };
@@ -587,7 +588,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredObject)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -610,7 +611,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredInteger)
+   * @param properties The event's properties (e.g. optionalString)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -633,7 +634,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -677,7 +678,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. EnumPascalCase)
+   * @param properties The event's properties (e.g. enumCamelCase)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -723,7 +724,7 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param userId The user's ID.
-   * @param properties The event's properties (e.g. optionalJSONArray)
+   * @param properties The event's properties (e.g. optionalBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */

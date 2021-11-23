@@ -233,7 +233,6 @@ class Ampli {
   /**
    * Identify a user and set or update that user's properties.
    * @param {string|undefined} userId The user's ID.
-   * @param {string|undefined} deviceId The device ID.
    * @param {Object} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
    * @param {number} properties.requiredNumber Description for identify requiredNumber
@@ -242,7 +241,7 @@ class Ampli {
    *
    * @return {{promise: Promise<Response>}}
    */
-  identify(userId, deviceId, properties, options, extra) {
+  identify(userId, properties, options, extra) {
     const identify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
       if (value !== undefined) {
@@ -250,11 +249,7 @@ class Ampli {
       }
     }
 
-    const identifyEvent = getIdentifyEvent(
-      identify,
-      userId || options.user_id,
-      deviceId || options.device_id,
-    );
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude?.logEvent({ ...options, ...identifyEvent }, extra)
       : getDefaultPromiseResponse();
@@ -265,6 +260,7 @@ class Ampli {
   /**
    * Set Group name and value
    *
+   * @param {string|undefined} userId The user's Id
    * @param {string} name
    * @param {string} value
    * @param {GroupOptions} [options]
@@ -272,9 +268,9 @@ class Ampli {
    *
    * @return {{promise: Promise<Response>}}
    */
-  setGroup(name, value, options, extra) {
+  setGroup(userId, name, value, options, extra) {
     const identify = new AmplitudeIdentify().setGroup(name, value);
-    const identifyEvent = getIdentifyEvent(identify, options?.user_id, options?.device_id);
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
       : getDefaultPromiseResponse();
@@ -515,7 +511,7 @@ class Ampli {
 
   /**
    * Track any event.
-   * @param {string} userId The user's ID.
+   * @param {string|undefined} userId The user's ID.
    * @param {BaseEvent} event The event.
    * @param {EventOptions} [options] Amplitude event options.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.

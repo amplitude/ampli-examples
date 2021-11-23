@@ -101,7 +101,7 @@ ampli.client.addEventMiddleware(loggingMiddleware);
 /**
  * Identify the user
  */
-ampli.identify(userId, undefined,
+ampli.identify(userId,
   // Strongly typed user traits from your tracking plan
   { requiredNumber: 42 },
   // `options` allows setting additional Amplitude fields

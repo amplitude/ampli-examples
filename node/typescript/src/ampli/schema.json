@@ -57,10 +57,10 @@
           "title": "optionalArray",
           "description": "Description for identify optionalArray",
           "type": "array",
-          "uniqueItems": false,
           "items": {
             "type": "string"
-          }
+          },
+          "uniqueItems": false
         },
         "requiredNumber": {
           "title": "requiredNumber",
@@ -76,15 +76,15 @@
     "GroupProperties": {
       "type": "object",
       "properties": {
-        "requiredBoolean": {
-          "title": "requiredBoolean",
-          "description": "Description for group requiredBoolean",
-          "type": "boolean"
-        },
         "optionalString": {
           "title": "optionalString",
           "description": "Description for group optionalString",
           "type": "string"
+        },
+        "requiredBoolean": {
+          "title": "requiredBoolean",
+          "description": "Description for group requiredBoolean",
+          "type": "boolean"
         }
       },
       "required": [
@@ -124,22 +124,19 @@
       "description": "Event with Object and Object Array",
       "type": "object",
       "properties": {
+        "requiredObject": {
+          "description": "Property Object Type"
+        },
         "requiredObjectArray": {
           "description": "Property Object Array Type",
           "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "requiredObject": {
-          "description": "Property Object Type",
-          "type": "object"
+          "items": {}
         }
       },
       "additionalProperties": false,
       "required": [
-        "requiredObjectArray",
-        "requiredObject"
+        "requiredObject",
+        "requiredObjectArray"
       ]
     },
     "EventWithAllPropertiesProperties": {
@@ -148,13 +145,21 @@
       "description": "Event w all properties description",
       "type": "object",
       "properties": {
-        "requiredInteger": {
-          "description": "Event 2 Property - Integer    *     * Examples:    * 5, 4, 3",
-          "type": "integer"
-        },
         "optionalString": {
           "description": "Event 2 Property - Optional String    *     * Examples:    * Some string, or another",
           "type": "string"
+        },
+        "requiredArray": {
+          "description": "Event 2 Property - Array",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "requiredBoolean": {
+          "description": "Event 2 Property - Boolean",
+          "type": "boolean"
         },
         "requiredConst": {
           "description": "Event 2 Property - Const",
@@ -167,17 +172,9 @@
             "Enum2"
           ]
         },
-        "requiredArray": {
-          "description": "Event 2 Property - Array",
-          "type": "array",
-          "minItems": 0,
-          "items": {
-            "type": "string"
-          }
-        },
-        "requiredBoolean": {
-          "description": "Event 2 Property - Boolean",
-          "type": "boolean"
+        "requiredInteger": {
+          "description": "Event 2 Property - Integer    *     * Examples:    * 5, 4, 3",
+          "type": "integer"
         },
         "requiredNumber": {
           "description": "Event 2 Property - Number",
@@ -190,11 +187,11 @@
       },
       "additionalProperties": false,
       "required": [
-        "requiredInteger",
-        "requiredConst",
-        "requiredEnum",
         "requiredArray",
         "requiredBoolean",
+        "requiredConst",
+        "requiredEnum",
+        "requiredInteger",
         "requiredNumber",
         "requiredString"
       ]
@@ -205,18 +202,11 @@
       "description": "Description for event with Array Types",
       "type": "object",
       "properties": {
-        "requiredObjectArray": {
-          "description": "Description for required object array",
+        "requiredBooleanArray": {
+          "description": "description for required boolean array",
           "type": "array",
           "items": {
-            "type": "object"
-          }
-        },
-        "requiredStringArray": {
-          "description": "description for required string array",
-          "type": "array",
-          "items": {
-            "type": "string"
+            "type": "boolean"
           }
         },
         "requiredNumberArray": {
@@ -226,20 +216,25 @@
             "type": "number"
           }
         },
-        "requiredBooleanArray": {
-          "description": "description for required boolean array",
+        "requiredObjectArray": {
+          "description": "Description for required object array",
+          "type": "array",
+          "items": {}
+        },
+        "requiredStringArray": {
+          "description": "description for required string array",
           "type": "array",
           "items": {
-            "type": "boolean"
+            "type": "string"
           }
         }
       },
       "additionalProperties": false,
       "required": [
-        "requiredObjectArray",
-        "requiredStringArray",
+        "requiredBooleanArray",
         "requiredNumberArray",
-        "requiredBooleanArray"
+        "requiredObjectArray",
+        "requiredStringArray"
       ]
     },
     "EventWithConstTypesProperties": {
@@ -248,39 +243,39 @@
       "description": "Description for event with const types",
       "type": "object",
       "properties": {
-        "String Const WIth Quotes": {
-          "description": "Description for Int With Quotes",
-          "const": "\"String \"Const With\" Quotes\""
-        },
-        "String Const": {
-          "description": "Description for string const",
-          "const": "String-Constant"
-        },
-        "String Int Const": {
-          "description": "Description for string int const",
-          "const": 0
+        "Boolean Const": {
+          "description": "Description for boolean const type",
+          "const": true
         },
         "Integer Const": {
           "description": "Description for integer const",
           "const": 10
         },
-        "Boolean Const": {
-          "description": "Description for boolean const type",
-          "const": true
-        },
         "Number Const": {
           "description": "Description for number const",
           "const": 2.2
+        },
+        "String Const": {
+          "description": "Description for string const",
+          "const": "String-Constant"
+        },
+        "String Const WIth Quotes": {
+          "description": "Description for Int With Quotes",
+          "const": "\"String \"Const With\" Quotes\""
+        },
+        "String Int Const": {
+          "description": "Description for string int const",
+          "const": 0
         }
       },
       "additionalProperties": false,
       "required": [
-        "String Const WIth Quotes",
-        "String Const",
-        "String Int Const",
-        "Integer Const",
         "Boolean Const",
-        "Number Const"
+        "Integer Const",
+        "Number Const",
+        "String Const",
+        "String Const WIth Quotes",
+        "String Int Const"
       ]
     },
     "EventWithDifferentCasingTypesProperties": {
@@ -289,6 +284,12 @@
       "description": "Description for case with space",
       "type": "object",
       "properties": {
+        "enumCamelCase": {
+          "description": "descriptionForEnumCamelCase",
+          "enum": [
+            "enumCamelCase"
+          ]
+        },
         "EnumPascalCase": {
           "description": "DescirptionForEnumPascalCase",
           "enum": [
@@ -307,18 +308,12 @@
             "enum with space"
           ]
         },
-        "PropertyWithPascalCase": {
-          "description": "DescriptionForPascalCase",
-          "type": "string"
-        },
-        "enumCamelCase": {
-          "description": "descriptionForEnumCamelCase",
-          "enum": [
-            "enumCamelCase"
-          ]
-        },
         "propertyWithCamelCase": {
           "description": "descriptionForCamelCase",
+          "type": "string"
+        },
+        "PropertyWithPascalCase": {
+          "description": "DescriptionForPascalCase",
           "type": "string"
         },
         "property_with_snake_case": {
@@ -332,12 +327,12 @@
       },
       "additionalProperties": false,
       "required": [
+        "enumCamelCase",
         "EnumPascalCase",
         "enum_snake_case",
         "enum with space",
-        "PropertyWithPascalCase",
-        "enumCamelCase",
         "propertyWithCamelCase",
+        "PropertyWithPascalCase",
         "property_with_snake_case",
         "property with space"
       ]
@@ -374,19 +369,17 @@
       "description": "Description for event with optional array types",
       "type": "object",
       "properties": {
+        "optionalBooleanArray": {
+          "description": "Description for optional boolean array",
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
         "optionalJSONArray": {
           "description": "Description for optional object array",
           "type": "array",
-          "items": {
-            "type": "object"
-          }
-        },
-        "optionalStringArray": {
-          "description": "Description for optional string array",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+          "items": {}
         },
         "optionalNumberArray": {
           "description": "Description for optional number array",
@@ -395,11 +388,11 @@
             "type": "number"
           }
         },
-        "optionalBooleanArray": {
-          "description": "Description for optional boolean array",
+        "optionalStringArray": {
+          "description": "Description for optional string array",
           "type": "array",
           "items": {
-            "type": "boolean"
+            "type": "string"
           }
         }
       },
@@ -426,13 +419,13 @@
             "type": "string"
           }
         },
-        "optionalNumber": {
-          "description": "",
-          "type": "number"
-        },
         "optionalBoolean": {
           "description": "",
           "type": "boolean"
+        },
+        "optionalNumber": {
+          "description": "",
+          "type": "number"
         },
         "optionalString": {
           "description": "Optional String property description",

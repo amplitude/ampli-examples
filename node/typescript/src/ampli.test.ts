@@ -1,9 +1,10 @@
 import { Ampli, ApiKey } from './ampli';
+import { SpecialEventType } from "@amplitude/types";
 
-describe('Ampli Browser JS SDK tests', () => {
+describe('Ampli Node JS SDK tests', () => {
   /** @typedef {Ampli}*/
   let ampli;
-  let userId = 'test-browser-js-ampli-user-id';
+  let userId = 'test-ampli-user-id';
 
   // Applies only to tests in this describe block
   beforeEach(() => {
@@ -26,14 +27,14 @@ describe('Ampli Browser JS SDK tests', () => {
 
   test('should identify()', done => {
     ampli.load();
-    ampli.addEventMiddleware((payload) => {
-      expect(payload.event.event_type).toBe('Identify');
+    ampli.client.addEventMiddleware((payload) => {
+      expect(payload.event.event_type).toBe(SpecialEventType.IDENTIFY);
       expect(payload.event.user_id).toBe(userId);
-      expect(payload.event).toEqual({
-        "device_id": undefined,
-        "event_type": "Identify",
-        "user_id": userId,
-        "event_properties": { optionalArray: ["A", "ray"], requiredNumber: 42 },
+      expect(payload.event.user_properties).toEqual({
+        "$set": {
+          optionalArray: ["A", "ray"],
+          requiredNumber: 42,
+        }
       });
       done();
     });
@@ -44,30 +45,36 @@ describe('Ampli Browser JS SDK tests', () => {
   });
 
   test('should setGroup()', () => {
-    const mockAmp = { setGroup: jest.fn() };
+    const mockAmp = { logEvent: jest.fn() };
 
     ampli.load({ client: { instance: mockAmp } });
 
-    ampli.setGroup('Group name', 'Group Value');
+    ampli.setGroup(userId, 'Group name', 'Group Value');
 
-    const setGroupCalls = mockAmp.setGroup.mock.calls;
-    expect(setGroupCalls.length).toBe(1);
-    expect(setGroupCalls[0]).toEqual(["Group name", "Group Value"]);
+    const logEventCalls = mockAmp.logEvent.mock.calls;
+    expect(logEventCalls.length).toBe(1);
+    expect(logEventCalls[0][0]).toEqual({
+      "device_id": undefined,
+      "event_type": "$identify",
+      "groups": {"Group name": "Group Value"},
+      "user_id": userId,
+      "user_properties": {"$set": {"Group name": "Group Value"}},
+    });
   });
 
   test('should track an event with no properties', done => {
     ampli.load();
-    ampli.addEventMiddleware((payload) => {
+    ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event No Properties');
-      expect(payload.event.event_properties).toBe(undefined);
       done();
     });
-    ampli.eventNoProperties();
+    ampli.eventNoProperties(userId);
+    ampli.flush();
   });
 
   test('should track an event with properties of all types', (done) => {
     ampli.load();
-    ampli.addEventMiddleware((payload) => {
+    ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event With All Properties');
       expect(payload.event.event_properties).toEqual({
         requiredBoolean: false,
@@ -80,7 +87,7 @@ describe('Ampli Browser JS SDK tests', () => {
       });
       done();
     })
-    ampli.eventWithAllProperties({
+    ampli.eventWithAllProperties(userId, {
       requiredBoolean: false,
       requiredInteger: 42,
       requiredEnum: "Enum1",
@@ -88,5 +95,6 @@ describe('Ampli Browser JS SDK tests', () => {
       requiredString: "Required string",
       requiredArray: ["Required","string"],
     });
+    ampli.flush();
   });
 });

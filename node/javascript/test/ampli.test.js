@@ -24,6 +24,43 @@ describe('Ampli Node JS SDK tests', () => {
     expect(() => ampli.load()).toThrow();
   });
 
+  test('should identify()', done => {
+    ampli.load();
+    ampli.client.addEventMiddleware((payload) => {
+      expect(payload.event.event_type).toBe('$identify');
+      expect(payload.event.user_id).toBe(userId);
+      expect(payload.event.user_properties).toEqual({
+        "$set": {
+          optionalArray: ["A", "ray"],
+          requiredNumber: 42,
+        }
+      });
+      done();
+    });
+    ampli.identify(userId, {
+      optionalArray: ["A", "ray"],
+      requiredNumber: 42,
+    });
+  });
+
+  test('should setGroup()', () => {
+    const mockAmp = { logEvent: jest.fn() };
+
+    ampli.load({ client: { instance: mockAmp } });
+
+    ampli.setGroup(userId, 'Group name', 'Group Value');
+
+    const logEventCalls = mockAmp.logEvent.mock.calls;
+    expect(logEventCalls.length).toBe(1);
+    expect(logEventCalls[0][0]).toEqual({
+      "device_id": undefined,
+      "event_type": "$identify",
+      "groups": {"Group name": "Group Value"},
+      "user_id": userId,
+      "user_properties": {"$set": {"Group name": "Group Value"}},
+    });
+  });
+
   test('should track an event with no properties', done => {
     ampli.load();
     ampli.client.addEventMiddleware((payload) => {

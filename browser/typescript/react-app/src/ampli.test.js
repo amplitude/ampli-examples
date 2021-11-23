@@ -1,9 +1,9 @@
 import { Ampli, ApiKey } from './ampli';
 
-describe('Ampli Browser JS SDK tests', () => {
+describe('Ampli Browser TS SDK tests', () => {
   /** @typedef {Ampli}*/
   let ampli;
-  let userId = 'test-browser-js-ampli-user-id';
+  let userId = 'test-browser-ts-ampli-user-id';
 
   // Applies only to tests in this describe block
   beforeEach(() => {

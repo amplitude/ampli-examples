@@ -104,7 +104,7 @@ function App() {
         <h2>Ampli Browser JavaScript Example with React</h2>
 
         <button onClick={() => {
-          ampli.identify(userId, undefined, {
+          ampli.identify(userId, {
             requiredNumber: 42,
           })
         }}>Identify</button>

@@ -262,15 +262,14 @@ export class Ampli {
   /**
    * Identify a user and set user properties.
    *
-   * @param [userId]  The user's id.
-   * @param [deviceId] The device id.
+   * @param {string|undefined} userId  The user's id.
    * @param {IdentifyProperties} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
      * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
-  identify(userId, deviceId, properties, options, extra) {
+  identify(userId, properties, options, extra) {
     if(!this.isInitializedAndEnabled()) {
       return;
     }
@@ -278,18 +277,19 @@ export class Ampli {
     const event = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
-      user_id: userId,
-      device_id: deviceId
+      user_id: userId || options?.user_id,
+      device_id: options?.device_id
     };
     this.runMiddleware({ event, extra }, payload => {
-      if (userId) {
-        this.amplitude.setUserId(userId);
+      const e = payload.event;
+      if (e.user_id) {
+        this.amplitude.setUserId(e.user_id);
       }
-      if (deviceId) {
-        this.amplitude.setDeviceId(deviceId);
+      if (e.device_id) {
+        this.amplitude.setDeviceId(e.device_id);
       }
       const amplitudeIdentify = new AmplitudeIdentify();
-      for (const [key, value] of Object.entries({ ...payload.event.event_properties })) {
+      for (const [key, value] of Object.entries({ ...e.event_properties })) {
         amplitudeIdentify.set(key, value);
       }
       this.amplitude.identify(
