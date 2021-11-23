@@ -555,7 +555,7 @@ public struct LoadOptions {
 
 public class Ampli {
   private var amplitude: Amplitude?;
-  private var disabled: Bool;
+  private(set) var disabled: Bool;
 
   static let instance: Ampli = {
       let defaultInstance = Ampli()
@@ -569,6 +569,10 @@ public class Ampli {
 
   public func load(options: LoadOptions? = nil) -> Void {
     self.disabled = options?.disabled ?? false;
+    if (self.amplitude != nil) {
+        NSLog("Ampli is already initialized.");
+        return;
+    }
     let env = options?.environment ?? AmpliEnvironment.development;
     let apiKey = options?.client?.apiKey ?? ApiKey[env];
 

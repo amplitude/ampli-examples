@@ -74,6 +74,7 @@ struct ContentView: View {
         //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
         let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"];
         ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
+        ampli.identify(userId: "ampli-swift-user", deviceId: nil, properties: IdentifyProperties(optionalArray: ["optional string"], requiredNumber: 22.0))
         ampli.eventNoProperties()
         let extraDict = ["test" : "extra test"];
         ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
