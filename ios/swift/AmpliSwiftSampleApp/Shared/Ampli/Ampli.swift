@@ -19,7 +19,7 @@ import Amplitude
 public typealias MiddlewareExtra = [String: Any]
 
 public enum AmpliEnvironment: Int {
-  case development,production;
+  case development, production;
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
@@ -557,6 +557,12 @@ public class Ampli {
   private var amplitude: Amplitude?;
   private var disabled: Bool;
 
+  static let instance: Ampli = {
+      let defaultInstance = Ampli()
+      defaultInstance.load();
+      return defaultInstance
+  }()
+
   init() {
       disabled = false;
   }
@@ -571,20 +577,23 @@ public class Ampli {
     } else if (apiKey != nil) {
         self.amplitude = Amplitude.instance();
         self.amplitude?.initializeApiKey(apiKey!);
+    } else {
+        NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+        return;
     }
 
     self.amplitude?.setPlan(AmpliObservePlan!);
 }
 
-  public func track(event: Event, extra: MiddlewareExtra?) -> Void {
-    if (!isInitializedAndEnabld()) {
+  public func track(event: Event, extra: MiddlewareExtra? = nil) -> Void {
+    if (!isInitializedAndEnabled()) {
         return;
     }
     amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
   }
 
-  public func identify(userId: String?, deviceId: String?, properties: IdentifyProperties?, extra: MiddlewareExtra?) -> Void {
-      if (!isInitializedAndEnabld()) {
+  public func identify(userId: String?, deviceId: String?, properties: IdentifyProperties?, extra: MiddlewareExtra? = nil) -> Void {
+      if (!isInitializedAndEnabled()) {
           return;
       }
       if (userId != nil) {
@@ -594,7 +603,12 @@ public class Ampli {
           amplitude?.setDeviceId(deviceId!);
       }
       let identifyArgs = AMPIdentify()
-      objectToDictionary(propertyObj: properties).forEach{ key, value in
+      let propertyDict: [String: Any] = [
+        "optionalArray": properties?.optionalArray as Any,
+        "requiredNumber": properties?.requiredNumber as Any
+      ];
+
+      propertyDict.forEach{ key, value in
           identifyArgs.set(key, value: value as? NSObject)
       }
 
@@ -602,7 +616,7 @@ public class Ampli {
   }
 
   public func flush() -> Void {
-      if (!isInitializedAndEnabld()) {
+      if (!isInitializedAndEnabled()) {
           return;
       }
       amplitude?.uploadEvents();
@@ -621,7 +635,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventMaxIntForTest(properties: EventMaxIntForTestProperties, extra: MiddlewareExtra?) {
+  public func eventMaxIntForTest(properties: EventMaxIntForTestProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventMaxIntForTest(eventProperties: properties), extra: extra);
   }
 
@@ -637,7 +651,7 @@ public class Ampli {
   - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventNoProperties(extra: MiddlewareExtra?) {
+  public func eventNoProperties(extra: MiddlewareExtra? = nil) {
       self.track(event: EventNoProperties(), extra: extra);
   }
 
@@ -654,7 +668,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventObjectTypes(properties: EventObjectTypesProperties, extra: MiddlewareExtra?) {
+  public func eventObjectTypes(properties: EventObjectTypesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventObjectTypes(eventProperties: properties), extra: extra);
   }
 
@@ -671,7 +685,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithAllProperties(properties: EventWithAllPropertiesProperties, extra: MiddlewareExtra?) {
+  public func eventWithAllProperties(properties: EventWithAllPropertiesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithAllProperties(eventProperties: properties), extra: extra);
   }
 
@@ -688,7 +702,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithArrayTypes(properties: EventWithArrayTypesProperties, extra: MiddlewareExtra?) {
+  public func eventWithArrayTypes(properties: EventWithArrayTypesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithArrayTypes(eventProperties: properties), extra: extra);
   }
 
@@ -704,7 +718,7 @@ public class Ampli {
   - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithConstTypes(extra: MiddlewareExtra?) {
+  public func eventWithConstTypes(extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithConstTypes(), extra: extra);
   }
 
@@ -721,7 +735,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithDifferentCasingTypes(properties: EventWithDifferentCasingTypesProperties, extra: MiddlewareExtra?) {
+  public func eventWithDifferentCasingTypes(properties: EventWithDifferentCasingTypesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithDifferentCasingTypes(eventProperties: properties), extra: extra);
   }
 
@@ -738,7 +752,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithEnumTypes(properties: EventWithEnumTypesProperties, extra: MiddlewareExtra?) {
+  public func eventWithEnumTypes(properties: EventWithEnumTypesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithEnumTypes(eventProperties: properties), extra: extra);
   }
 
@@ -755,7 +769,7 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithOptionalArrayTypes(properties: EventWithOptionalArrayTypesProperties, extra: MiddlewareExtra?) {
+  public func eventWithOptionalArrayTypes(properties: EventWithOptionalArrayTypesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithOptionalArrayTypes(eventProperties: properties), extra: extra);
   }
 
@@ -772,28 +786,14 @@ public class Ampli {
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
-  public func eventWithOptionalProperties(properties: EventWithOptionalPropertiesProperties, extra: MiddlewareExtra?) {
+  public func eventWithOptionalProperties(properties: EventWithOptionalPropertiesProperties, extra: MiddlewareExtra? = nil) {
       self.track(event: EventWithOptionalProperties(eventProperties: properties), extra: extra);
   }
-  private func isInitializedAndEnabld() -> Bool {
+  private func isInitializedAndEnabled() -> Bool {
     if (self.amplitude == nil) {
         NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
         return false;
     }
     return !self.disabled;
-  }
-
-  private func objectToDictionary(propertyObj: Any?) -> [String: Any] {
-      var dictionary = [String: Any]();
-      if (propertyObj == nil) {
-          return dictionary;
-      }
-      let mirror = Mirror(reflecting: propertyObj!);
-      for (key, value) in mirror.children {
-          if let key = key {
-              dictionary[key] = value;
-          }
-      }
-      return dictionary
   }
 }

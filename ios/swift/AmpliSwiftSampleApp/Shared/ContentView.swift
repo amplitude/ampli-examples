@@ -49,7 +49,7 @@ struct ContentView: View {
     private func addItem() {
         //    Start by calling ampli.load()
         //
-        //    'ampli' is the default instance of Ampli()
+        //    'Ampli.instance' is the default instance of Ampli()
         //
         //    When you pull your tracking plan you can use the defaults and call load() without arguments
         //    This requires connecting your account via `ampli pull` which will set you API key in the generated Ampli SDK
@@ -74,11 +74,11 @@ struct ContentView: View {
         //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
         let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"];
         ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
-        ampli.eventNoProperties(extra: nil)
+        ampli.eventNoProperties()
         let extraDict = ["test" : "extra test"];
         ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
         ampli.eventWithConstTypes(extra: extraDict)
-        ampli.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: nil)
+        ampli.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")))
         withAnimation {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()
