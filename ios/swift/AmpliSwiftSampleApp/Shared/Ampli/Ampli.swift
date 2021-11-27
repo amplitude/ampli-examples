@@ -635,7 +635,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -652,7 +651,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
   public func eventNoProperties(extra: MiddlewareExtra? = nil) {
@@ -668,7 +666,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -685,7 +682,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -702,7 +698,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -719,7 +714,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter extra Extra untyped parameters for use in middleware.
   */
   public func eventWithConstTypes(extra: MiddlewareExtra? = nil) {
@@ -735,7 +729,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -752,7 +745,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -769,7 +761,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */
@@ -786,7 +777,6 @@ public class Ampli {
 
   Owner: Test codegen
 
-  - Parameter userId The user's ID.
   - Parameter properties The event's properties
   - Parameter extra Extra untyped parameters for use in middleware.
   */

@@ -28,5 +28,5 @@ If you want to use your own tracking plan and Ampli SDK
 * Shared/ 
   * [ContentView](Shared/ContentView.swift) - Example user app using Ampli SDK. A good place to start.
   * Ampli/
-    * [Ampli.swift](src/Ampli/index.swift) - Generated SDK, don't modify by hand. Update with `ampli pull`
-    * [schema.json](src/Ampli/schema.json) - The full event schema for the tracking plan
+    * [Ampli.swift](Shared/Ampli/Ampli.swift) - Generated SDK, don't modify by hand. Update with `ampli pull`
+    * [schema.json](Shared/Ampli/schema.json) - The full event schema for the tracking plan
