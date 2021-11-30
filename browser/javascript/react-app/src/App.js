@@ -103,21 +103,17 @@ function App() {
         <img src={logo} className="App-logo" alt="logo"/>
         <h2>Ampli Browser JavaScript Example with React</h2>
 
-        <button onClick={() => {
-          ampli.identify(userId, {
-            requiredNumber: 42,
-          })
-        }}>Identify</button>
+        <button onClick={() => ampli.identify(userId, { requiredNumber: 42 })}>
+          Identify
+        </button>
 
-        <button onClick={() => {
-          ampli.setGroup('test group', 'browser-js-ampli')
-        }}>Group</button>
+        <button onClick={() => ampli.setGroup('test group', 'browser-js-ampli')}>
+          Group
+        </button>
 
-        <button onClick={() => {
-          ampli.track(new EventWithOptionalProperties({
-            optionalBoolean: true,
-          }));
-        }}>Event w/ Optional Properties</button>
+        <button onClick={() => ampli.track(new EventWithOptionalProperties({ optionalBoolean: true }))}>
+          Event w/ Optional Properties
+        </button>
 
         <button onClick={() => {
           ampli.eventWithAllProperties({

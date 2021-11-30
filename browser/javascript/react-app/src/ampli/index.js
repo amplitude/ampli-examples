@@ -15,7 +15,7 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-js-ampli)
  */
 
-import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
+import amplitude from 'amplitude-js';
 
 /**
  * @typedef {BaseEvent}
@@ -288,7 +288,7 @@ export class Ampli {
       if (e.device_id) {
         this.amplitude.setDeviceId(e.device_id);
       }
-      const amplitudeIdentify = new AmplitudeIdentify();
+      const amplitudeIdentify = new amplitude.Identify();
       for (const [key, value] of Object.entries({ ...e.event_properties })) {
         amplitudeIdentify.set(key, value);
       }
