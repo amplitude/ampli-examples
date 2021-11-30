@@ -5,10 +5,11 @@ on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [ 12.x ]
+    env:
+      REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
 
     steps:
       - uses: actions/checkout@v2
@@ -46,6 +47,8 @@ jobs:
       - name: Node TS - Test
         working-directory: node/typescript
         run: yarn test
+        env:
+          REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
 
       - name: Browser TS - Install
         working-directory: browser/typescript/react-app
