@@ -52,22 +52,6 @@ export interface LoadOptions {
   }
 }
 
-export interface EventProperties {
-    Context?:                       ContextProperties;
-    EventMaxIntForTest?:            EventMaxIntForTestProperties;
-    EventNoProperties?:             EventNoPropertiesProperties;
-    EventObjectTypes?:              EventObjectTypesProperties;
-    EventWithAllProperties?:        EventWithAllPropertiesProperties;
-    EventWithArrayTypes?:           EventWithArrayTypesProperties;
-    EventWithConstTypes?:           EventWithConstTypesProperties;
-    EventWithDifferentCasingTypes?: EventWithDifferentCasingTypesProperties;
-    EventWithEnumTypes?:            EventWithEnumTypesProperties;
-    EventWithOptionalArrayTypes?:   EventWithOptionalArrayTypesProperties;
-    EventWithOptionalProperties?:   EventWithOptionalPropertiesProperties;
-    Group?:                         GroupProperties;
-    Identify?:                      IdentifyProperties;
-}
-
 export interface ContextProperties {
 }
 
