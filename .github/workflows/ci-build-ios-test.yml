@@ -43,6 +43,7 @@ jobs:
       - name: Swfit iOS Tests
         working-directory: ./ios/swift/AmpliSwiftSampleApp
         run: |
+          pod install
           xcodebuild test \
             -workspace AmpliSwiftSampleApp.xcworkspace \
             -scheme AmpliSwiftSampleAppTests \
