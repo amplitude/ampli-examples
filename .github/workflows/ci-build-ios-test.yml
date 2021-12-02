@@ -13,10 +13,10 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set Xcode 13
+      - name: Set Xcode 12
         run: |
           ls -n /Applications/ | grep Xcode
-          sudo xcode-select -switch /Applications/Xcode_13.0.app
+          sudo xcode-select -switch /Applications/Xcode_12.app
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
@@ -48,4 +48,4 @@ jobs:
             -workspace AmpliSwiftSampleApp.xcworkspace \
             -scheme AmpliSwiftSampleAppTests \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
+            -destination 'platform=iOS Simulator,name=iPhone 11,OS=14.0'
