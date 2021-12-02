@@ -20,12 +20,13 @@ This will log events to your Amplitude project.
 If you want to use your own tracking plan and Ampli SDK
 1. `npm i -g @amplitude/ampli`
 2. `ampli pull`
-3. Update `ContentView.swift` to use the events from your tracking plan
+3. Update `TextView.swift` or `ContentView.swift` to use the events from your tracking plan
 
 # Project structure
 * README.md - you are here *
 * Podfile - pods dependency
 * Shared/ 
+  * [TextView](Shared/TextView.swift) - Example user app using Ampli SDK. A good place to start.
   * [ContentView](Shared/ContentView.swift) - Example user app using Ampli SDK. A good place to start.
   * Ampli/
     * [Ampli.swift](Shared/Ampli/Ampli.swift) - Generated SDK, don't modify by hand. Update with `ampli pull`
