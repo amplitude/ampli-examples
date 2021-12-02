@@ -49,3 +49,31 @@ jobs:
             -scheme AmpliSwiftSampleAppTests \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
+
+       - name: Cache Bundle Gems and Cocoapods For Objective-C
+        id: cache-gems-objc-pods
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./ios/objective-c/AmpliObjectiveCSampleApp/Pods
+            ./ios/objective-c/AmpliObjectiveCSampleApp/vendor/bundle
+          key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
+
+      - name: Install Cocoapods For Objective-C
+        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        if: steps.cache-gems-objc-pods.outputs.cache-hit != 'true'
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install
+          pod install
+
+      - name: Objective-C iOS Tests
+        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        run: |
+          pod install
+          xcodebuild test \
+            -workspace AmpliObjectiveCSampleApp.xcworkspace \
+            -scheme AmpliObjectiveCSampleApp \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'

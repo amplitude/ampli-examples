@@ -1,0 +1,21 @@
+def import_pods
+
+pod 'Amplitude', :git => 'https://github.com/amplitude/Amplitude-iOS.git', :branch => 'middleware-support'
+
+end
+
+inhibit_all_warnings!
+
+target 'AmpliObjectiveCSampleApp' do
+    platform :ios, '15.0'
+    project "AmpliObjectiveCSampleApp"
+
+    import_pods
+end
+
+target 'AmpliObjectiveCSampleAppTests' do
+    platform :ios, '15.0'
+    project "AmpliObjectiveCSampleApp"
+
+    import_pods
+end
