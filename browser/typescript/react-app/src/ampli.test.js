@@ -4,14 +4,12 @@ describe('Ampli Browser TS SDK tests', () => {
   /** @typedef {Ampli}*/
   let ampli;
   let userId = 'test-browser-ts-ampli-user-id';
-
-  // Applies only to tests in this describe block
+=
   beforeEach(() => {
     ampli = new Ampli();
     // Set API keys for tests
     ApiKey.production = 'test-api-key-prod';
-    ApiKey.development = 'test-api-key-dev';
-    // return initializeFoodDatabase();
+    ApiKey.development = 'test-api-key-dev';=
   });
 
   test('should load() without any arguments if there are ApiKeys for each environment', () => {
