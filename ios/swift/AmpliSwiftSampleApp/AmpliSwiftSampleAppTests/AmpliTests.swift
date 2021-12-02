@@ -14,10 +14,10 @@ class AmpliTests: XCTestCase {
     
     override func setUpWithError() throws {
         ampli = Ampli()
+        ampli?.load(options: LoadOptions(client: LoadClientOptions(apiKey: "test-api-key")))
     }
     
     func testIdenify() throws {
-        ampli?.load()
         let userId = "test-user-id";
         let deviceId = "test-device-id";
         let identifyProperties = IdentifyProperties(optionalArray: ["optional array str"], requiredNumber: 22.0)
@@ -31,7 +31,6 @@ class AmpliTests: XCTestCase {
     }
     
     func testTrackWithNoProperies() throws {
-        ampli?.load()
         ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event No Properties")
         })
@@ -39,7 +38,6 @@ class AmpliTests: XCTestCase {
     }
     
     func testTrackEventWithAllTypes() throws {
-        ampli?.load()
         let extraDict: MiddlewareExtra = ["test" : "extra test"];
         ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event With All Properties")
@@ -53,7 +51,6 @@ class AmpliTests: XCTestCase {
             XCTAssertNil(eventProperties!["optionalString"])
             XCTAssertEqual(payload.extra?["test"] as! String, "extra test")
         })
-        print(extraDict)
         ampli?.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
     }
 }
