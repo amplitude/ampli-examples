@@ -5,7 +5,7 @@ on: pull_request
 jobs:
   test:
     name: Test
-    runs-on: macos-11
+    runs-on: macos-11.5.2
     strategy:
       matrix:
         ruby-version: ["2.7.x"]
@@ -15,7 +15,8 @@ jobs:
 
       - name: Set Xcode 13
         run: |
-          sudo xcode-select -switch /Applications/Xcode_13.app
+          ls -n /Applications/ | grep Xcode
+          sudo xcode-select -switch /Applications/Xcode_13.0.app
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
