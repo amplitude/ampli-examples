@@ -24,8 +24,8 @@ jobs:
 
       - name: Cache Bundle Gems and Cocoapods For Swift
         id: cache-gems-pods
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
         uses: actions/cache@v2
-        working-directory: ios/swift/AmpliSwiftSampleApp
         with:
           path: |
             Pods
@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
 
       - name: Install Cocoapods For Swift
-        working-directory: ios/swift/AmpliSwiftSampleApp
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
         if: steps.cache-gems-pods.outputs.cache-hit != 'true'
         run: |
           gem install bundler
@@ -42,7 +42,7 @@ jobs:
           pod install
 
       - name: Swfit iOS Tests
-        working-directory: ios/swift/AmpliSwiftSampleApp
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
         run: |
           xcodebuild test \
             -workspace AmpliSwiftSampleApp.xcworkspace \
