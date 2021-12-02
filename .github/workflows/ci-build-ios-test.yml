@@ -5,7 +5,7 @@ on: pull_request
 jobs:
   test:
     name: Test
-    runs-on: macos-11.5.2
+    runs-on: macos-latest
     strategy:
       matrix:
         ruby-version: ["2.7.x"]
