@@ -5,22 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <BuildActionEntries>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3ECE2C34273F7B6C004EAA2C"
-               BuildableName = "AmpliSwiftSampleApp.app"
-               BlueprintName = "AmpliSwiftSampleApp (iOS)"
-               ReferencedContainer = "container:AmpliSwiftSampleApp.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -50,23 +34,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3ECE2C34273F7B6C004EAA2C"
-            BuildableName = "AmpliSwiftSampleApp.app"
-            BlueprintName = "AmpliSwiftSampleApp (iOS)"
-            ReferencedContainer = "container:AmpliSwiftSampleApp.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "AMPLITUDE_API_KEY"
-            value = "00aa083ba31d20782808820370c15a71"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -74,16 +41,6 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3ECE2C34273F7B6C004EAA2C"
-            BuildableName = "AmpliSwiftSampleApp.app"
-            BlueprintName = "AmpliSwiftSampleApp (iOS)"
-            ReferencedContainer = "container:AmpliSwiftSampleApp.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

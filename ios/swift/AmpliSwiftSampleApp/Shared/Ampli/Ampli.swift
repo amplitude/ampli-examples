@@ -329,7 +329,7 @@ public struct IdentifyProperties {
 }
 
 public class Context : Event {
-  init() {
+  public init() {
     super.init(
       eventType: "Context",
       eventProperties: nil
@@ -338,7 +338,7 @@ public class Context : Event {
 }
 
 public class Identify : Event {
-  init(
+  public init(
     eventProperties: IdentifyProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -353,7 +353,7 @@ public class Identify : Event {
 }
 
 public class Group : Event {
-  init(
+  public init(
     eventProperties: GroupProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -368,7 +368,7 @@ public class Group : Event {
 }
 
 public class EventMaxIntForTest : Event {
-  init(
+  public init(
     eventProperties: EventMaxIntForTestProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -382,7 +382,7 @@ public class EventMaxIntForTest : Event {
 }
 
 public class EventNoProperties : Event {
-  init() {
+  public init() {
     super.init(
       eventType: "Event No Properties",
       eventProperties: nil
@@ -391,7 +391,7 @@ public class EventNoProperties : Event {
 }
 
 public class EventObjectTypes : Event {
-  init(
+  public init(
     eventProperties: EventObjectTypesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -406,7 +406,7 @@ public class EventObjectTypes : Event {
 }
 
 public class EventWithAllProperties : Event {
-  init(
+  public init(
     eventProperties: EventWithAllPropertiesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -428,7 +428,7 @@ public class EventWithAllProperties : Event {
 }
 
 public class EventWithArrayTypes : Event {
-  init(
+  public init(
     eventProperties: EventWithArrayTypesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -445,7 +445,7 @@ public class EventWithArrayTypes : Event {
 }
 
 public class EventWithConstTypes : Event {
-  init() {
+  public init() {
     let propertyDict: [String: Any] = [
       "Boolean Const": true,
       "Integer Const": 10,
@@ -462,7 +462,7 @@ public class EventWithConstTypes : Event {
 }
 
 public class EventWithDifferentCasingTypes : Event {
-  init(
+  public init(
     eventProperties: EventWithDifferentCasingTypesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -483,7 +483,7 @@ public class EventWithDifferentCasingTypes : Event {
 }
 
 public class EventWithEnumTypes : Event {
-  init(
+  public init(
     eventProperties: EventWithEnumTypesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -498,7 +498,7 @@ public class EventWithEnumTypes : Event {
 }
 
 public class EventWithOptionalArrayTypes : Event {
-  init(
+  public init(
     eventProperties: EventWithOptionalArrayTypesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -515,7 +515,7 @@ public class EventWithOptionalArrayTypes : Event {
 }
 
 public class EventWithOptionalProperties : Event {
-  init(
+  public init(
     eventProperties: EventWithOptionalPropertiesProperties
   ) {
     let propertyDict: [String: Any] = [
@@ -535,10 +535,10 @@ public struct LoadClientOptions {
   let apiKey: String?
   let instance: Amplitude?
 
-    init(apiKey: String? = nil, instance: Amplitude? = nil) {
-        self.apiKey = apiKey
-        self.instance = instance
-    }
+  public init(apiKey: String? = nil, instance: Amplitude? = nil) {
+      self.apiKey = apiKey
+      self.instance = instance
+  }
 }
 
 public struct LoadOptions {
@@ -546,24 +546,30 @@ public struct LoadOptions {
   let disabled: Bool?
   let client: LoadClientOptions?
 
-  init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
+  public init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
     self.environment = environment
     self.disabled = disabled
     self.client = client
   }
 }
 
+public struct EventOptions {
+  let deviceId: String?
+  let userId: String?
+
+  public init(deviceId: String? = nil, userId: String? = nil) {
+      self.deviceId = deviceId;
+      self.userId = userId;
+  }
+}
+
 public class Ampli {
-  private var amplitude: Amplitude?;
-  private(set) var disabled: Bool;
+  public private(set) var amplitude: Amplitude?;
+  public private(set) var disabled: Bool;
 
-  static let instance: Ampli = {
-      let defaultInstance = Ampli()
-      defaultInstance.load();
-      return defaultInstance
-  }()
+  public static let instance: Ampli = Ampli()
 
-  init() {
+  public init() {
       disabled = false;
   }
 
@@ -589,22 +595,22 @@ public class Ampli {
     self.amplitude?.setPlan(AmpliObservePlan!);
 }
 
-  public func track(event: Event, extra: MiddlewareExtra? = nil) -> Void {
+  public func track(event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
     if (!isInitializedAndEnabled()) {
         return;
     }
     amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
   }
 
-  public func identify(userId: String?, deviceId: String?, properties: IdentifyProperties?, extra: MiddlewareExtra? = nil) -> Void {
+  public func identify(userId: String?, properties: IdentifyProperties?, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
       if (!isInitializedAndEnabled()) {
           return;
       }
       if (userId != nil) {
           amplitude?.setUserId(userId);
       }
-      if (deviceId != nil) {
-          amplitude?.setDeviceId(deviceId!);
+      if (options?.deviceId != nil) {
+          amplitude?.setDeviceId((options?.deviceId)!);
       }
       let identifyArgs = AMPIdentify()
       let propertyDict: [String: Any] = [

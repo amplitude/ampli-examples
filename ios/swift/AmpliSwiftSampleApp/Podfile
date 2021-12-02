@@ -15,3 +15,9 @@ target 'AmpliSwiftSampleApp (macOS)' do
 
     import_pods
 end
+
+target 'AmpliSwiftSampleAppTests' do
+    project "AmpliSwiftSampleApp"
+
+    import_pods
+end
