@@ -219,6 +219,12 @@ class Ampli {
    */
   load(options) {
     this.disabled = options?.disabled ?? false;
+
+    if (this.amplitude) {
+      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+      return;
+    }
+
     const env = options?.environment ?? Environment.development;
     const apiKey = options?.client?.apiKey || ApiKey[env];
     if (options?.client?.instance) {
