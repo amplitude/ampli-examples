@@ -28,6 +28,7 @@ jobs:
         with:
           path: |
             ./ios/swift/AmpliSwiftSampleApp/Pods
+            ./ios/swift/AmpliSwiftSampleApp/vendor/bundle
           key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
 
       - name: Install Cocoapods For Swift
