@@ -4,19 +4,24 @@ pod 'Amplitude', :path => '~/DIRECTORY_WITH_REPOSITORIES/Amplitude-iOS/'
 
 end
 
+inhibit_all_warnings!
+
 target 'AmpliSwiftSampleApp (iOS)' do
     project "AmpliSwiftSampleApp"
+    platform :ios, '15.0'
 
     import_pods
 end
 
 target 'AmpliSwiftSampleApp (macOS)' do
+    platform :macos, '12.0'
     project "AmpliSwiftSampleApp"
 
     import_pods
 end
 
 target 'AmpliSwiftSampleAppTests' do
+    platform :ios, '15.0'
     project "AmpliSwiftSampleApp"
 
     import_pods
