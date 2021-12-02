@@ -457,6 +457,12 @@ export class Ampli {
    */
   load(options?: LoadOptions): void {
     this.disabled = options?.disabled ?? false;
+
+    if (this.amplitude) {
+      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+      return;
+    }
+
     const env = options?.environment ?? Environment.development;
     const apiKey = options?.client?.apiKey ?? ApiKey[env];
 
@@ -464,7 +470,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude?.init(apiKey, undefined, options?.client?.config);
+      this.amplitude?.init(apiKey, null, { ...DefaultConfig, ...options?.client?.config });
     } else {
       throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
