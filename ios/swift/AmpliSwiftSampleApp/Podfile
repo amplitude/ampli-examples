@@ -8,7 +8,7 @@ inhibit_all_warnings!
 
 target 'AmpliSwiftSampleApp (iOS)' do
     project "AmpliSwiftSampleApp"
-    platform :ios, '14.0'
+    platform :ios, '15.0'
 
     import_pods
 end
@@ -21,7 +21,7 @@ target 'AmpliSwiftSampleApp (macOS)' do
 end
 
 target 'AmpliSwiftSampleAppTests' do
-    platform :ios, '14.0'
+    platform :ios, '15.0'
     project "AmpliSwiftSampleApp"
 
     import_pods
