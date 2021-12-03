@@ -50,7 +50,7 @@ jobs:
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
 
-       - name: Cache Bundle Gems and Cocoapods For Objective-C
+      - name: Cache Bundle Gems and Cocoapods For Objective-C
         id: cache-gems-objc-pods
         uses: actions/cache@v2
         with:
