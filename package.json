@@ -1,0 +1,24 @@
+{
+  "name": "ampli-examples",
+  "version": "1.0.0",
+  "description": "Examples using Amplitude Ampli SDKs",
+  "main": "README.md",
+  "scripts": {
+    "pull:all": "yarn pull:browser-js && yarn pull:browser-ts && yarn pull:node-js && yarn pull:node-ts",
+    "pull:browser-js": "cd ./browser/javascript/react-app && ampll pull",
+    "pull:browser-ts": "cd ./browser/typescript/react-app && ampll pull",
+    "pull:node-js": "cd ./node/javascript && ampll pull",
+    "pull:node-ts": "cd ./node/typescript && ampll pull",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amplitude/ampli-examples.git"
+  },
+  "author": "Amplitude Inc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amplitude/ampli-examples/issues"
+  },
+  "homepage": "https://github.com/amplitude/ampli-examples#readme"
+}

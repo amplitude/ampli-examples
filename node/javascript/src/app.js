@@ -1,9 +1,9 @@
+/* eslint-disable no-unused-vars */
 const dotenv = require('dotenv');
 const { init: initAmplitudeNodeClient } = require('@amplitude/node');
-const Ampli = require('./ampli');
+const { ampli } = require('./ampli');
 const { EventWithOptionalProperties } = require('./ampli');
-const { getSegmentMiddleware } = require('./middleware/segmentMiddleware');
-const { stopMiddleware } = require('./middleware/stopMiddleware');
+const { getSegmentMiddleware, loggingMiddleware, stopMiddleware } = require('./middleware');
 
 const userId = 'ampli-node-js-user-id';
 
@@ -12,36 +12,85 @@ dotenv.config()
 const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 
 /**
- * Get a default Ampli instance via getInstance()
+ * Start by calling ampli.load()
+ *
+ * 'ampli' is the default instance of Ampli()
+ */
+
+/**
+ * When you pull your tracking plan you can use the defaults and call load() without arguments
+ *
  * This requires connecting your account via `ampli pull`
  * which will set you API key in the generated Ampli SDK
  */
-// const ampli = Ampli.getInstance()
+// ampli.load();
+
 /**
  * OR Specify a Ampli.Environment
  */
-// const ampli = Ampli.getInstance(Environment.DEV);
+// ampli.load({ environment: Environment.development})
 
-/** OR Provide a specific API key */
-// const ampli = Ampli.init(AMPLITUDE_API_KEY);
+/** OR Provide a specific Amplitude API key */
+// ampli.load({ client: { apiKey: AMPLITUDE_API_KEY } })
 
 /**
  * OR Use an existing Amplitude NodeClient
  */
-const client = initAmplitudeNodeClient(AMPLITUDE_API_KEY, { logLevel: 3 });
-const ampli = Ampli.init(client);
+// const amplitudeNodeClient = init(AMPLITUDE_API_KEY, { logLevel: 3 });
+// ampli.load({ client: { instance: amplitudeNodeClient } });
 
 /**
- * OR Make your own Ampli instance
+ * OR Specify NodeClient 'options'
  */
-// const ampli = new Ampli.Ampli(client);
-// Ampli.setInstance(ampli, 'myAmpli');
+ampli.load({
+  client: {
+    apiKey: AMPLITUDE_API_KEY,
+    options: { logLevel: 3 },
+  }
+});
 
 /**
- * You can add middleware for 3rd party destination support
+ * For testing you can disable ampli
+ */
+// ampli.load({
+//   disabled: process.env.IS_TESTING ? true : false,
+// });
+
+/**
+ * Make as many Ampli instances as you want
+ */
+// const ampli2 = new Ampli();
+// ampli2.load({ client: { apiKey: 'api-key-2' } });
+
+/**
+ * Middleware can be used for many things including
+ * logging, filtering, event modification and more.
+ */
+
+/**
+ * Logging
+ */
+ampli.client.addEventMiddleware(loggingMiddleware);
+
+/**
+ * 3rd party destination support
  */
 // const segmentMiddleware = getSegmentMiddleware(SEGMENT_WRITE_KEY);
 // ampli.client.addEventMiddleware(segmentMiddleware);
+
+/**
+ * Centralize user id logic
+ */
+// ampli.client.addEventMiddleware(getUserIdMiddleware(
+//   () => 'ampli-user-id-from-resolver',
+//   () => 'ampli-device-id-from-resolver'
+// ));
+
+/**
+ * Use Legacy Itly Plugins by adapting them to middleware
+ */
+// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(SEGMENT_WRITE_KEY);
+// ampli.client.addEventMiddleware(segmentItlyPluginMiddleware);
 
 /**
  * Middleware can also modify the event stream
@@ -52,7 +101,7 @@ const ampli = Ampli.init(client);
 /**
  * Identify the user
  */
-ampli.identify(userId, undefined,
+ampli.identify(userId,
   // Strongly typed user traits from your tracking plan
   { requiredNumber: 42 },
   // `options` allows setting additional Amplitude fields
@@ -92,6 +141,6 @@ ampli.eventWithOptionalProperties(undefined,
 /**
  * Flush all pending events
  */
-ampli.flush().then(() => {
+ampli.flush().promise.then(() => {
   console.log("Ampli event tracking complete!");
 });

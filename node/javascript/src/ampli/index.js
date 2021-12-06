@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -13,11 +15,24 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-js-ampli)
  */
 
-/* tslint:disable */
-/* eslint-disable */
-
 const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 const { init: initNodeClient, NodeClient } = require('@amplitude/node');
+
+/**
+ * @typedef {LoadClientOptions}
+ * @type {object}
+ * @property {string} [apiKey]
+ * @property {Config} [config]
+ * @property {AmplitudeClient} [instance]
+ */
+
+/**
+ * @typedef {LoadOptions}
+ * @type {object}
+ * @property {Environment.development|Environment.production} [environment]
+ * @property {boolean} [disabled]
+ * @property {LoadClientOptions} [client]
+ */
 
 /**
  * @typedef {Object} EventOptions
@@ -114,12 +129,12 @@ class EventWithConstTypes {
   constructor() {
     this.event_type = 'Event With Const Types';
     this.event_properties = {
-      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-      'String Const': "String-Constant",
-      'String Int Const': 0,
-      'Integer Const': 10,
       'Boolean Const': true,
+      'Integer Const': 10,
       'Number Const': 2.2,
+      'String Const': "String-Constant",
+      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+      'String Int Const': 0,
     };
   }
 }
@@ -152,34 +167,121 @@ class EventWithOptionalProperties {
   }
 }
 
+const getDefaultPromiseResponse = () => Promise.resolve<Response>({
+  status: Status.Skipped,
+  statusCode: 200,
+});
+
+/**
+ * getIdentifyEvent
+ * @param {AmplitudeIdentify} amplitudeIdentify
+ * @param {string} [userId]
+ * @param {string} [deviceId]
+ * @return {IdentifyEvent}
+ */
+function getIdentifyEvent(amplitudeIdentify, userId, deviceId) {
+  const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
+  identifyEvent.user_id = userId;
+  identifyEvent.device_id = deviceId;
+
+  return identifyEvent;
+}
 
 // prettier-ignore
 class Ampli {
-  constructor(amplitude) {
-    this.amplitude = amplitude;
+  constructor() {
+    /* @type {NodeClient|undefined} */
+    this.amplitude = undefined;
+    this.disabled = false;
   }
-  
+
+  /**
+   * @return {NodeClient|undefined}
+   */
   get client() {
     return this.amplitude;
   }
 
   /**
+   * @private
+   * @return {boolean}
+   */
+  isInitializedAndEnabled() {
+    if (!this.amplitude) {
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+    }
+    return !this.disabled;
+  }
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   */
+  load(options) {
+    this.disabled = options?.disabled ?? false;
+
+    if (this.amplitude) {
+      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+      return;
+    }
+
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey || ApiKey[env];
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+    }
+  }
+
+  /**
    * Identify a user and set or update that user's properties.
    * @param {string|undefined} userId The user's ID.
-   * @param {string|undefined} deviceId The device ID.
    * @param {Object} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
    * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Options for this identify call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
-  identify(userId, deviceId, properties, options, extra) {
-    const amplitudeIdentify = new AmplitudeIdentify();
+  identify(userId, properties, options, extra) {
+    const identify = new AmplitudeIdentify();
     for (const [key, value] of Object.entries({ ...properties })) {
-      amplitudeIdentify.set(key, value);
+      if (value !== undefined) {
+        identify.set(key, value);
+      }
     }
 
-    this.amplitude.logEvent({ ...options, ...amplitudeIdentify.identifyUser(userId, deviceId) }, extra);
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude?.logEvent({ ...options, ...identifyEvent }, extra)
+      : getDefaultPromiseResponse();
+
+    return { promise };
+  }
+
+  /**
+   * Set Group name and value
+   *
+   * @param {string|undefined} userId The user's Id
+   * @param {string} name
+   * @param {string} value
+   * @param {GroupOptions} [options]
+   * @param {MiddlewareExtra} [extra]
+   *
+   * @return {{promise: Promise<Response>}}
+   */
+  setGroup(userId, name, value, options, extra) {
+    const identify = new AmplitudeIdentify().setGroup(name, value);
+    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
 
   /**
@@ -196,9 +298,11 @@ class Ampli {
    * @param {number} properties.intMax10 property to test schema validation
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventMaxIntForTest(userId, properties, options, extra) {
-    this.track(userId, new EventMaxIntForTest(properties), options, extra);
+    return this.track(userId, new EventMaxIntForTest(properties), options, extra);
   }
 
   /**
@@ -213,9 +317,11 @@ class Ampli {
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventNoProperties(userId, options, extra) {
-    this.track(userId, new EventNoProperties(), options, extra);
+    return this.track(userId, new EventNoProperties(), options, extra);
   }
 
   /**
@@ -229,13 +335,15 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Property Object Array Type
-   * @param {Object} properties.requiredObject Property Object Type
+   * @param {*} properties.requiredObject Property Object Type
+   * @param {*[]} properties.requiredObjectArray Property Object Array Type
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventObjectTypes(userId, properties, options, extra) {
-    this.track(userId, new EventObjectTypes(properties), options, extra);
+    return this.track(userId, new EventObjectTypes(properties), options, extra);
   }
 
   /**
@@ -249,18 +357,20 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {string} [properties.optionalString] Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-   * @param {string} properties.requiredEnum Event 2 Property - Enum
    * @param {string[]} properties.requiredArray Event 2 Property - Array
    * @param {boolean} properties.requiredBoolean Event 2 Property - Boolean
+   * @param {string} properties.requiredEnum Event 2 Property - Enum
+   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithAllProperties(userId, properties, options, extra) {
-    this.track(userId, new EventWithAllProperties(properties), options, extra);
+    return this.track(userId, new EventWithAllProperties(properties), options, extra);
   }
 
   /**
@@ -274,15 +384,17 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Description for required object array
-   * @param {string[]} properties.requiredStringArray description for required string array
-   * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
+   * @param {number[]} properties.requiredNumberArray Description for required number array
+   * @param {*[]} properties.requiredObjectArray Description for required object array
+   * @param {string[]} properties.requiredStringArray description for required string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithArrayTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithArrayTypes(properties), options, extra);
   }
 
   /**
@@ -297,9 +409,11 @@ class Ampli {
    * @param {string} userId The user's ID.
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithConstTypes(userId, options, extra) {
-    this.track(userId, new EventWithConstTypes(), options, extra);
+    return this.track(userId, new EventWithConstTypes(), options, extra);
   }
 
   /**
@@ -313,19 +427,21 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
+   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
    * @param {string} properties.enum_snake_case description_for_enum_snake_case
    * @param {string} properties.enum with space Description for enum with space
-   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
-   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
+   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
    * @param {string} properties.property_with_snake_case Description_for_snake_case
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithDifferentCasingTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
+    return this.track(userId, new EventWithDifferentCasingTypes(properties), options, extra);
   }
 
   /**
@@ -343,9 +459,11 @@ class Ampli {
    * @param {string} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithEnumTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithEnumTypes(properties), options, extra);
+    return this.track(userId, new EventWithEnumTypes(properties), options, extra);
   }
 
   /**
@@ -359,15 +477,17 @@ class Ampli {
    *
    * @param {string} userId The user's ID.
    * @param {Object} [properties] The event's properties.
-   * @param {Object[]} [properties.optionalJSONArray] Description for optional object array
-   * @param {string[]} [properties.optionalStringArray] Description for optional string array
-   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
+   * @param {*[]} [properties.optionalJSONArray] Description for optional object array
+   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
+   * @param {string[]} [properties.optionalStringArray] Description for optional string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithOptionalArrayTypes(userId, properties, options, extra) {
-    this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
+    return this.track(userId, new EventWithOptionalArrayTypes(properties), options, extra);
   }
 
   /**
@@ -383,88 +503,53 @@ class Ampli {
    * @param {Object} [properties] The event's properties.
    * @param {number[]} [properties.optionalArrayNumber] Property has no description in tracking plan.
    * @param {string[]} [properties.optionalArrayString] Property has no description in tracking plan.
-   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {boolean} [properties.optionalBoolean] Property has no description in tracking plan.
+   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   eventWithOptionalProperties(userId, properties, options, extra) {
-    this.track(userId, new EventWithOptionalProperties(properties), options, extra);
+    return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
   }
-  
+
   /**
    * Track any event.
-   * @param {string} userId The user's ID.
+   * @param {string|undefined} userId The user's ID.
    * @param {BaseEvent} event The event.
    * @param {EventOptions} [options] Amplitude event options.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
    */
   track(userId, event, options, extra) {
-    return this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.logEvent({ ...options, ...event,  user_id: userId }, extra)
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
 
+  /**
+   * Flush pending events in queue 
+   *
+   * @return {{promise: Promise<Response>}}
+   */
   flush() {
-    return this.amplitude.flush();
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude.flush()
+      : getDefaultPromiseResponse();
+
+    return { promise };
   }
-}
-
-/**
- * Initializes and returns a Ampli instance
- *
- * @param {(string|NodeClient)} apiKeyOrNodeClient  A API key (string) or Amplitude NodeClient instance
- * @param {Partial<Options>} options Amplitude NodeClient options
- * @return {Ampli}
- */
-function init(apiKeyOrNodeClient, options = DefaultOptions) {
-  const apiKey = typeof(apiKeyOrNodeClient) === 'string' ? apiKeyOrNodeClient : undefined;
-  const nodeClient = typeof(apiKeyOrNodeClient) === 'object' ? apiKeyOrNodeClient : initNodeClient(apiKey, options);
-  return new Ampli(nodeClient);
-}
-
-const DefaultInstance = Environment.development;
-/**
-* @type {Object.<string, {Ampli}> }
-* @private
-*/
-const _instances = {};
-
-/**
- * Get an Ampli instance
- *
- * @param {(Environment.development|Environment.production|string)} [instance] The Environment or name of the desired instance
- *
- * @return {Ampli}
- */
-function getInstance(instance = DefaultInstance) {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const apiKey = ApiKey[instance];
-    if (apiKey === undefined || apiKey === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    ampli = init(apiKey, DefaultOptions);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- *
- * @param {Ampli} ampli The Ampli instance
- * @param {(Environment.development|Environment.production|string)} instance  The Environment or name of this instance
- */
-function setInstance(ampli, instance = DefaultInstance) {
-  _instances[instance] = ampli;
 }
 
 module.exports.Ampli = Ampli;
+module.exports.ApiKey = ApiKey;
 module.exports.Environment = Environment;
 module.exports.DefaultOptions = DefaultOptions;
-module.exports.init = init;
-module.exports.getInstance = getInstance;
-module.exports.setInstance = setInstance;
 module.exports.EventMaxIntForTest = EventMaxIntForTest;
 module.exports.EventNoProperties = EventNoProperties;
 module.exports.EventObjectTypes = EventObjectTypes;
@@ -475,3 +560,4 @@ module.exports.EventWithDifferentCasingTypes = EventWithDifferentCasingTypes;
 module.exports.EventWithEnumTypes = EventWithEnumTypes;
 module.exports.EventWithOptionalArrayTypes = EventWithOptionalArrayTypes;
 module.exports.EventWithOptionalProperties = EventWithOptionalProperties;
+module.exports.ampli = new Ampli();

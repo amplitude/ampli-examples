@@ -108,21 +108,17 @@ function App() {
         <img src={logo} className="App-logo" alt="logo"/>
         <h2>Ampli Browser TypeScript Example with React</h2>
 
-        <button onClick={() => {
-          ampli.identify(userId, undefined, {
-            requiredNumber: 42,
-          })
-        }}>Identify</button>
+        <button onClick={() => ampli.identify(userId, { requiredNumber: 42 })}>
+          Identify
+        </button>
 
-        <button onClick={() => {
-          ampli.setGroup('test group', 'test group 1')
-        }}>Group</button>
+        <button onClick={() => ampli.setGroup('test group', 'test group 1')}>
+          Group
+        </button>
 
-        <button onClick={() => {
-          ampli.track(new EventWithOptionalProperties({
-            optionalBoolean: true,
-          }));
-        }}>Event w/ Optional Properties</button>
+        <button onClick={() => ampli.track(new EventWithOptionalProperties({ optionalBoolean: true }))}>
+          Event w/ Optional Properties
+        </button>
 
         <button onClick={() => {
           ampli.eventWithAllProperties({
@@ -133,7 +129,9 @@ function App() {
             requiredInteger: 42,
             requiredString: 'Hi!',
           })
-        }}>Event w/ All Properties</button>
+        }}>
+          Event w/ All Properties
+        </button>
 
         <button onClick={() => {
           ampli.track(new EventWithOptionalProperties({

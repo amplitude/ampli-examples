@@ -90,11 +90,11 @@ export interface EventObjectTypesProperties {
     /**
      * Property Object Type
      */
-    requiredObject: { [key: string]: any };
+    requiredObject: any;
     /**
      * Property Object Array Type
      */
-    requiredObjectArray: { [key: string]: any }[];
+    requiredObjectArray: any[];
 }
 
 /**
@@ -154,7 +154,7 @@ export interface EventWithArrayTypesProperties {
     /**
      * Description for required object array
      */
-    requiredObjectArray: { [key: string]: any }[];
+    requiredObjectArray: any[];
     /**
      * description for required string array
      */
@@ -274,7 +274,7 @@ export interface EventWithOptionalArrayTypesProperties {
     /**
      * Description for optional object array
      */
-    optionalJSONArray?: { [key: string]: any }[];
+    optionalJSONArray?: any[];
     /**
      * Description for optional number array
      */
@@ -392,12 +392,12 @@ export class EventWithArrayTypes implements BaseEvent {
 export class EventWithConstTypes implements BaseEvent {
   event_type = 'Event With Const Types';
   event_properties = {
-    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-    'String Const': "String-Constant",
-    'String Int Const': 0,
-    'Integer Const': 10,
     'Boolean Const': true,
+    'Integer Const': 10,
     'Number Const': 2.2,
+    'String Const': "String-Constant",
+    'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+    'String Int Const': 0,
   };
 }
 
@@ -457,6 +457,12 @@ export class Ampli {
    */
   load(options?: LoadOptions): void {
     this.disabled = options?.disabled ?? false;
+
+    if (this.amplitude) {
+      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+      return;
+    }
+
     const env = options?.environment ?? Environment.development;
     const apiKey = options?.client?.apiKey ?? ApiKey[env];
 
@@ -464,7 +470,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude?.init(apiKey, undefined, options?.client?.config);
+      this.amplitude?.init(apiKey, undefined, { ...DefaultConfig, ...options?.client?.config });
     } else {
       throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
@@ -474,14 +480,12 @@ export class Ampli {
    * Identify a user and set user properties.
    *
    * @param userId  The user's id.
-   * @param deviceId The device id.
    * @param properties The user properties.
    * @param options Optional event options.
    * @param extra Extra unstructured data for middleware.
    */
   identify(
     userId: string | undefined,
-    deviceId: string | undefined,
     properties: IdentifyProperties,
     options?: IdentifyOptions,
     extra?: MiddlewareExtra
@@ -493,18 +497,19 @@ export class Ampli {
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
-      user_id: userId,
-      device_id: deviceId
+      user_id: userId || options?.user_id,
+      device_id: options?.device_id
     };
     this.runMiddleware({ event, extra }, payload => {
-      if (userId) {
-        this.amplitude?.setUserId(userId);
+      const e = payload.event;
+      if (e.user_id) {
+        this.amplitude?.setUserId(e.user_id);
       }
-      if (deviceId) {
-        this.amplitude?.setDeviceId(deviceId);
+      if (e.device_id) {
+        this.amplitude?.setDeviceId(e.device_id);
       }
       const amplitudeIdentify = new AmplitudeIdentify();
-      for (const [key, value] of Object.entries({ ...payload.event.event_properties })) {
+      for (const [key, value] of Object.entries({ ...e.event_properties })) {
         amplitudeIdentify.set(key, value as any);
       }
       this.amplitude?.identify(
@@ -594,7 +599,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    *
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredObject)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -615,7 +620,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    *
-   * @param properties The event's properties (e.g. requiredInteger)
+   * @param properties The event's properties (e.g. optionalString)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -636,7 +641,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    *
-   * @param properties The event's properties (e.g. requiredObjectArray)
+   * @param properties The event's properties (e.g. requiredBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -676,7 +681,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    *
-   * @param properties The event's properties (e.g. EnumPascalCase)
+   * @param properties The event's properties (e.g. enumCamelCase)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */
@@ -718,7 +723,7 @@ export class Ampli {
    * 
    * Owner: Test codegen
    *
-   * @param properties The event's properties (e.g. optionalJSONArray)
+   * @param properties The event's properties (e.g. optionalBooleanArray)
    * @param options Amplitude event options.
    * @param extra Extra untyped parameters for use in middleware.
    */

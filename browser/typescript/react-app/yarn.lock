@@ -2,16 +2,6 @@
 # yarn lockfile v1
 
 
-"@amplitude/amplitude-js@^8.8.1-0":
-  version "8.8.1-0"
-  resolved "https://npm.pkg.github.com/download/@amplitude/amplitude-js/8.8.1-0/7f7977cabd7c80b1f04b773c1b1283a13fef36c2faf7d26c3b87fe76ea0a23c0#1992403a6430f6b4f4b366d6fe866675a4cddd1e"
-  integrity sha512-+lRoMQhkjOMMv7Qd4+pSwetrgLz5ViH5j1+RWpbKlJSzVKXei0zdkYVYKh2bgsVuwo9xLy/ntR/dhaVdrIYFCg==
-  dependencies:
-    "@amplitude/ua-parser-js" "0.7.25"
-    "@amplitude/utils" "^1.0.5"
-    blueimp-md5 "^2.10.0"
-    query-string "5"
-
 "@amplitude/types@^1.8.4":
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.4.tgz#393e251bd284f501d560fa7de0a97b2c50b647ea"

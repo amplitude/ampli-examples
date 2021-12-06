@@ -1,0 +1,63 @@
+name: CI - Build, Lint, Test
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Node JS - Install
+        working-directory: node/javascript
+        run: yarn install --frozen-lockfile
+
+      - name: Node JS - Test
+        working-directory: node/javascript
+        run: yarn test
+
+      - name: Browser JS - Install
+        working-directory: browser/javascript/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser JS - Build
+        working-directory: browser/javascript/react-app
+        run: yarn build
+
+      - name: Browser JS - Test
+        working-directory: browser/javascript/react-app
+        run: yarn test
+
+      - name: Node TS - Install
+        working-directory: node/typescript
+        run: yarn install --frozen-lockfile
+
+      - name: Node TS - Test
+        working-directory: node/typescript
+        run: yarn test
+        env:
+          REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
+
+      - name: Browser TS - Install
+        working-directory: browser/typescript/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser TS - Build
+        working-directory: browser/typescript/react-app
+        run: yarn build
+
+      - name: Browser TS - Test
+        working-directory: browser/typescript/react-app
+        run: yarn test

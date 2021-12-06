@@ -103,14 +103,14 @@ ampli.client.addEventMiddleware(loggingMiddleware);
 /**
  * Identify the user
  */
-ampli.identify(userId, undefined,
+ampli.identify(userId,
   // Strongly typed user traits from your tracking plan
   { requiredNumber: 42 },
   // `options` allows setting additional Amplitude fields
   { platform: process.platform },
 );
 
-ampli.setGroup('test-group', 'a-group-value', { user_id: userId });
+ampli.setGroup(userId, 'test-group', 'a-group-value');
 
 /**
  * Track Events via strongly typed methods

@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 /**
  * Ampli - A strong typed wrapper for your Analytics
  *
@@ -13,10 +15,7 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-js-ampli)
  */
 
-/* tslint:disable */
-/* eslint-disable */
-
-import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
+import amplitude from 'amplitude-js';
 
 /**
  * @typedef {BaseEvent}
@@ -58,6 +57,22 @@ import amplitude, { Identify as AmplitudeIdentify } from 'amplitude-js';
  * @param {MiddlewarePayload} payload The event and extra data being sent
  * @param {MiddlewareNext} next Function to run the next middleware in the chain, not calling next will end the middleware chain
  * @return
+ */
+
+/**
+ * @typedef {LoadClientOptions}
+ * @type {object}
+ * @property {string} [apiKey]
+ * @property {Config} [config]
+ * @property {AmplitudeClient} [instance]
+ */
+
+/**
+ * @typedef {LoadOptions}
+ * @type {object}
+ * @property {Environment.development|Environment.production} [environment]
+ * @property {boolean} [disabled]
+ * @property {LoadClientOptions} [client]
  */
 
 /**
@@ -161,12 +176,12 @@ export class EventWithConstTypes {
   constructor() {
     this.event_type = 'Event With Const Types';
     this.event_properties = {
-      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
-      'String Const': "String-Constant",
-      'String Int Const': 0,
-      'Integer Const': 10,
       'Boolean Const': true,
+      'Integer Const': 10,
       'Number Const': 2.2,
+      'String Const': "String-Constant",
+      'String Const WIth Quotes': "\"String \"Const With\" Quotes\"",
+      'String Int Const': 0,
     };
   }
 }
@@ -202,8 +217,11 @@ export class EventWithOptionalProperties {
 
 // prettier-ignore
 export class Ampli {
-  constructor(amplitude) {
-    this.amplitude = amplitude;
+  constructor() {
+    /* @type {AmplitudeClient|undefined} */
+    this.amplitude = undefined;
+    this.disabled = false;
+    /* @type {Middleware[]} */
     this.middlewares = [];
   }
 
@@ -212,42 +230,97 @@ export class Ampli {
   }
 
   /**
+   * @private
+   * @return {boolean}
+   */
+  isInitializedAndEnabled() {
+    if (!this.amplitude) {
+      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+    }
+    return !this.disabled;
+  }
+
+  /**
+   * Initialize the Ampli SDK. Call once when your application starts.
+   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   */
+  load(options) {
+    this.disabled = options?.disabled ?? false;
+
+    if (this.amplitude) {
+      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+      return;
+    }
+
+    const env = options?.environment ?? Environment.development;
+    const apiKey = options?.client?.apiKey ?? ApiKey[env];
+
+    if (options?.client?.instance) {
+      this.amplitude = options?.client?.instance;
+    } else if (apiKey) {
+      this.amplitude = amplitude.getInstance();
+      this.amplitude?.init(apiKey, undefined, { ...DefaultConfig, ...options?.client?.config });
+    } else {
+      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+    }
+  }
+
+  /**
    * Identify a user and set user properties.
    *
-   * @param [userId]  The user's id.
-   * @param [deviceId] The device id.
+   * @param {string|undefined} userId  The user's id.
    * @param {IdentifyProperties} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
      * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
-  identify(userId, deviceId, properties, options, extra) {
+  identify(userId, properties, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     const event = {
       event_type: SpecialEventType.Identify,
       event_properties: properties,
-      user_id: userId,
-      device_id: deviceId
+      user_id: userId || options?.user_id,
+      device_id: options?.device_id
     };
     this.runMiddleware({ event, extra }, payload => {
-      if (userId) {
-        this.amplitude.setUserId(userId);
+      const e = payload.event;
+      if (e.user_id) {
+        this.amplitude.setUserId(e.user_id);
       }
-      if (deviceId) {
-        this.amplitude.setDeviceId(deviceId);
+      if (e.device_id) {
+        this.amplitude.setDeviceId(e.device_id);
       }
-      const amplitudeIdentify = new AmplitudeIdentify();
-      for (const [key, value] of Object.entries({ ...payload.event.event_properties })) {
-        amplitudeIdentify.set(key, value);
+      const ampIdentify = new amplitude.Identify();
+      for (const [key, value] of Object.entries({ ...e.event_properties })) {
+        ampIdentify.set(key, value);
       }
       this.amplitude.identify(
-        amplitudeIdentify,
+        ampIdentify,
         options?.callback,
         options?.errorCallback
       );
     });
   }
 
+  /**
+   * Set Group for the current user
+   *
+   * @param {String} name
+   * @param {String|String[]} value
+   * @param {GroupOptions} [options]
+   * @param {MiddlewareExtra} [extra]
+   */
+  setGroup(name, value, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
+    this.amplitude?.setGroup(name, value);
+  }
 
   /**
    * Track event
@@ -257,6 +330,10 @@ export class Ampli {
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   track(event, options, extra) {
+    if(!this.isInitializedAndEnabled()) {
+      return;
+    }
+
     this.runMiddleware({ event, extra }, payload => {
       this.amplitude.logEvent(
         payload.event.event_type,
@@ -311,8 +388,8 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Property Object Array Type
-   * @param {Object} properties.requiredObject Property Object Type
+   * @param {*} properties.requiredObject Property Object Type
+   * @param {*[]} properties.requiredObjectArray Property Object Array Type
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -330,11 +407,11 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
-   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {string} [properties.optionalString] Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-   * @param {string} properties.requiredEnum Event 2 Property - Enum
    * @param {string[]} properties.requiredArray Event 2 Property - Array
    * @param {boolean} properties.requiredBoolean Event 2 Property - Boolean
+   * @param {string} properties.requiredEnum Event 2 Property - Enum
+   * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
    * @param {EventOptions} [options] Options for this track call.
@@ -354,10 +431,10 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
-   * @param {Object[]} properties.requiredObjectArray Description for required object array
-   * @param {string[]} properties.requiredStringArray description for required string array
-   * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
+   * @param {number[]} properties.requiredNumberArray Description for required number array
+   * @param {*[]} properties.requiredObjectArray Description for required object array
+   * @param {string[]} properties.requiredStringArray description for required string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -391,12 +468,12 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
+   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
    * @param {string} properties.enum_snake_case description_for_enum_snake_case
    * @param {string} properties.enum with space Description for enum with space
-   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
-   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
    * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
+   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
    * @param {string} properties.property_with_snake_case Description_for_snake_case
    * @param {string} properties.property with space Description for case with space
    * @param {EventOptions} [options] Options for this track call.
@@ -435,10 +512,10 @@ export class Ampli {
    * Owner: Test codegen
    *
    * @param {Object} [properties] The event's properties.
-   * @param {Object[]} [properties.optionalJSONArray] Description for optional object array
-   * @param {string[]} [properties.optionalStringArray] Description for optional string array
-   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
+   * @param {*[]} [properties.optionalJSONArray] Description for optional object array
+   * @param {number[]} [properties.optionalNumberArray] Description for optional number array
+   * @param {string[]} [properties.optionalStringArray] Description for optional string array
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -458,8 +535,8 @@ export class Ampli {
    * @param {Object} [properties] The event's properties.
    * @param {number[]} [properties.optionalArrayNumber] Property has no description in tracking plan.
    * @param {string[]} [properties.optionalArrayString] Property has no description in tracking plan.
-   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {boolean} [properties.optionalBoolean] Property has no description in tracking plan.
+   * @param {number} [properties.optionalNumber] Property has no description in tracking plan.
    * @param {string} [properties.optionalString] Optional String property description
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
@@ -504,43 +581,4 @@ export class Ampli {
   }
 }
 
-export const DefaultInstance = Environment.development;
-/**
-* @type {Object.<string, {Ampli}> }
-* @private
-*/
-const _instances = {};
-
-/**
- * Get an Ampli instance
- *
- * @param {(Environment.development|Environment.production|string)} [instance] The Environment or name of the desired instance.
- * @param {Config} [config] Amplitude configuration options.
- * @param {string} [apiKey] An Amplitude API key.
- *
- * @return {Ampli}
- */
-export function getInstance(instance = DefaultInstance, config = DefaultConfig, apiKey) {
-  let ampli = _instances[instance];
-  if (!ampli) {
-    const key = apiKey || ApiKey[instance];
-    if (key === undefined || key === '') {
-      throw new Error(`No API key or instance found for '${instance}'. Provide a valid environment or call Ampli.setInstance('${instance}', ...) before making this call.`);
-    }
-    const amplitudeClient = amplitude.getInstance(instance);
-    amplitudeClient.init(key, undefined, config);
-    ampli = new Ampli(amplitudeClient);
-    setInstance(ampli, instance);
-  }
-  return ampli;
-}
-
-/**
- * Stores and instance of Ampli for later retrieval via getInstance()
- *
- * @param {Ampli} ampli The Ampli instance
- * @param {(Environment.development|Environment.production|string)} instance  The Environment or name of this instance
- */
-export function setInstance(ampli, instance = DefaultInstance) {
-  _instances[instance] = ampli;
-}
+export const ampli = new Ampli();
