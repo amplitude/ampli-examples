@@ -23,8 +23,8 @@ public enum AmpliEnvironment: Int {
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
-  .development: "",
-  .production: ""
+  .development: "00aa083ba31d20782808820370c15a71",
+  .production: "af568af728fe7ecab9800979089ad112"
 ];
 
 let AmpliObservePlan = AMPPlan()
@@ -530,13 +530,23 @@ public class EventWithOptionalProperties : Event {
     );
   }
 }
+public struct LoadClientConfig {
+  let plan: AMPPlan?
+
+  public init(plan: AMPPlan? = nil) {
+      self.plan = plan
+  }
+}
+
 public struct LoadClientOptions {
   let apiKey: String?
   let instance: Amplitude?
+  let config: LoadClientConfig?
 
-  public init(apiKey: String? = nil, instance: Amplitude? = nil) {
-      self.apiKey = apiKey
-      self.instance = instance
+  public init(apiKey: String? = nil, instance: Amplitude? = nil, config: LoadClientConfig? = nil) {
+    self.apiKey = apiKey
+    self.instance = instance
+    self.config = config
   }
 }
 
@@ -575,7 +585,7 @@ public class Ampli {
   public func load(options: LoadOptions? = nil) -> Void {
     self.disabled = options?.disabled ?? false;
     if (self.amplitude != nil) {
-        NSLog("Ampli is already initialized.");
+        NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
         return;
     }
     let env = options?.environment ?? AmpliEnvironment.development;
@@ -591,7 +601,7 @@ public class Ampli {
         return;
     }
 
-    self.amplitude?.setPlan(AmpliObservePlan!);
+    self.amplitude?.setPlan(options?.client?.config?.plan ?? AmpliObservePlan!);
 }
 
   public func track(_ event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
