@@ -147,8 +147,8 @@
 		3ECE2C502743332C004EAA2C /* Ampli */ = {
 			isa = PBXGroup;
 			children = (
-				3ECE2C512743332C004EAA2C /* Ampli.swift */,
 				3ECE2C522743332C004EAA2C /* schema.json */,
+				3ECE2C512743332C004EAA2C /* Ampli.swift */,
 			);
 			path = Ampli;
 			sourceTree = "<group>";

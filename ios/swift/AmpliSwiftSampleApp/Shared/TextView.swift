@@ -38,9 +38,9 @@ struct TextView: View {
         ampli.identify(userId: "ampli-swift-user", properties: IdentifyProperties(optionalArray: ["optional string"], requiredNumber: 22.0))
         ampli.eventNoProperties()
         let extraDict = ["test" : "extra test"];
-        ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
+        ampli.eventMaxIntForTest(EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
         ampli.eventWithConstTypes(extra: extraDict)
-        ampli.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: extraDict)
+        ampli.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: extraDict)
         return Text("Welcome to Ampli Swift!")
     }
 }

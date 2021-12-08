@@ -6,7 +6,7 @@ An example app using the Ampli Swift SDK
 ### Setup the project
 You will need to do the following before running the app.
 1.Set up environment variable with your API keys
-   1. Go to schema edit and find `Environment Variables` section
+   1. Go to `Edit Scheme > Run > Arguments > Environment Variables` section
    2. Set your Amplitude API key with name `AMPLITUDE_API_KEY`
 2. `pod install`
 3. Open `AmpliSwiftSampleApp.xcworkspace` with Xcode

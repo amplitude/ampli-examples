@@ -41,3 +41,4 @@ build.xcarchive
 *.ipa
 **/Carthage/Checkouts
 **/Carthage/Build
+*.xcsheme

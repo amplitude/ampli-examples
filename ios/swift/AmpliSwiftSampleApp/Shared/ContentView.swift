@@ -47,7 +47,7 @@ struct ContentView: View {
     }
 
     private func addItem() {
-        ampli.eventMaxIntForTest(properties: EventMaxIntForTestProperties(intMax10: 9))
+        ampli.eventMaxIntForTest(EventMaxIntForTestProperties(intMax10: 9))
         withAnimation {
             let newItem = Item(context: viewContext)
             newItem.timestamp = Date()

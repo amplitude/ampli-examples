@@ -24,6 +24,7 @@ class AmpliTests: XCTestCase {
         let eventOptions = EventOptions(deviceId: deviceId)
         ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
+            XCTAssertNil(payload.event["event_properties"])
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
             XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
         })
@@ -31,10 +32,15 @@ class AmpliTests: XCTestCase {
     }
     
     func testTrackWithNoProperies() throws {
+        let userId = "test-user-id";
+        let deviceId = "test-device-id";
         ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event No Properties")
+            XCTAssertNil(payload.event["event_properties"])
+            XCTAssertEqual(payload.event["user_id"] as! String, userId)
+            XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
         })
-        ampli?.eventNoProperties()
+        ampli?.eventNoProperties(options: EventOptions(deviceId: deviceId, userId: userId))
     }
     
     func testTrackEventWithAllTypes() throws {
@@ -51,6 +57,6 @@ class AmpliTests: XCTestCase {
             XCTAssertNil(eventProperties!["optionalString"])
             XCTAssertEqual(payload.extra?["test"] as! String, "extra test")
         })
-        ampli?.track(event: EventWithAllProperties(eventProperties: EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
+        ampli?.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
     }
 }
