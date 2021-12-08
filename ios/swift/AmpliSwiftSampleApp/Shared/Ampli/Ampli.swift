@@ -23,8 +23,8 @@ public enum AmpliEnvironment: Int {
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
-  .development: "00aa083ba31d20782808820370c15a71",
-  .production: "af568af728fe7ecab9800979089ad112"
+  .development: "",
+  .production: ""
 ];
 
 let AmpliObservePlan = AMPPlan()
