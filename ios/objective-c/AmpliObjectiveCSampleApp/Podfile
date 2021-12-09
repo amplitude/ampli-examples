@@ -1,6 +1,6 @@
 def import_pods
 
-pod 'Amplitude', :git => 'https://github.com/amplitude/Amplitude-iOS.git', :branch => 'middleware-support'
+pod 'Amplitude', "~> 8.6.0"
 
 end
 

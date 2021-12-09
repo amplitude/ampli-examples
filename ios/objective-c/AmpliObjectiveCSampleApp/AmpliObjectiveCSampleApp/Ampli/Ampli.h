@@ -46,13 +46,6 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 + (instancetype _Nonnull)initWithClient:(LoadClientOptions *_Nonnull)client;
 @end
 
-@interface EventOptions : NSObject
-@property (nonatomic, strong) NSString * _Nullable deviceId;
-@property (nonatomic, strong) NSString * _Nullable userId;
-+ (instancetype _Nonnull)initWithDeviceId:(NSString *_Nonnull)deviceId;
-+ (instancetype _Nonnull)initWithDeviceIdAndUserId:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId;
-@end
-
 @class EventProperties;
 @class ContextProperties;
 @class EventMaxIntForTestProperties;
@@ -324,6 +317,13 @@ NS_ASSUME_NONNULL_END
 @end
   
 
+@interface EventOptions : NSObject
+@property (nonatomic, strong) NSString * _Nullable deviceId;
+@property (nonatomic, strong) NSString * _Nullable userId;
++ (instancetype _Nonnull)initWithDeviceId:(NSString *_Nonnull)deviceId;
++ (instancetype _Nonnull)initWithDeviceIdAndUserId:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId;
+@end
+
 @interface Ampli: NSObject
 @property (nonatomic, strong, readonly) Amplitude * _Nullable amplitude;
 @property (nonatomic, assign, readwrite) BOOL disabled;
@@ -332,12 +332,12 @@ NS_ASSUME_NONNULL_END
 - (void)load;
 - (void)load:(LoadOptions *_Nullable)options;
 - (void)track:(Event *_Nonnull)event;
-- (void)track:(Event *_Nonnull)event withExtra:(MiddlewareExtra *_Nullable)extra;
-- (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)track:(Event *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties;
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties withExtra:(MiddlewareExtra *_Nullable)extra;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)flush;
 /**
 EventMaxIntForTest
@@ -351,7 +351,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+EventMaxIntForTest
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
+
+Event to test schema validation
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 EventMaxIntForTest
@@ -388,6 +402,19 @@ Event w no properties description
 
 Owner: Test codegen
 
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventNoProperties:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event No Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
+
+Event w no properties description
+
+Owner: Test codegen
+
 */
 - (void)eventNoProperties;
 
@@ -403,7 +430,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event Object Types
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
+
+Event with Object and Object Array
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event Object Types
@@ -430,7 +471,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With All Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
+
+Event w all properties description
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With All Properties
@@ -457,7 +512,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Array Types
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
+
+Description for event with Array Types
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Array Types
@@ -494,6 +563,19 @@ Description for event with const types
 
 Owner: Test codegen
 
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithConstTypes:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Const Types
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
+
+Description for event with const types
+
+Owner: Test codegen
+
 */
 - (void)eventWithConstTypes;
 
@@ -509,7 +591,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+event withDifferent_CasingTypes
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
+
+Description for case with space
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 event withDifferent_CasingTypes
@@ -536,7 +632,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Enum Types
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
+
+Description for event with enum types
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Enum Types
@@ -563,7 +673,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Optional Array Types
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
+
+Description for event with optional array types
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Array Types
@@ -590,7 +714,21 @@ Owner: Test codegen
 - Parameter properties The event's properties
 - Parameter extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties withExtra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Optional Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
+
+Event w optional properties description
+
+Owner: Test codegen
+
+- Parameter properties The event's properties
+- Parameter extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Properties
