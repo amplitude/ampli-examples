@@ -30,20 +30,25 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @interface LoadClientOptions: NSObject
 @property (nonatomic, strong, readwrite) NSString * _Nullable apiKey;
 @property (nonatomic, strong, readwrite) Amplitude * _Nullable instance;
-+ (instancetype _Nonnull)initWithApiKey: (NSString *_Nonnull) apiKey;
-+ (instancetype _Nonnull)initWithAmplitudeInstance: (Amplitude *_Nonnull)instance;
 @end
+
+@class LoadOptionsBuilder;
 
 @interface LoadOptions: NSObject
 @property (nonatomic, readwrite) AmpliEnvironment environment;
 @property (nonatomic, readwrite) BOOL disabled;
 @property (nonatomic, readwrite) LoadClientOptions * _Nullable client;
-+ (instancetype _Nonnull)initWithApiKey:(NSString *_Nonnull) apiKey;
-+ (instancetype _Nonnull)initWithAmplitudeInstance:(Amplitude *_Nonnull)instance;
-+ (instancetype _Nonnull)initWithEnvironment:(AmpliEnvironment)environment;
-+ (instancetype _Nonnull)initWithDisabled:(BOOL) disabled;
-+ (instancetype _Nonnull)initWithEnvironmentAndDisabled:(AmpliEnvironment)environment disabled:(BOOL) disabled;
-+ (instancetype _Nonnull)initWithClient:(LoadClientOptions *_Nonnull)client;
+- (instancetype _Nonnull) withOverrides:(void (^_Nonnull)(LoadOptionsBuilder*_Nonnull))buildBlock;
++ (instancetype _Nonnull) builderBlock:(void (^_Nonnull)(LoadOptionsBuilder*_Nonnull))buildBlock;
+@end
+
+@interface LoadOptionsBuilder: NSObject
+@property (nonatomic, readwrite) AmpliEnvironment environment;
+@property (nonatomic, readwrite) BOOL disabled;
+@property (nonatomic, readwrite) NSString * _Nullable apiKey;
+@property (nonatomic, readwrite) Amplitude * _Nullable instance;
+- (instancetype _Nonnull)initWithOptions:(LoadOptions *_Nullable)options;
+- (LoadOptions *_Nonnull)build;
 @end
 
 @class EventProperties;
@@ -317,12 +322,22 @@ NS_ASSUME_NONNULL_END
 @end
   
 
+@class EventOptionsBuilder;
+
 @interface EventOptions : NSObject
 @property (nonatomic, strong) NSString * _Nullable deviceId;
 @property (nonatomic, strong) NSString * _Nullable userId;
-+ (instancetype _Nonnull)initWithDeviceId:(NSString *_Nonnull)deviceId;
-+ (instancetype _Nonnull)initWithDeviceIdAndUserId:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId;
+- (instancetype _Nonnull) withOverrides:(void (^_Nonnull)(EventOptionsBuilder*_Nonnull))buildBlock;
++ (instancetype _Nonnull) builderBlock:(void (^_Nonnull)(EventOptionsBuilder*_Nonnull))buildBlock;
 @end
+
+@interface EventOptionsBuilder: NSObject
+@property (nonatomic, strong) NSString * _Nullable deviceId;
+@property (nonatomic, strong) NSString * _Nullable userId;
+- (instancetype _Nonnull)initWithOptions:(EventOptions *_Nullable)options;
+- (EventOptions *_Nonnull)build;
+@end
+
 
 @interface Ampli: NSObject
 @property (nonatomic, strong, readonly) Amplitude * _Nullable amplitude;

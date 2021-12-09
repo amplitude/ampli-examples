@@ -17,7 +17,9 @@
 
 - (void)setUp {
     _ampli = [Ampli instance];
-    [_ampli load:[LoadOptions initWithApiKey:@"test-api-key"]];
+    [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *builder) {
+        builder.apiKey = @"test-api-key";
+    }]];
 }
 
 - (void)testTrackWithNoProperies {
@@ -53,13 +55,16 @@
     eventWithAllPropertiesProperties.requiredNumber = @2.0;
     eventWithAllPropertiesProperties.requiredString = @"required string";
     EventWithAllProperties *eventWithAllProperties = [EventWithAllProperties initWithEventProperties:eventWithAllPropertiesProperties];
-    [_ampli track:eventWithAllProperties withExtra:extraDict];
+    [_ampli track:eventWithAllProperties extra:extraDict];
 }
 
 - (void)testIdentify {
     NSString *userId = @"test-user-id";
     NSString *deviceId = @"test-device-id";
-    EventOptions *eventOptions = [EventOptions initWithDeviceId:deviceId];
+    EventOptions *eventOptions = [EventOptions builderBlock:^(EventOptionsBuilder *builder) {
+        builder.deviceId = deviceId;
+        builder.userId = userId;
+    }];
     IdentifyProperties *identifyProperties = [IdentifyProperties new];
     identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     identifyProperties.requiredNumber = @22;

@@ -1245,13 +1245,6 @@ NS_ASSUME_NONNULL_END
 @end
 
 @implementation LoadClientOptions
-+ (instancetype)initWithApiKey: (NSString *_Nonnull) apiKey {
-    return [[self alloc] initLoadClientOptions:apiKey instance:nil];
-}
-
-+ (instancetype)initWithAmplitudeInstance: (Amplitude *_Nonnull)instance {
-    return [[self alloc] initLoadClientOptions:nil instance:instance];
-}
 
 - (instancetype)initLoadClientOptions:(NSString *_Nullable)apiKey instance:(Amplitude *_Nullable)instance {
     self = [self init];
@@ -1261,33 +1254,10 @@ NS_ASSUME_NONNULL_END
     }
     return self;
 }
+
 @end
 
 @implementation LoadOptions
-
-+ (instancetype _Nonnull)initWithApiKey:(NSString *_Nonnull) apiKey {
-    return [[self alloc] initLoadOptions:development disabled:NO client:[LoadClientOptions initWithApiKey:apiKey]];
-}
-
-+ (instancetype _Nonnull)initWithAmplitudeInstance:(Amplitude *_Nonnull)instance {
-    return [[self alloc] initLoadOptions:development disabled:NO client:[LoadClientOptions initWithAmplitudeInstance:instance]];
-}
-
-+ (instancetype _Nonnull)initWithEnvironment:(AmpliEnvironment)environment {
-    return [[self alloc] initLoadOptions:environment disabled:NO client:nil];
-}
-
-+ (instancetype _Nonnull)initWithDisabled:(BOOL) disabled {
-    return [[self alloc] initLoadOptions:development disabled:disabled client:nil];
-}
-
-+ (instancetype _Nonnull)initWithEnvironmentAndDisabled:(AmpliEnvironment)environment disabled:(BOOL) disabled {
-    return [[self alloc] initLoadOptions:environment disabled:disabled client:nil];
-}
-
-+ (instancetype _Nonnull)initWithClient:(LoadClientOptions *_Nonnull)client {
-    return [[self alloc] initLoadOptions:development disabled:NO client:client];
-}
 
 - (instancetype) initLoadOptions:(AmpliEnvironment)environment disabled:(BOOL) disabled client:(LoadClientOptions *_Nullable)client{
     self = [self init];
@@ -1299,17 +1269,41 @@ NS_ASSUME_NONNULL_END
     return self;
 }
 
++ (instancetype) builderBlock:(void (^)(LoadOptionsBuilder*))buildBlock {
+    LoadOptionsBuilder *builder = [[LoadOptionsBuilder alloc] initWithOptions:nil];
+    buildBlock(builder);
+    return [builder build];
+}
+
+- (instancetype) withOverrides:(void (^)(LoadOptionsBuilder*))buildBlock {
+    LoadOptionsBuilder *builder = [[LoadOptionsBuilder alloc] initWithOptions:self];
+    buildBlock(builder);
+    return [builder build];
+}
+
+@end
+
+@implementation LoadOptionsBuilder
+
+- (instancetype)initWithOptions:(LoadOptions *)options {
+    self = [self init];
+    if (self) {
+        _environment = options != nil ? options.environment : development;
+        _disabled = options != nil ? options.environment : NO;
+        _instance = options != nil && options.client != nil ? options.client.instance : nil;
+        _apiKey = options != nil && options.client != nil ? options.client.apiKey : nil;
+    }
+    return self;
+}
+
+- (LoadOptions *_Nonnull)build {
+    LoadClientOptions *client = [[LoadClientOptions alloc] initLoadClientOptions:_apiKey instance:_instance];
+    return [[LoadOptions alloc] initLoadOptions:_environment disabled:_disabled client:client];
+}
+
 @end
 
 @implementation EventOptions
-+ (instancetype _Nonnull)initWithDeviceId:(NSString *_Nonnull)deviceId {
-    return [self initWithDeviceIdAndUserId:deviceId userId:nil];
-}
-
-+ (instancetype _Nonnull)initWithDeviceIdAndUserId:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId{
-    return [[self alloc] initWithParams:deviceId userId:userId];
-}
-
 - (instancetype)initWithParams:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId {
     self = [self init];
     if (self) {
@@ -1317,6 +1311,35 @@ NS_ASSUME_NONNULL_END
         _userId = userId;
     }
     return self;
+}
+
++ (instancetype) builderBlock:(void (^)(EventOptionsBuilder*))buildBlock {
+    EventOptionsBuilder *builder = [[EventOptionsBuilder alloc] initWithOptions:nil];
+    buildBlock(builder);
+    return [builder build];
+}
+
+- (instancetype) withOverrides:(void (^)(EventOptionsBuilder*))buildBlock {
+    EventOptionsBuilder *builder = [[EventOptionsBuilder alloc] initWithOptions:self];
+    buildBlock(builder);
+    return [builder build];
+}
+
+@end
+
+@implementation EventOptionsBuilder
+
+- (instancetype)initWithOptions:(EventOptions *)options {
+    self = [self init];
+    if (self) {
+        _userId = options != nil ? options.userId : nil;
+        _deviceId = options != nil ? options.deviceId : nil;
+    }
+    return self;
+}
+
+- (EventOptions *_Nonnull)build {
+    return [[EventOptions alloc] initWithParams:_deviceId userId:_userId];
 }
 
 @end
@@ -1346,8 +1369,8 @@ NS_ASSUME_NONNULL_END
 
 - (void)load:(LoadOptions *_Nullable)options {
     NSDictionary *ApiKey = @{
-      @(development): @"00aa083ba31d20782808820370c15a71",
-      @(production): @"af568af728fe7ecab9800979089ad112"
+      @(development): @"",
+      @(production): @""
     };
     self.disabled = options != nil ? options.disabled : NO;
     if (_amplitude != nil) {

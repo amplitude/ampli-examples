@@ -41,7 +41,9 @@
     //    [ampli2 load:[LoadOptions initWithApiKey:@"Custom api key"]];
     NSString *apiKey = [[[NSProcessInfo processInfo] environment] objectForKey:@"AMPLITUDE_API_KEY"];
     Ampli *ampli = [Ampli instance];
-    [ampli load:[LoadOptions initWithApiKey:apiKey]];
+    [ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *builder) {
+        builder.apiKey =apiKey;
+    }]];
     IdentifyProperties *identifyProperties = [IdentifyProperties new];
     identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     identifyProperties.requiredNumber = @22;
@@ -52,7 +54,7 @@
               forKey:@"test"];
     EventMaxIntForTestProperties *eventMaxIntForTestProperties = [EventMaxIntForTestProperties new];
     eventMaxIntForTestProperties.intMax10 = @20;
-    [ampli eventMaxIntForTest:eventMaxIntForTestProperties withExtra:extraDict];
+    [ampli eventMaxIntForTest:eventMaxIntForTestProperties extra:extraDict];
     [ampli eventWithConstTypes:extraDict];
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
     eventWithAllPropertiesProperties.requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
