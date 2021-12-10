@@ -12,3 +12,6 @@ Example apps using the Ampli SDK
 
 ## Node TypeScript
 * [node/typescript](node/typescript)
+
+## Android Kotlin
+* [kotlin/android/AmpliApp](kotlin/android/AmpliApp)
