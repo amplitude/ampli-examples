@@ -615,7 +615,7 @@ public class Ampli {
       if (!isInitializedAndEnabled()) {
           return;
       }
-      let user = userId != nil ? userId : (options?.userId != nil ? options?.userId : nil)
+      let user = userId ?? options?.userId
       if (user != nil) {
           amplitude?.setUserId(user);
       }
