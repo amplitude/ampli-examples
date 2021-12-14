@@ -21,3 +21,6 @@ Example apps using the Ampli SDK
 
 ## Android Kotlin
 * [android/kotlin/AmpliApp](android/kotlin/AmpliApp)
+
+## Android Java
+* [java/android/AmpliApp](java/android/AmpliApp)

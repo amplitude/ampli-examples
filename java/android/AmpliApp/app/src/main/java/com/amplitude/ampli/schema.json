@@ -1,0 +1,439 @@
+{
+  "$id": "https://amplitude.com/schemas/events",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "Context": {
+      "$ref": "#/definitions/ContextProperties"
+    },
+    "Identify": {
+      "$ref": "#/definitions/IdentifyProperties"
+    },
+    "Group": {
+      "$ref": "#/definitions/GroupProperties"
+    },
+    "EventMaxIntForTest": {
+      "$ref": "#/definitions/EventMaxIntForTestProperties"
+    },
+    "EventNoProperties": {
+      "$ref": "#/definitions/EventNoPropertiesProperties"
+    },
+    "EventObjectTypes": {
+      "$ref": "#/definitions/EventObjectTypesProperties"
+    },
+    "EventWithAllProperties": {
+      "$ref": "#/definitions/EventWithAllPropertiesProperties"
+    },
+    "EventWithArrayTypes": {
+      "$ref": "#/definitions/EventWithArrayTypesProperties"
+    },
+    "EventWithConstTypes": {
+      "$ref": "#/definitions/EventWithConstTypesProperties"
+    },
+    "EventWithDifferentCasingTypes": {
+      "$ref": "#/definitions/EventWithDifferentCasingTypesProperties"
+    },
+    "EventWithEnumTypes": {
+      "$ref": "#/definitions/EventWithEnumTypesProperties"
+    },
+    "EventWithOptionalArrayTypes": {
+      "$ref": "#/definitions/EventWithOptionalArrayTypesProperties"
+    },
+    "EventWithOptionalProperties": {
+      "$ref": "#/definitions/EventWithOptionalPropertiesProperties"
+    }
+  },
+  "definitions": {
+    "ContextProperties": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "IdentifyProperties": {
+      "type": "object",
+      "properties": {
+        "optionalArray": {
+          "title": "optionalArray",
+          "description": "Description for identify optionalArray",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": false
+        },
+        "requiredNumber": {
+          "title": "requiredNumber",
+          "description": "Description for identify requiredNumber",
+          "type": "number"
+        }
+      },
+      "required": [
+        "requiredNumber"
+      ],
+      "additionalProperties": false
+    },
+    "GroupProperties": {
+      "type": "object",
+      "properties": {
+        "optionalString": {
+          "title": "optionalString",
+          "description": "Description for group optionalString",
+          "type": "string"
+        },
+        "requiredBoolean": {
+          "title": "requiredBoolean",
+          "description": "Description for group requiredBoolean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "requiredBoolean"
+      ],
+      "additionalProperties": false
+    },
+    "EventMaxIntForTestProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/EventMaxIntForTest/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Event to test schema validation",
+      "type": "object",
+      "properties": {
+        "intMax10": {
+          "description": "property to test schema validation",
+          "type": "integer",
+          "maximum": 10
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "intMax10"
+      ]
+    },
+    "EventNoPropertiesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20No%20Properties/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Event w no properties description",
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "required": []
+    },
+    "EventObjectTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20Object%20Types/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Event with Object and Object Array",
+      "type": "object",
+      "properties": {
+        "requiredObject": {
+          "description": "Property Object Type"
+        },
+        "requiredObjectArray": {
+          "description": "Property Object Array Type",
+          "type": "array",
+          "items": {}
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requiredObject",
+        "requiredObjectArray"
+      ]
+    },
+    "EventWithAllPropertiesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20All%20Properties/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Event w all properties description",
+      "type": "object",
+      "properties": {
+        "optionalString": {
+          "description": "Event 2 Property - Optional String    *     * Examples:    * Some string, or another",
+          "type": "string"
+        },
+        "requiredArray": {
+          "description": "Event 2 Property - Array",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "requiredBoolean": {
+          "description": "Event 2 Property - Boolean",
+          "type": "boolean"
+        },
+        "requiredConst": {
+          "description": "Event 2 Property - Const",
+          "const": "some-const-value"
+        },
+        "requiredEnum": {
+          "description": "Event 2 Property - Enum",
+          "enum": [
+            "Enum1",
+            "Enum2"
+          ]
+        },
+        "requiredInteger": {
+          "description": "Event 2 Property - Integer    *     * Examples:    * 5, 4, 3",
+          "type": "integer"
+        },
+        "requiredNumber": {
+          "description": "Event 2 Property - Number",
+          "type": "number"
+        },
+        "requiredString": {
+          "description": "Event 2 Property - String",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requiredArray",
+        "requiredBoolean",
+        "requiredConst",
+        "requiredEnum",
+        "requiredInteger",
+        "requiredNumber",
+        "requiredString"
+      ]
+    },
+    "EventWithArrayTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20Array%20Types/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Description for event with Array Types",
+      "type": "object",
+      "properties": {
+        "requiredBooleanArray": {
+          "description": "description for required boolean array",
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "requiredNumberArray": {
+          "description": "Description for required number array",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "requiredObjectArray": {
+          "description": "Description for required object array",
+          "type": "array",
+          "items": {}
+        },
+        "requiredStringArray": {
+          "description": "description for required string array",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requiredBooleanArray",
+        "requiredNumberArray",
+        "requiredObjectArray",
+        "requiredStringArray"
+      ]
+    },
+    "EventWithConstTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20Const%20Types/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Description for event with const types",
+      "type": "object",
+      "properties": {
+        "Boolean Const": {
+          "description": "Description for boolean const type",
+          "const": true
+        },
+        "Integer Const": {
+          "description": "Description for integer const",
+          "const": 10
+        },
+        "Number Const": {
+          "description": "Description for number const",
+          "const": 2.2
+        },
+        "String Const": {
+          "description": "Description for string const",
+          "const": "String-Constant"
+        },
+        "String Const WIth Quotes": {
+          "description": "Description for Int With Quotes",
+          "const": "\"String \"Const With\" Quotes\""
+        },
+        "String Int Const": {
+          "description": "Description for string int const",
+          "const": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "Boolean Const",
+        "Integer Const",
+        "Number Const",
+        "String Const",
+        "String Const WIth Quotes",
+        "String Int Const"
+      ]
+    },
+    "EventWithDifferentCasingTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/event%20withDifferent_CasingTypes/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Description for case with space",
+      "type": "object",
+      "properties": {
+        "enumCamelCase": {
+          "description": "descriptionForEnumCamelCase",
+          "enum": [
+            "enumCamelCase"
+          ]
+        },
+        "EnumPascalCase": {
+          "description": "DescirptionForEnumPascalCase",
+          "enum": [
+            "EnumPascalCase"
+          ]
+        },
+        "enum_snake_case": {
+          "description": "description_for_enum_snake_case",
+          "enum": [
+            "enum_snake_case"
+          ]
+        },
+        "enum with space": {
+          "description": "Description for enum with space",
+          "enum": [
+            "enum with space"
+          ]
+        },
+        "propertyWithCamelCase": {
+          "description": "descriptionForCamelCase",
+          "type": "string"
+        },
+        "PropertyWithPascalCase": {
+          "description": "DescriptionForPascalCase",
+          "type": "string"
+        },
+        "property_with_snake_case": {
+          "description": "Description_for_snake_case",
+          "type": "string"
+        },
+        "property with space": {
+          "description": "Description for case with space",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "enumCamelCase",
+        "EnumPascalCase",
+        "enum_snake_case",
+        "enum with space",
+        "propertyWithCamelCase",
+        "PropertyWithPascalCase",
+        "property_with_snake_case",
+        "property with space"
+      ]
+    },
+    "EventWithEnumTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20Enum%20Types/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Description for event with enum types",
+      "type": "object",
+      "properties": {
+        "optional enum": {
+          "description": "Description for required enum",
+          "enum": [
+            "optional enum 1",
+            "optional enum 2"
+          ]
+        },
+        "required enum": {
+          "description": "Description for optional enum",
+          "enum": [
+            "required enum 1",
+            "required enum 2"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "required enum"
+      ]
+    },
+    "EventWithOptionalArrayTypesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20Optional%20Array%20Types/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Description for event with optional array types",
+      "type": "object",
+      "properties": {
+        "optionalBooleanArray": {
+          "description": "Description for optional boolean array",
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          }
+        },
+        "optionalJSONArray": {
+          "description": "Description for optional object array",
+          "type": "array",
+          "items": {}
+        },
+        "optionalNumberArray": {
+          "description": "Description for optional number array",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "optionalStringArray": {
+          "description": "Description for optional string array",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    },
+    "EventWithOptionalPropertiesProperties": {
+      "$id": "https://data.amplitude.com/77b37977-cb3a-42eb-bce3-09f5f7c3adb7/event/Event%20With%20Optional%20Properties/version/1.0.0",
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "description": "Event w optional properties description",
+      "type": "object",
+      "properties": {
+        "optionalArrayNumber": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "optionalArrayString": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "optionalBoolean": {
+          "description": "",
+          "type": "boolean"
+        },
+        "optionalNumber": {
+          "description": "",
+          "type": "number"
+        },
+        "optionalString": {
+          "description": "Optional String property description",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    }
+  }
+}
