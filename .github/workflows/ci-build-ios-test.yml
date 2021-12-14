@@ -1,0 +1,51 @@
+name: CI - Build, iOS, Test
+
+on: pull_request
+
+jobs:
+  test:
+    name: Test
+    runs-on: macos-11
+    strategy:
+      matrix:
+        ruby-version: ["2.7.x"]
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set Xcode 13
+        run: |
+          sudo xcode-select -switch /Applications/Xcode_13.1.app
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+
+      - name: Cache Bundle Gems and Cocoapods For Swift
+        id: cache-gems-pods
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./ios/swift/AmpliSwiftSampleApp/Pods
+            ./ios/swift/AmpliSwiftSampleApp/vendor/bundle
+          key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
+
+      - name: Install Cocoapods For Swift
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
+        if: steps.cache-gems-pods.outputs.cache-hit != 'true'
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle install
+          pod install
+
+      - name: Swfit iOS Tests
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
+        run: |
+          pod install
+          xcodebuild test \
+            -workspace AmpliSwiftSampleApp.xcworkspace \
+            -scheme AmpliSwiftSampleAppTests \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
