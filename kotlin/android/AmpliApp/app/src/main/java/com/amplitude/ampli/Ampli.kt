@@ -104,7 +104,7 @@ data class EventWithAllPropertiesProperties (
     /**
      * Event 2 Property - Enum
      */
-    val requiredEnum: RequiredEnum,
+    val requiredEnum: EventWithAllPropertiesRequiredEnum,
 
     /**
      * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
@@ -125,7 +125,7 @@ data class EventWithAllPropertiesProperties (
 /**
  * Event 2 Property - Enum
  */
-enum class RequiredEnum {
+enum class EventWithAllPropertiesRequiredEnum {
     Enum1,
     Enum2
 }
@@ -167,22 +167,22 @@ data class EventWithDifferentCasingTypesProperties (
     /**
      * Description for enum with space
      */
-    val enumWithSpace: EnumWithSpace,
+    val enumWithSpace: EventWithDifferentCasingTypesEnumWithSpace,
 
     /**
      * description_for_enum_snake_case
      */
-    val enumSnakeCase: EnumSnakeCase,
+    val enumSnakeCase: EventWithDifferentCasingTypesEnumSnakeCase,
 
     /**
      * descriptionForEnumCamelCase
      */
-    val enumCamelCase: EnumCamelCase,
+    val enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase,
 
     /**
      * DescirptionForEnumPascalCase
      */
-    val enumPascalCase: EnumPascalCase,
+    val enumPascalCase: EventWithDifferentCasingTypesEnumPascalCase,
 
     /**
      * Description for case with space
@@ -208,28 +208,28 @@ data class EventWithDifferentCasingTypesProperties (
 /**
  * descriptionForEnumCamelCase
  */
-enum class EnumCamelCase {
+enum class EventWithDifferentCasingTypesEnumCamelCase {
     EnumCamelCase
 }
 
 /**
  * DescirptionForEnumPascalCase
  */
-enum class EnumPascalCase {
+enum class EventWithDifferentCasingTypesEnumPascalCase {
     EnumPascalCase
 }
 
 /**
  * description_for_enum_snake_case
  */
-enum class EnumSnakeCase {
+enum class EventWithDifferentCasingTypesEnumSnakeCase {
     EnumSnakeCase
 }
 
 /**
  * Description for enum with space
  */
-enum class EnumWithSpace {
+enum class EventWithDifferentCasingTypesEnumWithSpace {
     EnumWithSpace
 }
 
@@ -240,18 +240,18 @@ data class EventWithEnumTypesProperties (
     /**
      * Description for required enum
      */
-    val optionalEnum: OptionalEnum? = null,
+    val optionalEnum: EventWithEnumTypesOptionalEnum? = null,
 
     /**
      * Description for optional enum
      */
-    val requiredEnum: RequiredEnumEnum
+    val requiredEnum: EventWithEnumTypesRequiredEnum
 )
 
 /**
  * Description for required enum
  */
-enum class OptionalEnum {
+enum class EventWithEnumTypesOptionalEnum {
     OptionalEnum1,
     OptionalEnum2
 }
@@ -259,7 +259,7 @@ enum class OptionalEnum {
 /**
  * Description for optional enum
  */
-enum class RequiredEnumEnum {
+enum class EventWithEnumTypesRequiredEnum {
     RequiredEnum1,
     RequiredEnum2
 }

@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 requiredNumber = 1.23,
                 requiredArray = listOf("I'm", "required"),
                 requiredBoolean = false,
-                requiredEnum = RequiredEnum.Enum1,
+                requiredEnum = EventWithAllPropertiesRequiredEnum.Enum1,
                 requiredInteger = 42,
                 requiredString = "Hi!"
             ))
