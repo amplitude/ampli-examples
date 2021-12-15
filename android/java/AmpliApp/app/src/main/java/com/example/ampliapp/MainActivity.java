@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             properties.setRequiredNumber(1.23);
             properties.setRequiredArray(new String[]{"I'm", "required"});
             properties.setRequiredBoolean(false);
-            properties.setRequiredEnum(RequiredEnum.ENUM1);
+            properties.setRequiredEnum(EventWithAllPropertiesRequiredEnum.ENUM1);
             properties.setRequiredInteger(42);
             properties.setRequiredString("Hi!");
 

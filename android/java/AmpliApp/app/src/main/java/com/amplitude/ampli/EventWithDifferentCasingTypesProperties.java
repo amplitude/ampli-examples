@@ -18,10 +18,10 @@ package com.amplitude.ampli;
  * Description for case with space
  */
 public class EventWithDifferentCasingTypesProperties {
-    private EnumWithSpace enumWithSpace;
-    private EnumSnakeCase enumSnakeCase;
-    private EnumCamelCase enumCamelCase;
-    private EnumPascalCase enumPascalCase;
+    private EventWithDifferentCasingTypesEnumWithSpace enumWithSpace;
+    private EventWithDifferentCasingTypesEnumSnakeCase enumSnakeCase;
+    private EventWithDifferentCasingTypesEnumCamelCase enumCamelCase;
+    private EventWithDifferentCasingTypesEnumPascalCase enumPascalCase;
     private String propertyWithSpace;
     private String propertyWithSnakeCase;
     private String propertyWithCamelCase;
@@ -30,26 +30,26 @@ public class EventWithDifferentCasingTypesProperties {
     /**
      * Description for enum with space
      */
-    public EnumWithSpace getEnumWithSpace() { return enumWithSpace; }
-    public void setEnumWithSpace(EnumWithSpace value) { this.enumWithSpace = value; }
+    public EventWithDifferentCasingTypesEnumWithSpace getEnumWithSpace() { return enumWithSpace; }
+    public void setEnumWithSpace(EventWithDifferentCasingTypesEnumWithSpace value) { this.enumWithSpace = value; }
 
     /**
      * description_for_enum_snake_case
      */
-    public EnumSnakeCase getEnumSnakeCase() { return enumSnakeCase; }
-    public void setEnumSnakeCase(EnumSnakeCase value) { this.enumSnakeCase = value; }
+    public EventWithDifferentCasingTypesEnumSnakeCase getEnumSnakeCase() { return enumSnakeCase; }
+    public void setEnumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase value) { this.enumSnakeCase = value; }
 
     /**
      * descriptionForEnumCamelCase
      */
-    public EnumCamelCase getEnumCamelCase() { return enumCamelCase; }
-    public void setEnumCamelCase(EnumCamelCase value) { this.enumCamelCase = value; }
+    public EventWithDifferentCasingTypesEnumCamelCase getEnumCamelCase() { return enumCamelCase; }
+    public void setEnumCamelCase(EventWithDifferentCasingTypesEnumCamelCase value) { this.enumCamelCase = value; }
 
     /**
      * DescirptionForEnumPascalCase
      */
-    public EnumPascalCase getEnumPascalCase() { return enumPascalCase; }
-    public void setEnumPascalCase(EnumPascalCase value) { this.enumPascalCase = value; }
+    public EventWithDifferentCasingTypesEnumPascalCase getEnumPascalCase() { return enumPascalCase; }
+    public void setEnumPascalCase(EventWithDifferentCasingTypesEnumPascalCase value) { this.enumPascalCase = value; }
 
     /**
      * Description for case with space

@@ -21,7 +21,7 @@ public class EventWithAllPropertiesProperties {
     private String optionalString;
     private String[] requiredArray;
     private boolean requiredBoolean;
-    private RequiredEnum requiredEnum;
+    private EventWithAllPropertiesRequiredEnum requiredEnum;
     private long requiredInteger;
     private double requiredNumber;
     private String requiredString;
@@ -47,8 +47,8 @@ public class EventWithAllPropertiesProperties {
     /**
      * Event 2 Property - Enum
      */
-    public RequiredEnum getRequiredEnum() { return requiredEnum; }
-    public void setRequiredEnum(RequiredEnum value) { this.requiredEnum = value; }
+    public EventWithAllPropertiesRequiredEnum getRequiredEnum() { return requiredEnum; }
+    public void setRequiredEnum(EventWithAllPropertiesRequiredEnum value) { this.requiredEnum = value; }
 
     /**
      * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3

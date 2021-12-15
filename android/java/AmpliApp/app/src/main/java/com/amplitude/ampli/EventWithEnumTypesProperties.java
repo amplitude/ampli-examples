@@ -18,18 +18,18 @@ package com.amplitude.ampli;
  * Description for event with enum types
  */
 public class EventWithEnumTypesProperties {
-    private OptionalEnum optionalEnum;
-    private RequiredEnumEnum requiredEnum;
+    private EventWithEnumTypesOptionalEnum optionalEnum;
+    private EventWithEnumTypesRequiredEnum requiredEnum;
 
     /**
      * Description for required enum
      */
-    public OptionalEnum getOptionalEnum() { return optionalEnum; }
-    public void setOptionalEnum(OptionalEnum value) { this.optionalEnum = value; }
+    public EventWithEnumTypesOptionalEnum getOptionalEnum() { return optionalEnum; }
+    public void setOptionalEnum(EventWithEnumTypesOptionalEnum value) { this.optionalEnum = value; }
 
     /**
      * Description for optional enum
      */
-    public RequiredEnumEnum getRequiredEnum() { return requiredEnum; }
-    public void setRequiredEnum(RequiredEnumEnum value) { this.requiredEnum = value; }
+    public EventWithEnumTypesRequiredEnum getRequiredEnum() { return requiredEnum; }
+    public void setRequiredEnum(EventWithEnumTypesRequiredEnum value) { this.requiredEnum = value; }
 }

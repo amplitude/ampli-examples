@@ -23,10 +23,12 @@ public abstract class Event {
     
     protected Event(String eventType) {
         this.eventType = eventType;
-        this.eventProperties = new HashMap<>();
     }
     
     protected void addProperty(String propertyName, Object propertyValue) {
+        if (this.eventProperties == null) {
+            this.eventProperties = new HashMap<>();
+        }
         this.eventProperties.put(propertyName, propertyValue);
     }
 }

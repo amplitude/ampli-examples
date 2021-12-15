@@ -14,19 +14,13 @@
 //
 package com.amplitude.ampli;
 
-import android.content.Context;
-
 public class LoadOptions {
-    private final Context androidContext;
     private Ampli.Environment environment;
     private Boolean disabled;
     private LoadClientOptions client;
 
-    public LoadOptions(Context androidContext) {
-        this.androidContext = androidContext;
+    public LoadOptions() {
     }
-
-    public Context getAndroidContext() { return this.androidContext; }
 
     public LoadOptions setEnvironment(Ampli.Environment environment) {
         this.environment = environment;

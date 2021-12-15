@@ -27,9 +27,6 @@ import com.amplitude.api.Plan;
 public class Ampli {
     private static volatile Ampli singleton = null;
 
-    protected Ampli() {
-    }
-
     public static Ampli getInstance() {
         if (singleton == null) {
             createSingleton();
@@ -68,39 +65,42 @@ public class Ampli {
 
     private boolean disabled = false;
 
-    public void load(LoadOptions options) {
-        Boolean disabled = options.getDisabled();
+    public void load(android.content.Context appContext) {
+        this.load(appContext, null);
+    }
+
+    public void load(android.content.Context appContext, LoadOptions options) {
+        Boolean disabled = options != null ? options.getDisabled() : null;
         this.disabled = disabled != null ? disabled : false;
+
         if (this.client != null) {
             System.err.println("Warning: Ampli is already initialized. Ampli.getInstance().load() should be called once at application start up.");
             return;
         }
 
-        Environment env = options.getEnvironment();
+        Environment env = options != null ? options.getEnvironment() : null;
         if (env == null) {
             env = Environment.DEVELOPMENT;
         }
 
-        LoadClientOptions clientOptions = options.getClient();
+        LoadClientOptions clientOptions = options != null ? options.getClient() : null;
 
         String apiKey = Ampli.API_KEY.get(env);
+        AmplitudeClient client = null;
         if (clientOptions != null) {
             String optionsApiKey = clientOptions.getApiKey();
             if (optionsApiKey != null) {
                 apiKey = optionsApiKey;
             }
+
+            client = clientOptions.getInstance();
         }
 
-        if (clientOptions != null) {
-            AmplitudeClient client = clientOptions.getInstance();
-            if (client != null) {
-                this.client = client;
-            }
-        }
-
-        if (this.client == null) {
+        if (client != null) {
+            this.client = client;
+        } else if (apiKey != null && !apiKey.equals("")) {
             this.client = Amplitude.getInstance();
-            this.client.initialize(options.getAndroidContext(), apiKey);
+            this.client.initialize(appContext.getApplicationContext(), apiKey);
         } else {
             System.err.println("Ampli.getInstance().load() requires 'environment', 'client.apiKey', or 'client.instance'");
             return;
@@ -149,11 +149,11 @@ public class Ampli {
     }
 
     public void setGroup(String name, String value) {
-        this.setGroup(name, value);
+        this.setGroup(name, value, null, null);
     }
 
     public void setGroup(String name, String value, EventOptions options) {
-        this.setGroup(name, value, options);
+        this.setGroup(name, value, options, null);
     }
 
     public void setGroup(String name, String value, EventOptions options, Map<String, Object> extra) {
@@ -165,11 +165,11 @@ public class Ampli {
     }
 
     public void setGroup(String name, String[] value) {
-        this.setGroup(name, value);
+        this.setGroup(name, value, null, null);
     }
 
     public void setGroup(String name, String[] value, EventOptions options) {
-        this.setGroup(name, value, options);
+        this.setGroup(name, value, options, null);
     }
 
     public void setGroup(String name, String[] value, EventOptions options, Map<String, Object> extra) {
