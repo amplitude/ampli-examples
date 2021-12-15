@@ -5,7 +5,13 @@ An example app using the Ampli Android SDK
 
 ### Setup the project
 You will need to do the following before running the app.
-1. Set your Amplitude API key in `src/main/java/com/example/ampliapp/App.kt` file
+1. Create new file `src/main/res/values/secrets.xml` with your Amplitude API key:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="AMPLITUDE_API_KEY">your-amplitide-api-key</string>
+</resources>
+```
 
 ### Pull your Ampli SDK
 If you want to use your own tracking plan and Ampli SDK

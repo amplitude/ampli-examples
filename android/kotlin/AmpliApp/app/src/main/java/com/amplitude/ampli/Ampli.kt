@@ -15,7 +15,6 @@
 
 package com.amplitude.ampli
 
-import android.content.Context
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -475,7 +474,6 @@ class LoadClientOptions(
 )
 
 class LoadOptions(
-    val androidContext: Context,
     val environment: Ampli.Environment? = null,
     val disabled: Boolean? = null,
     val client: LoadClientOptions? = null
@@ -512,22 +510,22 @@ open class Ampli {
 
     private var disabled: Boolean = false
 
-    open fun load(options: LoadOptions) {
-        this.disabled = options.disabled ?: false
+    open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
+        this.disabled = options?.disabled ?: false
         if (this.client != null) {
             System.err.println("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.")
             return
         }
-        val env = options.environment ?: Environment.DEVELOPMENT
-        val apiKey = options.client?.apiKey ?: API_KEY[env]
+        val env = options?.environment ?: Environment.DEVELOPMENT
+        val apiKey = options?.client?.apiKey ?: API_KEY[env]
 
         when {
-            options.client?.instance != null -> {
+            options?.client?.instance != null -> {
                 this.client = options.client.instance
             }
             apiKey != null -> {
                 this.client = Amplitude.getInstance()
-                this.client?.initialize(options.androidContext.applicationContext, apiKey)
+                this.client?.initialize(appContext.applicationContext, apiKey)
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
@@ -535,7 +533,7 @@ open class Ampli {
             }
         }
 
-        this.client?.setPlan(options.client?.plan ?: observePlan)
+        this.client?.setPlan(options?.client?.plan ?: observePlan)
     }
 
     open fun track(event: Event, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
