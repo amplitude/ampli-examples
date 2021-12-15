@@ -523,7 +523,7 @@ open class Ampli {
             options?.client?.instance != null -> {
                 this.client = options.client.instance
             }
-            apiKey != null -> {
+            apiKey != null && apiKey != "" -> {
                 this.client = Amplitude.getInstance()
                 this.client?.initialize(appContext.applicationContext, apiKey)
             }
@@ -773,7 +773,7 @@ open class Ampli {
 
             try {
                 value?.let {
-                    json.put(key, if (value.javaClass.isArray) JSONArray(value) else value)
+                    json.put(key, if (value is Collection<*>) JSONArray(value) else value)
                 } ?: run {
                     json.put(key, JSONObject.NULL)
                 }

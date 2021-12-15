@@ -44,7 +44,6 @@ class AmpliTest {
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client, plan = plan)))
 
         verify(client, times(0)).initialize(any(), any())
-
         verify(client, times(1)).setPlan(plan)
     }
 
@@ -65,7 +64,10 @@ class AmpliTest {
         verify(client, times(1)).setUserProperties(jsonObjectCaptor.capture())
         assertEquals(
             """{
-  "optionalArray": "[A, ray]",
+  "optionalArray": [
+    "A",
+    "ray"
+  ],
   "requiredNumber": 42
 }""", jsonObjectCaptor.value.toString(2)
         )
@@ -143,7 +145,10 @@ class AmpliTest {
         )
         assertEquals(
             """{
-  "requiredArray": "[Required, array]",
+  "requiredArray": [
+    "Required",
+    "array"
+  ],
   "requiredBoolean": true,
   "requiredConst": "some-const-value",
   "requiredEnum": "Enum2",
