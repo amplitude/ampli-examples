@@ -189,11 +189,11 @@ public class Ampli {
 
     /**
      * EventMaxIntForTest
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <p>
      * Event to test schema validation
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -204,11 +204,11 @@ public class Ampli {
 
     /**
      * EventMaxIntForTest
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <p>
      * Event to test schema validation
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -220,11 +220,11 @@ public class Ampli {
 
     /**
      * EventMaxIntForTest
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <p>
      * Event to test schema validation
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -237,11 +237,11 @@ public class Ampli {
 
     /**
      * Event No Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w no properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      */
@@ -251,11 +251,11 @@ public class Ampli {
 
     /**
      * Event No Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w no properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param options The event's options
@@ -266,11 +266,11 @@ public class Ampli {
 
     /**
      * Event No Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w no properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param options The event's options
@@ -282,11 +282,11 @@ public class Ampli {
 
     /**
      * Event Object Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <p>
      * Event with Object and Object Array
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -297,11 +297,11 @@ public class Ampli {
 
     /**
      * Event Object Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <p>
      * Event with Object and Object Array
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -313,11 +313,11 @@ public class Ampli {
 
     /**
      * Event Object Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <p>
      * Event with Object and Object Array
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -330,11 +330,11 @@ public class Ampli {
 
     /**
      * Event With All Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w all properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -345,11 +345,11 @@ public class Ampli {
 
     /**
      * Event With All Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w all properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -361,11 +361,11 @@ public class Ampli {
 
     /**
      * Event With All Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w all properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -378,11 +378,11 @@ public class Ampli {
 
     /**
      * Event With Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with Array Types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -393,11 +393,11 @@ public class Ampli {
 
     /**
      * Event With Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with Array Types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -409,11 +409,11 @@ public class Ampli {
 
     /**
      * Event With Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with Array Types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -426,11 +426,11 @@ public class Ampli {
 
     /**
      * Event With Const Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with const types
-     *
+     * <p>
      * Owner: Test codegen
      *
      */
@@ -440,11 +440,11 @@ public class Ampli {
 
     /**
      * Event With Const Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with const types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param options The event's options
@@ -455,11 +455,11 @@ public class Ampli {
 
     /**
      * Event With Const Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with const types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param options The event's options
@@ -471,11 +471,11 @@ public class Ampli {
 
     /**
      * event withDifferent_CasingTypes
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <p>
      * Description for case with space
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -486,11 +486,11 @@ public class Ampli {
 
     /**
      * event withDifferent_CasingTypes
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <p>
      * Description for case with space
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -502,11 +502,11 @@ public class Ampli {
 
     /**
      * event withDifferent_CasingTypes
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <p>
      * Description for case with space
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -519,11 +519,11 @@ public class Ampli {
 
     /**
      * Event With Enum Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with enum types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -534,11 +534,11 @@ public class Ampli {
 
     /**
      * Event With Enum Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with enum types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -550,11 +550,11 @@ public class Ampli {
 
     /**
      * Event With Enum Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with enum types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -567,11 +567,11 @@ public class Ampli {
 
     /**
      * Event With Optional Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with optional array types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -582,11 +582,11 @@ public class Ampli {
 
     /**
      * Event With Optional Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with optional array types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -598,11 +598,11 @@ public class Ampli {
 
     /**
      * Event With Optional Array Types
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <p>
      * Description for event with optional array types
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -615,11 +615,11 @@ public class Ampli {
 
     /**
      * Event With Optional Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w optional properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -630,11 +630,11 @@ public class Ampli {
 
     /**
      * Event With Optional Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w optional properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
@@ -646,11 +646,11 @@ public class Ampli {
 
     /**
      * Event With Optional Properties
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
-     *
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <p>
      * Event w optional properties description
-     *
+     * <p>
      * Owner: Test codegen
      *
      * @param properties The event's properties
