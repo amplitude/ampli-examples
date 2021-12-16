@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import com.amplitude.api.Amplitude;
 import com.amplitude.api.AmplitudeClient;
+import com.amplitude.api.MiddlewareExtra;
 import com.amplitude.api.Plan;
 
 public class Ampli {
@@ -124,12 +125,12 @@ public class Ampli {
         this.track(event, options, null);
     }
 
-    public void track(Event event, EventOptions options, Map<String, Object> extra) {
+    public void track(Event event, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
         this.handleEventOptions(options, null);
-        this.client.logEvent(event.eventType, this.getEventPropertiesJson(event));
+        this.client.logEvent(event.eventType, this.getEventPropertiesJson(event), null, System.currentTimeMillis(), false, extra);
     }
 
     public void identify(String userId, IdentifyProperties properties) {
@@ -140,12 +141,12 @@ public class Ampli {
         this.identify(userId, properties, options, null);
     }
 
-    public void identify(String userId, IdentifyProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void identify(String userId, IdentifyProperties properties, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
         this.handleEventOptions(options, userId);
-        this.client.setUserProperties(this.getEventPropertiesJson(new Identify(properties)));
+        this.client.setUserProperties(this.getEventPropertiesJson(new Identify(properties)), extra);
     }
 
     public void setGroup(String name, String value) {
@@ -156,12 +157,12 @@ public class Ampli {
         this.setGroup(name, value, options, null);
     }
 
-    public void setGroup(String name, String value, EventOptions options, Map<String, Object> extra) {
+    public void setGroup(String name, String value, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
         this.handleEventOptions(options, null);
-        this.client.setGroup(name, value);
+        this.client.setGroup(name, value, extra);
     }
 
     public void setGroup(String name, String[] value) {
@@ -172,12 +173,12 @@ public class Ampli {
         this.setGroup(name, value, options, null);
     }
 
-    public void setGroup(String name, String[] value, EventOptions options, Map<String, Object> extra) {
+    public void setGroup(String name, String[] value, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
         this.handleEventOptions(options, null);
-        this.client.setGroup(name, value);
+        this.client.setGroup(name, value, extra);
     }
 
     public void flush() {
@@ -231,7 +232,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventMaxIntForTest(EventMaxIntForTestProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventMaxIntForTest(EventMaxIntForTestProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventMaxIntForTest(properties), options, extra);
     }
 
@@ -276,7 +277,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventNoProperties(EventOptions options, Map<String, Object> extra) {
+    public void eventNoProperties(EventOptions options, MiddlewareExtra extra) {
         this.track(new EventNoProperties(), options, extra);
     }
 
@@ -324,7 +325,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventObjectTypes(EventObjectTypesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventObjectTypes(EventObjectTypesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventObjectTypes(properties), options, extra);
     }
 
@@ -372,7 +373,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithAllProperties(EventWithAllPropertiesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithAllProperties(EventWithAllPropertiesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithAllProperties(properties), options, extra);
     }
 
@@ -420,7 +421,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithArrayTypes(EventWithArrayTypesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithArrayTypes(EventWithArrayTypesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithArrayTypes(properties), options, extra);
     }
 
@@ -465,7 +466,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithConstTypes(EventOptions options, Map<String, Object> extra) {
+    public void eventWithConstTypes(EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithConstTypes(), options, extra);
     }
 
@@ -513,7 +514,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithDifferentCasingTypes(EventWithDifferentCasingTypesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithDifferentCasingTypes(EventWithDifferentCasingTypesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithDifferentCasingTypes(properties), options, extra);
     }
 
@@ -561,7 +562,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithEnumTypes(EventWithEnumTypesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithEnumTypes(EventWithEnumTypesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithEnumTypes(properties), options, extra);
     }
 
@@ -609,7 +610,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithOptionalArrayTypes(EventWithOptionalArrayTypesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithOptionalArrayTypes(EventWithOptionalArrayTypesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithOptionalArrayTypes(properties), options, extra);
     }
 
@@ -657,7 +658,7 @@ public class Ampli {
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
-    public void eventWithOptionalProperties(EventWithOptionalPropertiesProperties properties, EventOptions options, Map<String, Object> extra) {
+    public void eventWithOptionalProperties(EventWithOptionalPropertiesProperties properties, EventOptions options, MiddlewareExtra extra) {
         this.track(new EventWithOptionalProperties(properties), options, extra);
     }
 
