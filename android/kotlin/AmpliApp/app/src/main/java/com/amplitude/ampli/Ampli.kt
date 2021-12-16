@@ -21,12 +21,8 @@ import org.json.JSONObject
 
 import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
+import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
-
-/**
- * Unstructured object to let users pass extra data to middleware
- */
-typealias MiddlewareExtra = Map<String, Any>
 
 open class Event(
     val eventType: String,
@@ -541,7 +537,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options)
-        this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event))
+        this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), null, System.currentTimeMillis(), false, extra)
     }
 
     open fun identify(userId: String?, properties: IdentifyProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -549,7 +545,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options, userId)
-        this.client?.setUserProperties(this.getEventPropertiesJson(Identify(properties)))
+        this.client?.setUserProperties(this.getEventPropertiesJson(Identify(properties)), extra)
     }
 
     open fun setGroup(name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -557,7 +553,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options)
-        this.client?.setGroup(name, value)
+        this.client?.setGroup(name, value, extra)
     }
 
     open fun setGroup(name: String, value: Array<String>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -565,7 +561,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options)
-        this.client?.setGroup(name, value)
+        this.client?.setGroup(name, value, extra)
     }
 
     open fun flush() {

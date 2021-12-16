@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.amplitude.ampli.*
 import com.amplitude.api.AmplitudeClient
+import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
@@ -27,6 +28,8 @@ class AmpliTest {
 
     @Captor
     lateinit var jsonObjectCaptor: ArgumentCaptor<JSONObject>
+    @Captor
+    lateinit var extraCaptor: ArgumentCaptor<MiddlewareExtra>
 
     @Before
     fun setUp() {
@@ -52,16 +55,21 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
+        val extra = MiddlewareExtra()
+        extra.put("abc", 123)
+        extra.put("xyz", "987")
+
         this.ampli.identify(
             userId,
             IdentifyProperties(requiredNumber = 42.0, optionalArray = listOf("A", "ray")),
-            EventOptions(deviceId = deviceId, userId = "some-user")
+            EventOptions(deviceId = deviceId, userId = "some-user"),
+            extra
         )
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
 
-        verify(client, times(1)).setUserProperties(jsonObjectCaptor.capture())
+        verify(client, times(1)).setUserProperties(jsonObjectCaptor.capture(), extraCaptor.capture())
         assertEquals(
             """{
   "optionalArray": [
@@ -71,6 +79,12 @@ class AmpliTest {
   "requiredNumber": 42
 }""", jsonObjectCaptor.value.toString(2)
         )
+        assertEquals(
+            """{
+  "abc": 123,
+  "xyz": "987"
+}""", extraCaptor.value.toString(2)
+        )
     }
 
     @Test
@@ -78,15 +92,26 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
+        val extra = MiddlewareExtra()
+        extra.put("abc", 123)
+        extra.put("xyz", "987")
+
         this.ampli.setGroup(
             "group-1",
             "value-1",
-            EventOptions(deviceId = deviceId, userId = userId)
+            EventOptions(deviceId = deviceId, userId = userId),
+            extra
         )
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
-        verify(client, times(1)).setGroup("group-1", "value-1")
+        verify(client, times(1)).setGroup(eq("group-1"), eq("value-1"), extraCaptor.capture())
+        assertEquals(
+            """{
+  "abc": 123,
+  "xyz": "987"
+}""", extraCaptor.value.toString(2)
+        )
     }
 
     @Test
@@ -94,15 +119,26 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
+        val extra = MiddlewareExtra()
+        extra.put("abc", 123)
+        extra.put("xyz", "987")
+
         this.ampli.setGroup(
             "group-1",
             arrayOf("value-1", "value-2", "value-3"),
-            EventOptions(deviceId = deviceId, userId = userId)
+            EventOptions(deviceId = deviceId, userId = userId),
+            extra
         )
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
-        verify(client, times(1)).setGroup("group-1", arrayOf("value-1", "value-2", "value-3"))
+        verify(client, times(1)).setGroup(eq("group-1"), eq(arrayOf("value-1", "value-2", "value-3")), extraCaptor.capture())
+        assertEquals(
+            """{
+  "abc": 123,
+  "xyz": "987"
+}""", extraCaptor.value.toString(2)
+        )
     }
 
     @Test
@@ -110,20 +146,41 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
+        val extra = MiddlewareExtra()
+        extra.put("abc", 123)
+        extra.put("xyz", "987")
+
         this.ampli.eventNoProperties(
-            EventOptions(deviceId = deviceId, userId = userId)
+            EventOptions(deviceId = deviceId, userId = userId),
+            extra
         )
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
-        verify(client, times(1)).logEvent(eq("Event No Properties"), jsonObjectCaptor.capture())
+        verify(client, times(1)).logEvent(
+            eq("Event No Properties"),
+            jsonObjectCaptor.capture(),
+            eq(null), anyLong(),
+            eq(false),
+            extraCaptor.capture()
+        )
         assertNull(jsonObjectCaptor.value)
+        assertEquals(
+            """{
+  "abc": 123,
+  "xyz": "987"
+}""", extraCaptor.value.toString(2)
+        )
     }
 
     @Test
     fun trackEventWithAllProperties() {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
+
+        val extra = MiddlewareExtra()
+        extra.put("abc", 123)
+        extra.put("xyz", "987")
 
         this.ampli.eventWithAllProperties(
             EventWithAllPropertiesProperties(
@@ -134,14 +191,19 @@ class AmpliTest {
                 requiredInteger = 41,
                 requiredNumber = 42.0
             ),
-            EventOptions(deviceId = deviceId, userId = userId)
+            EventOptions(deviceId = deviceId, userId = userId),
+            extra
         )
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).logEvent(
             eq("Event With All Properties"),
-            jsonObjectCaptor.capture()
+            jsonObjectCaptor.capture(),
+            eq(null),
+            anyLong(),
+            eq(false),
+            extraCaptor.capture()
         )
         assertEquals(
             """{
@@ -156,6 +218,12 @@ class AmpliTest {
   "requiredNumber": 42,
   "requiredString": "Required string"
 }""", jsonObjectCaptor.value.toString(2)
+        )
+        assertEquals(
+            """{
+  "abc": 123,
+  "xyz": "987"
+}""", extraCaptor.value.toString(2)
         )
     }
 
