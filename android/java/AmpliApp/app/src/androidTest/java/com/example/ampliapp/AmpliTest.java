@@ -1,25 +1,16 @@
 package com.example.ampliapp;
 
-import android.content.Context;
-
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
+import android.content.Context;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
@@ -32,11 +23,14 @@ import com.amplitude.api.AmplitudeClient;
 import com.amplitude.api.MiddlewareExtra;
 import com.amplitude.api.Plan;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+import org.json.JSONObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.junit.MockitoJUnitRunner;
+
 @RunWith(MockitoJUnitRunner.class)
 public class AmpliTest {
     Ampli ampli;
@@ -75,12 +69,8 @@ public class AmpliTest {
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
-        try {
-            extra.put("abc", 123);
-            extra.put("xyz", "987");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
 
         IdentifyProperties properties = new IdentifyProperties();
         properties.setRequiredNumber(42.0);
@@ -101,7 +91,7 @@ public class AmpliTest {
                 jsonObjectCaptor.getValue().toString()
         );
         assertEquals(
-                "{\"abc\":123,\"xyz\":\"987\"}",
+                "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
         );
     }
@@ -112,12 +102,8 @@ public class AmpliTest {
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
-        try {
-            extra.put("abc", 123);
-            extra.put("xyz", "987");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
 
         this.ampli.setGroup(
                 "group-1",
@@ -130,7 +116,7 @@ public class AmpliTest {
         verify(client, times(1)).setDeviceId(deviceId);
         verify(client, times(1)).setGroup(eq("group-1"), eq("value-1"), extraCaptor.capture());
         assertEquals(
-                "{\"abc\":123,\"xyz\":\"987\"}",
+                "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
         );
     }
@@ -141,12 +127,8 @@ public class AmpliTest {
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
-        try {
-            extra.put("abc", 123);
-            extra.put("xyz", "987");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
 
         this.ampli.setGroup(
                 "group-1",
@@ -159,7 +141,7 @@ public class AmpliTest {
         verify(client, times(1)).setDeviceId(deviceId);
         verify(client, times(1)).setGroup(eq("group-1"), eq(new String[]{"value-1", "value-2", "value-3"}), extraCaptor.capture());
         assertEquals(
-                "{\"abc\":123,\"xyz\":\"987\"}",
+                "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
         );
     }
@@ -170,12 +152,8 @@ public class AmpliTest {
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
-        try {
-            extra.put("abc", 123);
-            extra.put("xyz", "987");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
 
         this.ampli.eventNoProperties(
                 new EventOptions().setDeviceId(deviceId).setUserId(userId),
@@ -187,14 +165,11 @@ public class AmpliTest {
         verify(client, times(1)).logEvent(
                 eq("Event No Properties"),
                 jsonObjectCaptor.capture(),
-                eq(null),
-                anyLong(),
-                eq(false),
                 extraCaptor.capture()
         );
         assertNull(jsonObjectCaptor.getValue());
         assertEquals(
-                "{\"abc\":123,\"xyz\":\"987\"}",
+                "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
         );
     }
@@ -205,12 +180,8 @@ public class AmpliTest {
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
-        try {
-            extra.put("abc", 123);
-            extra.put("xyz", "987");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
 
         EventWithAllPropertiesProperties properties = new EventWithAllPropertiesProperties();
         properties.setRequiredString("Required string");
@@ -230,9 +201,6 @@ public class AmpliTest {
         verify(client, times(1)).logEvent(
                 eq("Event With All Properties"),
                 jsonObjectCaptor.capture(),
-                eq(null),
-                anyLong(),
-                eq(false),
                 extraCaptor.capture()
         );
         assertEquals(
@@ -240,7 +208,7 @@ public class AmpliTest {
                 jsonObjectCaptor.getValue().toString()
         );
         assertEquals(
-                "{\"abc\":123,\"xyz\":\"987\"}",
+                "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
         );
     }

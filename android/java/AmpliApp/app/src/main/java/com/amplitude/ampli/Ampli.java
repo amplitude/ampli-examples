@@ -130,7 +130,7 @@ public class Ampli {
             return;
         }
         this.handleEventOptions(options, null);
-        this.client.logEvent(event.eventType, this.getEventPropertiesJson(event), null, System.currentTimeMillis(), false, extra);
+        this.client.logEvent(event.eventType, this.getEventPropertiesJson(event), extra);
     }
 
     public void identify(String userId, IdentifyProperties properties) {
