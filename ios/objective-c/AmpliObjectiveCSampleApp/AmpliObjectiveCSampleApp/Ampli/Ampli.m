@@ -1373,7 +1373,7 @@ NS_ASSUME_NONNULL_END
       @(production): @""
     };
     self.disabled = options != nil ? options.disabled : NO;
-    if (_amplitude != nil) {
+    if (_client != nil) {
         NSLog(@"Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
         return;
     }
@@ -1381,17 +1381,17 @@ NS_ASSUME_NONNULL_END
     NSString *apiKey = options != nil && options.client != nil && options.client.apiKey != nil ? options.client.apiKey : ApiKey[@(env)];
 
     if (options != nil && options.client != nil && options.client.instance != nil) {
-        _amplitude = options.client.instance;
+        _client = options.client.instance;
     } else if (apiKey != nil) {
-        _amplitude = [Amplitude instance];
-        [_amplitude initializeApiKey:apiKey];
+        _client = [Amplitude instance];
+        [_client initializeApiKey:apiKey];
     } else {
         NSLog(@"ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
         return;
     }
-    if (_amplitude != nil) {
+    if (_client != nil) {
         AMPPlan *AmpliObservePlan = [[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"0"];
-        [_amplitude setPlan:AmpliObservePlan];
+        [_client setPlan:AmpliObservePlan];
     }
 }
 
@@ -1407,7 +1407,7 @@ NS_ASSUME_NONNULL_END
     if (![self isInitializedAndEnabld]) {
         return;
     }
-    [self.amplitude logEvent:event.eventType withEventProperties:event.eventProperties withMiddlewareExtra:extra];
+    [self.client logEvent:event.eventType withEventProperties:event.eventProperties withMiddlewareExtra:extra];
 }
 
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties {
@@ -1427,10 +1427,10 @@ NS_ASSUME_NONNULL_END
         return;
     }
     if (userId != nil) {
-        [self.amplitude setUserId:userId];
+        [self.client setUserId:userId];
     }
     if (options != nil && options.deviceId != nil) {
-        [self.amplitude setDeviceId:options.deviceId];
+        [self.client setDeviceId:options.deviceId];
     }
     if (properties != nil) {
         AMPIdentify *identifyArgs = [AMPIdentify identify];
@@ -1444,7 +1444,7 @@ NS_ASSUME_NONNULL_END
         [propertyDict enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
           [identifyArgs set:key value:value];
         }];
-        [self.amplitude identify:identifyArgs];
+        [self.client identify:identifyArgs];
     }
 }
 
@@ -1452,8 +1452,8 @@ NS_ASSUME_NONNULL_END
     if (![self isInitializedAndEnabld]) {
         return;
     }
-    if (self.amplitude != nil) {
-        [self.amplitude uploadEvents];
+    if (self.client != nil) {
+        [self.client uploadEvents];
     }
 }
   - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
@@ -1587,7 +1587,7 @@ NS_ASSUME_NONNULL_END
   }
 
 - (BOOL)isInitializedAndEnabld {
-    if (self.amplitude == nil) {
+    if (self.client == nil) {
         NSLog(@"Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
        return NO;
     }
@@ -1599,10 +1599,10 @@ NS_ASSUME_NONNULL_END
       return;
   }
   if (options.userId != nil) {
-      [self.amplitude setUserId:options.userId];
+      [self.client setUserId:options.userId];
   }
   if (options.deviceId != nil) {
-      [self.amplitude setDeviceId:options.deviceId];
+      [self.client setDeviceId:options.deviceId];
   }
 }
 

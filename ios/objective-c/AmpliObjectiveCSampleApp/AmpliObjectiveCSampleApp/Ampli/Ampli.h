@@ -340,7 +340,7 @@ NS_ASSUME_NONNULL_END
 
 
 @interface Ampli: NSObject
-@property (nonatomic, strong, readonly) Amplitude * _Nullable amplitude;
+@property (nonatomic, strong, readonly) Amplitude * _Nullable client;
 @property (nonatomic, assign, readwrite) BOOL disabled;
 + (instancetype _Nonnull)instance;
 - (instancetype _Nonnull )init;

@@ -26,7 +26,7 @@
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Event No Properties");
     }];
-    [_ampli.amplitude addEventMiddleware:testMiddleware];
+    [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli eventNoProperties];
 }
 
@@ -44,7 +44,7 @@
         XCTAssertNil(eventProperties[@"optionalString"]);
         XCTAssertEqualObjects(payload.extra[@"test"], @"extra test");
     }];
-    [_ampli.amplitude addEventMiddleware:testMiddleware];
+    [_ampli.client addEventMiddleware:testMiddleware];
     NSMutableDictionary *extraDict = [NSMutableDictionary new];
     [extraDict setObject:@"extra test" forKey:@"test"];
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
@@ -73,7 +73,7 @@
         XCTAssertEqualObjects(payload.event[@"user_id"], userId);
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
     }];
-    [_ampli.amplitude addEventMiddleware:testMiddleware];
+    [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli identify:userId properties:identifyProperties options:eventOptions];
 }
 
