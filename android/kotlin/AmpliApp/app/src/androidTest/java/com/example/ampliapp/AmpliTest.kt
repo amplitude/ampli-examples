@@ -55,9 +55,7 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra()
-        extra.put("abc", 123)
-        extra.put("xyz", "987")
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
         this.ampli.identify(
             userId,
@@ -79,12 +77,7 @@ class AmpliTest {
   "requiredNumber": 42
 }""", jsonObjectCaptor.value.toString(2)
         )
-        assertEquals(
-            """{
-  "abc": 123,
-  "xyz": "987"
-}""", extraCaptor.value.toString(2)
-        )
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
     @Test
@@ -92,9 +85,7 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra()
-        extra.put("abc", 123)
-        extra.put("xyz", "987")
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
         this.ampli.setGroup(
             "group-1",
@@ -106,12 +97,7 @@ class AmpliTest {
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).setGroup(eq("group-1"), eq("value-1"), extraCaptor.capture())
-        assertEquals(
-            """{
-  "abc": 123,
-  "xyz": "987"
-}""", extraCaptor.value.toString(2)
-        )
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
     @Test
@@ -119,9 +105,7 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra()
-        extra.put("abc", 123)
-        extra.put("xyz", "987")
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
         this.ampli.setGroup(
             "group-1",
@@ -133,12 +117,7 @@ class AmpliTest {
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).setGroup(eq("group-1"), eq(arrayOf("value-1", "value-2", "value-3")), extraCaptor.capture())
-        assertEquals(
-            """{
-  "abc": 123,
-  "xyz": "987"
-}""", extraCaptor.value.toString(2)
-        )
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
     @Test
@@ -146,9 +125,7 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra()
-        extra.put("abc", 123)
-        extra.put("xyz", "987")
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
         this.ampli.eventNoProperties(
             EventOptions(deviceId = deviceId, userId = userId),
@@ -160,17 +137,10 @@ class AmpliTest {
         verify(client, times(1)).logEvent(
             eq("Event No Properties"),
             jsonObjectCaptor.capture(),
-            eq(null), anyLong(),
-            eq(false),
             extraCaptor.capture()
         )
         assertNull(jsonObjectCaptor.value)
-        assertEquals(
-            """{
-  "abc": 123,
-  "xyz": "987"
-}""", extraCaptor.value.toString(2)
-        )
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
     @Test
@@ -178,9 +148,7 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra()
-        extra.put("abc", 123)
-        extra.put("xyz", "987")
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
         this.ampli.eventWithAllProperties(
             EventWithAllPropertiesProperties(
@@ -200,9 +168,6 @@ class AmpliTest {
         verify(client, times(1)).logEvent(
             eq("Event With All Properties"),
             jsonObjectCaptor.capture(),
-            eq(null),
-            anyLong(),
-            eq(false),
             extraCaptor.capture()
         )
         assertEquals(
@@ -219,12 +184,7 @@ class AmpliTest {
   "requiredString": "Required string"
 }""", jsonObjectCaptor.value.toString(2)
         )
-        assertEquals(
-            """{
-  "abc": 123,
-  "xyz": "987"
-}""", extraCaptor.value.toString(2)
-        )
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
     @Test

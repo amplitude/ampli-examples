@@ -537,7 +537,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options)
-        this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), null, System.currentTimeMillis(), false, extra)
+        this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), extra)
     }
 
     open fun identify(userId: String?, properties: IdentifyProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
