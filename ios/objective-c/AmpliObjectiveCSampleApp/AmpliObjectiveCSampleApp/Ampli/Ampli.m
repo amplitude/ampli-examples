@@ -1304,7 +1304,7 @@ NS_ASSUME_NONNULL_END
 @end
 
 @implementation EventOptions
-- (instancetype)initWithParams:(NSString *_Nullable)deviceId userId:(NSString *_Nullable)userId {
+- (instancetype)initWithUserId:(NSString *_Nullable)userId deviceId:(NSString *_Nullable)deviceId {
     self = [self init];
     if (self) {
         _deviceId = deviceId;
@@ -1339,7 +1339,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (EventOptions *_Nonnull)build {
-    return [[EventOptions alloc] initWithParams:_deviceId userId:_userId];
+    return [[EventOptions alloc] initWithUserId:_userId deviceId:_deviceId];
 }
 
 @end

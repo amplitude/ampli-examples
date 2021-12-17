@@ -363,8 +363,8 @@ Event to test schema validation
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -377,8 +377,9 @@ Event to test schema validation
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -391,7 +392,7 @@ Event to test schema validation
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties;
 
@@ -404,7 +405,7 @@ Event w no properties description
 
 Owner: Test codegen
 
-- Parameter extra Extra untyped parameters for use in middleware.
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventNoProperties:(MiddlewareExtra *_Nullable)extra;
 
@@ -417,7 +418,8 @@ Event w no properties description
 
 Owner: Test codegen
 
-- Parameter extra Extra untyped parameters for use in middleware.
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventNoProperties:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -442,8 +444,8 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -456,8 +458,9 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -470,7 +473,7 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties;
 
@@ -483,8 +486,8 @@ Event w all properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -497,8 +500,9 @@ Event w all properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -511,7 +515,7 @@ Event w all properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties;
 
@@ -524,8 +528,8 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -538,8 +542,9 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -552,7 +557,7 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties;
 
@@ -565,7 +570,7 @@ Description for event with const types
 
 Owner: Test codegen
 
-- Parameter extra Extra untyped parameters for use in middleware.
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithConstTypes:(MiddlewareExtra *_Nullable)extra;
 
@@ -578,7 +583,8 @@ Description for event with const types
 
 Owner: Test codegen
 
-- Parameter extra Extra untyped parameters for use in middleware.
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithConstTypes:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -603,8 +609,8 @@ Description for case with space
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -617,8 +623,9 @@ Description for case with space
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -631,7 +638,7 @@ Description for case with space
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties;
 
@@ -644,8 +651,8 @@ Description for event with enum types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -658,8 +665,9 @@ Description for event with enum types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -672,7 +680,7 @@ Description for event with enum types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties;
 
@@ -685,8 +693,8 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -699,8 +707,9 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -713,7 +722,7 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties;
 
@@ -726,8 +735,8 @@ Event w optional properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -740,8 +749,9 @@ Event w optional properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
-- Parameter extra Extra untyped parameters for use in middleware.
+@param properties The event's properties
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
 */
 - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
@@ -754,7 +764,7 @@ Event w optional properties description
 
 Owner: Test codegen
 
-- Parameter properties The event's properties
+@param properties The event's properties
 */
 - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties;
 @end

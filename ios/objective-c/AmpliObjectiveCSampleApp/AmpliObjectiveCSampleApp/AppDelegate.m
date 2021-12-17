@@ -44,18 +44,23 @@
     [ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *builder) {
         builder.apiKey =apiKey;
     }]];
+    
     IdentifyProperties *identifyProperties = [IdentifyProperties new];
     identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     identifyProperties.requiredNumber = @22;
     [ampli identify:@"ampli-objc-user" properties:identifyProperties];
+    
     [ampli eventNoProperties];
+    
     NSMutableDictionary *extraDict = [NSMutableDictionary new];
     [extraDict setObject:@"extra test"
               forKey:@"test"];
     EventMaxIntForTestProperties *eventMaxIntForTestProperties = [EventMaxIntForTestProperties new];
     eventMaxIntForTestProperties.intMax10 = @20;
     [ampli eventMaxIntForTest:eventMaxIntForTestProperties extra:extraDict];
+    
     [ampli eventWithConstTypes:extraDict];
+    
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
     eventWithAllPropertiesProperties.requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
     eventWithAllPropertiesProperties.requiredBoolean = @YES;
