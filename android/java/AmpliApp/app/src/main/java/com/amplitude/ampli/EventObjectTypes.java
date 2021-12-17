@@ -14,12 +14,39 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventObjectTypes extends Event {
-    public EventObjectTypes(
-        EventObjectTypesProperties eventProperties
-    ) {
-        super("Event Object Types");
-        this.addProperty("requiredObject", eventProperties.getRequiredObject());
-        this.addProperty("requiredObjectArray", eventProperties.getRequiredObjectArray());
+    private EventObjectTypes(Builder builder) {
+        super("Event Object Types", builder.properties);
+    }
+
+    /**
+     * Property Object Array Type
+     * <p>
+     * Must be followed by by additional optional properties or build() method
+     */
+    public static IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray) {
+        Builder builder = new Builder();
+        builder.properties.put("requiredObjectArray", requiredObjectArray);
+        return builder;
+    }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+            this.properties.put("requiredObject", null);
+        }
+
+        public EventObjectTypes build() {
+            return new EventObjectTypes(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        EventObjectTypes build();
     }
 }

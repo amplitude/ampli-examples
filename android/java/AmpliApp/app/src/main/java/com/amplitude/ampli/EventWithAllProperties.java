@@ -14,18 +14,119 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventWithAllProperties extends Event {
-    public EventWithAllProperties(
-        EventWithAllPropertiesProperties eventProperties
-    ) {
-        super("Event With All Properties");
-        if (eventProperties.getOptionalString() != null) { this.addProperty("optionalString", eventProperties.getOptionalString()); }
-        this.addProperty("requiredArray", eventProperties.getRequiredArray());
-        this.addProperty("requiredBoolean", eventProperties.getRequiredBoolean());
-        this.addProperty("requiredConst", "some-const-value");
-        this.addProperty("requiredEnum", eventProperties.getRequiredEnum().toValue());
-        this.addProperty("requiredInteger", eventProperties.getRequiredInteger());
-        this.addProperty("requiredNumber", eventProperties.getRequiredNumber());
-        this.addProperty("requiredString", eventProperties.getRequiredString());
+    private EventWithAllProperties(Builder builder) {
+        super("Event With All Properties", builder.properties);
+    }
+
+    /**
+     * Event 2 Property - Array
+     * <p>
+     * Must be followed by {@link IRequiredBoolean#requiredBoolean(boolean)
+     */
+    public static IRequiredBoolean requiredArray(String[] requiredArray) {
+        Builder builder = new Builder();
+        builder.properties.put("requiredArray", requiredArray);
+        return builder;
+    }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IRequiredBoolean, IRequiredEnum, IRequiredInteger, IRequiredNumber, IRequiredString, IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+            this.properties.put("requiredConst", "some-const-value");
+        }
+
+        /**
+         * Event 2 Property - Boolean
+         * <p>
+         * Must be followed by {@link IRequiredEnum#requiredEnum(EventWithAllPropertiesRequiredEnum)
+         */
+        public IRequiredEnum requiredBoolean(boolean requiredBoolean) {
+            this.properties.put("requiredBoolean", requiredBoolean);
+            return this;
+        }
+
+        /**
+         * Event 2 Property - Enum
+         * <p>
+         * Must be followed by {@link IRequiredInteger#requiredInteger(Integer)
+         */
+        public IRequiredInteger requiredEnum(EventWithAllPropertiesRequiredEnum requiredEnum) {
+            this.properties.put("requiredEnum", requiredEnum.toValue());
+            return this;
+        }
+
+        /**
+         * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
+         * <p>
+         * Must be followed by {@link IRequiredNumber#requiredNumber(Double)
+         */
+        public IRequiredNumber requiredInteger(Integer requiredInteger) {
+            this.properties.put("requiredInteger", requiredInteger);
+            return this;
+        }
+
+        /**
+         * Event 2 Property - Number
+         * <p>
+         * Must be followed by {@link IRequiredString#requiredString(String)
+         */
+        public IRequiredString requiredNumber(Double requiredNumber) {
+            this.properties.put("requiredNumber", requiredNumber);
+            return this;
+        }
+
+        /**
+         * Event 2 Property - String
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredString(String requiredString) {
+            this.properties.put("requiredString", requiredString);
+            return this;
+        }
+
+        /**
+         * Event 2 Property - Optional String    *     * Examples:    * Some string, or another
+         */
+        public IBuild optionalString(String optionalString) {
+            this.properties.put("optionalString", optionalString);
+            return this;
+        }
+
+        public EventWithAllProperties build() {
+            return new EventWithAllProperties(this);
+        }
+    }
+
+    // Required property interfaces
+    public interface IRequiredBoolean {
+        IRequiredEnum requiredBoolean(boolean requiredBoolean);
+    }
+
+    public interface IRequiredEnum {
+        IRequiredInteger requiredEnum(EventWithAllPropertiesRequiredEnum requiredEnum);
+    }
+
+    public interface IRequiredInteger {
+        IRequiredNumber requiredInteger(Integer requiredInteger);
+    }
+
+    public interface IRequiredNumber {
+        IRequiredString requiredNumber(Double requiredNumber);
+    }
+
+    public interface IRequiredString {
+        IBuild requiredString(String requiredString);
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        IBuild optionalString(String optionalString);
+        EventWithAllProperties build();
     }
 }

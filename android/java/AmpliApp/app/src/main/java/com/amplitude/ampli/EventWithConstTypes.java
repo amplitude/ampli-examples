@@ -14,14 +14,37 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventWithConstTypes extends Event {
-    public EventWithConstTypes() {
-        super("Event With Const Types");
-        this.addProperty("Boolean Const", true);
-        this.addProperty("Integer Const", 10);
-        this.addProperty("Number Const", 2.2);
-        this.addProperty("String Const", "String-Constant");
-        this.addProperty("String Const WIth Quotes", "\"String \"Const With\" Quotes\"");
-        this.addProperty("String Int Const", 0);
+    private EventWithConstTypes(Builder builder) {
+        super("Event With Const Types", builder.properties);
+    }
+
+    public static EventWithConstTypes build() {
+        return new Builder().build();
+    }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+            this.properties.put("Boolean Const", true);
+            this.properties.put("Integer Const", 10);
+            this.properties.put("Number Const", 2.2);
+            this.properties.put("String Const", "String-Constant");
+            this.properties.put("String Const WIth Quotes", "\"String \"Const With\" Quotes\"");
+            this.properties.put("String Int Const", 0);
+        }
+
+        public EventWithConstTypes build() {
+            return new EventWithConstTypes(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        EventWithConstTypes build();
     }
 }

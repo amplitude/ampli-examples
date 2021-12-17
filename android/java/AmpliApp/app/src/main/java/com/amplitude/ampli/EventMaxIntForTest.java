@@ -14,11 +14,39 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventMaxIntForTest extends Event {
-    public EventMaxIntForTest(
-        EventMaxIntForTestProperties eventProperties
-    ) {
-        super("EventMaxIntForTest");
-        this.addProperty("intMax10", eventProperties.getIntMax10());
+    private EventMaxIntForTest(Builder builder) {
+        super("EventMaxIntForTest", builder.properties);
+    }
+
+    /**
+     * property to test schema validation
+     * <p>
+     * Must be followed by by additional optional properties or build() method
+     */
+    public static IBuild intMax10(Integer intMax10) {
+        Builder builder = new Builder();
+        builder.properties.put("intMax10", intMax10);
+        return builder;
+    }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        public EventMaxIntForTest build() {
+            return new EventMaxIntForTest(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        EventMaxIntForTest build();
     }
 }

@@ -17,31 +17,27 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnIdentify = this.findViewById(R.id.btn_identify);
         btnIdentify.setOnClickListener(v -> {
-            IdentifyProperties properties = new IdentifyProperties();
-            properties.setRequiredNumber(42);
-
-            Ampli.getInstance().identify(userId, properties);
+            Ampli.getInstance().identify(userId, Identify.requiredNumber(42.0).build());
         });
 
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
         btnEventWithOptionalProperties.setOnClickListener(v -> {
-            EventWithOptionalPropertiesProperties properties = new EventWithOptionalPropertiesProperties();
-            properties.setOptionalBoolean(true);
-
-            Ampli.getInstance().track(new EventWithOptionalProperties(properties));
+            Ampli.getInstance().track(EventWithOptionalProperties
+                    .optionalBoolean(true)
+                    .build()
+            );
         });
 
         Button btnEventWithAllProperties = this.findViewById(R.id.btn_all_properties);
         btnEventWithAllProperties.setOnClickListener(v -> {
-            EventWithAllPropertiesProperties properties = new EventWithAllPropertiesProperties();
-            properties.setRequiredNumber(1.23);
-            properties.setRequiredArray(new String[]{"I'm", "required"});
-            properties.setRequiredBoolean(false);
-            properties.setRequiredEnum(EventWithAllPropertiesRequiredEnum.ENUM1);
-            properties.setRequiredInteger(42);
-            properties.setRequiredString("Hi!");
-
-            Ampli.getInstance().eventWithAllProperties(properties);
+            Ampli.getInstance().eventWithAllProperties(EventWithAllProperties
+                    .requiredArray(new String[]{"I'm", "required"})
+                    .requiredBoolean(false)
+                    .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM1)
+                    .requiredInteger(42)
+                    .requiredNumber(1.23)
+                    .requiredString("Hi!")
+                    .build());
         });
     }
 }

@@ -14,12 +14,48 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class Identify extends Event {
-    public Identify(
-        IdentifyProperties eventProperties
-    ) {
-        super("Identify");
-        if (eventProperties.getOptionalArray() != null) { this.addProperty("optionalArray", eventProperties.getOptionalArray()); }
-        this.addProperty("requiredNumber", eventProperties.getRequiredNumber());
+    private Identify(Builder builder) {
+        super("identify", builder.properties);
+    }
+
+    /**
+     * Description for identify requiredNumber
+     * <p>
+     * Must be followed by by additional optional properties or build() method
+     */
+    public static IBuild requiredNumber(Double requiredNumber) {
+        Builder builder = new Builder();
+        builder.properties.put("requiredNumber", requiredNumber);
+        return builder;
+    }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        /**
+         * Description for identify optionalArray
+         */
+        public IBuild optionalArray(String[] optionalArray) {
+            this.properties.put("optionalArray", optionalArray);
+            return this;
+        }
+
+        public Identify build() {
+            return new Identify(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        IBuild optionalArray(String[] optionalArray);
+        Identify build();
     }
 }
