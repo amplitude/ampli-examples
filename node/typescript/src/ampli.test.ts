@@ -1,4 +1,4 @@
-import { Ampli, ApiKey } from './ampli';
+import { Ampli, ApiKey, EventWithAllPropertiesRequiredEnum } from './ampli';
 import { SpecialEventType } from "@amplitude/types";
 
 describe('Ampli Node JS SDK tests', () => {
@@ -88,7 +88,7 @@ describe('Ampli Node JS SDK tests', () => {
     ampli.eventWithAllProperties(userId, {
       requiredBoolean: false,
       requiredInteger: 42,
-      requiredEnum: "Enum1",
+      requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
       requiredNumber: 42.0,
       requiredString: "Required string",
       requiredArray: ["Required","string"],
