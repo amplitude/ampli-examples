@@ -21,41 +21,7 @@ public class EventWithOptionalArrayTypes extends Event {
         super("Event With Optional Array Types", builder.properties);
     }
 
-    /**
-     * Description for optional boolean array
-     */
-    public static IBuild optionalBooleanArray(Boolean[] optionalBooleanArray) {
-        Builder builder = new Builder();
-        return builder.optionalBooleanArray(optionalBooleanArray);
-    }
-
-    /**
-     * Description for optional object array
-     */
-    public static IBuild optionalJSONArray(org.json.JSONObject[] optionalJSONArray) {
-        Builder builder = new Builder();
-        return builder.optionalJSONArray(optionalJSONArray);
-    }
-
-    /**
-     * Description for optional number array
-     */
-    public static IBuild optionalNumberArray(Double[] optionalNumberArray) {
-        Builder builder = new Builder();
-        return builder.optionalNumberArray(optionalNumberArray);
-    }
-
-    /**
-     * Description for optional string array
-     */
-    public static IBuild optionalStringArray(String[] optionalStringArray) {
-        Builder builder = new Builder();
-        return builder.optionalStringArray(optionalStringArray);
-    }
-
-    public static EventWithOptionalArrayTypes build() {
-        return new Builder().build();
-    }
+    public static IBuild builder() { return new Builder(); }
 
     // Inner Builder class with required properties
     public static class Builder implements IBuild {

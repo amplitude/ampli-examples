@@ -21,9 +21,7 @@ public class EventNoProperties extends Event {
         super("Event No Properties", builder.properties);
     }
 
-    public static EventNoProperties build() {
-        return new Builder().build();
-    }
+    public static IBuild builder() { return new Builder(); }
 
     // Inner Builder class with required properties
     public static class Builder implements IBuild {

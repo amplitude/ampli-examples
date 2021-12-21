@@ -21,23 +21,24 @@ public class Group extends Event {
         super("group", builder.properties);
     }
 
-    /**
-     * Description for group requiredBoolean
-     * <p>
-     * Must be followed by by additional optional properties or build() method
-     */
-    public static IBuild requiredBoolean(boolean requiredBoolean) {
-        Builder builder = new Builder();
-        builder.properties.put("requiredBoolean", requiredBoolean);
-        return builder;
-    }
+    public static IRequiredBoolean builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IBuild {
+    public static class Builder implements IRequiredBoolean, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
+        }
+
+        /**
+         * Description for group requiredBoolean
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredBoolean(boolean requiredBoolean) {
+            this.properties.put("requiredBoolean", requiredBoolean);
+            return this;
         }
 
         /**
@@ -51,6 +52,11 @@ public class Group extends Event {
         public Group build() {
             return new Group(this);
         }
+    }
+
+    // Required property interfaces
+    public interface IRequiredBoolean {
+        IBuild requiredBoolean(boolean requiredBoolean);
     }
 
     /** Build interface with optional properties */

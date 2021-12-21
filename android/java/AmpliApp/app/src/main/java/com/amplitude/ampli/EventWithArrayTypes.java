@@ -21,23 +21,24 @@ public class EventWithArrayTypes extends Event {
         super("Event With Array Types", builder.properties);
     }
 
-    /**
-     * description for required boolean array
-     * <p>
-     * Must be followed by {@link IRequiredNumberArray#requiredNumberArray(Double[])
-     */
-    public static IRequiredNumberArray requiredBooleanArray(Boolean[] requiredBooleanArray) {
-        Builder builder = new Builder();
-        builder.properties.put("requiredBooleanArray", requiredBooleanArray);
-        return builder;
-    }
+    public static IRequiredBooleanArray builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IRequiredNumberArray, IRequiredObjectArray, IRequiredStringArray, IBuild {
+    public static class Builder implements IRequiredBooleanArray, IRequiredNumberArray, IRequiredObjectArray, IRequiredStringArray, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
+        }
+
+        /**
+         * description for required boolean array
+         * <p>
+         * Must be followed by {@link IRequiredNumberArray#requiredNumberArray(Double[])
+         */
+        public IRequiredNumberArray requiredBooleanArray(Boolean[] requiredBooleanArray) {
+            this.properties.put("requiredBooleanArray", requiredBooleanArray);
+            return this;
         }
 
         /**
@@ -76,6 +77,10 @@ public class EventWithArrayTypes extends Event {
     }
 
     // Required property interfaces
+    public interface IRequiredBooleanArray {
+        IRequiredNumberArray requiredBooleanArray(Boolean[] requiredBooleanArray);
+    }
+
     public interface IRequiredNumberArray {
         IRequiredObjectArray requiredNumberArray(Double[] requiredNumberArray);
     }

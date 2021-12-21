@@ -74,7 +74,7 @@ public class AmpliTest {
 
         this.ampli.identify(
                 userId,
-                Identify.requiredNumber(42.0).optionalArray(new String[]{"A", "ray"}).build(),
+                Identify.builder().requiredNumber(42.0).optionalArray(new String[]{"A", "ray"}).build(),
                 new EventOptions().setDeviceId(deviceId).setUserId("some-user"),
                 extra
         );
@@ -181,7 +181,7 @@ public class AmpliTest {
         extra.put("xyz", "987");
 
         this.ampli.eventWithAllProperties(
-                EventWithAllProperties
+                EventWithAllProperties.builder()
                         .requiredArray(new String[]{"Required", "array"})
                         .requiredBoolean(true)
                         .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM2)

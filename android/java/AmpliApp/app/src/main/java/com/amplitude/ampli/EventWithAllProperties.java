@@ -21,23 +21,24 @@ public class EventWithAllProperties extends Event {
         super("Event With All Properties", builder.properties);
     }
 
-    /**
-     * Event 2 Property - Array
-     * <p>
-     * Must be followed by {@link IRequiredBoolean#requiredBoolean(boolean)
-     */
-    public static IRequiredBoolean requiredArray(String[] requiredArray) {
-        Builder builder = new Builder();
-        builder.properties.put("requiredArray", requiredArray);
-        return builder;
-    }
+    public static IRequiredArray builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IRequiredBoolean, IRequiredEnum, IRequiredInteger, IRequiredNumber, IRequiredString, IBuild {
+    public static class Builder implements IRequiredArray, IRequiredBoolean, IRequiredEnum, IRequiredInteger, IRequiredNumber, IRequiredString, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
             this.properties.put("requiredConst", "some-const-value");
+        }
+
+        /**
+         * Event 2 Property - Array
+         * <p>
+         * Must be followed by {@link IRequiredBoolean#requiredBoolean(boolean)
+         */
+        public IRequiredBoolean requiredArray(String[] requiredArray) {
+            this.properties.put("requiredArray", requiredArray);
+            return this;
         }
 
         /**
@@ -104,6 +105,10 @@ public class EventWithAllProperties extends Event {
     }
 
     // Required property interfaces
+    public interface IRequiredArray {
+        IRequiredBoolean requiredArray(String[] requiredArray);
+    }
+
     public interface IRequiredBoolean {
         IRequiredEnum requiredBoolean(boolean requiredBoolean);
     }

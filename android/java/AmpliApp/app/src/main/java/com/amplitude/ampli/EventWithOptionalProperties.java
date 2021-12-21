@@ -21,49 +21,7 @@ public class EventWithOptionalProperties extends Event {
         super("Event With Optional Properties", builder.properties);
     }
 
-    /**
-
-     */
-    public static IBuild optionalArrayNumber(Double[] optionalArrayNumber) {
-        Builder builder = new Builder();
-        return builder.optionalArrayNumber(optionalArrayNumber);
-    }
-
-    /**
-
-     */
-    public static IBuild optionalArrayString(String[] optionalArrayString) {
-        Builder builder = new Builder();
-        return builder.optionalArrayString(optionalArrayString);
-    }
-
-    /**
-
-     */
-    public static IBuild optionalBoolean(boolean optionalBoolean) {
-        Builder builder = new Builder();
-        return builder.optionalBoolean(optionalBoolean);
-    }
-
-    /**
-
-     */
-    public static IBuild optionalNumber(Double optionalNumber) {
-        Builder builder = new Builder();
-        return builder.optionalNumber(optionalNumber);
-    }
-
-    /**
-     * Optional String property description
-     */
-    public static IBuild optionalString(String optionalString) {
-        Builder builder = new Builder();
-        return builder.optionalString(optionalString);
-    }
-
-    public static EventWithOptionalProperties build() {
-        return new Builder().build();
-    }
+    public static IBuild builder() { return new Builder(); }
 
     // Inner Builder class with required properties
     public static class Builder implements IBuild {

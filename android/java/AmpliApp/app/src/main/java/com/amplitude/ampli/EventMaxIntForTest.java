@@ -21,28 +21,34 @@ public class EventMaxIntForTest extends Event {
         super("EventMaxIntForTest", builder.properties);
     }
 
-    /**
-     * property to test schema validation
-     * <p>
-     * Must be followed by by additional optional properties or build() method
-     */
-    public static IBuild intMax10(Integer intMax10) {
-        Builder builder = new Builder();
-        builder.properties.put("intMax10", intMax10);
-        return builder;
-    }
+    public static IIntMax10 builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IBuild {
+    public static class Builder implements IIntMax10, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
         }
 
+        /**
+         * property to test schema validation
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild intMax10(Integer intMax10) {
+            this.properties.put("intMax10", intMax10);
+            return this;
+        }
+
         public EventMaxIntForTest build() {
             return new EventMaxIntForTest(this);
         }
+    }
+
+    // Required property interfaces
+    public interface IIntMax10 {
+        IBuild intMax10(Integer intMax10);
     }
 
     /** Build interface with optional properties */

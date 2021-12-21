@@ -17,20 +17,21 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnIdentify = this.findViewById(R.id.btn_identify);
         btnIdentify.setOnClickListener(v -> {
-            Ampli.getInstance().identify(userId, Identify.requiredNumber(42.0).build());
+            Ampli.getInstance().identify(userId, Identify.builder()
+                    .requiredNumber(42.0)
+                    .build());
         });
 
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
         btnEventWithOptionalProperties.setOnClickListener(v -> {
-            Ampli.getInstance().track(EventWithOptionalProperties
+            Ampli.getInstance().track(EventWithOptionalProperties.builder()
                     .optionalBoolean(true)
-                    .build()
-            );
+                    .build());
         });
 
         Button btnEventWithAllProperties = this.findViewById(R.id.btn_all_properties);
         btnEventWithAllProperties.setOnClickListener(v -> {
-            Ampli.getInstance().eventWithAllProperties(EventWithAllProperties
+            Ampli.getInstance().eventWithAllProperties(EventWithAllProperties.builder()
                     .requiredArray(new String[]{"I'm", "required"})
                     .requiredBoolean(false)
                     .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM1)

@@ -21,23 +21,24 @@ public class Identify extends Event {
         super("identify", builder.properties);
     }
 
-    /**
-     * Description for identify requiredNumber
-     * <p>
-     * Must be followed by by additional optional properties or build() method
-     */
-    public static IBuild requiredNumber(Double requiredNumber) {
-        Builder builder = new Builder();
-        builder.properties.put("requiredNumber", requiredNumber);
-        return builder;
-    }
+    public static IRequiredNumber builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IBuild {
+    public static class Builder implements IRequiredNumber, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
+        }
+
+        /**
+         * Description for identify requiredNumber
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredNumber(Double requiredNumber) {
+            this.properties.put("requiredNumber", requiredNumber);
+            return this;
         }
 
         /**
@@ -51,6 +52,11 @@ public class Identify extends Event {
         public Identify build() {
             return new Identify(this);
         }
+    }
+
+    // Required property interfaces
+    public interface IRequiredNumber {
+        IBuild requiredNumber(Double requiredNumber);
     }
 
     /** Build interface with optional properties */

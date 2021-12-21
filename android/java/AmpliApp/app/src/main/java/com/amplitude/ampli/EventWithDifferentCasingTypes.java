@@ -21,23 +21,24 @@ public class EventWithDifferentCasingTypes extends Event {
         super("event withDifferent_CasingTypes", builder.properties);
     }
 
-    /**
-     * descriptionForEnumCamelCase
-     * <p>
-     * Must be followed by {@link IEnumPascalCase#enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase)
-     */
-    public static IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase) {
-        Builder builder = new Builder();
-        builder.properties.put("enumCamelCase", enumCamelCase.toValue());
-        return builder;
-    }
+    public static IEnumCamelCase builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IEnumPascalCase, IEnumSnakeCase, IEnumWithSpace, IPropertyWithCamelCase, IPropertyWithPascalCase, IPropertyWithSnakeCase, IPropertyWithSpace, IBuild {
+    public static class Builder implements IEnumCamelCase, IEnumPascalCase, IEnumSnakeCase, IEnumWithSpace, IPropertyWithCamelCase, IPropertyWithPascalCase, IPropertyWithSnakeCase, IPropertyWithSpace, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
+        }
+
+        /**
+         * descriptionForEnumCamelCase
+         * <p>
+         * Must be followed by {@link IEnumPascalCase#enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase)
+         */
+        public IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase) {
+            this.properties.put("enumCamelCase", enumCamelCase.toValue());
+            return this;
         }
 
         /**
@@ -116,6 +117,10 @@ public class EventWithDifferentCasingTypes extends Event {
     }
 
     // Required property interfaces
+    public interface IEnumCamelCase {
+        IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase);
+    }
+
     public interface IEnumPascalCase {
         IEnumSnakeCase enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase enumPascalCase);
     }

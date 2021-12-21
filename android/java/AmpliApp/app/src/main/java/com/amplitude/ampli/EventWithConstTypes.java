@@ -21,9 +21,7 @@ public class EventWithConstTypes extends Event {
         super("Event With Const Types", builder.properties);
     }
 
-    public static EventWithConstTypes build() {
-        return new Builder().build();
-    }
+    public static IBuild builder() { return new Builder(); }
 
     // Inner Builder class with required properties
     public static class Builder implements IBuild {

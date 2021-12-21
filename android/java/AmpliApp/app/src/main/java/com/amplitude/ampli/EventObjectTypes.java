@@ -21,28 +21,34 @@ public class EventObjectTypes extends Event {
         super("Event Object Types", builder.properties);
     }
 
-    /**
-     * Property Object Array Type
-     * <p>
-     * Must be followed by by additional optional properties or build() method
-     */
-    public static IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray) {
-        Builder builder = new Builder();
-        builder.properties.put("requiredObjectArray", requiredObjectArray);
-        return builder;
-    }
+    public static IRequiredObjectArray builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IBuild {
+    public static class Builder implements IRequiredObjectArray, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
             this.properties.put("requiredObject", null);
         }
 
+        /**
+         * Property Object Array Type
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray) {
+            this.properties.put("requiredObjectArray", requiredObjectArray);
+            return this;
+        }
+
         public EventObjectTypes build() {
             return new EventObjectTypes(this);
         }
+    }
+
+    // Required property interfaces
+    public interface IRequiredObjectArray {
+        IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray);
     }
 
     /** Build interface with optional properties */

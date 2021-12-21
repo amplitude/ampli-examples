@@ -21,23 +21,24 @@ public class EventWithEnumTypes extends Event {
         super("Event With Enum Types", builder.properties);
     }
 
-    /**
-     * Description for optional enum
-     * <p>
-     * Must be followed by by additional optional properties or build() method
-     */
-    public static IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum) {
-        Builder builder = new Builder();
-        builder.properties.put("required enum", requiredEnum.toValue());
-        return builder;
-    }
+    public static IRequiredEnum builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IBuild {
+    public static class Builder implements IRequiredEnum, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
 
+        }
+
+        /**
+         * Description for optional enum
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum) {
+            this.properties.put("required enum", requiredEnum.toValue());
+            return this;
         }
 
         /**
@@ -51,6 +52,11 @@ public class EventWithEnumTypes extends Event {
         public EventWithEnumTypes build() {
             return new EventWithEnumTypes(this);
         }
+    }
+
+    // Required property interfaces
+    public interface IRequiredEnum {
+        IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum);
     }
 
     /** Build interface with optional properties */

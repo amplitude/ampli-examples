@@ -278,7 +278,7 @@ public class Ampli {
      * @param extra Extra untyped parameters for use in middleware
      */
     public void eventNoProperties(EventOptions options, MiddlewareExtra extra) {
-        this.track(EventNoProperties.build(), options, extra);
+        this.track(EventNoProperties.builder().build(), options, extra);
     }
 
     /**
@@ -467,7 +467,7 @@ public class Ampli {
      * @param extra Extra untyped parameters for use in middleware
      */
     public void eventWithConstTypes(EventOptions options, MiddlewareExtra extra) {
-        this.track(EventWithConstTypes.build(), options, extra);
+        this.track(EventWithConstTypes.builder().build(), options, extra);
     }
 
     /**
