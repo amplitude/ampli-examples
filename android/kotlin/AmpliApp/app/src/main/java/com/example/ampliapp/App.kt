@@ -19,23 +19,21 @@ class App : Application() {
          * This requires connecting your account via `ampli pull`
          * which will set you API key in the generated Ampli SDK
          */
-        // ampli.load(this)
+        ampli.load(this)
 
         /**
          * OR Specify a Ampli.Environment
          */
-        // ampli.load(this,
-        //     LoadOptions(
-        //         environment = Ampli.Environment.DEVELOPMENT
-        //     )
-        // )
+        // ampli.load(this, LoadOptions(
+        //    environment = Ampli.Environment.DEVELOPMENT
+        // ))
 
-        /** OR Provide a specific Amplitude API key */
-        // ampli.load(this,
-        //     LoadOptions(
-        //         client = LoadClientOptions(apiKey = AMPLITUDE_API_KEY)
-        //     )
-        // )
+        /**
+         * OR Provide a specific Amplitude API key
+         */
+        // ampli.load(this, LoadOptions(
+        //     client = LoadClientOptions(apiKey = AMPLITUDE_API_KEY)
+        // ))
 
         /**
          * OR Use an existing Amplitude instance
@@ -43,38 +41,23 @@ class App : Application() {
          */
         // val instance = Amplitude.getInstance()
         // instance.initialize(this, AMPLITUDE_API_KEY)
-        // ampli.load(this,
-        //     LoadOptions(
-        //         client = LoadClientOptions(instance = instance)
-        //     )
-        // )
-
-
-        val amplitudeApiKey = getString(R.string.AMPLITUDE_API_KEY)
-        ampli.load(this,
-            LoadOptions(
-                environment = Ampli.Environment.DEVELOPMENT,
-                client = LoadClientOptions(apiKey = amplitudeApiKey)
-            )
-        )
+        // ampli.load(this, LoadOptions(
+        //     client = LoadClientOptions(instance = instance)
+        // ))
 
         /**
          * For testing you can disable ampli
          */
-        // ampli.load(this,
-        //     LoadOptions(
-        //         disabled = true
-        //     )
-        // )
+        // ampli.load(this, LoadOptions(
+        //     disabled = true
+        // ))
 
         /**
          * Make as many Ampli instances as you want
          */
         // val ampli2 = Ampli()
-        // ampli2.load(this,
-        //     LoadOptions(
-        //         client = LoadClientOptions(apiKey = AMPLITUDE_API_KEY)
-        //     )
-        // )
+        // ampli2.load(this, LoadOptions(
+        //     client = LoadClientOptions(apiKey = AMPLITUDE_API_KEY)
+        // ))
     }
 }

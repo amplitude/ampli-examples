@@ -42,7 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation 'com.amplitude:android-sdk:2.35.2'
-    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    // https://github.com/amplitude/Amplitude-Android/issues/309
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 
     testImplementation "org.mockito:mockito-core:+"
     androidTestImplementation "org.mockito:mockito-android:+"
