@@ -13,5 +13,11 @@ Example apps using the Ampli SDK
 ## Node TypeScript
 * [node/typescript](node/typescript)
 
+## iOS Swift
+* [ios/swift](ios/swift)
+
+## iOS Objective-C
+* [ios/objective-c](ios/objective-c)
+
 ## Android Kotlin
 * [android/kotlin/AmpliApp](android/kotlin/AmpliApp)

@@ -3,7 +3,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { ampli, Ampli, RequiredEnum } from "./ampli";
+import { ampli, Ampli, EventWithAllPropertiesRequiredEnum } from "./ampli";
 import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli";
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
@@ -125,7 +125,7 @@ function App() {
             requiredNumber: 1.23,
             requiredArray: ["I'm", 'required'],
             requiredBoolean: false,
-            requiredEnum: RequiredEnum.Enum1,
+            requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
             requiredInteger: 42,
             requiredString: 'Hi!',
           })

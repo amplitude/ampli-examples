@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { LogLevel } from "@amplitude/types";
-import { Ampli, ampli, Environment, EventWithOptionalProperties, RequiredEnum } from './ampli';
+import { Ampli, ampli, Environment, EventWithOptionalProperties, EventWithAllPropertiesRequiredEnum } from './ampli';
 import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
 import { Service1 } from "./services/service-1";
@@ -120,7 +120,7 @@ ampli.eventWithAllProperties(userId, {
   requiredNumber: 1.23,
   requiredArray: ["I'm", 'required'],
   requiredBoolean: false,
-  requiredEnum: RequiredEnum.Enum1,
+  requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
   requiredInteger: 42,
   requiredString: 'Hi!',
 });
