@@ -5,24 +5,28 @@ An example app using the Ampli Android SDK
 
 ### Setup the project
 You will need to do the following before running the app.
-1. Update `src/main/res/values/secrets.xml` with your Amplitude API key:
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="AMPLITUDE_API_KEY">your-amplitide-api-key</string>
-</resources>
-```
-2. Create file `local.properties` (if it doesn't exist) and set `sdk.dir` value to your Android SDK path.
-```
-sdk.dir=/path/to/Android/sdk
-```
-`local.properties.example` can be used as a template.
+
+1. Configure Android SDK path
+   * Set `ANDROID_SDK_ROOT` in your environment, or
+   * Create a `local.properties` file and set `sdk.dir` to your Android SDK path. See [local.properties.example](local.properties.example).
+
+
+2. Update [secrets.xml](src/main/res/values/secrets.xml) with your Amplitude API key:
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string name="AMPLITUDE_API_KEY">your-amplitide-api-key</string>
+    </resources>
+    ```
+
+### Run the App
+Run the application using Android Studio or your favorite IDE.
 
 ### Pull your Ampli SDK
-If you want to use your own tracking plan and Ampli SDK
+If you want to use your own tracking plan to generate the Ampli SDK:
 1. `npm i -g @amplitude/ampli`
 2. `ampli pull`
-3. Update `src/main/java/com/example/ampliapp/MainActivity.kt` to use the events from your tracking plan
+3. Update [MainActivity.kt](src/main/java/com/example/ampliapp/MainActivity.kt) to track your events.
 
 # Project structure
 * README.md - you are here *
