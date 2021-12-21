@@ -43,7 +43,7 @@ struct AmpliSwiftSampleAppApp: App {
         let extraDict = ["test" : "extra test"];
         ampli.eventMaxIntForTest(EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);
         ampli.eventWithConstTypes(extra: extraDict)
-        ampli.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: extraDict)
+        ampli.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: EventWithAllPropertiesRequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), extra: extraDict)
         return WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
