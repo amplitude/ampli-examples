@@ -116,7 +116,7 @@ export interface EventWithAllPropertiesProperties {
     /**
      * Event 2 Property - Enum
      */
-    requiredEnum: RequiredEnum;
+    requiredEnum: EventWithAllPropertiesRequiredEnum;
     /**
      * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
      */
@@ -134,7 +134,7 @@ export interface EventWithAllPropertiesProperties {
 /**
  * Event 2 Property - Enum
  */
-export enum RequiredEnum {
+export enum EventWithAllPropertiesRequiredEnum {
     Enum1 = "Enum1",
     Enum2 = "Enum2",
 }
@@ -174,19 +174,19 @@ export interface EventWithDifferentCasingTypesProperties {
     /**
      * Description for enum with space
      */
-    "enum with space": EnumWithSpace;
+    "enum with space": EventWithDifferentCasingTypesEnumWithSpace;
     /**
      * description_for_enum_snake_case
      */
-    enum_snake_case: EnumSnakeCase;
+    enum_snake_case: EventWithDifferentCasingTypesEnumSnakeCase;
     /**
      * descriptionForEnumCamelCase
      */
-    enumCamelCase: EnumCamelCase;
+    enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase;
     /**
      * DescirptionForEnumPascalCase
      */
-    EnumPascalCase: EnumPascalCase;
+    EnumPascalCase: EventWithDifferentCasingTypesEnumPascalCase;
     /**
      * Description for case with space
      */
@@ -208,28 +208,28 @@ export interface EventWithDifferentCasingTypesProperties {
 /**
  * DescirptionForEnumPascalCase
  */
-export enum EnumPascalCase {
+export enum EventWithDifferentCasingTypesEnumPascalCase {
     EnumPascalCase = "EnumPascalCase",
 }
 
 /**
  * Description for enum with space
  */
-export enum EnumWithSpace {
+export enum EventWithDifferentCasingTypesEnumWithSpace {
     EnumWithSpace = "enum with space",
 }
 
 /**
  * descriptionForEnumCamelCase
  */
-export enum EnumCamelCase {
+export enum EventWithDifferentCasingTypesEnumCamelCase {
     EnumCamelCase = "enumCamelCase",
 }
 
 /**
  * description_for_enum_snake_case
  */
-export enum EnumSnakeCase {
+export enum EventWithDifferentCasingTypesEnumSnakeCase {
     EnumSnakeCase = "enum_snake_case",
 }
 
@@ -240,17 +240,17 @@ export interface EventWithEnumTypesProperties {
     /**
      * Description for required enum
      */
-    "optional enum"?: OptionalEnum;
+    "optional enum"?: EventWithEnumTypesOptionalEnum;
     /**
      * Description for optional enum
      */
-    "required enum": RequiredEnumEnum;
+    "required enum": EventWithEnumTypesRequiredEnum;
 }
 
 /**
  * Description for required enum
  */
-export enum OptionalEnum {
+export enum EventWithEnumTypesOptionalEnum {
     OptionalEnum1 = "optional enum 1",
     OptionalEnum2 = "optional enum 2",
 }
@@ -258,7 +258,7 @@ export enum OptionalEnum {
 /**
  * Description for optional enum
  */
-export enum RequiredEnumEnum {
+export enum EventWithEnumTypesRequiredEnum {
     RequiredEnum1 = "required enum 1",
     RequiredEnum2 = "required enum 2",
 }
@@ -439,7 +439,7 @@ export class Ampli {
   private disabled: boolean = false;
   private amplitude?: AmplitudeClient;
   private middlewares: Middleware[] = [];
-  
+
   get client(): AmplitudeClient | undefined {
     return this.amplitude;
   }
@@ -556,7 +556,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
    *
    * Event to test schema validation
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. intMax10)
@@ -577,7 +577,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
    *
    * Event w no properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param options Amplitude event options.
@@ -596,7 +596,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
    *
    * Event with Object and Object Array
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. requiredObject)
@@ -617,7 +617,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
    *
    * Event w all properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. optionalString)
@@ -638,7 +638,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
    *
    * Description for event with Array Types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. requiredBooleanArray)
@@ -659,7 +659,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
    *
    * Description for event with const types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param options Amplitude event options.
@@ -678,7 +678,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
    *
    * Description for case with space
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. enumCamelCase)
@@ -699,7 +699,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
    *
    * Description for event with enum types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. optional enum)
@@ -720,7 +720,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
    *
    * Description for event with optional array types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. optionalBooleanArray)
@@ -741,7 +741,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
    *
    * Event w optional properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param properties The event's properties (e.g. optionalArrayNumber)
@@ -755,11 +755,11 @@ export class Ampli {
   ) {
     return this.track(new EventWithOptionalProperties(properties), options, extra);
   }
-  
+
   addEventMiddleware(middleware: Middleware): void {
     this.middlewares.push(middleware);
   }
-  
+
   private runMiddleware(payload: MiddlewarePayload, next: MiddlewareNext): void {
     let curMiddlewareIndex = -1;
     const middlewareCount = this.middlewares.length;
