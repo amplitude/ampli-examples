@@ -50,7 +50,7 @@
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
     eventWithAllPropertiesProperties.requiredArray = requiredArray;
     eventWithAllPropertiesProperties.requiredBoolean = @YES;
-    eventWithAllPropertiesProperties.requiredEnum = [RequiredEnum enum1];
+    eventWithAllPropertiesProperties.requiredEnum = [EventWithAllPropertiesRequiredEnum enum1];
     eventWithAllPropertiesProperties.requiredInteger = @10;
     eventWithAllPropertiesProperties.requiredNumber = @2.0;
     eventWithAllPropertiesProperties.requiredString = @"required string";

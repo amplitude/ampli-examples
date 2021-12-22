@@ -71,7 +71,7 @@
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
     eventWithAllPropertiesProperties.requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
     eventWithAllPropertiesProperties.requiredBoolean = @YES;
-    eventWithAllPropertiesProperties.requiredEnum = [RequiredEnum enum1];
+    eventWithAllPropertiesProperties.requiredEnum = [EventWithAllPropertiesRequiredEnum enum1];
     eventWithAllPropertiesProperties.requiredInteger = @10;
     eventWithAllPropertiesProperties.requiredNumber = @2.0;
     eventWithAllPropertiesProperties.requiredString = @"required string";

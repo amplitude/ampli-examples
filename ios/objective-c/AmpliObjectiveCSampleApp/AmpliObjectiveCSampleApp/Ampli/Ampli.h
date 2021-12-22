@@ -57,17 +57,17 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @class EventNoPropertiesProperties;
 @class EventObjectTypesProperties;
 @class EventWithAllPropertiesProperties;
-@class RequiredEnum;
+@class EventWithAllPropertiesRequiredEnum;
 @class EventWithArrayTypesProperties;
 @class EventWithConstTypesProperties;
 @class EventWithDifferentCasingTypesProperties;
-@class EnumCamelCase;
-@class EnumPascalCase;
-@class EnumSnakeCase;
-@class EnumWithSpace;
+@class EventWithDifferentCasingTypesEnumCamelCase;
+@class EventWithDifferentCasingTypesEnumPascalCase;
+@class EventWithDifferentCasingTypesEnumSnakeCase;
+@class EventWithDifferentCasingTypesEnumWithSpace;
 @class EventWithEnumTypesProperties;
-@class OptionalEnum;
-@class RequiredEnumEnum;
+@class EventWithEnumTypesOptionalEnum;
+@class EventWithEnumTypesRequiredEnum;
 @class EventWithOptionalArrayTypesProperties;
 @class EventWithOptionalPropertiesProperties;
 @class GroupProperties;
@@ -78,55 +78,55 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Boxed enums
 
 /// Event 2 Property - Enum
-@interface RequiredEnum : NSObject
+@interface EventWithAllPropertiesRequiredEnum : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (RequiredEnum *)enum1;
-+ (RequiredEnum *)enum2;
++ (EventWithAllPropertiesRequiredEnum *)enum1;
++ (EventWithAllPropertiesRequiredEnum *)enum2;
 @end
 
 /// descriptionForEnumCamelCase
-@interface EnumCamelCase : NSObject
+@interface EventWithDifferentCasingTypesEnumCamelCase : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (EnumCamelCase *)enumCamelCase;
++ (EventWithDifferentCasingTypesEnumCamelCase *)enumCamelCase;
 @end
 
 /// DescirptionForEnumPascalCase
-@interface EnumPascalCase : NSObject
+@interface EventWithDifferentCasingTypesEnumPascalCase : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (EnumPascalCase *)enumPascalCase;
++ (EventWithDifferentCasingTypesEnumPascalCase *)enumPascalCase;
 @end
 
 /// description_for_enum_snake_case
-@interface EnumSnakeCase : NSObject
+@interface EventWithDifferentCasingTypesEnumSnakeCase : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (EnumSnakeCase *)enumSnakeCase;
++ (EventWithDifferentCasingTypesEnumSnakeCase *)enumSnakeCase;
 @end
 
 /// Description for enum with space
-@interface EnumWithSpace : NSObject
+@interface EventWithDifferentCasingTypesEnumWithSpace : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (EnumWithSpace *)enumWithSpace;
++ (EventWithDifferentCasingTypesEnumWithSpace *)enumWithSpace;
 @end
 
 /// Description for required enum
-@interface OptionalEnum : NSObject
+@interface EventWithEnumTypesOptionalEnum : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (OptionalEnum *)optionalEnum1;
-+ (OptionalEnum *)optionalEnum2;
++ (EventWithEnumTypesOptionalEnum *)optionalEnum1;
++ (EventWithEnumTypesOptionalEnum *)optionalEnum2;
 @end
 
 /// Description for optional enum
-@interface RequiredEnumEnum : NSObject
+@interface EventWithEnumTypesRequiredEnum : NSObject
 @property (nonatomic, readonly, copy) NSString *value;
 + (instancetype _Nullable)withValue:(NSString *)value;
-+ (RequiredEnumEnum *)requiredEnum1;
-+ (RequiredEnumEnum *)requiredEnum2;
++ (EventWithEnumTypesRequiredEnum *)requiredEnum1;
++ (EventWithEnumTypesRequiredEnum *)requiredEnum2;
 @end
 
 #pragma mark - Object interfaces
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Event 2 Property - Boolean
 @property (nonatomic, assign) NSNumber *requiredBoolean;
 /// Event 2 Property - Enum
-@property (nonatomic, assign) RequiredEnum *requiredEnum;
+@property (nonatomic, assign) EventWithAllPropertiesRequiredEnum *requiredEnum;
 /// Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
 @property (nonatomic, assign) NSNumber *requiredInteger;
 /// Event 2 Property - Number
@@ -205,13 +205,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Description for case with space
 @interface EventWithDifferentCasingTypesProperties : NSObject
 /// Description for enum with space
-@property (nonatomic, assign) EnumWithSpace *enumWithSpace;
+@property (nonatomic, assign) EventWithDifferentCasingTypesEnumWithSpace *enumWithSpace;
 /// description_for_enum_snake_case
-@property (nonatomic, assign) EnumSnakeCase *enumSnakeCase;
+@property (nonatomic, assign) EventWithDifferentCasingTypesEnumSnakeCase *enumSnakeCase;
 /// descriptionForEnumCamelCase
-@property (nonatomic, assign) EnumCamelCase *enumCamelCase;
+@property (nonatomic, assign) EventWithDifferentCasingTypesEnumCamelCase *enumCamelCase;
 /// DescirptionForEnumPascalCase
-@property (nonatomic, assign) EnumPascalCase *enumPascalCase;
+@property (nonatomic, assign) EventWithDifferentCasingTypesEnumPascalCase *enumPascalCase;
 /// Description for case with space
 @property (nonatomic, copy) NSString *propertyWithSpace;
 /// Description_for_snake_case
@@ -225,9 +225,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Description for event with enum types
 @interface EventWithEnumTypesProperties : NSObject
 /// Description for required enum
-@property (nonatomic, nullable, assign) OptionalEnum *optionalEnum;
+@property (nonatomic, nullable, assign) EventWithEnumTypesOptionalEnum *optionalEnum;
 /// Description for optional enum
-@property (nonatomic, assign) RequiredEnumEnum *requiredEnum;
+@property (nonatomic, assign) EventWithEnumTypesRequiredEnum *requiredEnum;
 @end
 
 /// Description for event with optional array types
