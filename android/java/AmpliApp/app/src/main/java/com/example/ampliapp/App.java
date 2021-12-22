@@ -11,6 +11,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+        String AMPLITUDE_API_KEY = this.getResources().getString(R.string.AMPLITUDE_API_KEY);
+
         /*
          * Start by calling Ampli.getInstance().load(this)
          *
@@ -27,17 +29,19 @@ public class App extends Application {
 
         /*
          * OR Specify a Ampli.Environment
+         *
+         * This also requires running `ampli pull` to set ApiKeys in the Ampli SDK
          */
-        // Ampli.getInstance().load(this,
-        //     new LoadOptions().setEnvironment(Ampli.Environment.DEVELOPMENT)
+        // Ampli.getInstance().load(this, new LoadOptions()
+        //     .setEnvironment(Ampli.Environment.DEVELOPMENT)
         // );
 
-        /* OR Provide a specific Amplitude API key */
-        // Ampli.getInstance().load(this,
-        //     new LoadOptions().setClient(
-        //         new LoadClientOptions().setApiKey(AMPLITUDE_API_KEY)
-        //     )
-        // );
+        /*
+         * OR Provide a specific Amplitude API key
+         */
+        Ampli.getInstance().load(this, new LoadOptions()
+            .setClient(new LoadClientOptions().setApiKey(AMPLITUDE_API_KEY))
+        );
 
         /*
          * OR Use an existing Amplitude instance
@@ -45,34 +49,23 @@ public class App extends Application {
          */
         // AmplitudeClient instance = Amplitude.getInstance();
         // instance.initialize(this, AMPLITUDE_API_KEY);
-        // Ampli.getInstance().load(this,
-        //     new LoadOptions().setClient(
-        //         new LoadClientOptions().setInstance(instance)
-        //     )
+        // Ampli.getInstance().load(this, new LoadOptions()
+        //     .setClient(new LoadClientOptions().setInstance(instance))
         // );
-
-        String amplitudeApiKey = getString(R.string.AMPLITUDE_API_KEY);
-        Ampli.getInstance().load(this,
-            new LoadOptions()
-                .setEnvironment(Ampli.Environment.DEVELOPMENT)
-                .setClient(new LoadClientOptions().setApiKey(amplitudeApiKey))
-        );
 
         /*
          * For testing you can disable ampli
          */
-        // Ampli.getInstance().load(this,
-        //     new LoadOptions().setDisabled(true)
+        // Ampli.getInstance().load(this, new LoadOptions()
+        //     .setDisabled(true)
         // );
 
         /*
          * Make as many Ampli instances as you want
          */
-        // Ampli ampli2 = Ampli();
-        // ampli2.load(this,
-        //     new LoadOptions().setClient(
-        //         new LoadClientOptions().setApiKey(AMPLITUDE_API_KEY)
-        //     )
+        // Ampli ampli2 = new Ampli();
+        // ampli2.load(this, new LoadOptions()
+        //     .setClient(new LoadClientOptions().setApiKey(AMPLITUDE_API_KEY))
         // );
     }
 }
