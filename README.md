@@ -18,3 +18,6 @@ Example apps using the Ampli SDK
 
 ## iOS Objective-C
 * [ios/objective-c](ios/objective-c)
+
+## Android Kotlin
+* [android/kotlin/AmpliApp](android/kotlin/AmpliApp)
