@@ -177,8 +177,16 @@ public class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
+
+        JSONArray jsonValue;
+        try {
+            jsonValue = new JSONArray(value);
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+            return;
+        }
         this.handleEventOptions(options, null);
-        this.client.setGroup(name, value, extra);
+        this.client.setGroup(name, jsonValue, extra);
     }
 
     public void flush() {

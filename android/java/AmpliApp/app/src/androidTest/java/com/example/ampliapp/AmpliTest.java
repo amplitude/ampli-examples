@@ -23,6 +23,7 @@ import com.amplitude.api.AmplitudeClient;
 import com.amplitude.api.MiddlewareExtra;
 import com.amplitude.api.Plan;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +42,8 @@ public class AmpliTest {
 
     @Captor
     ArgumentCaptor<JSONObject> jsonObjectCaptor;
+    @Captor
+    ArgumentCaptor<JSONArray> jsonArrayCaptor;
     @Captor
     ArgumentCaptor<MiddlewareExtra> extraCaptor;
 
@@ -139,7 +142,11 @@ public class AmpliTest {
 
         verify(client, times(1)).setUserId(userId);
         verify(client, times(1)).setDeviceId(deviceId);
-        verify(client, times(1)).setGroup(eq("group-1"), eq(new String[]{"value-1", "value-2", "value-3"}), extraCaptor.capture());
+        verify(client, times(1)).setGroup(eq("group-1"), jsonArrayCaptor.capture(), extraCaptor.capture());
+        assertEquals(
+                "[\"value-1\",\"value-2\",\"value-3\"]",
+                jsonArrayCaptor.getValue().toString()
+        );
         assertEquals(
                 "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
