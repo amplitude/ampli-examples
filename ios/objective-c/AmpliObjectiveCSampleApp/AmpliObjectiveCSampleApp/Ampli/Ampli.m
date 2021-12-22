@@ -113,22 +113,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSDictionary *)JSONDictionary;
 @end
 
-@implementation RequiredEnum
-+ (NSDictionary<NSString *, RequiredEnum *> *)values
+@implementation EventWithAllPropertiesRequiredEnum
++ (NSDictionary<NSString *, EventWithAllPropertiesRequiredEnum *> *)values
 {
-    static NSDictionary<NSString *, RequiredEnum *> *values;
+    static NSDictionary<NSString *, EventWithAllPropertiesRequiredEnum *> *values;
     return values = values ? values : @{
-        @"Enum1": [[RequiredEnum alloc] initWithValue:@"Enum1"],
-        @"Enum2": [[RequiredEnum alloc] initWithValue:@"Enum2"],
+        @"Enum1": [[EventWithAllPropertiesRequiredEnum alloc] initWithValue:@"Enum1"],
+        @"Enum2": [[EventWithAllPropertiesRequiredEnum alloc] initWithValue:@"Enum2"],
     };
 }
 
-+ (RequiredEnum *)enum1 { return RequiredEnum.values[@"Enum1"]; }
-+ (RequiredEnum *)enum2 { return RequiredEnum.values[@"Enum2"]; }
++ (EventWithAllPropertiesRequiredEnum *)enum1 { return EventWithAllPropertiesRequiredEnum.values[@"Enum1"]; }
++ (EventWithAllPropertiesRequiredEnum *)enum2 { return EventWithAllPropertiesRequiredEnum.values[@"Enum2"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return RequiredEnum.values[value];
+    return EventWithAllPropertiesRequiredEnum.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -140,20 +140,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation EnumCamelCase
-+ (NSDictionary<NSString *, EnumCamelCase *> *)values
+@implementation EventWithDifferentCasingTypesEnumCamelCase
++ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumCamelCase *> *)values
 {
-    static NSDictionary<NSString *, EnumCamelCase *> *values;
+    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumCamelCase *> *values;
     return values = values ? values : @{
-        @"enumCamelCase": [[EnumCamelCase alloc] initWithValue:@"enumCamelCase"],
+        @"enumCamelCase": [[EventWithDifferentCasingTypesEnumCamelCase alloc] initWithValue:@"enumCamelCase"],
     };
 }
 
-+ (EnumCamelCase *)enumCamelCase { return EnumCamelCase.values[@"enumCamelCase"]; }
++ (EventWithDifferentCasingTypesEnumCamelCase *)enumCamelCase { return EventWithDifferentCasingTypesEnumCamelCase.values[@"enumCamelCase"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return EnumCamelCase.values[value];
+    return EventWithDifferentCasingTypesEnumCamelCase.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -165,20 +165,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation EnumPascalCase
-+ (NSDictionary<NSString *, EnumPascalCase *> *)values
+@implementation EventWithDifferentCasingTypesEnumPascalCase
++ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumPascalCase *> *)values
 {
-    static NSDictionary<NSString *, EnumPascalCase *> *values;
+    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumPascalCase *> *values;
     return values = values ? values : @{
-        @"EnumPascalCase": [[EnumPascalCase alloc] initWithValue:@"EnumPascalCase"],
+        @"EnumPascalCase": [[EventWithDifferentCasingTypesEnumPascalCase alloc] initWithValue:@"EnumPascalCase"],
     };
 }
 
-+ (EnumPascalCase *)enumPascalCase { return EnumPascalCase.values[@"EnumPascalCase"]; }
++ (EventWithDifferentCasingTypesEnumPascalCase *)enumPascalCase { return EventWithDifferentCasingTypesEnumPascalCase.values[@"EnumPascalCase"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return EnumPascalCase.values[value];
+    return EventWithDifferentCasingTypesEnumPascalCase.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -190,20 +190,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation EnumSnakeCase
-+ (NSDictionary<NSString *, EnumSnakeCase *> *)values
+@implementation EventWithDifferentCasingTypesEnumSnakeCase
++ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumSnakeCase *> *)values
 {
-    static NSDictionary<NSString *, EnumSnakeCase *> *values;
+    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumSnakeCase *> *values;
     return values = values ? values : @{
-        @"enum_snake_case": [[EnumSnakeCase alloc] initWithValue:@"enum_snake_case"],
+        @"enum_snake_case": [[EventWithDifferentCasingTypesEnumSnakeCase alloc] initWithValue:@"enum_snake_case"],
     };
 }
 
-+ (EnumSnakeCase *)enumSnakeCase { return EnumSnakeCase.values[@"enum_snake_case"]; }
++ (EventWithDifferentCasingTypesEnumSnakeCase *)enumSnakeCase { return EventWithDifferentCasingTypesEnumSnakeCase.values[@"enum_snake_case"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return EnumSnakeCase.values[value];
+    return EventWithDifferentCasingTypesEnumSnakeCase.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -215,20 +215,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation EnumWithSpace
-+ (NSDictionary<NSString *, EnumWithSpace *> *)values
+@implementation EventWithDifferentCasingTypesEnumWithSpace
++ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumWithSpace *> *)values
 {
-    static NSDictionary<NSString *, EnumWithSpace *> *values;
+    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumWithSpace *> *values;
     return values = values ? values : @{
-        @"enum with space": [[EnumWithSpace alloc] initWithValue:@"enum with space"],
+        @"enum with space": [[EventWithDifferentCasingTypesEnumWithSpace alloc] initWithValue:@"enum with space"],
     };
 }
 
-+ (EnumWithSpace *)enumWithSpace { return EnumWithSpace.values[@"enum with space"]; }
++ (EventWithDifferentCasingTypesEnumWithSpace *)enumWithSpace { return EventWithDifferentCasingTypesEnumWithSpace.values[@"enum with space"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return EnumWithSpace.values[value];
+    return EventWithDifferentCasingTypesEnumWithSpace.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -240,22 +240,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation OptionalEnum
-+ (NSDictionary<NSString *, OptionalEnum *> *)values
+@implementation EventWithEnumTypesOptionalEnum
++ (NSDictionary<NSString *, EventWithEnumTypesOptionalEnum *> *)values
 {
-    static NSDictionary<NSString *, OptionalEnum *> *values;
+    static NSDictionary<NSString *, EventWithEnumTypesOptionalEnum *> *values;
     return values = values ? values : @{
-        @"optional enum 1": [[OptionalEnum alloc] initWithValue:@"optional enum 1"],
-        @"optional enum 2": [[OptionalEnum alloc] initWithValue:@"optional enum 2"],
+        @"optional enum 1": [[EventWithEnumTypesOptionalEnum alloc] initWithValue:@"optional enum 1"],
+        @"optional enum 2": [[EventWithEnumTypesOptionalEnum alloc] initWithValue:@"optional enum 2"],
     };
 }
 
-+ (OptionalEnum *)optionalEnum1 { return OptionalEnum.values[@"optional enum 1"]; }
-+ (OptionalEnum *)optionalEnum2 { return OptionalEnum.values[@"optional enum 2"]; }
++ (EventWithEnumTypesOptionalEnum *)optionalEnum1 { return EventWithEnumTypesOptionalEnum.values[@"optional enum 1"]; }
++ (EventWithEnumTypesOptionalEnum *)optionalEnum2 { return EventWithEnumTypesOptionalEnum.values[@"optional enum 2"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return OptionalEnum.values[value];
+    return EventWithEnumTypesOptionalEnum.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -267,22 +267,22 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSUInteger)hash { return _value.hash; }
 @end
 
-@implementation RequiredEnumEnum
-+ (NSDictionary<NSString *, RequiredEnumEnum *> *)values
+@implementation EventWithEnumTypesRequiredEnum
++ (NSDictionary<NSString *, EventWithEnumTypesRequiredEnum *> *)values
 {
-    static NSDictionary<NSString *, RequiredEnumEnum *> *values;
+    static NSDictionary<NSString *, EventWithEnumTypesRequiredEnum *> *values;
     return values = values ? values : @{
-        @"required enum 1": [[RequiredEnumEnum alloc] initWithValue:@"required enum 1"],
-        @"required enum 2": [[RequiredEnumEnum alloc] initWithValue:@"required enum 2"],
+        @"required enum 1": [[EventWithEnumTypesRequiredEnum alloc] initWithValue:@"required enum 1"],
+        @"required enum 2": [[EventWithEnumTypesRequiredEnum alloc] initWithValue:@"required enum 2"],
     };
 }
 
-+ (RequiredEnumEnum *)requiredEnum1 { return RequiredEnumEnum.values[@"required enum 1"]; }
-+ (RequiredEnumEnum *)requiredEnum2 { return RequiredEnumEnum.values[@"required enum 2"]; }
++ (EventWithEnumTypesRequiredEnum *)requiredEnum1 { return EventWithEnumTypesRequiredEnum.values[@"required enum 1"]; }
++ (EventWithEnumTypesRequiredEnum *)requiredEnum2 { return EventWithEnumTypesRequiredEnum.values[@"required enum 2"]; }
 
 + (instancetype _Nullable)withValue:(NSString *)value
 {
-    return RequiredEnumEnum.values[value];
+    return EventWithEnumTypesRequiredEnum.values[value];
 }
 
 - (instancetype)initWithValue:(NSString *)value
@@ -636,7 +636,7 @@ NSString *_Nullable EventPropertiesToJSON(EventProperties *eventProperties, NSSt
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _requiredEnum = [RequiredEnum withValue:(id)_requiredEnum];
+        _requiredEnum = [EventWithAllPropertiesRequiredEnum withValue:(id)_requiredEnum];
     }
     return self;
 }
@@ -773,10 +773,10 @@ NSString *_Nullable EventPropertiesToJSON(EventProperties *eventProperties, NSSt
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _enumWithSpace = [EnumWithSpace withValue:(id)_enumWithSpace];
-        _enumSnakeCase = [EnumSnakeCase withValue:(id)_enumSnakeCase];
-        _enumCamelCase = [EnumCamelCase withValue:(id)_enumCamelCase];
-        _enumPascalCase = [EnumPascalCase withValue:(id)_enumPascalCase];
+        _enumWithSpace = [EventWithDifferentCasingTypesEnumWithSpace withValue:(id)_enumWithSpace];
+        _enumSnakeCase = [EventWithDifferentCasingTypesEnumSnakeCase withValue:(id)_enumSnakeCase];
+        _enumCamelCase = [EventWithDifferentCasingTypesEnumCamelCase withValue:(id)_enumCamelCase];
+        _enumPascalCase = [EventWithDifferentCasingTypesEnumPascalCase withValue:(id)_enumPascalCase];
     }
     return self;
 }
@@ -835,8 +835,8 @@ NSString *_Nullable EventPropertiesToJSON(EventProperties *eventProperties, NSSt
 {
     if (self = [super init]) {
         [self setValuesForKeysWithDictionary:dict];
-        _optionalEnum = [OptionalEnum withValue:(id)_optionalEnum];
-        _requiredEnum = [RequiredEnumEnum withValue:(id)_requiredEnum];
+        _optionalEnum = [EventWithEnumTypesOptionalEnum withValue:(id)_optionalEnum];
+        _requiredEnum = [EventWithEnumTypesRequiredEnum withValue:(id)_requiredEnum];
     }
     return self;
 }
