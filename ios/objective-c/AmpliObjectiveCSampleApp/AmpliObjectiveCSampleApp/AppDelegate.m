@@ -41,26 +41,33 @@
     //    [ampli2 load:[LoadOptions initWithApiKey:@"Custom api key"]];
     NSString *apiKey = [[[NSProcessInfo processInfo] environment] objectForKey:@"AMPLITUDE_API_KEY"];
     Ampli *ampli = [Ampli instance];
+
+    // Load
     [ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *builder) {
         builder.apiKey =apiKey;
     }]];
-    
+
+    // Identify
     IdentifyProperties *identifyProperties = [IdentifyProperties new];
     identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     identifyProperties.requiredNumber = @22;
     [ampli identify:@"ampli-objc-user" properties:identifyProperties];
-    
-    [ampli eventNoProperties];
-    
+
+    // MiddlewareExtra can be used to pass information to middleware
     NSMutableDictionary *extraDict = [NSMutableDictionary new];
     [extraDict setObject:@"extra test"
               forKey:@"test"];
+
+    // Track events with dedicated event methods
+    [ampli eventNoProperties];
+
     EventMaxIntForTestProperties *eventMaxIntForTestProperties = [EventMaxIntForTestProperties new];
     eventMaxIntForTestProperties.intMax10 = @20;
     [ampli eventMaxIntForTest:eventMaxIntForTestProperties extra:extraDict];
-    
+
     [ampli eventWithConstTypes:extraDict];
-    
+
+    // Track using event instances and [ampli track:event]
     EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
     eventWithAllPropertiesProperties.requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
     eventWithAllPropertiesProperties.requiredBoolean = @YES;
@@ -70,7 +77,7 @@
     eventWithAllPropertiesProperties.requiredString = @"required string";
     EventWithAllProperties *eventWithAllProperties = [EventWithAllProperties initWithEventProperties:eventWithAllPropertiesProperties];
     [ampli track:eventWithAllProperties];
-    
+
     return YES;
 }
 
