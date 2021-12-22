@@ -46,6 +46,9 @@ struct AmpliSwiftSampleAppApp: App {
         // Identify
         ampli.identify(userId: "ampli-swift-user", properties: IdentifyProperties(optionalArray: ["optional string"], requiredNumber: 22.0))
         
+        // Set group
+        ampli.setGroup(name: "ampli group type", value: "ampli swift group")
+        
         // Track events with dedicated event methods
         ampli.eventNoProperties()
         ampli.eventMaxIntForTest(EventMaxIntForTestProperties(intMax10: 20), extra: extraDict);

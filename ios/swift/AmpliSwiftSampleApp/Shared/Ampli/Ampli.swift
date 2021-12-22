@@ -19,12 +19,12 @@ import Amplitude
 public typealias MiddlewareExtra = [String: Any]
 
 public enum AmpliEnvironment: Int {
-  case development, production;
+    case development, production;
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
-  .development: "",
-  .production: ""
+    .development: "",
+    .production: ""
 ];
 
 let AmpliObservePlan = AMPPlan()
@@ -33,13 +33,13 @@ let AmpliObservePlan = AMPPlan()
                       .setVersion("0");
 
 public class Event {
-  var eventType: String
-  var eventProperties: [String:Any]?
+    var eventType: String
+    var eventProperties: [String:Any]?
 
-  init(eventType: String, eventProperties: [String:Any]?) {
-      self.eventType = eventType;
-      self.eventProperties = eventProperties;
-  }
+    init(eventType: String, eventProperties: [String:Any]?) {
+        self.eventType = eventType;
+        self.eventProperties = eventProperties;
+    }
 }
 
 // This file was generated from JSON Schema using quicktype, do not modify it directly.
@@ -329,500 +329,508 @@ public struct IdentifyProperties {
 }
 
 public class Context : Event {
-  public init() {
-    super.init(
-      eventType: "Context",
-      eventProperties: nil
-    );
-  }
+    public init() {
+      super.init(
+        eventType: "Context",
+        eventProperties: nil
+      );
+    }
 }
 
 public class Identify : Event {
-  public init(
-    _ eventProperties: IdentifyProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "optionalArray": eventProperties.optionalArray as Any,
-      "requiredNumber": eventProperties.requiredNumber
-    ];
-    super.init(
-      eventType: "Identify",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: IdentifyProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "optionalArray": eventProperties.optionalArray as Any,
+          "requiredNumber": eventProperties.requiredNumber
+      ];
+      super.init(
+        eventType: "Identify",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class Group : Event {
-  public init(
-    _ eventProperties: GroupProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "optionalString": eventProperties.optionalString as Any,
-      "requiredBoolean": eventProperties.requiredBoolean
-    ];
-    super.init(
-      eventType: "Group",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: GroupProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "optionalString": eventProperties.optionalString as Any,
+          "requiredBoolean": eventProperties.requiredBoolean
+      ];
+      super.init(
+        eventType: "Group",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventMaxIntForTest : Event {
-  public init(
-    _ eventProperties: EventMaxIntForTestProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "intMax10": eventProperties.intMax10
-    ];
-    super.init(
-      eventType: "EventMaxIntForTest",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventMaxIntForTestProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "intMax10": eventProperties.intMax10
+      ];
+      super.init(
+        eventType: "EventMaxIntForTest",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventNoProperties : Event {
-  public init() {
-    super.init(
-      eventType: "Event No Properties",
-      eventProperties: nil
-    );
-  }
+    public init() {
+      super.init(
+        eventType: "Event No Properties",
+        eventProperties: nil
+      );
+    }
 }
 
 public class EventObjectTypes : Event {
-  public init(
-    _ eventProperties: EventObjectTypesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "requiredObject": eventProperties.requiredObject,
-      "requiredObjectArray": eventProperties.requiredObjectArray
-    ];
-    super.init(
-      eventType: "Event Object Types",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventObjectTypesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "requiredObject": eventProperties.requiredObject,
+          "requiredObjectArray": eventProperties.requiredObjectArray
+      ];
+      super.init(
+        eventType: "Event Object Types",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithAllProperties : Event {
-  public init(
-    _ eventProperties: EventWithAllPropertiesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "requiredConst": "some-const-value",
-      "optionalString": eventProperties.optionalString as Any,
-      "requiredArray": eventProperties.requiredArray,
-      "requiredBoolean": eventProperties.requiredBoolean,
-      "requiredEnum": eventProperties.requiredEnum,
-      "requiredInteger": eventProperties.requiredInteger,
-      "requiredNumber": eventProperties.requiredNumber,
-      "requiredString": eventProperties.requiredString
-    ];
-    super.init(
-      eventType: "Event With All Properties",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithAllPropertiesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "requiredConst": "some-const-value",
+          "optionalString": eventProperties.optionalString as Any,
+          "requiredArray": eventProperties.requiredArray,
+          "requiredBoolean": eventProperties.requiredBoolean,
+          "requiredEnum": eventProperties.requiredEnum,
+          "requiredInteger": eventProperties.requiredInteger,
+          "requiredNumber": eventProperties.requiredNumber,
+          "requiredString": eventProperties.requiredString
+      ];
+      super.init(
+        eventType: "Event With All Properties",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithArrayTypes : Event {
-  public init(
-    _ eventProperties: EventWithArrayTypesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "requiredBooleanArray": eventProperties.requiredBooleanArray,
-      "requiredNumberArray": eventProperties.requiredNumberArray,
-      "requiredObjectArray": eventProperties.requiredObjectArray,
-      "requiredStringArray": eventProperties.requiredStringArray
-    ];
-    super.init(
-      eventType: "Event With Array Types",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithArrayTypesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "requiredBooleanArray": eventProperties.requiredBooleanArray,
+          "requiredNumberArray": eventProperties.requiredNumberArray,
+          "requiredObjectArray": eventProperties.requiredObjectArray,
+          "requiredStringArray": eventProperties.requiredStringArray
+      ];
+      super.init(
+        eventType: "Event With Array Types",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithConstTypes : Event {
-  public init() {
-    let propertyDict: [String: Any] = [
-      "Boolean Const": true,
-      "Integer Const": 10,
-      "Number Const": 2.2,
-      "String Const": "String-Constant",
-      "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
-      "String Int Const": 0
-    ];
-    super.init(
-      eventType: "Event With Const Types",
-      eventProperties: propertyDict
-    );
-  }
+    public init() {
+      let propertyDict: [String: Any] = [
+          "Boolean Const": true,
+          "Integer Const": 10,
+          "Number Const": 2.2,
+          "String Const": "String-Constant",
+          "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
+          "String Int Const": 0
+      ];
+      super.init(
+        eventType: "Event With Const Types",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithDifferentCasingTypes : Event {
-  public init(
-    _ eventProperties: EventWithDifferentCasingTypesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "enumCamelCase": eventProperties.enumCamelCase,
-      "EnumPascalCase": eventProperties.enumPascalCase,
-      "enum_snake_case": eventProperties.enumSnakeCase,
-      "enum with space": eventProperties.enumWithSpace,
-      "propertyWithCamelCase": eventProperties.propertyWithCamelCase,
-      "PropertyWithPascalCase": eventProperties.propertyWithPascalCase,
-      "property_with_snake_case": eventProperties.propertyWithSnakeCase,
-      "property with space": eventProperties.propertyWithSpace
-    ];
-    super.init(
-      eventType: "event withDifferent_CasingTypes",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithDifferentCasingTypesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "enumCamelCase": eventProperties.enumCamelCase,
+          "EnumPascalCase": eventProperties.enumPascalCase,
+          "enum_snake_case": eventProperties.enumSnakeCase,
+          "enum with space": eventProperties.enumWithSpace,
+          "propertyWithCamelCase": eventProperties.propertyWithCamelCase,
+          "PropertyWithPascalCase": eventProperties.propertyWithPascalCase,
+          "property_with_snake_case": eventProperties.propertyWithSnakeCase,
+          "property with space": eventProperties.propertyWithSpace
+      ];
+      super.init(
+        eventType: "event withDifferent_CasingTypes",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithEnumTypes : Event {
-  public init(
-    _ eventProperties: EventWithEnumTypesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "optional enum": eventProperties.optionalEnum as Any,
-      "required enum": eventProperties.requiredEnum
-    ];
-    super.init(
-      eventType: "Event With Enum Types",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithEnumTypesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "optional enum": eventProperties.optionalEnum as Any,
+          "required enum": eventProperties.requiredEnum
+      ];
+      super.init(
+        eventType: "Event With Enum Types",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithOptionalArrayTypes : Event {
-  public init(
-    _ eventProperties: EventWithOptionalArrayTypesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "optionalBooleanArray": eventProperties.optionalBooleanArray as Any,
-      "optionalJSONArray": eventProperties.optionalJsonArray as Any,
-      "optionalNumberArray": eventProperties.optionalNumberArray as Any,
-      "optionalStringArray": eventProperties.optionalStringArray as Any
-    ];
-    super.init(
-      eventType: "Event With Optional Array Types",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithOptionalArrayTypesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "optionalBooleanArray": eventProperties.optionalBooleanArray as Any,
+          "optionalJSONArray": eventProperties.optionalJsonArray as Any,
+          "optionalNumberArray": eventProperties.optionalNumberArray as Any,
+          "optionalStringArray": eventProperties.optionalStringArray as Any
+      ];
+      super.init(
+        eventType: "Event With Optional Array Types",
+        eventProperties: propertyDict
+      );
+    }
 }
 
 public class EventWithOptionalProperties : Event {
-  public init(
-    _ eventProperties: EventWithOptionalPropertiesProperties
-  ) {
-    let propertyDict: [String: Any] = [
-      "optionalArrayNumber": eventProperties.optionalArrayNumber as Any,
-      "optionalArrayString": eventProperties.optionalArrayString as Any,
-      "optionalBoolean": eventProperties.optionalBoolean as Any,
-      "optionalNumber": eventProperties.optionalNumber as Any,
-      "optionalString": eventProperties.optionalString as Any
-    ];
-    super.init(
-      eventType: "Event With Optional Properties",
-      eventProperties: propertyDict
-    );
-  }
+    public init(
+      _ eventProperties: EventWithOptionalPropertiesProperties
+    ) {
+      let propertyDict: [String: Any] = [
+          "optionalArrayNumber": eventProperties.optionalArrayNumber as Any,
+          "optionalArrayString": eventProperties.optionalArrayString as Any,
+          "optionalBoolean": eventProperties.optionalBoolean as Any,
+          "optionalNumber": eventProperties.optionalNumber as Any,
+          "optionalString": eventProperties.optionalString as Any
+      ];
+      super.init(
+        eventType: "Event With Optional Properties",
+        eventProperties: propertyDict
+      );
+    }
 }
 public struct LoadClientConfig {
-  let plan: AMPPlan?
+    let plan: AMPPlan?
 
-  public init(plan: AMPPlan? = nil) {
-      self.plan = plan
-  }
+    public init(plan: AMPPlan? = nil) {
+        self.plan = plan
+    }
 }
 
 public struct LoadClientOptions {
-  let apiKey: String?
-  let instance: Amplitude?
-  let config: LoadClientConfig?
+    let apiKey: String?
+    let instance: Amplitude?
+    let config: LoadClientConfig?
 
-  public init(apiKey: String? = nil, instance: Amplitude? = nil, config: LoadClientConfig? = nil) {
-    self.apiKey = apiKey
-    self.instance = instance
-    self.config = config
-  }
+    public init(apiKey: String? = nil, instance: Amplitude? = nil, config: LoadClientConfig? = nil) {
+        self.apiKey = apiKey
+        self.instance = instance
+        self.config = config
+    }
 }
 
 public struct LoadOptions {
-  let environment: AmpliEnvironment?
-  let disabled: Bool?
-  let client: LoadClientOptions?
+    let environment: AmpliEnvironment?
+    let disabled: Bool?
+    let client: LoadClientOptions?
 
-  public init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
-    self.environment = environment
-    self.disabled = disabled
-    self.client = client
-  }
+    public init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
+        self.environment = environment
+        self.disabled = disabled
+        self.client = client
+    }
 }
 
 public struct EventOptions {
-  let deviceId: String?
-  let userId: String?
+    let deviceId: String?
+    let userId: String?
 
-  public init(deviceId: String? = nil, userId: String? = nil) {
-      self.deviceId = deviceId;
-      self.userId = userId;
-  }
+    public init(deviceId: String? = nil, userId: String? = nil) {
+        self.deviceId = deviceId;
+        self.userId = userId;
+    }
 }
 
 public class Ampli {
-  public private(set) var amplitude: Amplitude?;
-  public private(set) var disabled: Bool;
+    public private(set) var amplitude: Amplitude?;
+    public private(set) var disabled: Bool;
 
-  public static let instance: Ampli = Ampli()
+    public static let instance: Ampli = Ampli()
 
-  public init() {
-      disabled = false;
-  }
-
-  public func load(options: LoadOptions? = nil) -> Void {
-    self.disabled = options?.disabled ?? false;
-    if (self.amplitude != nil) {
-        NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
-        return;
-    }
-    let env = options?.environment ?? AmpliEnvironment.development;
-    let apiKey = options?.client?.apiKey ?? ApiKey[env];
-
-    if (options?.client?.instance != nil) {
-        self.amplitude = options?.client?.instance;
-    } else if (apiKey != nil) {
-        self.amplitude = Amplitude.instance();
-        self.amplitude?.initializeApiKey(apiKey!);
-    } else {
-        NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
-        return;
+    public init() {
+        disabled = false;
     }
 
-    self.amplitude?.setPlan(options?.client?.config?.plan ?? AmpliObservePlan!);
-}
+    public func load(options: LoadOptions? = nil) -> Void {
+        self.disabled = options?.disabled ?? false;
+        if (self.amplitude != nil) {
+            NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
+            return;
+        }
+        let env = options?.environment ?? AmpliEnvironment.development;
+        let apiKey = options?.client?.apiKey ?? ApiKey[env];
 
-  public func track(_ event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
-    if (!isInitializedAndEnabled()) {
-        return;
+        if (options?.client?.instance != nil) {
+            self.amplitude = options?.client?.instance;
+        } else if (apiKey != nil) {
+            self.amplitude = Amplitude.instance();
+            self.amplitude?.initializeApiKey(apiKey!);
+        } else {
+            NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+            return;
+        }
+
+        self.amplitude?.setPlan(options?.client?.config?.plan ?? AmpliObservePlan!);
     }
-    amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
-  }
 
-  public func identify(userId: String?, properties: IdentifyProperties?, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
-      if (!isInitializedAndEnabled()) {
-          return;
-      }
-      let user = userId ?? options?.userId
-      if (user != nil) {
-          amplitude?.setUserId(user);
-      }
-      if (options?.deviceId != nil) {
-          amplitude?.setDeviceId((options?.deviceId)!);
-      }
-      let identifyArgs = AMPIdentify()
-      let propertyDict: [String: Any] = [
-        "optionalArray": properties?.optionalArray as Any,
-        "requiredNumber": properties?.requiredNumber as Any
+    public func track(_ event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+        if (!isInitializedAndEnabled()) {
+            return;
+        }
+        amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
+    }
+
+    public func identify(userId: String?, properties: IdentifyProperties?, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+        if (!isInitializedAndEnabled()) {
+            return;
+        }
+        let user = userId ?? options?.userId
+        if (user != nil) {
+            amplitude?.setUserId(user);
+        }
+        if (options?.deviceId != nil) {
+            amplitude?.setDeviceId((options?.deviceId)!);
+        }
+        let identifyArgs = AMPIdentify()
+        let propertyDict: [String: Any] = [
+          "optionalArray": properties?.optionalArray as Any,
+          "requiredNumber": properties?.requiredNumber as Any
       ];
 
-      propertyDict.forEach{ key, value in
-          identifyArgs.set(key, value: value as? NSObject)
-      }
+        propertyDict.forEach{ key, value in
+            identifyArgs.set(key, value: value as? NSObject)
+        }
 
-      amplitude?.identify(identifyArgs)
-  }
-
-  public func flush() -> Void {
-      if (!isInitializedAndEnabled()) {
-          return;
-      }
-      amplitude?.uploadEvents();
-  }
-
-  /**
-  EventMaxIntForTest
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
-
-  Event to test schema validation
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventMaxIntForTest(_ properties: EventMaxIntForTestProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventMaxIntForTest(properties), extra: extra);
-  }
-
-  /**
-  Event No Properties
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
-
-  Event w no properties description
-
-  Owner: Test codegen
-
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventNoProperties(options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventNoProperties(), extra: extra);
-  }
-
-  /**
-  Event Object Types
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
-
-  Event with Object and Object Array
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventObjectTypes(_ properties: EventObjectTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventObjectTypes(properties), extra: extra);
-  }
-
-  /**
-  Event With All Properties
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
-
-  Event w all properties description
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithAllProperties(_ properties: EventWithAllPropertiesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithAllProperties(properties), extra: extra);
-  }
-
-  /**
-  Event With Array Types
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
-
-  Description for event with Array Types
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithArrayTypes(_ properties: EventWithArrayTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithArrayTypes(properties), extra: extra);
-  }
-
-  /**
-  Event With Const Types
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
-
-  Description for event with const types
-
-  Owner: Test codegen
-
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithConstTypes(options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithConstTypes(), extra: extra);
-  }
-
-  /**
-  event withDifferent_CasingTypes
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
-
-  Description for case with space
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithDifferentCasingTypes(_ properties: EventWithDifferentCasingTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithDifferentCasingTypes(properties), extra: extra);
-  }
-
-  /**
-  Event With Enum Types
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
-
-  Description for event with enum types
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithEnumTypes(_ properties: EventWithEnumTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithEnumTypes(properties), extra: extra);
-  }
-
-  /**
-  Event With Optional Array Types
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
-
-  Description for event with optional array types
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithOptionalArrayTypes(_ properties: EventWithOptionalArrayTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithOptionalArrayTypes(properties), extra: extra);
-  }
-
-  /**
-  Event With Optional Properties
-
-  [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
-
-  Event w optional properties description
-
-  Owner: Test codegen
-
-  - Parameter properties The event's properties
-  - Parameter extra Extra untyped parameters for use in middleware.
-  */
-  public func eventWithOptionalProperties(_ properties: EventWithOptionalPropertiesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
-      self.handleEventOptions(options: options);
-      self.track(EventWithOptionalProperties(properties), extra: extra);
-  }
-  private func isInitializedAndEnabled() -> Bool {
-    if (self.amplitude == nil) {
-        NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
-        return false;
+        amplitude?.identify(identifyArgs)
     }
-    return !self.disabled;
-  }
 
-  private func handleEventOptions(options: EventOptions? = nil) {
-    if (options?.userId != nil) {
-        amplitude?.setUserId(options?.userId);
+    public func setGroup(name: String, value: String, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+        if (!isInitializedAndEnabled()) {
+            return;
+        }
+        self.handleEventOptions(options: options);
+        amplitude?.setGroup(name, groupName: value as NSObject)
     }
-    if (options?.deviceId != nil) {
-        amplitude?.setDeviceId((options?.deviceId)!);
+
+    public func flush() -> Void {
+        if (!isInitializedAndEnabled()) {
+            return;
+        }
+        amplitude?.uploadEvents();
     }
-  }
+
+    /**
+    EventMaxIntForTest
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
+
+    Event to test schema validation
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventMaxIntForTest(_ properties: EventMaxIntForTestProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventMaxIntForTest(properties), extra: extra);
+    }
+
+    /**
+    Event No Properties
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
+
+    Event w no properties description
+
+    Owner: Test codegen
+
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventNoProperties(options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventNoProperties(), extra: extra);
+    }
+
+    /**
+    Event Object Types
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
+
+    Event with Object and Object Array
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventObjectTypes(_ properties: EventObjectTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventObjectTypes(properties), extra: extra);
+    }
+
+    /**
+    Event With All Properties
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
+
+    Event w all properties description
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithAllProperties(_ properties: EventWithAllPropertiesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithAllProperties(properties), extra: extra);
+    }
+
+    /**
+    Event With Array Types
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
+
+    Description for event with Array Types
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithArrayTypes(_ properties: EventWithArrayTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithArrayTypes(properties), extra: extra);
+    }
+
+    /**
+    Event With Const Types
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
+
+    Description for event with const types
+
+    Owner: Test codegen
+
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithConstTypes(options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithConstTypes(), extra: extra);
+    }
+
+    /**
+    event withDifferent_CasingTypes
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
+
+    Description for case with space
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithDifferentCasingTypes(_ properties: EventWithDifferentCasingTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithDifferentCasingTypes(properties), extra: extra);
+    }
+
+    /**
+    Event With Enum Types
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
+
+    Description for event with enum types
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithEnumTypes(_ properties: EventWithEnumTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithEnumTypes(properties), extra: extra);
+    }
+
+    /**
+    Event With Optional Array Types
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
+
+    Description for event with optional array types
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithOptionalArrayTypes(_ properties: EventWithOptionalArrayTypesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithOptionalArrayTypes(properties), extra: extra);
+    }
+
+    /**
+    Event With Optional Properties
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
+
+    Event w optional properties description
+
+    Owner: Test codegen
+
+    - Parameter properties The event's properties
+    - Parameter extra Extra untyped parameters for use in middleware.
+    */
+    public func eventWithOptionalProperties(_ properties: EventWithOptionalPropertiesProperties, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) {
+        self.handleEventOptions(options: options);
+        self.track(EventWithOptionalProperties(properties), extra: extra);
+    }
+    private func isInitializedAndEnabled() -> Bool {
+        if (self.amplitude == nil) {
+            NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
+            return false;
+        }
+        return !self.disabled;
+    }
+
+    private func handleEventOptions(options: EventOptions? = nil) {
+        if (options?.userId != nil) {
+            amplitude?.setUserId(options?.userId);
+        }
+        if (options?.deviceId != nil) {
+            amplitude?.setDeviceId((options?.deviceId)!);
+        }
+    }
 }

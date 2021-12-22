@@ -52,6 +52,9 @@
     identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     identifyProperties.requiredNumber = @22;
     [ampli identify:@"ampli-objc-user" properties:identifyProperties];
+    
+    // Set Group
+    [ampli setGroup:@"ampli group type" value:@"ampli objective-c group"];
 
     // MiddlewareExtra can be used to pass information to middleware
     NSMutableDictionary *extraDict = [NSMutableDictionary new];

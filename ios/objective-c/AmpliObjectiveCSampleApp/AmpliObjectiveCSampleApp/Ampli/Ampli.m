@@ -1072,12 +1072,12 @@ NS_ASSUME_NONNULL_END
 @implementation Identify: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (IdentifyProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Identify" withEventProperties:propertyDict];
 }
@@ -1087,12 +1087,12 @@ NS_ASSUME_NONNULL_END
 @implementation Group: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (GroupProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Group" withEventProperties:propertyDict];
 }
@@ -1102,12 +1102,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventMaxIntForTest: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventMaxIntForTestProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"EventMaxIntForTest" withEventProperties:propertyDict];
 }
@@ -1125,12 +1125,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventObjectTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventObjectTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event Object Types" withEventProperties:propertyDict];
 }
@@ -1140,12 +1140,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithAllProperties: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithAllPropertiesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-      @"requiredConst": @"some-const-value"
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      NSDictionary *constPropertyDict = @{
+          @"requiredConst": @"some-const-value"
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With All Properties" withEventProperties:propertyDict];
 }
@@ -1155,12 +1155,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithArrayTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithArrayTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Array Types" withEventProperties:propertyDict];
 }
@@ -1170,14 +1170,14 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithConstTypes: Event
 
 + (instancetype _Nonnull)initEvent {
-    NSDictionary *propertyDict = @{
-      @"Boolean Const": @true,
-      @"Integer Const": @10,
-      @"Number Const": @2.2,
-      @"String Const": @"String-Constant",
-      @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
-      @"String Int Const": @0
-    };
+      NSDictionary *propertyDict = @{
+          @"Boolean Const": @true,
+          @"Integer Const": @10,
+          @"Number Const": @2.2,
+          @"String Const": @"String-Constant",
+          @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
+          @"String Int Const": @0
+      };
 
     return [self withEventType:@"Event With Const Types" withEventProperties:propertyDict];
 }
@@ -1187,12 +1187,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithDifferentCasingTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithDifferentCasingTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"event withDifferent_CasingTypes" withEventProperties:propertyDict];
 }
@@ -1202,12 +1202,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithEnumTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithEnumTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Enum Types" withEventProperties:propertyDict];
 }
@@ -1217,12 +1217,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithOptionalArrayTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalArrayTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Optional Array Types" withEventProperties:propertyDict];
 }
@@ -1232,12 +1232,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithOptionalProperties: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalPropertiesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
+      NSDictionary *constPropertyDict = @{
 
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+      };
+      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Optional Properties" withEventProperties:propertyDict];
 }
@@ -1347,12 +1347,12 @@ NS_ASSUME_NONNULL_END
 @implementation Ampli
 
 + (instancetype)instance {
-  static Ampli *ampli = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-      ampli = [[self alloc] init];
-  });
-  return ampli;
+    static Ampli *ampli = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        ampli = [[self alloc] init];
+    });
+    return ampli;
 }
 
 - (instancetype)init {
@@ -1364,13 +1364,13 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)load {
-  [self load:nil];
+    [self load:nil];
 }
 
 - (void)load:(LoadOptions *_Nullable)options {
     NSDictionary *ApiKey = @{
-      @(development): @"",
-      @(production): @""
+        @(development): @"",
+        @(production): @""
     };
     self.disabled = options != nil ? options.disabled : NO;
     if (_client != nil) {
@@ -1396,11 +1396,11 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)track:(Event *_Nonnull)event {
-  [self track:event extra:nil];
+    [self track:event extra:nil];
 }
 
 - (void)track:(Event *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
-  [self track:event options:nil extra:extra];
+    [self track:event options:nil extra:extra];
 }
 
 - (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
@@ -1411,15 +1411,15 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties {
-  [self identify:userId properties:properties options:nil extra:nil];
+    [self identify:userId properties:properties options:nil extra:nil];
 }
 
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options {
-  [self identify:userId properties:properties options:options extra:nil];
+    [self identify:userId properties:properties options:options extra:nil];
 }
 
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties extra:(MiddlewareExtra *_Nullable)extra {
-  [self identify:userId properties:properties options:nil extra:extra];
+    [self identify:userId properties:properties options:nil extra:extra];
 }
 
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
@@ -1448,6 +1448,26 @@ NS_ASSUME_NONNULL_END
     }
 }
 
+- (void)setGroup:(NSString *)name value:(NSString *)value {
+    [self setGroup:name value:value options:nil extra:nil];
+}
+
+- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options {
+    [self setGroup:name value:value options:options extra:nil];
+}
+
+- (void)setGroup:(NSString *)name value:(NSString *)value extra:(MiddlewareExtra *_Nullable)extra {
+    [self setGroup:name value:value options:nil extra:extra];
+}
+
+- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+    if (![self isInitializedAndEnabld]) {
+        return;
+    }
+    [self handleEventOptions:options];
+    [self.client setGroup:name groupName:value];
+}
+
 - (void)flush {
     if (![self isInitializedAndEnabld]) {
         return;
@@ -1456,135 +1476,135 @@ NS_ASSUME_NONNULL_END
         [self.client uploadEvents];
     }
 }
-  - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventMaxIntForTest initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventMaxIntForTest initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties {
+- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties {
     [self track:[EventMaxIntForTest initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventNoProperties:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventNoProperties:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventNoProperties initEvent] options:options extra: extra];
-  }
+}
 
-  - (void)eventNoProperties:(MiddlewareExtra *_Nullable)extra {
+- (void)eventNoProperties:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventNoProperties initEvent] extra: extra];
-  }
+}
 
-  - (void)eventNoProperties {
+- (void)eventNoProperties {
     [self track:[EventNoProperties initEvent] extra: nil];
-  }
+}
 
-  - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventObjectTypes initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventObjectTypes initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties {
+- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties {
     [self track:[EventObjectTypes initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithAllProperties initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithAllProperties initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties {
+- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties {
     [self track:[EventWithAllProperties initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithArrayTypes initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithArrayTypes initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties {
+- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties {
     [self track:[EventWithArrayTypes initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithConstTypes:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithConstTypes:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithConstTypes initEvent] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithConstTypes:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithConstTypes:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithConstTypes initEvent] extra: extra];
-  }
+}
 
-  - (void)eventWithConstTypes {
+- (void)eventWithConstTypes {
     [self track:[EventWithConstTypes initEvent] extra: nil];
-  }
+}
 
-  - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties {
     [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithEnumTypes initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithEnumTypes initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties {
+- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties {
     [self track:[EventWithEnumTypes initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties {
     [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] extra: nil];
-  }
+}
 
-  - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:[EventWithOptionalProperties initWithEventProperties:properties] options:options extra: extra];
-  }
+}
 
-  - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
     [self track:[EventWithOptionalProperties initWithEventProperties:properties] extra: extra];
-  }
+}
 
-  - (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties {
+- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties {
     [self track:[EventWithOptionalProperties initWithEventProperties:properties] extra: nil];
-  }
+}
 
 - (BOOL)isInitializedAndEnabld {
     if (self.client == nil) {
@@ -1595,15 +1615,15 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)handleEventOptions:(EventOptions *)options {
-  if (options == nil || ![self isInitializedAndEnabld]) {
-      return;
-  }
-  if (options.userId != nil) {
-      [self.client setUserId:options.userId];
-  }
-  if (options.deviceId != nil) {
-      [self.client setDeviceId:options.deviceId];
-  }
+    if (options == nil || ![self isInitializedAndEnabld]) {
+        return;
+    }
+    if (options.userId != nil) {
+        [self.client setUserId:options.userId];
+    }
+    if (options.deviceId != nil) {
+        [self.client setDeviceId:options.deviceId];
+    }
 }
 
 @end
