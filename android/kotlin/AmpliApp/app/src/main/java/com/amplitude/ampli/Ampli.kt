@@ -560,8 +560,15 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
+
+        val jsonValue = try {
+            JSONArray(value)
+        } catch (e: JSONException) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.message)
+            return
+        }
         this.handleEventOptions(options)
-        this.client?.setGroup(name, value, extra)
+        this.client?.setGroup(name, jsonValue, extra)
     }
 
     open fun flush() {

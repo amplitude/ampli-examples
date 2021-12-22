@@ -6,6 +6,7 @@ import com.amplitude.ampli.*
 import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -28,6 +29,8 @@ class AmpliTest {
 
     @Captor
     lateinit var jsonObjectCaptor: ArgumentCaptor<JSONObject>
+    @Captor
+    lateinit var jsonArrayCaptor: ArgumentCaptor<JSONArray>
     @Captor
     lateinit var extraCaptor: ArgumentCaptor<MiddlewareExtra>
 
@@ -116,7 +119,8 @@ class AmpliTest {
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
-        verify(client, times(1)).setGroup(eq("group-1"), eq(arrayOf("value-1", "value-2", "value-3")), extraCaptor.capture())
+        verify(client, times(1)).setGroup(eq("group-1"), jsonArrayCaptor.capture(), extraCaptor.capture())
+        assertEquals("""["value-1","value-2","value-3"]""", jsonArrayCaptor.value.toString())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
