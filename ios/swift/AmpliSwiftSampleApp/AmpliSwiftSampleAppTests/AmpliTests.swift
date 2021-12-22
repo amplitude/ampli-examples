@@ -57,6 +57,6 @@ class AmpliTests: XCTestCase {
             XCTAssertNil(eventProperties!["optionalString"])
             XCTAssertEqual(payload.extra?["test"] as! String, "extra test")
         })
-        ampli?.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: RequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
+        ampli?.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: EventWithAllPropertiesRequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
     }
 }

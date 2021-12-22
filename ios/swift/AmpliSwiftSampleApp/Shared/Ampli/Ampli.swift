@@ -132,7 +132,7 @@ public struct EventWithAllPropertiesProperties {
     /// Event 2 Property - Boolean
     public let requiredBoolean: Bool
     /// Event 2 Property - Enum
-    public let requiredEnum: RequiredEnum
+    public let requiredEnum: EventWithAllPropertiesRequiredEnum
     /// Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
     public let requiredInteger: Int
     /// Event 2 Property - Number
@@ -140,7 +140,7 @@ public struct EventWithAllPropertiesProperties {
     /// Event 2 Property - String
     public let requiredString: String
 
-    public init(optionalString: String?, requiredArray: [String], requiredBoolean: Bool, requiredEnum: RequiredEnum, requiredInteger: Int, requiredNumber: Double, requiredString: String) {
+    public init(optionalString: String?, requiredArray: [String], requiredBoolean: Bool, requiredEnum: EventWithAllPropertiesRequiredEnum, requiredInteger: Int, requiredNumber: Double, requiredString: String) {
         self.optionalString = optionalString
         self.requiredArray = requiredArray
         self.requiredBoolean = requiredBoolean
@@ -152,7 +152,7 @@ public struct EventWithAllPropertiesProperties {
 }
 
 /// Event 2 Property - Enum
-public enum RequiredEnum {
+public enum EventWithAllPropertiesRequiredEnum {
     case enum1
     case enum2
 }
@@ -189,13 +189,13 @@ public struct EventWithConstTypesProperties {
 // MARK: - EventWithDifferentCasingTypesProperties
 public struct EventWithDifferentCasingTypesProperties {
     /// Description for enum with space
-    public let enumWithSpace: EnumWithSpace
+    public let enumWithSpace: EventWithDifferentCasingTypesEnumWithSpace
     /// description_for_enum_snake_case
-    public let enumSnakeCase: EnumSnakeCase
+    public let enumSnakeCase: EventWithDifferentCasingTypesEnumSnakeCase
     /// descriptionForEnumCamelCase
-    public let enumCamelCase: EnumCamelCase
+    public let enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase
     /// DescirptionForEnumPascalCase
-    public let enumPascalCase: EnumPascalCase
+    public let enumPascalCase: EventWithDifferentCasingTypesEnumPascalCase
     /// Description for case with space
     public let propertyWithSpace: String
     /// Description_for_snake_case
@@ -205,7 +205,7 @@ public struct EventWithDifferentCasingTypesProperties {
     /// DescriptionForPascalCase
     public let propertyWithPascalCase: String
 
-    public init(enumWithSpace: EnumWithSpace, enumSnakeCase: EnumSnakeCase, enumCamelCase: EnumCamelCase, enumPascalCase: EnumPascalCase, propertyWithSpace: String, propertyWithSnakeCase: String, propertyWithCamelCase: String, propertyWithPascalCase: String) {
+    public init(enumWithSpace: EventWithDifferentCasingTypesEnumWithSpace, enumSnakeCase: EventWithDifferentCasingTypesEnumSnakeCase, enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase, enumPascalCase: EventWithDifferentCasingTypesEnumPascalCase, propertyWithSpace: String, propertyWithSnakeCase: String, propertyWithCamelCase: String, propertyWithPascalCase: String) {
         self.enumWithSpace = enumWithSpace
         self.enumSnakeCase = enumSnakeCase
         self.enumCamelCase = enumCamelCase
@@ -218,22 +218,22 @@ public struct EventWithDifferentCasingTypesProperties {
 }
 
 /// descriptionForEnumCamelCase
-public enum EnumCamelCase {
+public enum EventWithDifferentCasingTypesEnumCamelCase {
     case enumCamelCase
 }
 
 /// DescirptionForEnumPascalCase
-public enum EnumPascalCase {
+public enum EventWithDifferentCasingTypesEnumPascalCase {
     case enumPascalCase
 }
 
 /// description_for_enum_snake_case
-public enum EnumSnakeCase {
+public enum EventWithDifferentCasingTypesEnumSnakeCase {
     case enumSnakeCase
 }
 
 /// Description for enum with space
-public enum EnumWithSpace {
+public enum EventWithDifferentCasingTypesEnumWithSpace {
     case enumWithSpace
 }
 
@@ -241,24 +241,24 @@ public enum EnumWithSpace {
 // MARK: - EventWithEnumTypesProperties
 public struct EventWithEnumTypesProperties {
     /// Description for required enum
-    public let optionalEnum: OptionalEnum?
+    public let optionalEnum: EventWithEnumTypesOptionalEnum?
     /// Description for optional enum
-    public let requiredEnum: RequiredEnumEnum
+    public let requiredEnum: EventWithEnumTypesRequiredEnum
 
-    public init(optionalEnum: OptionalEnum?, requiredEnum: RequiredEnumEnum) {
+    public init(optionalEnum: EventWithEnumTypesOptionalEnum?, requiredEnum: EventWithEnumTypesRequiredEnum) {
         self.optionalEnum = optionalEnum
         self.requiredEnum = requiredEnum
     }
 }
 
 /// Description for required enum
-public enum OptionalEnum {
+public enum EventWithEnumTypesOptionalEnum {
     case optionalEnum1
     case optionalEnum2
 }
 
 /// Description for optional enum
-public enum RequiredEnumEnum {
+public enum EventWithEnumTypesRequiredEnum {
     case requiredEnum1
     case requiredEnum2
 }
