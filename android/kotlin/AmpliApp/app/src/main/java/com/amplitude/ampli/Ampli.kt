@@ -561,7 +561,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(options)
-        this.client?.setGroup(name, value, extra)
+        this.client?.setGroup(name, JSONArray(value), extra)
     }
 
     open fun flush() {
