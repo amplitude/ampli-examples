@@ -18,33 +18,33 @@ struct AmpliSwiftSampleAppApp: App {
         //    This requires connecting your account via `ampli pull` which will set you API key in the generated Ampli SDK
         //
         //    OR Specify a AmpliEnvironment
-        //    ampli.load(options: LoadOptions(environment: AmpliEnvironment.development)
+        //    ampli.load(LoadOptions(environment: AmpliEnvironment.development)
         //
         //    OR Provide a specific Amplitude API key
-        //    ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: "Custom api key"))
+        //    ampli.load(LoadOptions(client: LoadClientOptions(apiKey: "Custom api key"))
         //
         //    OR Use an existing Amplitude instance
         //    requires "import Amplitude"
         //    let instance = Amplitude.instance("instanceName");
         //    instance.initializeApiKey("Custom api key");
-        //    ampli.load(options: LoadOptions(client: LoadClientOptions(instance: instance)))
+        //    ampli.load(LoadOptions(client: LoadClientOptions(instance: instance)))
         //
         //    For testing you can disable ampli
-        //    ampli.load(options: LoadOptions(disabled: ENV.IS_TESTING ? true: false))
+        //    ampli.load(LoadOptions(disabled: ENV.IS_TESTING ? true: false))
         //
         //    Make as many Ampli instances as you want
         //    let ampli2 = new Ampli();
-        //    ampli2.load(options: LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
+        //    ampli2.load(LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
         
         let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"];
         let ampli = Ampli.instance
         let extraDict = ["test" : "extra test"];
         
         // Load
-        ampli.load(options: LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
+        ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
         
         // Identify
-        ampli.identify(userId: "ampli-swift-user", properties: IdentifyProperties(optionalArray: ["optional string"], requiredNumber: 22.0))
+        ampli.identify("ampli-swift-user", IdentifyProperties(optionalArray: ["optional string"], requiredNumber: 22.0))
         
         // Set group
         ampli.setGroup("ampli group type", "ampli swift group")

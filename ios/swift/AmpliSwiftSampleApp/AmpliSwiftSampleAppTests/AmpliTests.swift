@@ -14,7 +14,7 @@ class AmpliTests: XCTestCase {
     
     override func setUpWithError() throws {
         ampli = Ampli()
-        ampli?.load(options: LoadOptions(client: LoadClientOptions(apiKey: "test-api-key")))
+        ampli?.load(LoadOptions(client: LoadClientOptions(apiKey: "test-api-key")))
     }
     
     func testIdenify() throws {
@@ -28,7 +28,7 @@ class AmpliTests: XCTestCase {
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
             XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
         })
-        ampli?.identify(userId: userId, properties: identifyProperties, options: eventOptions)
+        ampli?.identify(userId, identifyProperties, options: eventOptions)
     }
     
     func testTrackWithNoProperies() throws {

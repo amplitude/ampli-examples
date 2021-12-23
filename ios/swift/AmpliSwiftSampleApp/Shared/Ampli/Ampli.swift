@@ -582,7 +582,7 @@ public class Ampli {
         disabled = false;
     }
 
-    public func load(options: LoadOptions? = nil) -> Void {
+    public func load(_ options: LoadOptions? = nil) -> Void {
         self.disabled = options?.disabled ?? false;
         if (self.amplitude != nil) {
             NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
@@ -611,7 +611,7 @@ public class Ampli {
         amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
     }
 
-    public func identify(userId: String?, properties: IdentifyProperties?, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+    public func identify(_ userId: String?, _ properties: IdentifyProperties?, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
         if (!isInitializedAndEnabled()) {
             return;
         }
