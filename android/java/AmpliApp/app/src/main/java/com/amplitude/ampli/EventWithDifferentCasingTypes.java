@@ -14,18 +14,143 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventWithDifferentCasingTypes extends Event {
-    public EventWithDifferentCasingTypes(
-        EventWithDifferentCasingTypesProperties eventProperties
-    ) {
-        super("event withDifferent_CasingTypes");
-        this.addProperty("enumCamelCase", eventProperties.getEnumCamelCase().toValue());
-        this.addProperty("EnumPascalCase", eventProperties.getEnumPascalCase().toValue());
-        this.addProperty("enum_snake_case", eventProperties.getEnumSnakeCase().toValue());
-        this.addProperty("enum with space", eventProperties.getEnumWithSpace().toValue());
-        this.addProperty("propertyWithCamelCase", eventProperties.getPropertyWithCamelCase());
-        this.addProperty("PropertyWithPascalCase", eventProperties.getPropertyWithPascalCase());
-        this.addProperty("property_with_snake_case", eventProperties.getPropertyWithSnakeCase());
-        this.addProperty("property with space", eventProperties.getPropertyWithSpace());
+    private EventWithDifferentCasingTypes(Builder builder) {
+        super("event withDifferent_CasingTypes", builder.properties);
+    }
+
+    public static IEnumCamelCase builder() { return new Builder(); }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IEnumCamelCase, IEnumPascalCase, IEnumSnakeCase, IEnumWithSpace, IPropertyWithCamelCase, IPropertyWithPascalCase, IPropertyWithSnakeCase, IPropertyWithSpace, IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        /**
+         * descriptionForEnumCamelCase
+         * <p>
+         * Must be followed by {@link IEnumPascalCase#enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase)
+         */
+        public IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase) {
+            this.properties.put("enumCamelCase", enumCamelCase.toValue());
+            return this;
+        }
+
+        /**
+         * DescirptionForEnumPascalCase
+         * <p>
+         * Must be followed by {@link IEnumSnakeCase#enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase)
+         */
+        public IEnumSnakeCase enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase enumPascalCase) {
+            this.properties.put("EnumPascalCase", enumPascalCase.toValue());
+            return this;
+        }
+
+        /**
+         * description_for_enum_snake_case
+         * <p>
+         * Must be followed by {@link IEnumWithSpace#enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace)
+         */
+        public IEnumWithSpace enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase enumSnakeCase) {
+            this.properties.put("enum_snake_case", enumSnakeCase.toValue());
+            return this;
+        }
+
+        /**
+         * Description for enum with space
+         * <p>
+         * Must be followed by {@link IPropertyWithCamelCase#propertyWithCamelCase(String)
+         */
+        public IPropertyWithCamelCase enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace enumWithSpace) {
+            this.properties.put("enum with space", enumWithSpace.toValue());
+            return this;
+        }
+
+        /**
+         * descriptionForCamelCase
+         * <p>
+         * Must be followed by {@link IPropertyWithPascalCase#propertyWithPascalCase(String)
+         */
+        public IPropertyWithPascalCase propertyWithCamelCase(String propertyWithCamelCase) {
+            this.properties.put("propertyWithCamelCase", propertyWithCamelCase);
+            return this;
+        }
+
+        /**
+         * DescriptionForPascalCase
+         * <p>
+         * Must be followed by {@link IPropertyWithSnakeCase#propertyWithSnakeCase(String)
+         */
+        public IPropertyWithSnakeCase propertyWithPascalCase(String propertyWithPascalCase) {
+            this.properties.put("PropertyWithPascalCase", propertyWithPascalCase);
+            return this;
+        }
+
+        /**
+         * Description_for_snake_case
+         * <p>
+         * Must be followed by {@link IPropertyWithSpace#propertyWithSpace(String)
+         */
+        public IPropertyWithSpace propertyWithSnakeCase(String propertyWithSnakeCase) {
+            this.properties.put("property_with_snake_case", propertyWithSnakeCase);
+            return this;
+        }
+
+        /**
+         * Description for case with space
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild propertyWithSpace(String propertyWithSpace) {
+            this.properties.put("property with space", propertyWithSpace);
+            return this;
+        }
+
+        public EventWithDifferentCasingTypes build() {
+            return new EventWithDifferentCasingTypes(this);
+        }
+    }
+
+    // Required property interfaces
+    public interface IEnumCamelCase {
+        IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase);
+    }
+
+    public interface IEnumPascalCase {
+        IEnumSnakeCase enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase enumPascalCase);
+    }
+
+    public interface IEnumSnakeCase {
+        IEnumWithSpace enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase enumSnakeCase);
+    }
+
+    public interface IEnumWithSpace {
+        IPropertyWithCamelCase enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace enumWithSpace);
+    }
+
+    public interface IPropertyWithCamelCase {
+        IPropertyWithPascalCase propertyWithCamelCase(String propertyWithCamelCase);
+    }
+
+    public interface IPropertyWithPascalCase {
+        IPropertyWithSnakeCase propertyWithPascalCase(String propertyWithPascalCase);
+    }
+
+    public interface IPropertyWithSnakeCase {
+        IPropertyWithSpace propertyWithSnakeCase(String propertyWithSnakeCase);
+    }
+
+    public interface IPropertyWithSpace {
+        IBuild propertyWithSpace(String propertyWithSpace);
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        EventWithDifferentCasingTypes build();
     }
 }

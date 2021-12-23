@@ -14,8 +14,30 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventNoProperties extends Event {
-    public EventNoProperties() {
-        super("Event No Properties");
+    private EventNoProperties(Builder builder) {
+        super("Event No Properties", builder.properties);
+    }
+
+    public static IBuild builder() { return new Builder(); }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        public EventNoProperties build() {
+            return new EventNoProperties(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        EventNoProperties build();
     }
 }

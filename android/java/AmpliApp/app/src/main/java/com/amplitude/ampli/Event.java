@@ -14,21 +14,14 @@
 //
 package com.amplitude.ampli;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Event {
-    String eventType;
-    Map<String, Object> eventProperties;
+    final String eventType;
+    final Map<String, Object> eventProperties;
     
-    protected Event(String eventType) {
+    protected Event(String eventType, Map<String, Object> eventProperties) {
         this.eventType = eventType;
-    }
-    
-    protected void addProperty(String propertyName, Object propertyValue) {
-        if (this.eventProperties == null) {
-            this.eventProperties = new HashMap<>();
-        }
-        this.eventProperties.put(propertyName, propertyValue);
+        this.eventProperties = eventProperties == null || eventProperties.isEmpty() ? null : eventProperties;
     }
 }

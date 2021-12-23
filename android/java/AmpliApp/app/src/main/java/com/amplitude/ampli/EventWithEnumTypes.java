@@ -14,12 +14,54 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventWithEnumTypes extends Event {
-    public EventWithEnumTypes(
-        EventWithEnumTypesProperties eventProperties
-    ) {
-        super("Event With Enum Types");
-        if (eventProperties.getOptionalEnum().toValue() != null) { this.addProperty("optional enum", eventProperties.getOptionalEnum().toValue()); }
-        this.addProperty("required enum", eventProperties.getRequiredEnum().toValue());
+    private EventWithEnumTypes(Builder builder) {
+        super("Event With Enum Types", builder.properties);
+    }
+
+    public static IRequiredEnum builder() { return new Builder(); }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IRequiredEnum, IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        /**
+         * Description for optional enum
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum) {
+            this.properties.put("required enum", requiredEnum.toValue());
+            return this;
+        }
+
+        /**
+         * Description for required enum
+         */
+        public IBuild optionalEnum(EventWithEnumTypesOptionalEnum optionalEnum) {
+            this.properties.put("optional enum", optionalEnum.toValue());
+            return this;
+        }
+
+        public EventWithEnumTypes build() {
+            return new EventWithEnumTypes(this);
+        }
+    }
+
+    // Required property interfaces
+    public interface IRequiredEnum {
+        IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum);
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        IBuild optionalEnum(EventWithEnumTypesOptionalEnum optionalEnum);
+        EventWithEnumTypes build();
     }
 }

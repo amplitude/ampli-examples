@@ -14,14 +14,66 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class EventWithOptionalArrayTypes extends Event {
-    public EventWithOptionalArrayTypes(
-        EventWithOptionalArrayTypesProperties eventProperties
-    ) {
-        super("Event With Optional Array Types");
-        if (eventProperties.getOptionalBooleanArray() != null) { this.addProperty("optionalBooleanArray", eventProperties.getOptionalBooleanArray()); }
-        if (eventProperties.getOptionalJSONArray() != null) { this.addProperty("optionalJSONArray", eventProperties.getOptionalJSONArray()); }
-        if (eventProperties.getOptionalNumberArray() != null) { this.addProperty("optionalNumberArray", eventProperties.getOptionalNumberArray()); }
-        if (eventProperties.getOptionalStringArray() != null) { this.addProperty("optionalStringArray", eventProperties.getOptionalStringArray()); }
+    private EventWithOptionalArrayTypes(Builder builder) {
+        super("Event With Optional Array Types", builder.properties);
+    }
+
+    public static IBuild builder() { return new Builder(); }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        /**
+         * Description for optional boolean array
+         */
+        public IBuild optionalBooleanArray(Boolean[] optionalBooleanArray) {
+            this.properties.put("optionalBooleanArray", optionalBooleanArray);
+            return this;
+        }
+
+        /**
+         * Description for optional object array
+         */
+        public IBuild optionalJSONArray(org.json.JSONObject[] optionalJSONArray) {
+            this.properties.put("optionalJSONArray", optionalJSONArray);
+            return this;
+        }
+
+        /**
+         * Description for optional number array
+         */
+        public IBuild optionalNumberArray(Double[] optionalNumberArray) {
+            this.properties.put("optionalNumberArray", optionalNumberArray);
+            return this;
+        }
+
+        /**
+         * Description for optional string array
+         */
+        public IBuild optionalStringArray(String[] optionalStringArray) {
+            this.properties.put("optionalStringArray", optionalStringArray);
+            return this;
+        }
+
+        public EventWithOptionalArrayTypes build() {
+            return new EventWithOptionalArrayTypes(this);
+        }
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        IBuild optionalBooleanArray(Boolean[] optionalBooleanArray);
+        IBuild optionalJSONArray(org.json.JSONObject[] optionalJSONArray);
+        IBuild optionalNumberArray(Double[] optionalNumberArray);
+        IBuild optionalStringArray(String[] optionalStringArray);
+        EventWithOptionalArrayTypes build();
     }
 }

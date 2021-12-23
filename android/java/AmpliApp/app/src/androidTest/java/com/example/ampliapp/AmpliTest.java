@@ -14,9 +14,9 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
-import com.amplitude.ampli.EventWithAllPropertiesProperties;
+import com.amplitude.ampli.EventWithAllProperties;
 import com.amplitude.ampli.EventWithAllPropertiesRequiredEnum;
-import com.amplitude.ampli.IdentifyProperties;
+import com.amplitude.ampli.Identify;
 import com.amplitude.ampli.LoadClientOptions;
 import com.amplitude.ampli.LoadOptions;
 import com.amplitude.api.AmplitudeClient;
@@ -75,12 +75,9 @@ public class AmpliTest {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        IdentifyProperties properties = new IdentifyProperties();
-        properties.setRequiredNumber(42.0);
-        properties.setOptionalArray(new String[]{"A", "ray"});
         this.ampli.identify(
                 userId,
-                properties,
+                Identify.builder().requiredNumber(42.0).optionalArray(new String[]{"A", "ray"}).build(),
                 new EventOptions().setDeviceId(deviceId).setUserId("some-user"),
                 extra
         );
@@ -190,15 +187,15 @@ public class AmpliTest {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        EventWithAllPropertiesProperties properties = new EventWithAllPropertiesProperties();
-        properties.setRequiredString("Required string");
-        properties.setRequiredArray(new String[]{"Required", "array"});
-        properties.setRequiredBoolean(true);
-        properties.setRequiredEnum(EventWithAllPropertiesRequiredEnum.ENUM2);
-        properties.setRequiredInteger(41);
-        properties.setRequiredNumber(42);
         this.ampli.eventWithAllProperties(
-                properties,
+                EventWithAllProperties.builder()
+                        .requiredArray(new String[]{"Required", "array"})
+                        .requiredBoolean(true)
+                        .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM2)
+                        .requiredInteger(41)
+                        .requiredNumber(42.0)
+                        .requiredString("Required string")
+                        .build(),
                 new EventOptions().setDeviceId(deviceId).setUserId(userId),
                 extra
         );

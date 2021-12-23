@@ -14,12 +14,54 @@
 //
 package com.amplitude.ampli;
 
+import java.util.HashMap;
+
 public class Group extends Event {
-    public Group(
-        GroupProperties eventProperties
-    ) {
-        super("Group");
-        if (eventProperties.getOptionalString() != null) { this.addProperty("optionalString", eventProperties.getOptionalString()); }
-        this.addProperty("requiredBoolean", eventProperties.getRequiredBoolean());
+    private Group(Builder builder) {
+        super("group", builder.properties);
+    }
+
+    public static IRequiredBoolean builder() { return new Builder(); }
+
+    // Inner Builder class with required properties
+    public static class Builder implements IRequiredBoolean, IBuild {
+        private final HashMap<String, Object> properties = new HashMap<>();
+
+        private Builder() {
+
+        }
+
+        /**
+         * Description for group requiredBoolean
+         * <p>
+         * Must be followed by by additional optional properties or build() method
+         */
+        public IBuild requiredBoolean(boolean requiredBoolean) {
+            this.properties.put("requiredBoolean", requiredBoolean);
+            return this;
+        }
+
+        /**
+         * Description for group optionalString
+         */
+        public IBuild optionalString(String optionalString) {
+            this.properties.put("optionalString", optionalString);
+            return this;
+        }
+
+        public Group build() {
+            return new Group(this);
+        }
+    }
+
+    // Required property interfaces
+    public interface IRequiredBoolean {
+        IBuild requiredBoolean(boolean requiredBoolean);
+    }
+
+    /** Build interface with optional properties */
+    public interface IBuild {
+        IBuild optionalString(String optionalString);
+        Group build();
     }
 }
