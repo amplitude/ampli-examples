@@ -18,8 +18,8 @@
 typedef NSMutableDictionary<NSString *, id> MiddlewareExtra;
 
 typedef NS_ENUM(NSInteger, AmpliEnvironment) {
-  development,
-  production
+    development,
+    production
 };
 
 @interface Event: NSObject

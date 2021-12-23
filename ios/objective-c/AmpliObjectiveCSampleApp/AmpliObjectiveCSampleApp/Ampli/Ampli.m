@@ -1072,12 +1072,12 @@ NS_ASSUME_NONNULL_END
 @implementation Identify: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (IdentifyProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Identify" withEventProperties:propertyDict];
 }
@@ -1087,12 +1087,12 @@ NS_ASSUME_NONNULL_END
 @implementation Group: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (GroupProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Group" withEventProperties:propertyDict];
 }
@@ -1102,12 +1102,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventMaxIntForTest: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventMaxIntForTestProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"EventMaxIntForTest" withEventProperties:propertyDict];
 }
@@ -1125,12 +1125,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventObjectTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventObjectTypesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event Object Types" withEventProperties:propertyDict];
 }
@@ -1140,12 +1140,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithAllProperties: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithAllPropertiesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
-          @"requiredConst": @"some-const-value"
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    NSDictionary *constPropertyDict = @{
+        @"requiredConst": @"some-const-value"
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With All Properties" withEventProperties:propertyDict];
 }
@@ -1155,12 +1155,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithArrayTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithArrayTypesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Array Types" withEventProperties:propertyDict];
 }
@@ -1170,14 +1170,14 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithConstTypes: Event
 
 + (instancetype _Nonnull)initEvent {
-      NSDictionary *propertyDict = @{
-          @"Boolean Const": @true,
-          @"Integer Const": @10,
-          @"Number Const": @2.2,
-          @"String Const": @"String-Constant",
-          @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
-          @"String Int Const": @0
-      };
+    NSDictionary *propertyDict = @{
+        @"Boolean Const": @true,
+        @"Integer Const": @10,
+        @"Number Const": @2.2,
+        @"String Const": @"String-Constant",
+        @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
+        @"String Int Const": @0
+    };
 
     return [self withEventType:@"Event With Const Types" withEventProperties:propertyDict];
 }
@@ -1187,12 +1187,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithDifferentCasingTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithDifferentCasingTypesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"event withDifferent_CasingTypes" withEventProperties:propertyDict];
 }
@@ -1202,12 +1202,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithEnumTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithEnumTypesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Enum Types" withEventProperties:propertyDict];
 }
@@ -1217,12 +1217,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithOptionalArrayTypes: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalArrayTypesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Optional Array Types" withEventProperties:propertyDict];
 }
@@ -1232,12 +1232,12 @@ NS_ASSUME_NONNULL_END
 @implementation EventWithOptionalProperties: Event
 
 + (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalPropertiesProperties *_Nonnull)eventProperties {
-      NSDictionary *constPropertyDict = @{
+    NSDictionary *constPropertyDict = @{
 
-      };
-      NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-      NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-      [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+    };
+    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
+    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
     return [self withEventType:@"Event With Optional Properties" withEventProperties:propertyDict];
 }
@@ -1434,12 +1434,12 @@ NS_ASSUME_NONNULL_END
     }
     if (properties != nil) {
         AMPIdentify *identifyArgs = [AMPIdentify identify];
-        NSDictionary *constPropertyDict = @{
+            NSDictionary *constPropertyDict = @{
 
-        };
-        NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-        NSDictionary *nonConstPropertyDict = [properties JSONDictionary];
-        [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
+            };
+            NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
+            NSDictionary *nonConstPropertyDict = [properties JSONDictionary];
+            [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
 
         [propertyDict enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
           [identifyArgs set:key value:value];

@@ -70,6 +70,6 @@ class AmpliTests: XCTestCase {
             let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
         })
-        ampli?.setGroup(name: groupType, value: groupName)
+        ampli?.setGroup(groupType, groupName)
     }
 }
