@@ -1,4 +1,4 @@
-# Ampli Android SDK (Kotlin)
+# Ampli Android SDK (Java)
 An example app using the Ampli Android SDK
 
 # Usage
@@ -26,14 +26,14 @@ Run the application using Android Studio or your favorite IDE.
 If you want to use your own tracking plan to generate the Ampli SDK:
 1. `npm i -g @amplitude/ampli`
 2. `ampli pull`
-3. Update [MainActivity.kt](app/src/main/java/com/example/ampliapp/MainActivity.kt) to track your events.
+3. Update [MainActivity.java](app/src/main/java/com/example/ampliapp/MainActivity.java) to track your events.
 
 # Project structure
 * README.md - you are here *
-* src/main/java/
+* app/src/main/java/
     * com/example/ampliapp/
-        * [MainActivity.kt](app/src/main/java/com/example/ampliapp/MainActivity.kt) - Example user app using Amply SDK. A good place to start.
-        * [App.kt](app/src/main/java/com/example/ampliapp/App.kt) - Initialization logic.
+        * [MainActivity.java](app/src/main/java/com/example/ampliapp/MainActivity.java) - Example user app using Amply SDK. A good place to start.
+        * [App.java](app/src/main/java/com/example/ampliapp/App.java) - Initialization logic.
     * com/amplitude/ampli/
-        * [Ampli.kt](app/src/main/java/com/amplitude/ampli/Ampli.kt) - Generated SDK, don't modify by hand. Update with `ampli pull`
+        * [*.java](app/src/main/java/com/amplitude/ampli) - Generated SDK, don't modify by hand. Update with `ampli pull`
         * [schema.json](app/src/main/java/com/amplitude/ampli/schema.json) - The full event schema for the tracking plan
