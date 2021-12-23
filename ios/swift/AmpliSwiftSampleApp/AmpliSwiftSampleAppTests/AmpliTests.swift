@@ -59,4 +59,17 @@ class AmpliTests: XCTestCase {
         })
         ampli?.track(EventWithAllProperties(EventWithAllPropertiesProperties(optionalString: nil, requiredArray: ["array element 1", "array element 2"], requiredBoolean: true, requiredEnum: EventWithAllPropertiesRequiredEnum.enum1, requiredInteger: 10, requiredNumber: 2.0, requiredString: "required string")), options: nil, extra: extraDict)
     }
+    
+    func testSetGroup() throws {
+        let groupType = "test-group-type";
+        let groupName = "test-group";
+        ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+            XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
+            XCTAssertNil(payload.event["event_properties"])
+            let userProperties = payload.event["user_properties"] as? Dictionary<String, Any>
+            let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
+            XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
+        })
+        ampli?.setGroup(groupType, groupName)
+    }
 }

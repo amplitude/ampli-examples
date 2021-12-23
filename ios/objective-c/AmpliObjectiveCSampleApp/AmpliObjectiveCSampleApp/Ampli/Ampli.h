@@ -18,8 +18,8 @@
 typedef NSMutableDictionary<NSString *, id> MiddlewareExtra;
 
 typedef NS_ENUM(NSInteger, AmpliEnvironment) {
-  development,
-  production
+    development,
+    production
 };
 
 @interface Event: NSObject
@@ -353,6 +353,10 @@ NS_ASSUME_NONNULL_END
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options;
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties extra:(MiddlewareExtra *_Nullable)extra;
 - (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value;
+- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value options:(EventOptions *_Nullable)options;
+- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value extra:(MiddlewareExtra *_Nullable)extra;
+- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)flush;
 /**
 EventMaxIntForTest

@@ -77,4 +77,19 @@
     [_ampli identify:userId properties:identifyProperties options:eventOptions];
 }
 
+- (void)testSetGroup {
+    NSString *groupType = @"test group type";
+    NSString *groupName = @"test group name";
+    
+    AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
+        XCTAssertEqualObjects(payload.event[@"event_type"], @"Identify");
+        XCTAssertNil(payload.event[@"event_properties"]);
+        NSMutableDictionary *userPropertiesSet = payload.event[@"user_properties"][@"$set"];
+        XCTAssertEqualObjects(userPropertiesSet[groupType], groupName);
+    }];
+    [_ampli.client addEventMiddleware:testMiddleware];
+    [_ampli setGroup:groupType value:groupName];
+}
+
+
 @end
