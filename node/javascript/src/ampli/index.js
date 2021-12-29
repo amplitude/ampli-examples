@@ -290,7 +290,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
    *
    * Event to test schema validation
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -311,7 +311,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
    *
    * Event w no properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -330,7 +330,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
    *
    * Event with Object and Object Array
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -352,7 +352,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
    *
    * Event w all properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -360,7 +360,7 @@ class Ampli {
    * @param {string} [properties.optionalString] Event 2 Property - Optional String    *     * Examples:    * Some string, or another
    * @param {string[]} properties.requiredArray Event 2 Property - Array
    * @param {boolean} properties.requiredBoolean Event 2 Property - Boolean
-   * @param {string} properties.requiredEnum Event 2 Property - Enum
+   * @param {'Enum1'|'Enum2'} properties.requiredEnum Event 2 Property - Enum
    * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
@@ -379,7 +379,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
    *
    * Description for event with Array Types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -403,7 +403,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
    *
    * Description for event with const types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -422,15 +422,15 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
    *
    * Description for case with space
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
-   * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
-   * @param {string} properties.enum_snake_case description_for_enum_snake_case
-   * @param {string} properties.enum with space Description for enum with space
+   * @param {'enumCamelCase'} properties.enumCamelCase descriptionForEnumCamelCase
+   * @param {'EnumPascalCase'} properties.EnumPascalCase DescirptionForEnumPascalCase
+   * @param {'enum_snake_case'} properties.enum_snake_case description_for_enum_snake_case
+   * @param {'enum with space'} properties.enum with space Description for enum with space
    * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
    * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
    * @param {string} properties.property_with_snake_case Description_for_snake_case
@@ -450,13 +450,13 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
    *
    * Description for event with enum types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
    * @param {Object} properties The event's properties.
-   * @param {string} [properties.optional enum] Description for required enum
-   * @param {string} properties.required enum Description for optional enum
+   * @param {'optional enum 1'|'optional enum 2'} [properties.optional enum] Description for required enum
+   * @param {'required enum 1'|'required enum 2'} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    *
@@ -472,7 +472,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
    *
    * Description for event with optional array types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -496,7 +496,7 @@ class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
    *
    * Event w optional properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {string} userId The user's ID.
@@ -533,7 +533,7 @@ class Ampli {
   }
 
   /**
-   * Flush pending events in queue 
+   * Flush pending events in queue
    *
    * @return {{promise: Promise<Response>}}
    */

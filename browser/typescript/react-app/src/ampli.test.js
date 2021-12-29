@@ -1,4 +1,4 @@
-import { Ampli, ApiKey, EventWithAllPropertiesRequiredEnum } from './ampli';
+import { Ampli, ApiKey } from './ampli';
 
 describe('Ampli Browser TS SDK tests', () => {
   /** @typedef {Ampli}*/
@@ -81,7 +81,7 @@ describe('Ampli Browser TS SDK tests', () => {
     ampli.eventWithAllProperties({
       requiredBoolean: false,
       requiredInteger: 42,
-      requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
+      requiredEnum: "Enum1",
       requiredNumber: 42.0,
       requiredString: "Required string",
       requiredArray: ["Required","string"],

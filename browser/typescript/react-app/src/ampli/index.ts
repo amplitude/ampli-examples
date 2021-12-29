@@ -28,8 +28,8 @@ export const ApiKey: Record<Environment, string> = {
 };
 
 /**
-* Default Amplitude Config. Contains tracking plan information.
-*/
+ * Default Amplitude Config. Contains tracking plan information.
+ */
 export const DefaultConfig: ConfigExt = {
   plan: {
     version: '0',
@@ -48,279 +48,258 @@ export interface LoadOptions {
   }
 }
 
-export interface EventProperties {
-    Context?:                       ContextProperties;
-    EventMaxIntForTest?:            EventMaxIntForTestProperties;
-    EventNoProperties?:             EventNoPropertiesProperties;
-    EventObjectTypes?:              EventObjectTypesProperties;
-    EventWithAllProperties?:        EventWithAllPropertiesProperties;
-    EventWithArrayTypes?:           EventWithArrayTypesProperties;
-    EventWithConstTypes?:           EventWithConstTypesProperties;
-    EventWithDifferentCasingTypes?: EventWithDifferentCasingTypesProperties;
-    EventWithEnumTypes?:            EventWithEnumTypesProperties;
-    EventWithOptionalArrayTypes?:   EventWithOptionalArrayTypesProperties;
-    EventWithOptionalProperties?:   EventWithOptionalPropertiesProperties;
-    Group?:                         GroupProperties;
-    Identify?:                      IdentifyProperties;
-}
-
-export interface ContextProperties {
-}
-
-/**
- * Event to test schema validation
- */
-export interface EventMaxIntForTestProperties {
-    /**
-     * property to test schema validation
-     */
-    intMax10: number;
-}
-
-/**
- * Event w no properties description
- */
-export interface EventNoPropertiesProperties {
-}
-
-/**
- * Event with Object and Object Array
- */
-export interface EventObjectTypesProperties {
-    /**
-     * Property Object Type
-     */
-    requiredObject: any;
-    /**
-     * Property Object Array Type
-     */
-    requiredObjectArray: any[];
-}
-
-/**
- * Event w all properties description
- */
-export interface EventWithAllPropertiesProperties {
-    /**
-     * Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-     */
-    optionalString?: string;
-    /**
-     * Event 2 Property - Array
-     */
-    requiredArray: string[];
-    /**
-     * Event 2 Property - Boolean
-     */
-    requiredBoolean: boolean;
-    /**
-     * Event 2 Property - Enum
-     */
-    requiredEnum: EventWithAllPropertiesRequiredEnum;
-    /**
-     * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
-     */
-    requiredInteger: number;
-    /**
-     * Event 2 Property - Number
-     */
-    requiredNumber: number;
-    /**
-     * Event 2 Property - String
-     */
-    requiredString: string;
-}
-
-/**
- * Event 2 Property - Enum
- */
-export enum EventWithAllPropertiesRequiredEnum {
-    Enum1 = "Enum1",
-    Enum2 = "Enum2",
-}
-
-/**
- * Description for event with Array Types
- */
-export interface EventWithArrayTypesProperties {
-    /**
-     * description for required boolean array
-     */
-    requiredBooleanArray: boolean[];
-    /**
-     * Description for required number array
-     */
-    requiredNumberArray: number[];
-    /**
-     * Description for required object array
-     */
-    requiredObjectArray: any[];
-    /**
-     * description for required string array
-     */
-    requiredStringArray: string[];
-}
-
-/**
- * Description for event with const types
- */
-export interface EventWithConstTypesProperties {
-}
-
-/**
- * Description for case with space
- */
-export interface EventWithDifferentCasingTypesProperties {
-    /**
-     * Description for enum with space
-     */
-    "enum with space": EventWithDifferentCasingTypesEnumWithSpace;
-    /**
-     * description_for_enum_snake_case
-     */
-    enum_snake_case: EventWithDifferentCasingTypesEnumSnakeCase;
-    /**
-     * descriptionForEnumCamelCase
-     */
-    enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase;
-    /**
-     * DescirptionForEnumPascalCase
-     */
-    EnumPascalCase: EventWithDifferentCasingTypesEnumPascalCase;
-    /**
-     * Description for case with space
-     */
-    "property with space": string;
-    /**
-     * Description_for_snake_case
-     */
-    property_with_snake_case: string;
-    /**
-     * descriptionForCamelCase
-     */
-    propertyWithCamelCase: string;
-    /**
-     * DescriptionForPascalCase
-     */
-    PropertyWithPascalCase: string;
-}
-
-/**
- * DescirptionForEnumPascalCase
- */
-export enum EventWithDifferentCasingTypesEnumPascalCase {
-    EnumPascalCase = "EnumPascalCase",
-}
-
-/**
- * Description for enum with space
- */
-export enum EventWithDifferentCasingTypesEnumWithSpace {
-    EnumWithSpace = "enum with space",
-}
-
-/**
- * descriptionForEnumCamelCase
- */
-export enum EventWithDifferentCasingTypesEnumCamelCase {
-    EnumCamelCase = "enumCamelCase",
-}
-
-/**
- * description_for_enum_snake_case
- */
-export enum EventWithDifferentCasingTypesEnumSnakeCase {
-    EnumSnakeCase = "enum_snake_case",
-}
-
-/**
- * Description for event with enum types
- */
-export interface EventWithEnumTypesProperties {
-    /**
-     * Description for required enum
-     */
-    "optional enum"?: EventWithEnumTypesOptionalEnum;
-    /**
-     * Description for optional enum
-     */
-    "required enum": EventWithEnumTypesRequiredEnum;
-}
-
-/**
- * Description for required enum
- */
-export enum EventWithEnumTypesOptionalEnum {
-    OptionalEnum1 = "optional enum 1",
-    OptionalEnum2 = "optional enum 2",
-}
-
-/**
- * Description for optional enum
- */
-export enum EventWithEnumTypesRequiredEnum {
-    RequiredEnum1 = "required enum 1",
-    RequiredEnum2 = "required enum 2",
-}
-
-/**
- * Description for event with optional array types
- */
-export interface EventWithOptionalArrayTypesProperties {
-    /**
-     * Description for optional boolean array
-     */
-    optionalBooleanArray?: boolean[];
-    /**
-     * Description for optional object array
-     */
-    optionalJSONArray?: any[];
-    /**
-     * Description for optional number array
-     */
-    optionalNumberArray?: number[];
-    /**
-     * Description for optional string array
-     */
-    optionalStringArray?: string[];
-}
-
-/**
- * Event w optional properties description
- */
-export interface EventWithOptionalPropertiesProperties {
-    optionalArrayNumber?: number[];
-    optionalArrayString?: string[];
-    optionalBoolean?:     boolean;
-    optionalNumber?:      number;
-    /**
-     * Optional String property description
-     */
-    optionalString?: string;
+export interface IdentifyProperties {
+  /**
+   * Description for identify optionalArray
+   */
+  optionalArray?: string[];
+  /**
+   * Description for identify requiredNumber
+   */
+  requiredNumber: number;
 }
 
 export interface GroupProperties {
-    /**
-     * Description for group optionalString
-     */
-    optionalString?: string;
-    /**
-     * Description for group requiredBoolean
-     */
-    requiredBoolean: boolean;
+  /**
+   * Description for group optionalString
+   */
+  optionalString?: string;
+  /**
+   * Description for group requiredBoolean
+   */
+  requiredBoolean: boolean;
 }
 
-export interface IdentifyProperties {
-    /**
-     * Description for identify optionalArray
-     */
-    optionalArray?: string[];
-    /**
-     * Description for identify requiredNumber
-     */
-    requiredNumber: number;
+export interface EventMaxIntForTestProperties {
+  /**
+   * property to test schema validation
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   * | Max Value | 10 |
+   */
+  intMax10: number;
 }
 
+export interface EventObjectTypesProperties {
+  /**
+   * Property Object Type
+   */
+  requiredObject: {
+    [k: string]: unknown;
+  };
+  /**
+   * Property Object Array Type
+   */
+  requiredObjectArray: unknown[];
+}
+
+export interface EventWithAllPropertiesProperties {
+  /**
+   * Event 2 Property - Optional String    *     * Examples:    * Some string, or another
+   */
+  optionalString?: string;
+  /**
+   * Event 2 Property - Array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Min Items | 0 |
+   * | Item Type | string |
+   */
+  requiredArray: string[];
+  /**
+   * Event 2 Property - Boolean
+   */
+  requiredBoolean: boolean;
+  /**
+   * Event 2 Property - Enum
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | Enum1, Enum2 |
+   */
+  requiredEnum: "Enum1" | "Enum2";
+  /**
+   * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   */
+  requiredInteger: number;
+  /**
+   * Event 2 Property - Number
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  requiredNumber: number;
+  /**
+   * Event 2 Property - String
+   */
+  requiredString: string;
+}
+
+export interface EventWithArrayTypesProperties {
+  /**
+   * description for required boolean array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | boolean |
+   */
+  requiredBooleanArray: boolean[];
+  /**
+   * Description for required number array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | number |
+   */
+  requiredNumberArray: number[];
+  /**
+   * Description for required object array
+   */
+  requiredObjectArray: unknown[];
+  /**
+   * description for required string array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  requiredStringArray: string[];
+}
+
+export interface EventWithDifferent_CasingTypesProperties {
+  /**
+   * descriptionForEnumCamelCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enumCamelCase |
+   */
+  enumCamelCase: "enumCamelCase";
+  /**
+   * DescirptionForEnumPascalCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | EnumPascalCase |
+   */
+  EnumPascalCase: "EnumPascalCase";
+  /**
+   * description_for_enum_snake_case
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum_snake_case |
+   */
+  enum_snake_case: "enum_snake_case";
+  /**
+   * Description for enum with space
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum with space |
+   */
+  "enum with space": "enum with space";
+  /**
+   * descriptionForCamelCase
+   */
+  propertyWithCamelCase: string;
+  /**
+   * DescriptionForPascalCase
+   */
+  PropertyWithPascalCase: string;
+  /**
+   * Description_for_snake_case
+   */
+  property_with_snake_case: string;
+  /**
+   * Description for case with space
+   */
+  "property with space": string;
+}
+
+export interface EventWithEnumTypesProperties {
+  /**
+   * Description for required enum
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | optional enum 1, optional enum 2 |
+   */
+  "optional enum"?: "optional enum 1" | "optional enum 2";
+  /**
+   * Description for optional enum
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | required enum 1, required enum 2 |
+   */
+  "required enum": "required enum 1" | "required enum 2";
+}
+
+export interface EventWithOptionalArrayTypesProperties {
+  /**
+   * Description for optional boolean array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | boolean |
+   */
+  optionalBooleanArray?: boolean[];
+  /**
+   * Description for optional object array
+   */
+  optionalJSONArray?: unknown[];
+  /**
+   * Description for optional number array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | number |
+   */
+  optionalNumberArray?: number[];
+  /**
+   * Description for optional string array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  optionalStringArray?: string[];
+}
+
+export interface EventWithOptionalPropertiesProperties {
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | number |
+   */
+  optionalArrayNumber?: number[];
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  optionalArrayString?: string[];
+  optionalBoolean?: boolean;
+  /**
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optionalNumber?: number;
+  /**
+   * Optional String property description
+   */
+  optionalString?: string;
+}
 
 export class Context implements BaseEvent {
   event_type = 'Context';
@@ -375,9 +354,9 @@ export class EventWithAllProperties implements BaseEvent {
     event_properties: EventWithAllPropertiesProperties,
   ) {
     this.event_properties = {
-        ...event_properties,
-        'requiredConst': "some-const-value",
-      };
+      ...event_properties,
+      'requiredConst': "some-const-value",
+    };
   }
 }
 
@@ -405,7 +384,7 @@ export class EventWithDifferentCasingTypes implements BaseEvent {
   event_type = 'event withDifferent_CasingTypes';
 
   constructor(
-    public event_properties: EventWithDifferentCasingTypesProperties,
+    public event_properties: EventWithDifferent_CasingTypesProperties,
   ) {}
 }
 
@@ -432,7 +411,6 @@ export class EventWithOptionalProperties implements BaseEvent {
     public event_properties?: EventWithOptionalPropertiesProperties,
   ) {}
 }
-
 
 // prettier-ignore
 export class Ampli {
@@ -490,7 +468,7 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra
   ) {
-    if(!this.isInitializedAndEnabled()) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -520,8 +498,8 @@ export class Ampli {
     });
   }
 
-  setGroup(name: string, value: string | string[], options?:GroupOptions, extra?: MiddlewareExtra) {
-    if(!this.isInitializedAndEnabled()) {
+  setGroup(name: string, value: string | string[], options?: GroupOptions, extra?: MiddlewareExtra) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -536,7 +514,7 @@ export class Ampli {
    * @param extra Extra unstructured data for middleware.
    */
   track(event: Event, options?: EventOptions, extra?: MiddlewareExtra) {
-    if(!this.isInitializedAndEnabled()) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -686,7 +664,7 @@ export class Ampli {
    * @param extra Extra untyped parameters for use in middleware.
    */
   eventWithDifferentCasingTypes(
-    properties: EventWithDifferentCasingTypesProperties,
+    properties: EventWithDifferent_CasingTypesProperties,
     options?: EventOptions,
     extra?: MiddlewareExtra,
   ) {
@@ -810,7 +788,7 @@ type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
   callback: Callback;
   errorCallback: Callback;
 };
-export type EventOptions = BaseEventOptions ;
+export type EventOptions = BaseEventOptions;
 export type IdentifyOptions = BaseEventOptions;
 export type GroupOptions = BaseEventOptions;
 
@@ -841,4 +819,3 @@ export type MiddlewareNext = (payload: MiddlewarePayload) => void;
  * @param next Function to run the next middleware in the chain, not calling next will end the middleware chain
  */
 export type Middleware = (payload: MiddlewarePayload, next: MiddlewareNext) => void;
-
