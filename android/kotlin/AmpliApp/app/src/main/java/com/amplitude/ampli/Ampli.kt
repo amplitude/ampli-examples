@@ -26,442 +26,486 @@ import com.amplitude.api.Plan
 
 open class Event(
     val eventType: String,
-    val eventProperties: Map<String, Any?>?
+    val eventProperties: Map<String, Any?>?,
+    val options: EventOptions? = null
 )
 
-private data class EventProperties (
-    val context: ContextProperties? = null,
-    val eventMaxIntForTest: EventMaxIntForTestProperties? = null,
-    val eventNoProperties: EventNoPropertiesProperties? = null,
-    val eventObjectTypes: EventObjectTypesProperties? = null,
-    val eventWithAllProperties: EventWithAllPropertiesProperties? = null,
-    val eventWithArrayTypes: EventWithArrayTypesProperties? = null,
-    val eventWithConstTypes: EventWithConstTypesProperties? = null,
-    val eventWithDifferentCasingTypes: EventWithDifferentCasingTypesProperties? = null,
-    val eventWithEnumTypes: EventWithEnumTypesProperties? = null,
-    val eventWithOptionalArrayTypes: EventWithOptionalArrayTypesProperties? = null,
-    val eventWithOptionalProperties: EventWithOptionalPropertiesProperties? = null,
-    val group: GroupProperties? = null,
-    val identify: IdentifyProperties? = null
-)
-
-class ContextProperties()
-
-/**
- * Event to test schema validation
- */
-data class EventMaxIntForTestProperties (
+class Identify private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * property to test schema validation
+     * Identify
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Identify)
+     *
+     * Identify properties.
+     *
+     * @param requiredNumber Description for identify requiredNumber
+     * @param optionalArray Description for identify optionalArray
      */
-    val intMax10: Long
-)
+    constructor(
+        requiredNumber: Double,
+        optionalArray: Array<String>? = null
+    ) : this(
+        "Identify",
+        mapOf(
+            *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
+            "requiredNumber" to requiredNumber
+        )
+    )
 
-/**
- * Event w no properties description
- */
-class EventNoPropertiesProperties()
+    fun options(userId: String? = null, deviceId: String? = null): Identify {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
 
-/**
- * Event with Object and Object Array
- */
-data class EventObjectTypesProperties (
-    /**
-     * Property Object Type
-     */
-    val requiredObject: Any?,
-
-    /**
-     * Property Object Array Type
-     */
-    val requiredObjectArray: List<Any?>
-)
-
-/**
- * Event w all properties description
- */
-data class EventWithAllPropertiesProperties (
-    /**
-     * Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-     */
-    val optionalString: String? = null,
-
-    /**
-     * Event 2 Property - Array
-     */
-    val requiredArray: List<String>,
-
-    /**
-     * Event 2 Property - Boolean
-     */
-    val requiredBoolean: Boolean,
-
-    /**
-     * Event 2 Property - Enum
-     */
-    val requiredEnum: EventWithAllPropertiesRequiredEnum,
-
-    /**
-     * Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
-     */
-    val requiredInteger: Long,
-
-    /**
-     * Event 2 Property - Number
-     */
-    val requiredNumber: Double,
-
-    /**
-     * Event 2 Property - String
-     */
-    val requiredString: String
-)
-
-/**
- * Event 2 Property - Enum
- */
-enum class EventWithAllPropertiesRequiredEnum {
-    Enum1,
-    Enum2
+    fun options(options: EventOptions): Identify {
+        return Identify(this.eventType, this.eventProperties?.toMap(), options)
+    }
 }
 
-/**
- * Description for event with Array Types
- */
-data class EventWithArrayTypesProperties (
+class EventMaxIntForTest private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * description for required boolean array
+     * EventMaxIntForTest
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
+     *
+     * Event to test schema validation
+     *
+     * Owner: Test codegen
+     *
+     * @param intMax10 property to test schema validation
      */
-    val requiredBooleanArray: List<Boolean>,
+    constructor(
+        intMax10: Int
+    ) : this(
+        "EventMaxIntForTest",
+        mapOf(
+            "intMax10" to intMax10
+        )
+    )
 
+    fun options(userId: String? = null, deviceId: String? = null): EventMaxIntForTest {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventMaxIntForTest {
+        return EventMaxIntForTest(this.eventType, this.eventProperties?.toMap(), options)
+    }
+}
+
+class EventNoProperties private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * Description for required number array
+     * Event No Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
+     *
+     * Event w no properties description
+     *
+     * Owner: Test codegen
      */
-    val requiredNumberArray: List<Double>,
+    constructor() : this(
+        "Event No Properties",
+        null
+    )
 
+    fun options(userId: String? = null, deviceId: String? = null): EventNoProperties {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventNoProperties {
+        return EventNoProperties(this.eventType, this.eventProperties?.toMap(), options)
+    }
+}
+
+class EventObjectTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * Description for required object array
+     * Event Object Types
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
+     *
+     * Event with Object and Object Array
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredObject Property Object Type
+     * @param requiredObjectArray Property Object Array Type
      */
-    val requiredObjectArray: List<Any?>,
+    constructor(
+        requiredObject: Any,
+        requiredObjectArray: Array<Any>
+    ) : this(
+        "Event Object Types",
+        mapOf(
+            "requiredObject" to requiredObject,
+            "requiredObjectArray" to requiredObjectArray
+        )
+    )
 
+    fun options(userId: String? = null, deviceId: String? = null): EventObjectTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventObjectTypes {
+        return EventObjectTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
+}
+
+class EventWithAllProperties private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * description for required string array
+     * Event With All Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
+     *
+     * Event w all properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredArray Event 2 Property - Array
+     * @param requiredBoolean Event 2 Property - Boolean
+     * @param requiredEnum Event 2 Property - Enum
+     * @param requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
+     * @param requiredNumber Event 2 Property - Number
+     * @param requiredString Event 2 Property - String
+     * @param optionalString Event 2 Property - Optional String    *     * Examples:    * Some string, or another
      */
-    val requiredStringArray: List<String>
-)
+    constructor(
+        requiredArray: Array<String>,
+        requiredBoolean: Boolean,
+        requiredEnum: EventWithAllProperties.RequiredEnum,
+        requiredInteger: Int,
+        requiredNumber: Double,
+        requiredString: String,
+        optionalString: String? = null
+    ) : this(
+        "Event With All Properties",
+        mapOf(
+            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
+            "requiredArray" to requiredArray,
+            "requiredBoolean" to requiredBoolean,
+            "requiredConst" to "some-const-value",
+            "requiredEnum" to requiredEnum.value,
+            "requiredInteger" to requiredInteger,
+            "requiredNumber" to requiredNumber,
+            "requiredString" to requiredString
+        )
+    )
 
-/**
- * Description for event with const types
- */
-class EventWithConstTypesProperties()
+    fun options(userId: String? = null, deviceId: String? = null): EventWithAllProperties {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
 
-/**
- * Description for case with space
- */
-data class EventWithDifferentCasingTypesProperties (
+    fun options(options: EventOptions): EventWithAllProperties {
+        return EventWithAllProperties(this.eventType, this.eventProperties?.toMap(), options)
+    }
+
+    enum class RequiredEnum(val value: String) {
+        ENUM_1("Enum1"),
+        ENUM_2("Enum2")
+    }
+}
+
+class EventWithArrayTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * Description for enum with space
+     * Event With Array Types
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
+     *
+     * Description for event with Array Types
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredBooleanArray description for required boolean array
+     * @param requiredNumberArray Description for required number array
+     * @param requiredObjectArray Description for required object array
+     * @param requiredStringArray description for required string array
      */
-    val enumWithSpace: EventWithDifferentCasingTypesEnumWithSpace,
+    constructor(
+        requiredBooleanArray: Array<Boolean>,
+        requiredNumberArray: Array<Double>,
+        requiredObjectArray: Array<Any>,
+        requiredStringArray: Array<String>
+    ) : this(
+        "Event With Array Types",
+        mapOf(
+            "requiredBooleanArray" to requiredBooleanArray,
+            "requiredNumberArray" to requiredNumberArray,
+            "requiredObjectArray" to requiredObjectArray,
+            "requiredStringArray" to requiredStringArray
+        )
+    )
 
+    fun options(userId: String? = null, deviceId: String? = null): EventWithArrayTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventWithArrayTypes {
+        return EventWithArrayTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
+}
+
+class EventWithConstTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
-     * description_for_enum_snake_case
+     * Event With Const Types
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
+     *
+     * Description for event with const types
+     *
+     * Owner: Test codegen
      */
-    val enumSnakeCase: EventWithDifferentCasingTypesEnumSnakeCase,
+    constructor() : this(
+        "Event With Const Types",
+        mapOf(
+            "Boolean Const" to true,
+            "Integer Const" to 10,
+            "Number Const" to 2.2,
+            "String Const" to "String-Constant",
+            "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
+            "String Int Const" to 0
+        )
+    )
 
-    /**
-     * descriptionForEnumCamelCase
-     */
-    val enumCamelCase: EventWithDifferentCasingTypesEnumCamelCase,
+    fun options(userId: String? = null, deviceId: String? = null): EventWithConstTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
 
-    /**
-     * DescirptionForEnumPascalCase
-     */
-    val enumPascalCase: EventWithDifferentCasingTypesEnumPascalCase,
+    fun options(options: EventOptions): EventWithConstTypes {
+        return EventWithConstTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
+}
 
+class EventWithDifferentCasingTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
     /**
+     * event withDifferent_CasingTypes
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
+     *
      * Description for case with space
+     *
+     * Owner: Test codegen
+     *
+     * @param enumCamelCase descriptionForEnumCamelCase
+     * @param enumPascalCase DescirptionForEnumPascalCase
+     * @param enumSnakeCase description_for_enum_snake_case
+     * @param enumWithSpace Description for enum with space
+     * @param propertyWithCamelCase descriptionForCamelCase
+     * @param propertyWithPascalCase DescriptionForPascalCase
+     * @param propertyWithSnakeCase Description_for_snake_case
+     * @param propertyWithSpace Description for case with space
      */
-    val propertyWithSpace: String,
+    constructor(
+        enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase,
+        enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase,
+        enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase,
+        enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace,
+        propertyWithCamelCase: String,
+        propertyWithPascalCase: String,
+        propertyWithSnakeCase: String,
+        propertyWithSpace: String
+    ) : this(
+        "event withDifferent_CasingTypes",
+        mapOf(
+            "enumCamelCase" to enumCamelCase.value,
+            "EnumPascalCase" to enumPascalCase.value,
+            "enum_snake_case" to enumSnakeCase.value,
+            "enum with space" to enumWithSpace.value,
+            "propertyWithCamelCase" to propertyWithCamelCase,
+            "PropertyWithPascalCase" to propertyWithPascalCase,
+            "property_with_snake_case" to propertyWithSnakeCase,
+            "property with space" to propertyWithSpace
+        )
+    )
 
-    /**
-     * Description_for_snake_case
-     */
-    val propertyWithSnakeCase: String,
+    fun options(userId: String? = null, deviceId: String? = null): EventWithDifferentCasingTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
 
-    /**
-     * descriptionForCamelCase
-     */
-    val propertyWithCamelCase: String,
+    fun options(options: EventOptions): EventWithDifferentCasingTypes {
+        return EventWithDifferentCasingTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
 
-    /**
-     * DescriptionForPascalCase
-     */
-    val propertyWithPascalCase: String
-)
+    enum class EnumCamelCase(val value: String) {
+        ENUM_CAMEL_CASE("enumCamelCase")
+    }
 
-/**
- * descriptionForEnumCamelCase
- */
-enum class EventWithDifferentCasingTypesEnumCamelCase {
-    EnumCamelCase
+    enum class EnumPascalCase(val value: String) {
+        ENUM_PASCAL_CASE("EnumPascalCase")
+    }
+
+    enum class EnumSnakeCase(val value: String) {
+        ENUM_SNAKE_CASE("enum_snake_case")
+    }
+
+    enum class EnumWithSpace(val value: String) {
+        ENUM_WITH_SPACE("enum with space")
+    }
 }
 
-/**
- * DescirptionForEnumPascalCase
- */
-enum class EventWithDifferentCasingTypesEnumPascalCase {
-    EnumPascalCase
+class EventWithEnumTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
+    /**
+     * Event With Enum Types
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
+     *
+     * Description for event with enum types
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEnum Description for optional enum
+     * @param optionalEnum Description for required enum
+     */
+    constructor(
+        requiredEnum: EventWithEnumTypes.RequiredEnum,
+        optionalEnum: EventWithEnumTypes.OptionalEnum? = null
+    ) : this(
+        "Event With Enum Types",
+        mapOf(
+            *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
+            "required enum" to requiredEnum.value
+        )
+    )
+
+    fun options(userId: String? = null, deviceId: String? = null): EventWithEnumTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventWithEnumTypes {
+        return EventWithEnumTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
+
+    enum class OptionalEnum(val value: String) {
+        OPTIONAL_ENUM_1("optional enum 1"),
+        OPTIONAL_ENUM_2("optional enum 2")
+    }
+
+    enum class RequiredEnum(val value: String) {
+        REQUIRED_ENUM_1("required enum 1"),
+        REQUIRED_ENUM_2("required enum 2")
+    }
 }
 
-/**
- * description_for_enum_snake_case
- */
-enum class EventWithDifferentCasingTypesEnumSnakeCase {
-    EnumSnakeCase
+class EventWithOptionalArrayTypes private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
+    /**
+     * Event With Optional Array Types
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
+     *
+     * Description for event with optional array types
+     *
+     * Owner: Test codegen
+     *
+     * @param optionalBooleanArray Description for optional boolean array
+     * @param optionalJSONArray Description for optional object array
+     * @param optionalNumberArray Description for optional number array
+     * @param optionalStringArray Description for optional string array
+     */
+    constructor(
+        optionalBooleanArray: Array<Boolean>? = null,
+        optionalJSONArray: Array<Any>? = null,
+        optionalNumberArray: Array<Double>? = null,
+        optionalStringArray: Array<String>? = null
+    ) : this(
+        "Event With Optional Array Types",
+        mapOf(
+            *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
+            *(if (optionalJSONArray != null) arrayOf("optionalJSONArray" to optionalJSONArray) else arrayOf()),
+            *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
+            *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
+        )
+    )
+
+    fun options(userId: String? = null, deviceId: String? = null): EventWithOptionalArrayTypes {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventWithOptionalArrayTypes {
+        return EventWithOptionalArrayTypes(this.eventType, this.eventProperties?.toMap(), options)
+    }
 }
 
-/**
- * Description for enum with space
- */
-enum class EventWithDifferentCasingTypesEnumWithSpace {
-    EnumWithSpace
+class EventWithOptionalProperties private constructor(
+    eventType: String,
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event(eventType, eventProperties, options) {
+    /**
+     * Event With Optional Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
+     *
+     * Event w optional properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param optionalArrayNumber Property has no description provided in tracking plan.
+     * @param optionalArrayString Property has no description provided in tracking plan.
+     * @param optionalBoolean Property has no description provided in tracking plan.
+     * @param optionalNumber Property has no description provided in tracking plan.
+     * @param optionalString Optional String property description
+     */
+    constructor(
+        optionalArrayNumber: Array<Double>? = null,
+        optionalArrayString: Array<String>? = null,
+        optionalBoolean: Boolean? = null,
+        optionalNumber: Double? = null,
+        optionalString: String? = null
+    ) : this(
+        "Event With Optional Properties",
+        mapOf(
+            *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
+            *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
+            *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
+            *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
+            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
+        )
+    )
+
+    fun options(userId: String? = null, deviceId: String? = null): EventWithOptionalProperties {
+        return this.options(EventOptions(userId = userId, deviceId = deviceId))
+    }
+
+    fun options(options: EventOptions): EventWithOptionalProperties {
+        return EventWithOptionalProperties(this.eventType, this.eventProperties?.toMap(), options)
+    }
 }
-
-/**
- * Description for event with enum types
- */
-data class EventWithEnumTypesProperties (
-    /**
-     * Description for required enum
-     */
-    val optionalEnum: EventWithEnumTypesOptionalEnum? = null,
-
-    /**
-     * Description for optional enum
-     */
-    val requiredEnum: EventWithEnumTypesRequiredEnum
-)
-
-/**
- * Description for required enum
- */
-enum class EventWithEnumTypesOptionalEnum {
-    OptionalEnum1,
-    OptionalEnum2
-}
-
-/**
- * Description for optional enum
- */
-enum class EventWithEnumTypesRequiredEnum {
-    RequiredEnum1,
-    RequiredEnum2
-}
-
-/**
- * Description for event with optional array types
- */
-data class EventWithOptionalArrayTypesProperties (
-    /**
-     * Description for optional boolean array
-     */
-    val optionalBooleanArray: List<Boolean>? = null,
-
-    /**
-     * Description for optional object array
-     */
-    val optionalJSONArray: List<Any?>? = null,
-
-    /**
-     * Description for optional number array
-     */
-    val optionalNumberArray: List<Double>? = null,
-
-    /**
-     * Description for optional string array
-     */
-    val optionalStringArray: List<String>? = null
-)
-
-/**
- * Event w optional properties description
- */
-data class EventWithOptionalPropertiesProperties (
-    val optionalArrayNumber: List<Double>? = null,
-    val optionalArrayString: List<String>? = null,
-    val optionalBoolean: Boolean? = null,
-    val optionalNumber: Double? = null,
-
-    /**
-     * Optional String property description
-     */
-    val optionalString: String? = null
-)
-
-data class GroupProperties (
-    /**
-     * Description for group optionalString
-     */
-    val optionalString: String? = null,
-
-    /**
-     * Description for group requiredBoolean
-     */
-    val requiredBoolean: Boolean
-)
-
-data class IdentifyProperties (
-    /**
-     * Description for identify optionalArray
-     */
-    val optionalArray: List<String>? = null,
-
-    /**
-     * Description for identify requiredNumber
-     */
-    val requiredNumber: Double
-)
-
-class Context : Event(
-    eventType = "Context",
-    eventProperties = null
-)
-
-class Identify(
-    eventProperties: IdentifyProperties
-) : Event(
-    eventType = "Identify",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalArray != null) arrayOf("optionalArray" to eventProperties.optionalArray) else arrayOf()),
-        "requiredNumber" to eventProperties.requiredNumber
-    )
-)
-
-class Group(
-    eventProperties: GroupProperties
-) : Event(
-    eventType = "Group",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalString != null) arrayOf("optionalString" to eventProperties.optionalString) else arrayOf()),
-        "requiredBoolean" to eventProperties.requiredBoolean
-    )
-)
-
-class EventMaxIntForTest(
-    eventProperties: EventMaxIntForTestProperties
-) : Event(
-    eventType = "EventMaxIntForTest",
-    eventProperties = mapOf(
-        "intMax10" to eventProperties.intMax10
-    )
-)
-
-class EventNoProperties : Event(
-    eventType = "Event No Properties",
-    eventProperties = null
-)
-
-class EventObjectTypes(
-    eventProperties: EventObjectTypesProperties
-) : Event(
-    eventType = "Event Object Types",
-    eventProperties = mapOf(
-        "requiredObject" to eventProperties.requiredObject,
-        "requiredObjectArray" to eventProperties.requiredObjectArray
-    )
-)
-
-class EventWithAllProperties(
-    eventProperties: EventWithAllPropertiesProperties
-) : Event(
-    eventType = "Event With All Properties",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalString != null) arrayOf("optionalString" to eventProperties.optionalString) else arrayOf()),
-        "requiredArray" to eventProperties.requiredArray,
-        "requiredBoolean" to eventProperties.requiredBoolean,
-        "requiredConst" to "some-const-value",
-        "requiredEnum" to eventProperties.requiredEnum,
-        "requiredInteger" to eventProperties.requiredInteger,
-        "requiredNumber" to eventProperties.requiredNumber,
-        "requiredString" to eventProperties.requiredString
-    )
-)
-
-class EventWithArrayTypes(
-    eventProperties: EventWithArrayTypesProperties
-) : Event(
-    eventType = "Event With Array Types",
-    eventProperties = mapOf(
-        "requiredBooleanArray" to eventProperties.requiredBooleanArray,
-        "requiredNumberArray" to eventProperties.requiredNumberArray,
-        "requiredObjectArray" to eventProperties.requiredObjectArray,
-        "requiredStringArray" to eventProperties.requiredStringArray
-    )
-)
-
-class EventWithConstTypes : Event(
-    eventType = "Event With Const Types",
-    eventProperties = mapOf(
-        "Boolean Const" to true,
-        "Integer Const" to 10,
-        "Number Const" to 2.2,
-        "String Const" to "String-Constant",
-        "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
-        "String Int Const" to 0
-    )
-)
-
-class EventWithDifferentCasingTypes(
-    eventProperties: EventWithDifferentCasingTypesProperties
-) : Event(
-    eventType = "event withDifferent_CasingTypes",
-    eventProperties = mapOf(
-        "enumCamelCase" to eventProperties.enumCamelCase,
-        "EnumPascalCase" to eventProperties.enumPascalCase,
-        "enum_snake_case" to eventProperties.enumSnakeCase,
-        "enum with space" to eventProperties.enumWithSpace,
-        "propertyWithCamelCase" to eventProperties.propertyWithCamelCase,
-        "PropertyWithPascalCase" to eventProperties.propertyWithPascalCase,
-        "property_with_snake_case" to eventProperties.propertyWithSnakeCase,
-        "property with space" to eventProperties.propertyWithSpace
-    )
-)
-
-class EventWithEnumTypes(
-    eventProperties: EventWithEnumTypesProperties
-) : Event(
-    eventType = "Event With Enum Types",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalEnum != null) arrayOf("optional enum" to eventProperties.optionalEnum) else arrayOf()),
-        "required enum" to eventProperties.requiredEnum
-    )
-)
-
-class EventWithOptionalArrayTypes(
-    eventProperties: EventWithOptionalArrayTypesProperties
-) : Event(
-    eventType = "Event With Optional Array Types",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalBooleanArray != null) arrayOf("optionalBooleanArray" to eventProperties.optionalBooleanArray) else arrayOf()),
-        *(if (eventProperties.optionalJSONArray != null) arrayOf("optionalJSONArray" to eventProperties.optionalJSONArray) else arrayOf()),
-        *(if (eventProperties.optionalNumberArray != null) arrayOf("optionalNumberArray" to eventProperties.optionalNumberArray) else arrayOf()),
-        *(if (eventProperties.optionalStringArray != null) arrayOf("optionalStringArray" to eventProperties.optionalStringArray) else arrayOf())
-    )
-)
-
-class EventWithOptionalProperties(
-    eventProperties: EventWithOptionalPropertiesProperties
-) : Event(
-    eventType = "Event With Optional Properties",
-    eventProperties = mapOf(
-        *(if (eventProperties.optionalArrayNumber != null) arrayOf("optionalArrayNumber" to eventProperties.optionalArrayNumber) else arrayOf()),
-        *(if (eventProperties.optionalArrayString != null) arrayOf("optionalArrayString" to eventProperties.optionalArrayString) else arrayOf()),
-        *(if (eventProperties.optionalBoolean != null) arrayOf("optionalBoolean" to eventProperties.optionalBoolean) else arrayOf()),
-        *(if (eventProperties.optionalNumber != null) arrayOf("optionalNumber" to eventProperties.optionalNumber) else arrayOf()),
-        *(if (eventProperties.optionalString != null) arrayOf("optionalString" to eventProperties.optionalString) else arrayOf())
-    )
-)
 
 class LoadClientOptions(
     val apiKey: String? = null,
@@ -476,8 +520,8 @@ class LoadOptions(
 )
 
 class EventOptions(
-    val deviceId: String? = null,
-    val userId: String? = null
+    val userId: String? = null,
+    val deviceId: String? = null
 )
 
 val ampli = Ampli()
@@ -509,7 +553,7 @@ open class Ampli {
     open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
         this.disabled = options?.disabled ?: false
         if (this.client != null) {
-            System.err.println("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.")
+            System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
         val env = options?.environment ?: Environment.DEVELOPMENT
@@ -536,23 +580,23 @@ open class Ampli {
         if (!isInitializedAndEnabled()) {
             return
         }
-        this.handleEventOptions(options)
+        this.handleEventOptions(event.options, options)
         this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), extra)
     }
 
-    open fun identify(userId: String?, properties: IdentifyProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
+    open fun identify(userId: String?, event: Identify, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this.handleEventOptions(options, userId)
-        this.client?.setUserProperties(this.getEventPropertiesJson(Identify(properties)), extra)
+        this.handleEventOptions(event.options, options, userId)
+        this.client?.setUserProperties(this.getEventPropertiesJson(event), extra)
     }
 
     open fun setGroup(name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this.handleEventOptions(options)
+        this.handleEventOptions(null, options)
         this.client?.setGroup(name, value, extra)
     }
 
@@ -567,7 +611,7 @@ open class Ampli {
             System.err.printf("Error converting value to JSONArray: %s%n", e.message)
             return
         }
-        this.handleEventOptions(options)
+        this.handleEventOptions(null, options)
         this.client?.setGroup(name, jsonValue, extra)
     }
 
@@ -587,12 +631,14 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param intMax10 property to test schema validation
      */
-    fun eventMaxIntForTest(properties: EventMaxIntForTestProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventMaxIntForTest(properties), options, extra)
+    fun eventMaxIntForTest(
+        intMax10: Int
+    ) {
+        this.track(EventMaxIntForTest(
+            intMax10 = intMax10
+        ))
     }
 
     /**
@@ -603,12 +649,9 @@ open class Ampli {
      * Event w no properties description
      *
      * Owner: Test codegen
-     *
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
      */
-    fun eventNoProperties(options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventNoProperties(), options, extra)
+    fun eventNoProperties() {
+        this.track(EventNoProperties())
     }
 
     /**
@@ -620,12 +663,17 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param requiredObject Property Object Type
+     * @param requiredObjectArray Property Object Array Type
      */
-    fun eventObjectTypes(properties: EventObjectTypesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventObjectTypes(properties), options, extra)
+    fun eventObjectTypes(
+        requiredObject: Any,
+        requiredObjectArray: Array<Any>
+    ) {
+        this.track(EventObjectTypes(
+            requiredObject = requiredObject,
+            requiredObjectArray = requiredObjectArray
+        ))
     }
 
     /**
@@ -637,12 +685,32 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param requiredArray Event 2 Property - Array
+     * @param requiredBoolean Event 2 Property - Boolean
+     * @param requiredEnum Event 2 Property - Enum
+     * @param requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
+     * @param requiredNumber Event 2 Property - Number
+     * @param requiredString Event 2 Property - String
+     * @param optionalString Event 2 Property - Optional String    *     * Examples:    * Some string, or another
      */
-    fun eventWithAllProperties(properties: EventWithAllPropertiesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithAllProperties(properties), options, extra)
+    fun eventWithAllProperties(
+        requiredArray: Array<String>,
+        requiredBoolean: Boolean,
+        requiredEnum: EventWithAllProperties.RequiredEnum,
+        requiredInteger: Int,
+        requiredNumber: Double,
+        requiredString: String,
+        optionalString: String? = null
+    ) {
+        this.track(EventWithAllProperties(
+            requiredArray = requiredArray,
+            requiredBoolean = requiredBoolean,
+            requiredEnum = requiredEnum,
+            requiredInteger = requiredInteger,
+            requiredNumber = requiredNumber,
+            requiredString = requiredString,
+            optionalString = optionalString
+        ))
     }
 
     /**
@@ -654,12 +722,23 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param requiredBooleanArray description for required boolean array
+     * @param requiredNumberArray Description for required number array
+     * @param requiredObjectArray Description for required object array
+     * @param requiredStringArray description for required string array
      */
-    fun eventWithArrayTypes(properties: EventWithArrayTypesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithArrayTypes(properties), options, extra)
+    fun eventWithArrayTypes(
+        requiredBooleanArray: Array<Boolean>,
+        requiredNumberArray: Array<Double>,
+        requiredObjectArray: Array<Any>,
+        requiredStringArray: Array<String>
+    ) {
+        this.track(EventWithArrayTypes(
+            requiredBooleanArray = requiredBooleanArray,
+            requiredNumberArray = requiredNumberArray,
+            requiredObjectArray = requiredObjectArray,
+            requiredStringArray = requiredStringArray
+        ))
     }
 
     /**
@@ -670,12 +749,9 @@ open class Ampli {
      * Description for event with const types
      *
      * Owner: Test codegen
-     *
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
      */
-    fun eventWithConstTypes(options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithConstTypes(), options, extra)
+    fun eventWithConstTypes() {
+        this.track(EventWithConstTypes())
     }
 
     /**
@@ -687,12 +763,35 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param enumCamelCase descriptionForEnumCamelCase
+     * @param enumPascalCase DescirptionForEnumPascalCase
+     * @param enumSnakeCase description_for_enum_snake_case
+     * @param enumWithSpace Description for enum with space
+     * @param propertyWithCamelCase descriptionForCamelCase
+     * @param propertyWithPascalCase DescriptionForPascalCase
+     * @param propertyWithSnakeCase Description_for_snake_case
+     * @param propertyWithSpace Description for case with space
      */
-    fun eventWithDifferentCasingTypes(properties: EventWithDifferentCasingTypesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithDifferentCasingTypes(properties), options, extra)
+    fun eventWithDifferentCasingTypes(
+        enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase,
+        enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase,
+        enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase,
+        enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace,
+        propertyWithCamelCase: String,
+        propertyWithPascalCase: String,
+        propertyWithSnakeCase: String,
+        propertyWithSpace: String
+    ) {
+        this.track(EventWithDifferentCasingTypes(
+            enumCamelCase = enumCamelCase,
+            enumPascalCase = enumPascalCase,
+            enumSnakeCase = enumSnakeCase,
+            enumWithSpace = enumWithSpace,
+            propertyWithCamelCase = propertyWithCamelCase,
+            propertyWithPascalCase = propertyWithPascalCase,
+            propertyWithSnakeCase = propertyWithSnakeCase,
+            propertyWithSpace = propertyWithSpace
+        ))
     }
 
     /**
@@ -704,12 +803,17 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param requiredEnum Description for optional enum
+     * @param optionalEnum Description for required enum
      */
-    fun eventWithEnumTypes(properties: EventWithEnumTypesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithEnumTypes(properties), options, extra)
+    fun eventWithEnumTypes(
+        requiredEnum: EventWithEnumTypes.RequiredEnum,
+        optionalEnum: EventWithEnumTypes.OptionalEnum? = null
+    ) {
+        this.track(EventWithEnumTypes(
+            requiredEnum = requiredEnum,
+            optionalEnum = optionalEnum
+        ))
     }
 
     /**
@@ -721,12 +825,23 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param optionalBooleanArray Description for optional boolean array
+     * @param optionalJSONArray Description for optional object array
+     * @param optionalNumberArray Description for optional number array
+     * @param optionalStringArray Description for optional string array
      */
-    fun eventWithOptionalArrayTypes(properties: EventWithOptionalArrayTypesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithOptionalArrayTypes(properties), options, extra)
+    fun eventWithOptionalArrayTypes(
+        optionalBooleanArray: Array<Boolean>? = null,
+        optionalJSONArray: Array<Any>? = null,
+        optionalNumberArray: Array<Double>? = null,
+        optionalStringArray: Array<String>? = null
+    ) {
+        this.track(EventWithOptionalArrayTypes(
+            optionalBooleanArray = optionalBooleanArray,
+            optionalJSONArray = optionalJSONArray,
+            optionalNumberArray = optionalNumberArray,
+            optionalStringArray = optionalStringArray
+        ))
     }
 
     /**
@@ -738,12 +853,26 @@ open class Ampli {
      *
      * Owner: Test codegen
      *
-     * @param properties The event's properties
-     * @param options The event's options
-     * @param extra Extra untyped parameters for use in middleware
+     * @param optionalArrayNumber Property has no description provided in tracking plan.
+     * @param optionalArrayString Property has no description provided in tracking plan.
+     * @param optionalBoolean Property has no description provided in tracking plan.
+     * @param optionalNumber Property has no description provided in tracking plan.
+     * @param optionalString Optional String property description
      */
-    fun eventWithOptionalProperties(properties: EventWithOptionalPropertiesProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.track(EventWithOptionalProperties(properties), options, extra)
+    fun eventWithOptionalProperties(
+        optionalArrayNumber: Array<Double>? = null,
+        optionalArrayString: Array<String>? = null,
+        optionalBoolean: Boolean? = null,
+        optionalNumber: Double? = null,
+        optionalString: String? = null
+    ) {
+        this.track(EventWithOptionalProperties(
+            optionalArrayNumber = optionalArrayNumber,
+            optionalArrayString = optionalArrayString,
+            optionalBoolean = optionalBoolean,
+            optionalNumber = optionalNumber,
+            optionalString = optionalString
+        ))
     }
 
     private fun isInitializedAndEnabled(): Boolean {
@@ -754,12 +883,15 @@ open class Ampli {
         return !this.disabled
     }
 
-    private fun handleEventOptions(options: EventOptions?, userId: String? = null) {
-        if (options?.deviceId != null) {
-            this.client?.deviceId = options.deviceId
+    private fun handleEventOptions(options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String? = null) {
+        val userId = overrideUserId ?: overrideOptions?.userId ?: options?.userId
+        if (userId != null) {
+            this.client?.userId = userId
         }
-        if (userId != null || options?.userId != null) {
-            this.client?.userId = userId ?: options?.userId
+
+        val deviceId = overrideOptions?.deviceId ?: options?.deviceId
+        if (deviceId != null) {
+            this.client?.deviceId = deviceId
         }
     }
 
@@ -776,7 +908,7 @@ open class Ampli {
 
             try {
                 value?.let {
-                    json.put(key, if (value is Collection<*>) JSONArray(value) else value)
+                    json.put(key, if (isArray(value)) getJsonArray(value) else value)
                 } ?: run {
                     json.put(key, JSONObject.NULL)
                 }
@@ -786,5 +918,24 @@ open class Ampli {
         }
 
         return json
+    }
+
+    private fun isArray(value: Any): Boolean {
+        return when (value) {
+            is Array<*> -> true
+            is BooleanArray -> true
+            is IntArray -> true
+            is FloatArray -> true
+            else -> false
+        }
+    }
+
+    private fun getJsonArray(value: Any): JSONArray {
+        return try {
+            JSONArray(value)
+        } catch (e: JSONException) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.message)
+            JSONArray()
+        }
     }
 }

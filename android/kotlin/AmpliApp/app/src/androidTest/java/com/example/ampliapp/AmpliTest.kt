@@ -62,8 +62,11 @@ class AmpliTest {
 
         this.ampli.identify(
             userId,
-            IdentifyProperties(requiredNumber = 42.0, optionalArray = listOf("A", "ray")),
-            EventOptions(deviceId = deviceId, userId = "some-user"),
+            Identify(
+                requiredNumber = 42.0,
+                optionalArray = arrayOf("A", "ray")
+            ).options(deviceId = deviceId),
+            EventOptions(userId = "some-user"),
             extra
         )
 
@@ -129,22 +132,17 @@ class AmpliTest {
         val client = mock(AmplitudeClient::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
+        this.ampli.eventNoProperties()
 
-        this.ampli.eventNoProperties(
-            EventOptions(deviceId = deviceId, userId = userId),
-            extra
-        )
-
-        verify(client, times(1)).userId = userId
-        verify(client, times(1)).deviceId = deviceId
+        verify(client, times(0)).userId = any()
+        verify(client, times(0)).deviceId = any()
         verify(client, times(1)).logEvent(
             eq("Event No Properties"),
             jsonObjectCaptor.capture(),
             extraCaptor.capture()
         )
         assertNull(jsonObjectCaptor.value)
-        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
+        assertNull(extraCaptor.value)
     }
 
     @Test
@@ -154,16 +152,16 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.eventWithAllProperties(
-            EventWithAllPropertiesProperties(
+        this.ampli.track(
+            EventWithAllProperties(
                 requiredString = "Required string",
-                requiredArray = listOf("Required", "array"),
+                requiredArray = arrayOf("Required", "array"),
                 requiredBoolean = true,
-                requiredEnum = EventWithAllPropertiesRequiredEnum.Enum2,
+                requiredEnum = EventWithAllProperties.RequiredEnum.ENUM_2,
                 requiredInteger = 41,
                 requiredNumber = 42.0
-            ),
-            EventOptions(deviceId = deviceId, userId = userId),
+            ).options(deviceId = deviceId),
+            EventOptions(userId = userId),
             extra
         )
 

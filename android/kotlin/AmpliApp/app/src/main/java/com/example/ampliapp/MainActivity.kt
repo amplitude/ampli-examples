@@ -14,28 +14,28 @@ class MainActivity : AppCompatActivity() {
 
         val btnIdentify = findViewById<Button>(R.id.btn_identify)
         btnIdentify.setOnClickListener {
-            ampli.identify(userId, IdentifyProperties(
+            ampli.identify(userId, Identify(
                 requiredNumber = 42.0,
             ))
         }
 
         val btnEventWithOptionalProperties = findViewById<Button>(R.id.btn_optional_properties)
         btnEventWithOptionalProperties.setOnClickListener {
-            ampli.track(EventWithOptionalProperties(EventWithOptionalPropertiesProperties(
+            ampli.track(EventWithOptionalProperties(
                 optionalBoolean = true,
-            )))
+            ))
         }
 
         val btnEventWithAllProperties = findViewById<Button>(R.id.btn_all_properties)
         btnEventWithAllProperties.setOnClickListener {
-            ampli.eventWithAllProperties(EventWithAllPropertiesProperties(
+            ampli.eventWithAllProperties(
                 requiredNumber = 1.23,
-                requiredArray = listOf("I'm", "required"),
+                requiredArray = arrayOf("I'm", "required"),
                 requiredBoolean = false,
-                requiredEnum = EventWithAllPropertiesRequiredEnum.Enum1,
+                requiredEnum = EventWithAllProperties.RequiredEnum.ENUM_1,
                 requiredInteger = 42,
                 requiredString = "Hi!"
-            ))
+            )
         }
     }
 }
