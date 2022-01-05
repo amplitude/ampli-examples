@@ -19,7 +19,7 @@ const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 const { init: initNodeClient, NodeClient } = require('@amplitude/node');
 
 /**
- * @typedef {LoadClientOptions}
+ * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
  * @property {Config} [config]
@@ -27,9 +27,9 @@ const { init: initNodeClient, NodeClient } = require('@amplitude/node');
  */
 
 /**
- * @typedef {LoadOptions}
+ * @typedef LoadOptions
  * @type {object}
- * @property {Environment.development|Environment.production} [environment]
+ * @property {'development'|'production'} [environment]
  * @property {boolean} [disabled]
  * @property {LoadClientOptions} [client]
  */
@@ -53,18 +53,6 @@ const { init: initNodeClient, NodeClient } = require('@amplitude/node');
  * @typedef {Object} MiddlewareExtra
  * @type {Object.<string, *>}
  */
-
-/**
- * @typedef Environment
- * @readonly
- * @type {object}
- * @property {string} development
- * @property {string} production
- */
-const Environment = {
-  development: 'development',
-  production: 'production'
-}
 
 /**
  * @typedef ApiKey
@@ -225,7 +213,7 @@ class Ampli {
       return;
     }
 
-    const env = options?.environment ?? Environment.development;
+    const env = options?.environment ?? 'development';
     const apiKey = options?.client?.apiKey || ApiKey[env];
     if (options?.client?.instance) {
       this.amplitude = options?.client?.instance;
@@ -548,7 +536,6 @@ class Ampli {
 
 module.exports.Ampli = Ampli;
 module.exports.ApiKey = ApiKey;
-module.exports.Environment = Environment;
 module.exports.DefaultOptions = DefaultOptions;
 module.exports.EventMaxIntForTest = EventMaxIntForTest;
 module.exports.EventNoProperties = EventNoProperties;

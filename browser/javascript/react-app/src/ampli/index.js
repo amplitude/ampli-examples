@@ -18,7 +18,7 @@
 import amplitude from 'amplitude-js';
 
 /**
- * @typedef {BaseEvent}
+ * @typedef BaseEvent
  * @type {object}
  * @property {string} event_type
  * @property {Object.<string, *>} event_properties
@@ -26,7 +26,7 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {Plan}
+ * @typedef Plan
  * @type {object}
  * @property {string} [branch]
  * @property {string} [source]
@@ -35,7 +35,7 @@ import amplitude from 'amplitude-js';
 
 /**
  * Data to be processed by middleware
- * @typedef {MiddlewarePayload}
+ * @typedef MiddlewarePayload
  * @type {object}
  * @property {string} event
  * @property {string} [extra]
@@ -43,7 +43,7 @@ import amplitude from 'amplitude-js';
 
 /**
  * Function called at the end of each Middleware to run the next middleware in the chain
- * @typedef {MiddlewareNext}
+ * @typedef MiddlewareNext
  * @type {function}
  * @param {MiddlewarePayload} payload
  *
@@ -52,7 +52,7 @@ import amplitude from 'amplitude-js';
 
 /**
  * A function to run on the Event stream (each logEvent call)
- * @typedef {Middleware}
+ * @typedef Middleware
  * @type {function}
  * @param {MiddlewarePayload} payload The event and extra data being sent
  * @param {MiddlewareNext} next Function to run the next middleware in the chain, not calling next will end the middleware chain
@@ -60,7 +60,7 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {LoadClientOptions}
+ * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
  * @property {Config} [config]
@@ -68,9 +68,9 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {LoadOptions}
+ * @typedef LoadOptions
  * @type {object}
- * @property {Environment.development|Environment.production} [environment]
+ * @property {'development'|'production'} [environment]
  * @property {boolean} [disabled]
  * @property {LoadClientOptions} [client]
  */
@@ -94,18 +94,6 @@ import amplitude from 'amplitude-js';
  * @typedef {Object} MiddlewareExtra
  * @type {Object.<string, *>}
  */
-
-/**
- * @typedef Environment
- * @readonly
- * @type {object}
- * @property {string} development
- * @property {string} production
- */
-export const Environment = {
-  development: 'development',
-  production: 'production'
-}
 
 /**
  * @typedef ApiKey
@@ -250,7 +238,7 @@ export class Ampli {
       return;
     }
 
-    const env = options?.environment ?? Environment.development;
+    const env = options?.environment ?? 'development';
     const apiKey = options?.client?.apiKey ?? ApiKey[env];
 
     if (options?.client?.instance) {

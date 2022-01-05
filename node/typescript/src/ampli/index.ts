@@ -21,10 +21,7 @@ import {
   BaseEvent, Event, EventOptions, GroupOptions, IdentifyEvent, IdentifyOptions, Options, MiddlewareExtra,
 } from '@amplitude/types';
 
-export enum Environment {
-  development = 'development',
-  production = 'production'
-}
+export type Environment = 'development' | 'production';
 
 export const ApiKey: Record<Environment, string> = {
   development: '',
@@ -455,7 +452,7 @@ export class Ampli {
       return;
     }
 
-    const env = options?.environment ?? Environment.development;
+    const env = options?.environment ?? 'development';
     const apiKey = options?.client?.apiKey || ApiKey[env];
     if (options?.client?.instance) {
       this.amplitude = options?.client?.instance;

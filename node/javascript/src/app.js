@@ -26,9 +26,9 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 // ampli.load();
 
 /**
- * OR Specify a Ampli.Environment
+ * OR Specify an environment
  */
-// ampli.load({ environment: Environment.development})
+// ampli.load({ environment: 'development' })
 
 /** OR Provide a specific Amplitude API key */
 // ampli.load({ client: { apiKey: AMPLITUDE_API_KEY } })
