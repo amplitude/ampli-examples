@@ -24,17 +24,28 @@ import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
 
-open class Event(
+abstract class Event<E: Event<E>>(
     val eventType: String,
     val eventProperties: Map<String, Any?>?,
-    val options: EventOptions? = null
-)
+    val options: EventOptions?,
+    private val eventFactory: (eventProperties: Map<String, Any?>?, options: EventOptions?) -> E
+) {
+    fun options(userId: String? = null, deviceId: String? = null): E {
+        return this.options(EventOptions(
+            userId = userId,
+            deviceId = deviceId,
+        ))
+    }
+
+    fun options(options: EventOptions): E {
+        return this.eventFactory(this.eventProperties?.toMap(), options)
+    }
+}
 
 class Identify private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<Identify>("Identify", eventProperties, options, ::Identify) {
     /**
      * Identify
      *
@@ -48,28 +59,16 @@ class Identify private constructor(
     constructor(
         requiredNumber: Double,
         optionalArray: Array<String>? = null
-    ) : this(
-        "Identify",
-        mapOf(
-            *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
-            "requiredNumber" to requiredNumber
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): Identify {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): Identify {
-        return Identify(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
+        "requiredNumber" to requiredNumber
+    ))
 }
 
 class EventMaxIntForTest private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventMaxIntForTest>("EventMaxIntForTest", eventProperties, options, ::EventMaxIntForTest) {
     /**
      * EventMaxIntForTest
      *
@@ -83,27 +82,15 @@ class EventMaxIntForTest private constructor(
      */
     constructor(
         intMax10: Int
-    ) : this(
-        "EventMaxIntForTest",
-        mapOf(
-            "intMax10" to intMax10
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventMaxIntForTest {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventMaxIntForTest {
-        return EventMaxIntForTest(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        "intMax10" to intMax10
+    ))
 }
 
 class EventNoProperties private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventNoProperties>("Event No Properties", eventProperties, options, ::EventNoProperties) {
     /**
      * Event No Properties
      *
@@ -113,25 +100,13 @@ class EventNoProperties private constructor(
      *
      * Owner: Test codegen
      */
-    constructor() : this(
-        "Event No Properties",
-        null
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventNoProperties {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventNoProperties {
-        return EventNoProperties(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    constructor() : this(null)
 }
 
 class EventObjectTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventObjectTypes>("Event Object Types", eventProperties, options, ::EventObjectTypes) {
     /**
      * Event Object Types
      *
@@ -147,28 +122,16 @@ class EventObjectTypes private constructor(
     constructor(
         requiredObject: Any,
         requiredObjectArray: Array<Any>
-    ) : this(
-        "Event Object Types",
-        mapOf(
-            "requiredObject" to requiredObject,
-            "requiredObjectArray" to requiredObjectArray
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventObjectTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventObjectTypes {
-        return EventObjectTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        "requiredObject" to requiredObject,
+        "requiredObjectArray" to requiredObjectArray
+    ))
 }
 
 class EventWithAllProperties private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithAllProperties>("Event With All Properties", eventProperties, options, ::EventWithAllProperties) {
     /**
      * Event With All Properties
      *
@@ -194,27 +157,16 @@ class EventWithAllProperties private constructor(
         requiredNumber: Double,
         requiredString: String,
         optionalString: String? = null
-    ) : this(
-        "Event With All Properties",
-        mapOf(
-            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
-            "requiredArray" to requiredArray,
-            "requiredBoolean" to requiredBoolean,
-            "requiredConst" to "some-const-value",
-            "requiredEnum" to requiredEnum.value,
-            "requiredInteger" to requiredInteger,
-            "requiredNumber" to requiredNumber,
-            "requiredString" to requiredString
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithAllProperties {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithAllProperties {
-        return EventWithAllProperties(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
+        "requiredArray" to requiredArray,
+        "requiredBoolean" to requiredBoolean,
+        "requiredConst" to "some-const-value",
+        "requiredEnum" to requiredEnum.value,
+        "requiredInteger" to requiredInteger,
+        "requiredNumber" to requiredNumber,
+        "requiredString" to requiredString
+    ))
 
     enum class RequiredEnum(val value: String) {
         ENUM_1("Enum1"),
@@ -223,10 +175,9 @@ class EventWithAllProperties private constructor(
 }
 
 class EventWithArrayTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithArrayTypes>("Event With Array Types", eventProperties, options, ::EventWithArrayTypes) {
     /**
      * Event With Array Types
      *
@@ -246,30 +197,18 @@ class EventWithArrayTypes private constructor(
         requiredNumberArray: Array<Double>,
         requiredObjectArray: Array<Any>,
         requiredStringArray: Array<String>
-    ) : this(
-        "Event With Array Types",
-        mapOf(
-            "requiredBooleanArray" to requiredBooleanArray,
-            "requiredNumberArray" to requiredNumberArray,
-            "requiredObjectArray" to requiredObjectArray,
-            "requiredStringArray" to requiredStringArray
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithArrayTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithArrayTypes {
-        return EventWithArrayTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        "requiredBooleanArray" to requiredBooleanArray,
+        "requiredNumberArray" to requiredNumberArray,
+        "requiredObjectArray" to requiredObjectArray,
+        "requiredStringArray" to requiredStringArray
+    ))
 }
 
 class EventWithConstTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithConstTypes>("Event With Const Types", eventProperties, options, ::EventWithConstTypes) {
     /**
      * Event With Const Types
      *
@@ -279,32 +218,20 @@ class EventWithConstTypes private constructor(
      *
      * Owner: Test codegen
      */
-    constructor() : this(
-        "Event With Const Types",
-        mapOf(
-            "Boolean Const" to true,
-            "Integer Const" to 10,
-            "Number Const" to 2.2,
-            "String Const" to "String-Constant",
-            "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
-            "String Int Const" to 0
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithConstTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithConstTypes {
-        return EventWithConstTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    constructor() : this(mapOf(
+        "Boolean Const" to true,
+        "Integer Const" to 10,
+        "Number Const" to 2.2,
+        "String Const" to "String-Constant",
+        "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
+        "String Int Const" to 0
+    ))
 }
 
 class EventWithDifferentCasingTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithDifferentCasingTypes>("event withDifferent_CasingTypes", eventProperties, options, ::EventWithDifferentCasingTypes) {
     /**
      * event withDifferent_CasingTypes
      *
@@ -332,27 +259,16 @@ class EventWithDifferentCasingTypes private constructor(
         propertyWithPascalCase: String,
         propertyWithSnakeCase: String,
         propertyWithSpace: String
-    ) : this(
-        "event withDifferent_CasingTypes",
-        mapOf(
-            "enumCamelCase" to enumCamelCase.value,
-            "EnumPascalCase" to enumPascalCase.value,
-            "enum_snake_case" to enumSnakeCase.value,
-            "enum with space" to enumWithSpace.value,
-            "propertyWithCamelCase" to propertyWithCamelCase,
-            "PropertyWithPascalCase" to propertyWithPascalCase,
-            "property_with_snake_case" to propertyWithSnakeCase,
-            "property with space" to propertyWithSpace
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithDifferentCasingTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithDifferentCasingTypes {
-        return EventWithDifferentCasingTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        "enumCamelCase" to enumCamelCase.value,
+        "EnumPascalCase" to enumPascalCase.value,
+        "enum_snake_case" to enumSnakeCase.value,
+        "enum with space" to enumWithSpace.value,
+        "propertyWithCamelCase" to propertyWithCamelCase,
+        "PropertyWithPascalCase" to propertyWithPascalCase,
+        "property_with_snake_case" to propertyWithSnakeCase,
+        "property with space" to propertyWithSpace
+    ))
 
     enum class EnumCamelCase(val value: String) {
         ENUM_CAMEL_CASE("enumCamelCase")
@@ -372,10 +288,9 @@ class EventWithDifferentCasingTypes private constructor(
 }
 
 class EventWithEnumTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithEnumTypes>("Event With Enum Types", eventProperties, options, ::EventWithEnumTypes) {
     /**
      * Event With Enum Types
      *
@@ -391,21 +306,10 @@ class EventWithEnumTypes private constructor(
     constructor(
         requiredEnum: EventWithEnumTypes.RequiredEnum,
         optionalEnum: EventWithEnumTypes.OptionalEnum? = null
-    ) : this(
-        "Event With Enum Types",
-        mapOf(
-            *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
-            "required enum" to requiredEnum.value
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithEnumTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithEnumTypes {
-        return EventWithEnumTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
+        "required enum" to requiredEnum.value
+    ))
 
     enum class OptionalEnum(val value: String) {
         OPTIONAL_ENUM_1("optional enum 1"),
@@ -419,10 +323,9 @@ class EventWithEnumTypes private constructor(
 }
 
 class EventWithOptionalArrayTypes private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithOptionalArrayTypes>("Event With Optional Array Types", eventProperties, options, ::EventWithOptionalArrayTypes) {
     /**
      * Event With Optional Array Types
      *
@@ -442,30 +345,18 @@ class EventWithOptionalArrayTypes private constructor(
         optionalJSONArray: Array<Any>? = null,
         optionalNumberArray: Array<Double>? = null,
         optionalStringArray: Array<String>? = null
-    ) : this(
-        "Event With Optional Array Types",
-        mapOf(
-            *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
-            *(if (optionalJSONArray != null) arrayOf("optionalJSONArray" to optionalJSONArray) else arrayOf()),
-            *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
-            *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithOptionalArrayTypes {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithOptionalArrayTypes {
-        return EventWithOptionalArrayTypes(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
+        *(if (optionalJSONArray != null) arrayOf("optionalJSONArray" to optionalJSONArray) else arrayOf()),
+        *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
+        *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
+    ))
 }
 
 class EventWithOptionalProperties private constructor(
-    eventType: String,
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event(eventType, eventProperties, options) {
+) : Event<EventWithOptionalProperties>("Event With Optional Properties", eventProperties, options, ::EventWithOptionalProperties) {
     /**
      * Event With Optional Properties
      *
@@ -487,24 +378,13 @@ class EventWithOptionalProperties private constructor(
         optionalBoolean: Boolean? = null,
         optionalNumber: Double? = null,
         optionalString: String? = null
-    ) : this(
-        "Event With Optional Properties",
-        mapOf(
-            *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
-            *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
-            *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
-            *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
-            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
-        )
-    )
-
-    fun options(userId: String? = null, deviceId: String? = null): EventWithOptionalProperties {
-        return this.options(EventOptions(userId = userId, deviceId = deviceId))
-    }
-
-    fun options(options: EventOptions): EventWithOptionalProperties {
-        return EventWithOptionalProperties(this.eventType, this.eventProperties?.toMap(), options)
-    }
+    ) : this(mapOf(
+        *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
+        *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
+        *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
+        *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
+        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
+    ))
 }
 
 class LoadClientOptions(
@@ -576,7 +456,7 @@ open class Ampli {
         this.client?.setPlan(options?.client?.plan ?: observePlan)
     }
 
-    open fun track(event: Event, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
+    open fun track(event: Event<*>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
         if (!isInitializedAndEnabled()) {
             return
         }
@@ -895,7 +775,7 @@ open class Ampli {
         }
     }
 
-    private fun getEventPropertiesJson(event: Event): JSONObject? {
+    private fun getEventPropertiesJson(event: Event<*>): JSONObject? {
         if (event.eventProperties == null) {
             return null
         }

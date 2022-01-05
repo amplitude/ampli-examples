@@ -160,7 +160,7 @@ class AmpliTest {
                 requiredEnum = EventWithAllProperties.RequiredEnum.ENUM_2,
                 requiredInteger = 41,
                 requiredNumber = 42.0
-            ).options(deviceId = deviceId),
+            ).options(EventOptions(deviceId = deviceId)),
             EventOptions(userId = userId),
             extra
         )
