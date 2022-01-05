@@ -99,7 +99,7 @@
       "type": "object",
       "properties": {
         "intMax10": {
-          "description": "property to test schema validation",
+          "description": "property to test schema validation\n\n| Rule | Value |\n|---|---|\n| Type | integer |\n| Max Value | 10 |",
           "type": "integer",
           "maximum": 10
         }
@@ -130,7 +130,8 @@
         "requiredObjectArray": {
           "description": "Property Object Array Type",
           "type": "array",
-          "items": {}
+          "items": {},
+          "minItems": 0
         }
       },
       "additionalProperties": false,
@@ -150,7 +151,7 @@
           "type": "string"
         },
         "requiredArray": {
-          "description": "Event 2 Property - Array",
+          "description": "Event 2 Property - Array\n\n| Rule | Value |\n|---|---|\n| Min Items | 0 |\n| Item Type | string |",
           "type": "array",
           "items": {
             "type": "string"
@@ -166,18 +167,18 @@
           "const": "some-const-value"
         },
         "requiredEnum": {
-          "description": "Event 2 Property - Enum",
+          "description": "Event 2 Property - Enum\n\n| Rule | Value |\n|---|---|\n| Enum Values | Enum1, Enum2 |",
           "enum": [
             "Enum1",
             "Enum2"
           ]
         },
         "requiredInteger": {
-          "description": "Event 2 Property - Integer    *     * Examples:    * 5, 4, 3",
+          "description": "Event 2 Property - Integer    *     * Examples:    * 5, 4, 3\n\n| Rule | Value |\n|---|---|\n| Type | integer |",
           "type": "integer"
         },
         "requiredNumber": {
-          "description": "Event 2 Property - Number",
+          "description": "Event 2 Property - Number\n\n| Rule | Value |\n|---|---|\n| Type | number |",
           "type": "number"
         },
         "requiredString": {
@@ -203,30 +204,34 @@
       "type": "object",
       "properties": {
         "requiredBooleanArray": {
-          "description": "description for required boolean array",
+          "description": "description for required boolean array\n\n| Rule | Value |\n|---|---|\n| Item Type | boolean |",
           "type": "array",
           "items": {
             "type": "boolean"
-          }
+          },
+          "minItems": 0
         },
         "requiredNumberArray": {
-          "description": "Description for required number array",
+          "description": "Description for required number array\n\n| Rule | Value |\n|---|---|\n| Item Type | number |",
           "type": "array",
           "items": {
             "type": "number"
-          }
+          },
+          "minItems": 0
         },
         "requiredObjectArray": {
           "description": "Description for required object array",
           "type": "array",
-          "items": {}
+          "items": {},
+          "minItems": 0
         },
         "requiredStringArray": {
-          "description": "description for required string array",
+          "description": "description for required string array\n\n| Rule | Value |\n|---|---|\n| Item Type | string |",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "minItems": 0
         }
       },
       "additionalProperties": false,
@@ -285,25 +290,25 @@
       "type": "object",
       "properties": {
         "enumCamelCase": {
-          "description": "descriptionForEnumCamelCase",
+          "description": "descriptionForEnumCamelCase\n\n| Rule | Value |\n|---|---|\n| Enum Values | enumCamelCase |",
           "enum": [
             "enumCamelCase"
           ]
         },
         "EnumPascalCase": {
-          "description": "DescirptionForEnumPascalCase",
+          "description": "DescirptionForEnumPascalCase\n\n| Rule | Value |\n|---|---|\n| Enum Values | EnumPascalCase |",
           "enum": [
             "EnumPascalCase"
           ]
         },
         "enum_snake_case": {
-          "description": "description_for_enum_snake_case",
+          "description": "description_for_enum_snake_case\n\n| Rule | Value |\n|---|---|\n| Enum Values | enum_snake_case |",
           "enum": [
             "enum_snake_case"
           ]
         },
         "enum with space": {
-          "description": "Description for enum with space",
+          "description": "Description for enum with space\n\n| Rule | Value |\n|---|---|\n| Enum Values | enum with space |",
           "enum": [
             "enum with space"
           ]
@@ -344,14 +349,14 @@
       "type": "object",
       "properties": {
         "optional enum": {
-          "description": "Description for required enum",
+          "description": "Description for required enum\n\n| Rule | Value |\n|---|---|\n| Enum Values | optional enum 1, optional enum 2 |",
           "enum": [
             "optional enum 1",
             "optional enum 2"
           ]
         },
         "required enum": {
-          "description": "Description for optional enum",
+          "description": "Description for optional enum\n\n| Rule | Value |\n|---|---|\n| Enum Values | required enum 1, required enum 2 |",
           "enum": [
             "required enum 1",
             "required enum 2"
@@ -370,30 +375,34 @@
       "type": "object",
       "properties": {
         "optionalBooleanArray": {
-          "description": "Description for optional boolean array",
+          "description": "Description for optional boolean array\n\n| Rule | Value |\n|---|---|\n| Item Type | boolean |",
           "type": "array",
           "items": {
             "type": "boolean"
-          }
+          },
+          "minItems": 0
         },
         "optionalJSONArray": {
           "description": "Description for optional object array",
           "type": "array",
-          "items": {}
+          "items": {},
+          "minItems": 0
         },
         "optionalNumberArray": {
-          "description": "Description for optional number array",
+          "description": "Description for optional number array\n\n| Rule | Value |\n|---|---|\n| Item Type | number |",
           "type": "array",
           "items": {
             "type": "number"
-          }
+          },
+          "minItems": 0
         },
         "optionalStringArray": {
-          "description": "Description for optional string array",
+          "description": "Description for optional string array\n\n| Rule | Value |\n|---|---|\n| Item Type | string |",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "minItems": 0
         }
       },
       "additionalProperties": false,
@@ -406,25 +415,27 @@
       "type": "object",
       "properties": {
         "optionalArrayNumber": {
-          "description": "",
+          "description": "| Rule | Value |\n|---|---|\n| Item Type | number |",
           "type": "array",
           "items": {
             "type": "number"
-          }
+          },
+          "minItems": 0
         },
         "optionalArrayString": {
-          "description": "",
+          "description": "| Rule | Value |\n|---|---|\n| Item Type | string |",
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "minItems": 0
         },
         "optionalBoolean": {
           "description": "",
           "type": "boolean"
         },
         "optionalNumber": {
-          "description": "",
+          "description": "| Rule | Value |\n|---|---|\n| Type | number |",
           "type": "number"
         },
         "optionalString": {

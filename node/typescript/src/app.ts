@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { LogLevel } from "@amplitude/types";
-import { Ampli, ampli, Environment, EventWithOptionalProperties, EventWithAllPropertiesRequiredEnum } from './ampli';
+import { Ampli, ampli, EventWithOptionalProperties } from './ampli';
 import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
 import { Service1 } from "./services/service-1";
@@ -28,9 +28,9 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 // ampli.load();
 
 /**
- * OR Specify a Ampli.Environment
+ * OR Specify an environment
  */
-// ampli.load({ environment: Environment.development})
+// ampli.load({ environment: 'development' })
 
 /** OR Provide a specific Amplitude API key */
 // ampli.load({ client: { apiKey: AMPLITUDE_API_KEY } })
@@ -120,7 +120,7 @@ ampli.eventWithAllProperties(userId, {
   requiredNumber: 1.23,
   requiredArray: ["I'm", 'required'],
   requiredBoolean: false,
-  requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
+  requiredEnum: "Enum1",
   requiredInteger: 42,
   requiredString: 'Hi!',
 });

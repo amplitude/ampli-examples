@@ -2,7 +2,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { ampli, DefaultConfig, Environment, EventWithOptionalProperties } from './ampli';
+import { ampli, DefaultConfig, EventWithOptionalProperties } from './ampli';
 import { getSegmentMiddleware, loggingMiddleware, stopMiddleware } from './middleware';
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
@@ -24,9 +24,9 @@ const userId = 'ampli-browser-js-user-id';
 // ampli.load();
 
 /**
- * OR Specify a Ampli.Environment
+ * OR Specify an environment
  */
-// ampli.load({ environment: Environment.development})
+// ampli.load({ environment: 'development' })
 
 /** OR Provide a specific Amplitude API key */
 // ampli.load({ client: { apiKey: REACT_APP_AMPLITUDE_API_KEY } })

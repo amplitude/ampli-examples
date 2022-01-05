@@ -3,8 +3,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { ampli, Ampli, EventWithAllPropertiesRequiredEnum } from "./ampli";
-import { DefaultConfig, Environment, EventWithOptionalProperties } from "./ampli";
+import { ampli, Ampli } from "./ampli";
+import { DefaultConfig, EventWithOptionalProperties } from "./ampli";
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
 import { stopMiddleware } from "./middleware/stopMiddleware";
@@ -29,9 +29,9 @@ const userId = 'ampli-browser-ts-user-id';
 // ampli.load();
 
 /**
- * OR Specify a Ampli.Environment
+ * OR Specify an environment
  */
-// ampli.load({ environment: Environment.development})
+// ampli.load({ environment: 'development' })
 
 /** OR Provide a specific Amplitude API key */
 // ampli.load({ client: { apiKey: REACT_APP_AMPLITUDE_API_KEY } })
@@ -125,7 +125,7 @@ function App() {
             requiredNumber: 1.23,
             requiredArray: ["I'm", 'required'],
             requiredBoolean: false,
-            requiredEnum: EventWithAllPropertiesRequiredEnum.Enum1,
+            requiredEnum: "Enum1",
             requiredInteger: 42,
             requiredString: 'Hi!',
           })

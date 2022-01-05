@@ -18,7 +18,7 @@
 import amplitude from 'amplitude-js';
 
 /**
- * @typedef {BaseEvent}
+ * @typedef BaseEvent
  * @type {object}
  * @property {string} event_type
  * @property {Object.<string, *>} event_properties
@@ -26,7 +26,7 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {Plan}
+ * @typedef Plan
  * @type {object}
  * @property {string} [branch]
  * @property {string} [source]
@@ -35,7 +35,7 @@ import amplitude from 'amplitude-js';
 
 /**
  * Data to be processed by middleware
- * @typedef {MiddlewarePayload}
+ * @typedef MiddlewarePayload
  * @type {object}
  * @property {string} event
  * @property {string} [extra]
@@ -43,16 +43,16 @@ import amplitude from 'amplitude-js';
 
 /**
  * Function called at the end of each Middleware to run the next middleware in the chain
- * @typedef {MiddlewareNext}
+ * @typedef MiddlewareNext
  * @type {function}
  * @param {MiddlewarePayload} payload
- * 
+ *
  * @return
  */
 
 /**
  * A function to run on the Event stream (each logEvent call)
- * @typedef {Middleware}
+ * @typedef Middleware
  * @type {function}
  * @param {MiddlewarePayload} payload The event and extra data being sent
  * @param {MiddlewareNext} next Function to run the next middleware in the chain, not calling next will end the middleware chain
@@ -60,7 +60,7 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {LoadClientOptions}
+ * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
  * @property {Config} [config]
@@ -68,9 +68,9 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef {LoadOptions}
+ * @typedef LoadOptions
  * @type {object}
- * @property {Environment.development|Environment.production} [environment]
+ * @property {'development'|'production'} [environment]
  * @property {boolean} [disabled]
  * @property {LoadClientOptions} [client]
  */
@@ -96,18 +96,6 @@ import amplitude from 'amplitude-js';
  */
 
 /**
- * @typedef Environment
- * @readonly
- * @type {object}
- * @property {string} development
- * @property {string} production
- */
-export const Environment = {
-  development: 'development',
-  production: 'production'
-}
-
-/**
  * @typedef ApiKey
  * @type {object}
  * @property {string} development
@@ -124,8 +112,8 @@ export const SpecialEventType = {
 }
 
 /**
-* Default Amplitude Config. Contains tracking plan information.
-*/
+ * Default Amplitude Config. Contains tracking plan information.
+ */
 export const DefaultConfig = {
   plan: {
     version: '0',
@@ -133,7 +121,6 @@ export const DefaultConfig = {
     source: 'browser-js-ampli'
   }
 };
-
 
 export class EventMaxIntForTest {
   constructor(properties) {
@@ -214,7 +201,6 @@ export class EventWithOptionalProperties {
   }
 }
 
-
 // prettier-ignore
 export class Ampli {
   constructor() {
@@ -252,7 +238,7 @@ export class Ampli {
       return;
     }
 
-    const env = options?.environment ?? Environment.development;
+    const env = options?.environment ?? 'development';
     const apiKey = options?.client?.apiKey ?? ApiKey[env];
 
     if (options?.client?.instance) {
@@ -269,14 +255,14 @@ export class Ampli {
    * Identify a user and set user properties.
    *
    * @param {string|undefined} userId  The user's id.
-   * @param {IdentifyProperties} properties The user's properties.
+   * @param {Identify} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
      * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   identify(userId, properties, options, extra) {
-    if(!this.isInitializedAndEnabled()) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -315,7 +301,7 @@ export class Ampli {
    * @param {MiddlewareExtra} [extra]
    */
   setGroup(name, value, options, extra) {
-    if(!this.isInitializedAndEnabled()) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -330,7 +316,7 @@ export class Ampli {
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
   track(event, options, extra) {
-    if(!this.isInitializedAndEnabled()) {
+    if (!this.isInitializedAndEnabled()) {
       return;
     }
 
@@ -350,7 +336,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
    *
    * Event to test schema validation
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
@@ -368,7 +354,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
    *
    * Event w no properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {EventOptions} [options] Options for this track call.
@@ -384,7 +370,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
    *
    * Event with Object and Object Array
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
@@ -403,14 +389,14 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
    *
    * Event w all properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
    * @param {string} [properties.optionalString] Event 2 Property - Optional String    *     * Examples:    * Some string, or another
    * @param {string[]} properties.requiredArray Event 2 Property - Array
    * @param {boolean} properties.requiredBoolean Event 2 Property - Boolean
-   * @param {string} properties.requiredEnum Event 2 Property - Enum
+   * @param {'Enum1'|'Enum2'} properties.requiredEnum Event 2 Property - Enum
    * @param {number} properties.requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
    * @param {number} properties.requiredNumber Event 2 Property - Number
    * @param {string} properties.requiredString Event 2 Property - String
@@ -427,7 +413,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
    *
    * Description for event with Array Types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
@@ -448,7 +434,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
    *
    * Description for event with const types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {EventOptions} [options] Options for this track call.
@@ -464,14 +450,14 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
    *
    * Description for case with space
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
-   * @param {string} properties.enumCamelCase descriptionForEnumCamelCase
-   * @param {string} properties.EnumPascalCase DescirptionForEnumPascalCase
-   * @param {string} properties.enum_snake_case description_for_enum_snake_case
-   * @param {string} properties.enum with space Description for enum with space
+   * @param {'enumCamelCase'} properties.enumCamelCase descriptionForEnumCamelCase
+   * @param {'EnumPascalCase'} properties.EnumPascalCase DescirptionForEnumPascalCase
+   * @param {'enum_snake_case'} properties.enum_snake_case description_for_enum_snake_case
+   * @param {'enum with space'} properties.enum with space Description for enum with space
    * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
    * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
    * @param {string} properties.property_with_snake_case Description_for_snake_case
@@ -489,12 +475,12 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
    *
    * Description for event with enum types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} properties The event's properties.
-   * @param {string} [properties.optional enum] Description for required enum
-   * @param {string} properties.required enum Description for optional enum
+   * @param {'optional enum 1'|'optional enum 2'} [properties.optional enum] Description for required enum
+   * @param {'required enum 1'|'required enum 2'} properties.required enum Description for optional enum
    * @param {EventOptions} [options] Options for this track call.
    * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
    */
@@ -508,7 +494,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
    *
    * Description for event with optional array types
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} [properties] The event's properties.
@@ -529,7 +515,7 @@ export class Ampli {
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
    *
    * Event w optional properties description
-   * 
+   *
    * Owner: Test codegen
    *
    * @param {Object} [properties] The event's properties.
@@ -544,28 +530,28 @@ export class Ampli {
   eventWithOptionalProperties(properties, options, extra) {
     this.track(new EventWithOptionalProperties(properties), options, extra);
   }
-  
+
   /**
    * Add new middleware to end of chain
-   * 
+   *
    * @param {Middleware} middleware
    */
   addEventMiddleware(middleware) {
     this.middlewares.push(middleware);
   }
-  
+
   /**
    * Runs all middleware
-   * 
+   *
    * @param {MiddlewarePayload} payload
    * @param {MiddlewareNext} next The method to run after all middleware.
-   * 
+   *
    * @protected
    */
   runMiddleware(payload, next) {
     let curMiddlewareIndex = -1;
     const middlewareCount = this.middlewares.length;
-    
+
     const middlewareNext = curPayload => {
       curMiddlewareIndex += 1;
       if (curMiddlewareIndex < middlewareCount) {
