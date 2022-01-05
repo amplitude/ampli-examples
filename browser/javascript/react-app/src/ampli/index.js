@@ -255,7 +255,7 @@ export class Ampli {
    * Identify a user and set user properties.
    *
    * @param {string|undefined} userId  The user's id.
-   * @param {IdentifyProperties} properties The user's properties.
+   * @param {Identify} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
      * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.

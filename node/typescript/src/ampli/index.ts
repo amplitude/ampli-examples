@@ -88,12 +88,12 @@ export interface EventObjectTypesProperties {
    * Property Object Type
    */
   requiredObject: {
-    [k: string]: unknown;
+    [k: string]: any;
   };
   /**
    * Property Object Array Type
    */
-  requiredObjectArray: unknown[];
+  requiredObjectArray: any[];
 }
 
 export interface EventWithAllPropertiesProperties {
@@ -164,7 +164,7 @@ export interface EventWithArrayTypesProperties {
   /**
    * Description for required object array
    */
-  requiredObjectArray: unknown[];
+  requiredObjectArray: any[];
   /**
    * description for required string array
    *
@@ -257,7 +257,7 @@ export interface EventWithOptionalArrayTypesProperties {
   /**
    * Description for optional object array
    */
-  optionalJSONArray?: unknown[];
+  optionalJSONArray?: any[];
   /**
    * Description for optional number array
    *
