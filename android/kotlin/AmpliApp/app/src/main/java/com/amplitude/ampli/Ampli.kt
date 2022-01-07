@@ -464,12 +464,13 @@ open class Ampli {
         this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), extra)
     }
 
-    open fun identify(userId: String?, event: Identify, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
+    open fun identify(userId: String?, properties: Identify, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this.handleEventOptions(event.options, options, userId)
-        this.client?.setUserProperties(this.getEventPropertiesJson(event), extra)
+        this.handleEventOptions(properties.options, options, userId)
+
+        this.client?.setUserProperties(this.getEventPropertiesJson(properties), extra)
     }
 
     open fun setGroup(name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
