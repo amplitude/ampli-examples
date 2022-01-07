@@ -336,18 +336,18 @@ class EventWithOptionalArrayTypes private constructor(
      * Owner: Test codegen
      *
      * @param optionalBooleanArray Description for optional boolean array
-     * @param optionalJSONArray Description for optional object array
+     * @param optionalJsonArray Description for optional object array
      * @param optionalNumberArray Description for optional number array
      * @param optionalStringArray Description for optional string array
      */
     constructor(
         optionalBooleanArray: Array<Boolean>? = null,
-        optionalJSONArray: Array<Any>? = null,
+        optionalJsonArray: Array<Any>? = null,
         optionalNumberArray: Array<Double>? = null,
         optionalStringArray: Array<String>? = null
     ) : this(mapOf(
         *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
-        *(if (optionalJSONArray != null) arrayOf("optionalJSONArray" to optionalJSONArray) else arrayOf()),
+        *(if (optionalJsonArray != null) arrayOf("optionalJSONArray" to optionalJsonArray) else arrayOf()),
         *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
         *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
     ))
@@ -706,19 +706,19 @@ open class Ampli {
      * Owner: Test codegen
      *
      * @param optionalBooleanArray Description for optional boolean array
-     * @param optionalJSONArray Description for optional object array
+     * @param optionalJsonArray Description for optional object array
      * @param optionalNumberArray Description for optional number array
      * @param optionalStringArray Description for optional string array
      */
     fun eventWithOptionalArrayTypes(
         optionalBooleanArray: Array<Boolean>? = null,
-        optionalJSONArray: Array<Any>? = null,
+        optionalJsonArray: Array<Any>? = null,
         optionalNumberArray: Array<Double>? = null,
         optionalStringArray: Array<String>? = null
     ) {
         this.track(EventWithOptionalArrayTypes(
             optionalBooleanArray = optionalBooleanArray,
-            optionalJSONArray = optionalJSONArray,
+            optionalJsonArray = optionalJsonArray,
             optionalNumberArray = optionalNumberArray,
             optionalStringArray = optionalStringArray
         ))

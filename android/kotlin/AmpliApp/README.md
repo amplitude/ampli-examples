@@ -36,4 +36,3 @@ If you want to use your own tracking plan to generate the Ampli SDK:
         * [App.kt](app/src/main/java/com/example/ampliapp/App.kt) - Initialization logic.
     * com/amplitude/ampli/
         * [Ampli.kt](app/src/main/java/com/amplitude/ampli/Ampli.kt) - Generated SDK, don't modify by hand. Update with `ampli pull`
-        * [schema.json](app/src/main/java/com/amplitude/ampli/schema.json) - The full event schema for the tracking plan
