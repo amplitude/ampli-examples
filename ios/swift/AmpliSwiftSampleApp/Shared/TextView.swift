@@ -10,7 +10,13 @@ import SwiftUI
 struct TextView: View {
     var body: some View {
         let ampli = Ampli.instance
-        ampli.eventWithArrayTypes(EventWithArrayTypesProperties(requiredBooleanArray: [true], requiredNumberArray: [5.0, 6.0], requiredObjectArray: ["object"], requiredStringArray: ["string1", "string2"]))
+
+        ampli.eventWithArrayTypes(
+            requiredBooleanArray: [true],
+            requiredNumberArray: [5.0, 6.0],
+            requiredObjectArray: [["key1": "value1"], ["key2": "value2"]],
+            requiredStringArray: ["string1", "string2"]
+        )
         
         return Text("Welcome to Ampli Swift!")
     }
