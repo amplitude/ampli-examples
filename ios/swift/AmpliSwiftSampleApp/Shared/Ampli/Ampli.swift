@@ -543,14 +543,14 @@ public class Ampli {
         amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
     }
 
-    public func identify(_ userId: String?, _ properties: Identify, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+    public func identify(_ userId: String?, _ event: Identify, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
         if (!isInitializedAndEnabled()) {
             return;
         }
-        self.handleEventOptions(properties.options, options, userId)
+        self.handleEventOptions(event.options, options, userId)
 
         let identifyArgs = AMPIdentify()
-        properties.eventProperties?.forEach{ key, value in
+        event.eventProperties?.forEach{ key, value in
             identifyArgs.set(key, value: value as? NSObject)
         }
 
