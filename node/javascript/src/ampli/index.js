@@ -405,7 +405,7 @@ class Ampli {
   }
 
   /**
-   * EventWithDifferent_CasingTypes
+   * EventWithDifferentCasingTypes
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
    *

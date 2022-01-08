@@ -175,7 +175,7 @@ export interface EventWithArrayTypesProperties {
   requiredStringArray: string[];
 }
 
-export interface EventWithDifferent_CasingTypesProperties {
+export interface EventWithDifferentCasingTypesProperties {
   /**
    * descriptionForEnumCamelCase
    *
@@ -383,7 +383,7 @@ export class EventWithDifferentCasingTypes implements BaseEvent {
   event_type = 'event withDifferent_CasingTypes';
 
   constructor(
-    public event_properties: EventWithDifferent_CasingTypesProperties,
+    public event_properties: EventWithDifferentCasingTypesProperties,
   ) {}
 }
 
@@ -665,7 +665,7 @@ export class Ampli {
    */
   eventWithDifferentCasingTypes(
     userId: string | undefined,
-    properties: EventWithDifferent_CasingTypesProperties,
+    properties: EventWithDifferentCasingTypesProperties,
     options?: EventOptions,
     extra?: MiddlewareExtra,
   ) {
