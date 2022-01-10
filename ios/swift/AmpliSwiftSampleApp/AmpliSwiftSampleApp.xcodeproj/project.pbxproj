@@ -22,8 +22,6 @@
 		3ECE2C47273F7B6C004EAA2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECE2C30273F7B6C004EAA2C /* Assets.xcassets */; };
 		3ECE2C532743332C004EAA2C /* Ampli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECE2C512743332C004EAA2C /* Ampli.swift */; };
 		3ECE2C542743332C004EAA2C /* Ampli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECE2C512743332C004EAA2C /* Ampli.swift */; };
-		3ECE2C552743332C004EAA2C /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ECE2C522743332C004EAA2C /* schema.json */; };
-		3ECE2C562743332C004EAA2C /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 3ECE2C522743332C004EAA2C /* schema.json */; };
 		82EA982A8CF090351192BDC5 /* libPods-AmpliSwiftSampleApp (iOS).a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA67EDD533A140301A0ED6F /* libPods-AmpliSwiftSampleApp (iOS).a */; };
 		DF74438E59F388DE0D5312C3 /* libPods-AmpliSwiftSampleAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF67013EA39835ADF064D05 /* libPods-AmpliSwiftSampleAppTests.a */; };
 		F8D20984CBA9F9E8B7274DBB /* libPods-AmpliSwiftSampleApp (macOS).a in Frameworks */ = {isa = PBXBuildFile; fileRef = D320B081553D038DE2C3451F /* libPods-AmpliSwiftSampleApp (macOS).a */; };
@@ -54,7 +52,6 @@
 		3ECE2C3B273F7B6C004EAA2C /* AmpliSwiftSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmpliSwiftSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECE2C3D273F7B6C004EAA2C /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		3ECE2C512743332C004EAA2C /* Ampli.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ampli.swift; sourceTree = "<group>"; };
-		3ECE2C522743332C004EAA2C /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		4874785F85542D07984AFD54 /* Pods-AmpliSwiftSampleAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleAppTests.release.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleAppTests/Pods-AmpliSwiftSampleAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		9DA67EDD533A140301A0ED6F /* libPods-AmpliSwiftSampleApp (iOS).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmpliSwiftSampleApp (iOS).a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA54015EF375CC8893FEC6CC /* Pods-AmpliSwiftSampleApp (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleApp (macOS).release.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleApp (macOS)/Pods-AmpliSwiftSampleApp (macOS).release.xcconfig"; sourceTree = "<group>"; };
@@ -147,7 +144,6 @@
 		3ECE2C502743332C004EAA2C /* Ampli */ = {
 			isa = PBXGroup;
 			children = (
-				3ECE2C522743332C004EAA2C /* schema.json */,
 				3ECE2C512743332C004EAA2C /* Ampli.swift */,
 			);
 			path = Ampli;
@@ -291,7 +287,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ECE2C552743332C004EAA2C /* schema.json in Resources */,
 				3ECE2C46273F7B6C004EAA2C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,7 +295,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3ECE2C562743332C004EAA2C /* schema.json in Resources */,
 				3ECE2C47273F7B6C004EAA2C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
