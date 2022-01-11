@@ -42,8 +42,8 @@ public class EventWithOptionalArrayTypes extends Event {
         /**
          * Description for optional object array
          */
-        public IBuild optionalJSONArray(org.json.JSONObject[] optionalJSONArray) {
-            this.properties.put("optionalJSONArray", optionalJSONArray);
+        public IBuild optionalJsonArray(org.json.JSONObject[] optionalJsonArray) {
+            this.properties.put("optionalJSONArray", optionalJsonArray);
             return this;
         }
 
@@ -71,7 +71,7 @@ public class EventWithOptionalArrayTypes extends Event {
     /** Build interface with optional properties */
     public interface IBuild {
         IBuild optionalBooleanArray(Boolean[] optionalBooleanArray);
-        IBuild optionalJSONArray(org.json.JSONObject[] optionalJSONArray);
+        IBuild optionalJsonArray(org.json.JSONObject[] optionalJsonArray);
         IBuild optionalNumberArray(Double[] optionalNumberArray);
         IBuild optionalStringArray(String[] optionalStringArray);
         EventWithOptionalArrayTypes build();
