@@ -1,15 +1,13 @@
 package com.example.ampliapp
 
 import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
 import com.amplitude.ampli.*
 import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,7 +20,6 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class AmpliTest {
     lateinit var ampli: Ampli
-    lateinit var appContext: Context
 
     private val userId = "test-ampli-user-id"
     private val deviceId = "test-ampli-device-id"
@@ -36,15 +33,13 @@ class AmpliTest {
 
     @Before
     fun setUp() {
-        // Context of the app under test.
-        this.appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
         this.ampli = Ampli()
     }
 
     @Test
     fun load() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
 
         val plan = Plan().setBranch("branch-1").setSource("source-1").setVersion("version-1")
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client, plan = plan)))
@@ -56,6 +51,7 @@ class AmpliTest {
     @Test
     fun identify() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
@@ -76,11 +72,11 @@ class AmpliTest {
         verify(client, times(1)).setUserProperties(jsonObjectCaptor.capture(), extraCaptor.capture())
         assertEquals(
             """{
+  "requiredNumber": 42,
   "optionalArray": [
     "A",
     "ray"
-  ],
-  "requiredNumber": 42
+  ]
 }""", jsonObjectCaptor.value.toString(2)
         )
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
@@ -89,6 +85,7 @@ class AmpliTest {
     @Test
     fun setGroupSingleValue() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
@@ -109,6 +106,7 @@ class AmpliTest {
     @Test
     fun setGroupMultipleValues() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
@@ -130,6 +128,7 @@ class AmpliTest {
     @Test
     fun trackEventNoProperties() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         this.ampli.eventNoProperties()
@@ -148,6 +147,7 @@ class AmpliTest {
     @Test
     fun trackEventWithAllProperties() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
@@ -174,15 +174,15 @@ class AmpliTest {
         )
         assertEquals(
             """{
+  "requiredEnum": "Enum2",
   "requiredArray": [
     "Required",
     "array"
   ],
-  "requiredBoolean": true,
-  "requiredConst": "some-const-value",
-  "requiredEnum": "Enum2",
-  "requiredInteger": 41,
   "requiredNumber": 42,
+  "requiredConst": "some-const-value",
+  "requiredBoolean": true,
+  "requiredInteger": 41,
   "requiredString": "Required string"
 }""", jsonObjectCaptor.value.toString(2)
         )
@@ -192,6 +192,7 @@ class AmpliTest {
     @Test
     fun flush() {
         val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
         this.ampli.flush()

@@ -10,8 +10,6 @@ import static org.mockito.Mockito.verify;
 
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
 import com.amplitude.ampli.EventWithAllProperties;
@@ -35,7 +33,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AmpliTest {
     Ampli ampli;
-    Context appContext;
 
     private final String userId = "test-ampli-user-id";
     private final String deviceId = "test-ampli-device-id";
@@ -49,15 +46,13 @@ public class AmpliTest {
 
     @Before
     public void setUp() {
-        // Context of the app under test.
-        this.appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
         this.ampli = new Ampli();
     }
 
     @Test
     public void load() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
 
         Plan plan = new Plan().setBranch("branch-1").setSource("source-1").setVersion("version-1");
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client).setPlan(plan)));
@@ -69,6 +64,7 @@ public class AmpliTest {
     @Test
     public void identify() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
@@ -99,6 +95,7 @@ public class AmpliTest {
     @Test
     public void setGroupSingleValue() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
@@ -124,6 +121,7 @@ public class AmpliTest {
     @Test
     public void setGroupMultipleValue() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
@@ -153,6 +151,7 @@ public class AmpliTest {
     @Test
     public void trackEventNoProperties() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
@@ -181,6 +180,7 @@ public class AmpliTest {
     @Test
     public void trackEventWithAllProperties() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         MiddlewareExtra extra = new MiddlewareExtra();
@@ -220,6 +220,7 @@ public class AmpliTest {
     @Test
     public void flush() {
         AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         this.ampli.flush();

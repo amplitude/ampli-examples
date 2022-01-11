@@ -47,4 +47,6 @@ dependencies {
 
     testImplementation "org.mockito:mockito-core:+"
     androidTestImplementation "org.mockito:mockito-android:+"
+
+    testImplementation 'org.json:json:20201115'
 }
