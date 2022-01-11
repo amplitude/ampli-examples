@@ -349,7 +349,7 @@ export class Ampli {
   }
 
   /**
-   * EventNoProperties
+   * Event No Properties
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
    *
@@ -365,7 +365,7 @@ export class Ampli {
   }
 
   /**
-   * EventObjectTypes
+   * Event Object Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
    *
@@ -384,7 +384,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithAllProperties
+   * Event With All Properties
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
    *
@@ -408,7 +408,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithArrayTypes
+   * Event With Array Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
    *
@@ -429,7 +429,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithConstTypes
+   * Event With Const Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
    *
@@ -445,7 +445,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithDifferentCasingTypes
+   * event withDifferent_CasingTypes
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
    *
@@ -470,7 +470,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithEnumTypes
+   * Event With Enum Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
    *
@@ -489,7 +489,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithOptionalArrayTypes
+   * Event With Optional Array Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
    *
@@ -510,7 +510,7 @@ export class Ampli {
   }
 
   /**
-   * EventWithOptionalProperties
+   * Event With Optional Properties
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
    *
