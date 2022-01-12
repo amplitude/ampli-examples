@@ -1,0 +1,42 @@
+name: CI - Android Tests
+
+on:
+  pull_request:
+    paths:
+      - 'android/kotlin/AmpliApp/**'
+      - 'android/java/AmpliApp/**'
+
+jobs:
+  test:
+    name: Test Android Kotlin/Java
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set Java SDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Run Kotlin Tests
+        working-directory: ./android/kotlin/AmpliApp
+        run: |
+          ./gradlew build
+
+      - name: Stop gradlew daemon
+        working-directory: ./android/kotlin/AmpliApp
+        run: |
+          ./gradlew --stop
+
+      - name: Run Java Tests
+        working-directory: ./android/java/AmpliApp
+        run: |
+          ./gradlew build
+
+      - name: Stop gradlew daemon
+        working-directory: ./android/java/AmpliApp
+        run: |
+          ./gradlew --stop
