@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.amplitude.ampli.*;
+import com.amplitude.api.MiddlewareExtra;
 
 public class MainActivity extends AppCompatActivity {
     private final String userId = "ampli-java-user-id";
@@ -24,9 +25,12 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
         btnEventWithOptionalProperties.setOnClickListener(v -> {
+            MiddlewareExtra extra = new MiddlewareExtra();
+            extra.put("extra-key", "extra-value");
+
             Ampli.getInstance().track(EventWithOptionalProperties.builder()
                     .optionalBoolean(true)
-                    .build());
+                    .build(), null, extra);
         });
 
         Button btnEventWithAllProperties = this.findViewById(R.id.btn_all_properties);

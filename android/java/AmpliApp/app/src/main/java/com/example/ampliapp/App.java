@@ -67,5 +67,11 @@ public class App extends Application {
         // ampli2.load(this, new LoadOptions()
         //     .setClient(new LoadClientOptions().setApiKey(AMPLITUDE_API_KEY))
         // );
+
+        /*
+         * Middleware can be used for many things including
+         * logging, filtering, event modification and more.
+         */
+        Ampli.getInstance().getClient().addEventMiddleware(new LoggingMiddleware());
     }
 }

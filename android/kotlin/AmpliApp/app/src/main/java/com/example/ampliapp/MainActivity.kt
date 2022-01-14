@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import com.amplitude.ampli.*
+import com.amplitude.api.MiddlewareExtra
 
 class MainActivity : AppCompatActivity() {
     private val userId: String = "ampli-kotlin-user-id"
@@ -21,9 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         val btnEventWithOptionalProperties = findViewById<Button>(R.id.btn_optional_properties)
         btnEventWithOptionalProperties.setOnClickListener {
+            val extra = MiddlewareExtra(mapOf("extra-key" to "extra-value"))
+
             ampli.track(EventWithOptionalProperties(
                 optionalBoolean = true,
-            ))
+            ), extra = extra)
         }
 
         val btnEventWithAllProperties = findViewById<Button>(R.id.btn_all_properties)
