@@ -63,5 +63,11 @@ class App : Application() {
         // ampli2.load(this, LoadOptions(
         //     client = LoadClientOptions(apiKey = AMPLITUDE_API_KEY)
         // ))
+
+        /**
+         * Middleware can be used for many things including
+         * logging, filtering, event modification and more.
+         */
+        ampli.client?.addEventMiddleware(LoggingMiddleware())
     }
 }
