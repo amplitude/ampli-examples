@@ -15,7 +15,6 @@
 		3E3B5F93274F513F003D95E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E3B5F91274F513F003D95E1 /* LaunchScreen.storyboard */; };
 		3E3B5F96274F513F003D95E1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B5F95274F513F003D95E1 /* main.m */; };
 		3E3B5FA0274F558D003D95E1 /* Ampli.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B5F9D274F558D003D95E1 /* Ampli.m */; };
-		3E3B5FA1274F558D003D95E1 /* schema.json in Resources */ = {isa = PBXBuildFile; fileRef = 3E3B5F9E274F558D003D95E1 /* schema.json */; };
 		3E3B5FC2275947E8003D95E1 /* AmpliTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3B5FC1275947E8003D95E1 /* AmpliTests.m */; };
 		6C965518642D92A0539EDB2D /* libPods-AmpliObjectiveCSampleApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C35161C2610E004A66F2C02 /* libPods-AmpliObjectiveCSampleApp.a */; };
 		6F22C2D892476887969F506F /* libPods-AmpliObjectiveCSampleAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B38A4C138F53D95A0DEC91BC /* libPods-AmpliObjectiveCSampleAppTests.a */; };
@@ -48,7 +47,6 @@
 		3E3B5F94274F513F003D95E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E3B5F95274F513F003D95E1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3E3B5F9D274F558D003D95E1 /* Ampli.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Ampli.m; sourceTree = "<group>"; };
-		3E3B5F9E274F558D003D95E1 /* schema.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = schema.json; sourceTree = "<group>"; };
 		3E3B5F9F274F558D003D95E1 /* Ampli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ampli.h; sourceTree = "<group>"; };
 		3E3B5FB82759438C003D95E1 /* AmpliObjectiveCSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmpliObjectiveCSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3B5FC1275947E8003D95E1 /* AmpliTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AmpliTests.m; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				3E3B5F9D274F558D003D95E1 /* Ampli.m */,
-				3E3B5F9E274F558D003D95E1 /* schema.json */,
 				3E3B5F9F274F558D003D95E1 /* Ampli.h */,
 			);
 			path = Ampli;
@@ -238,7 +235,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E3B5FA1274F558D003D95E1 /* schema.json in Resources */,
 				3E3B5F93274F513F003D95E1 /* LaunchScreen.storyboard in Resources */,
 				3E3B5F90274F513F003D95E1 /* Assets.xcassets in Resources */,
 				3E3B5F8E274F5139003D95E1 /* Main.storyboard in Resources */,

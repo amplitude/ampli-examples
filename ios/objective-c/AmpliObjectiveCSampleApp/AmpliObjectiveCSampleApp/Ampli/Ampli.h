@@ -51,276 +51,271 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 - (LoadOptions *_Nonnull)build;
 @end
 
-@class EventProperties;
-@class ContextProperties;
-@class EventMaxIntForTestProperties;
-@class EventNoPropertiesProperties;
-@class EventObjectTypesProperties;
-@class EventWithAllPropertiesProperties;
-@class EventWithAllPropertiesRequiredEnum;
-@class EventWithArrayTypesProperties;
-@class EventWithConstTypesProperties;
-@class EventWithDifferentCasingTypesProperties;
-@class EventWithDifferentCasingTypesEnumCamelCase;
-@class EventWithDifferentCasingTypesEnumPascalCase;
-@class EventWithDifferentCasingTypesEnumSnakeCase;
-@class EventWithDifferentCasingTypesEnumWithSpace;
-@class EventWithEnumTypesProperties;
-@class EventWithEnumTypesOptionalEnum;
-@class EventWithEnumTypesRequiredEnum;
-@class EventWithOptionalArrayTypesProperties;
-@class EventWithOptionalPropertiesProperties;
-@class GroupProperties;
-@class IdentifyProperties;
+#pragma mark - IdentifyBuilder
 
-NS_ASSUME_NONNULL_BEGIN
-
-#pragma mark - Boxed enums
-
-/// Event 2 Property - Enum
-@interface EventWithAllPropertiesRequiredEnum : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithAllPropertiesRequiredEnum *)enum1;
-+ (EventWithAllPropertiesRequiredEnum *)enum2;
+@interface IdentifyBuilder: NSObject
+@property (nonatomic) NSArray<NSString *> * _Nullable optionalArray;
 @end
 
-/// descriptionForEnumCamelCase
-@interface EventWithDifferentCasingTypesEnumCamelCase : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithDifferentCasingTypesEnumCamelCase *)enumCamelCase;
-@end
-
-/// DescirptionForEnumPascalCase
-@interface EventWithDifferentCasingTypesEnumPascalCase : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithDifferentCasingTypesEnumPascalCase *)enumPascalCase;
-@end
-
-/// description_for_enum_snake_case
-@interface EventWithDifferentCasingTypesEnumSnakeCase : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithDifferentCasingTypesEnumSnakeCase *)enumSnakeCase;
-@end
-
-/// Description for enum with space
-@interface EventWithDifferentCasingTypesEnumWithSpace : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithDifferentCasingTypesEnumWithSpace *)enumWithSpace;
-@end
-
-/// Description for required enum
-@interface EventWithEnumTypesOptionalEnum : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithEnumTypesOptionalEnum *)optionalEnum1;
-+ (EventWithEnumTypesOptionalEnum *)optionalEnum2;
-@end
-
-/// Description for optional enum
-@interface EventWithEnumTypesRequiredEnum : NSObject
-@property (nonatomic, readonly, copy) NSString *value;
-+ (instancetype _Nullable)withValue:(NSString *)value;
-+ (EventWithEnumTypesRequiredEnum *)requiredEnum1;
-+ (EventWithEnumTypesRequiredEnum *)requiredEnum2;
-@end
-
-#pragma mark - Object interfaces
-
-@interface EventProperties : NSObject
-@property (nonatomic, nullable, strong) ContextProperties *context;
-@property (nonatomic, nullable, strong) EventMaxIntForTestProperties *eventMaxIntForTest;
-@property (nonatomic, nullable, strong) EventNoPropertiesProperties *eventNoProperties;
-@property (nonatomic, nullable, strong) EventObjectTypesProperties *eventObjectTypes;
-@property (nonatomic, nullable, strong) EventWithAllPropertiesProperties *eventWithAllProperties;
-@property (nonatomic, nullable, strong) EventWithArrayTypesProperties *eventWithArrayTypes;
-@property (nonatomic, nullable, strong) EventWithConstTypesProperties *eventWithConstTypes;
-@property (nonatomic, nullable, strong) EventWithDifferentCasingTypesProperties *eventWithDifferentCasingTypes;
-@property (nonatomic, nullable, strong) EventWithEnumTypesProperties *eventWithEnumTypes;
-@property (nonatomic, nullable, strong) EventWithOptionalArrayTypesProperties *eventWithOptionalArrayTypes;
-@property (nonatomic, nullable, strong) EventWithOptionalPropertiesProperties *eventWithOptionalProperties;
-@property (nonatomic, nullable, strong) GroupProperties *group;
-@property (nonatomic, nullable, strong) IdentifyProperties *identify;
-@end
-
-@interface ContextProperties : NSObject
-@end
-
-/// Event to test schema validation
-@interface EventMaxIntForTestProperties : NSObject
-/// property to test schema validation
-@property (nonatomic, assign) NSNumber *intMax10;
-@end
-
-/// Event w no properties description
-@interface EventNoPropertiesProperties : NSObject
-@end
-
-/// Event with Object and Object Array
-@interface EventObjectTypesProperties : NSObject
-/// Property Object Type
-@property (nonatomic, nullable, copy) id requiredObject;
-/// Property Object Array Type
-@property (nonatomic, copy) NSArray *requiredObjectArray;
-@end
-
-/// Event w all properties description
-@interface EventWithAllPropertiesProperties : NSObject
-/// Event 2 Property - Optional String    *     * Examples:    * Some string, or another
-@property (nonatomic, nullable, copy) NSString *optionalString;
-/// Event 2 Property - Array
-@property (nonatomic, copy) NSArray<NSString *> *requiredArray;
-/// Event 2 Property - Boolean
-@property (nonatomic, assign) NSNumber *requiredBoolean;
-/// Event 2 Property - Enum
-@property (nonatomic, assign) EventWithAllPropertiesRequiredEnum *requiredEnum;
-/// Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
-@property (nonatomic, assign) NSNumber *requiredInteger;
-/// Event 2 Property - Number
-@property (nonatomic, assign) NSNumber *requiredNumber;
-/// Event 2 Property - String
-@property (nonatomic, copy) NSString *requiredString;
-@end
-
-/// Description for event with Array Types
-@interface EventWithArrayTypesProperties : NSObject
-/// description for required boolean array
-@property (nonatomic, copy) NSArray<NSNumber *> *requiredBooleanArray;
-/// Description for required number array
-@property (nonatomic, copy) NSArray<NSNumber *> *requiredNumberArray;
-/// Description for required object array
-@property (nonatomic, copy) NSArray *requiredObjectArray;
-/// description for required string array
-@property (nonatomic, copy) NSArray<NSString *> *requiredStringArray;
-@end
-
-/// Description for event with const types
-@interface EventWithConstTypesProperties : NSObject
-@end
-
-/// Description for case with space
-@interface EventWithDifferentCasingTypesProperties : NSObject
-/// Description for enum with space
-@property (nonatomic, assign) EventWithDifferentCasingTypesEnumWithSpace *enumWithSpace;
-/// description_for_enum_snake_case
-@property (nonatomic, assign) EventWithDifferentCasingTypesEnumSnakeCase *enumSnakeCase;
-/// descriptionForEnumCamelCase
-@property (nonatomic, assign) EventWithDifferentCasingTypesEnumCamelCase *enumCamelCase;
-/// DescirptionForEnumPascalCase
-@property (nonatomic, assign) EventWithDifferentCasingTypesEnumPascalCase *enumPascalCase;
-/// Description for case with space
-@property (nonatomic, copy) NSString *propertyWithSpace;
-/// Description_for_snake_case
-@property (nonatomic, copy) NSString *propertyWithSnakeCase;
-/// descriptionForCamelCase
-@property (nonatomic, copy) NSString *propertyWithCamelCase;
-/// DescriptionForPascalCase
-@property (nonatomic, copy) NSString *propertyWithPascalCase;
-@end
-
-/// Description for event with enum types
-@interface EventWithEnumTypesProperties : NSObject
-/// Description for required enum
-@property (nonatomic, nullable, assign) EventWithEnumTypesOptionalEnum *optionalEnum;
-/// Description for optional enum
-@property (nonatomic, assign) EventWithEnumTypesRequiredEnum *requiredEnum;
-@end
-
-/// Description for event with optional array types
-@interface EventWithOptionalArrayTypesProperties : NSObject
-/// Description for optional boolean array
-@property (nonatomic, nullable, copy) NSArray<NSNumber *> *optionalBooleanArray;
-/// Description for optional object array
-@property (nonatomic, nullable, copy) NSArray *optionalJsonArray;
-/// Description for optional number array
-@property (nonatomic, nullable, copy) NSArray<NSNumber *> *optionalNumberArray;
-/// Description for optional string array
-@property (nonatomic, nullable, copy) NSArray<NSString *> *optionalStringArray;
-@end
-
-/// Event w optional properties description
-@interface EventWithOptionalPropertiesProperties : NSObject
-@property (nonatomic, nullable, copy)   NSArray<NSNumber *> *optionalArrayNumber;
-@property (nonatomic, nullable, copy)   NSArray<NSString *> *optionalArrayString;
-@property (nonatomic, nullable, strong) NSNumber *optionalBoolean;
-@property (nonatomic, nullable, strong) NSNumber *optionalNumber;
-/// Optional String property description
-@property (nonatomic, nullable, copy) NSString *optionalString;
-@end
-
-@interface GroupProperties : NSObject
-/// Description for group optionalString
-@property (nonatomic, nullable, copy) NSString *optionalString;
-/// Description for group requiredBoolean
-@property (nonatomic, assign) NSNumber *requiredBoolean;
-@end
-
-@interface IdentifyProperties : NSObject
-/// Description for identify optionalArray
-@property (nonatomic, nullable, copy) NSArray<NSString *> *optionalArray;
-/// Description for identify requiredNumber
-@property (nonatomic, assign) NSNumber *requiredNumber;
-@end
-
-NS_ASSUME_NONNULL_END
-
-@interface Context: Event
-+ (instancetype _Nonnull)initEvent;
-@end
+#pragma mark - Identify
 
 @interface Identify: Event
-+ (instancetype _Nonnull)initWithEventProperties: (IdentifyProperties *_Nonnull) eventProperties;
+/**
+ Identify properties.
+
+ @param requiredNumber Description for identify requiredNumber
+ @param optionalArray Description for identify optionalArray
+*/
++ (instancetype) requiredNumber:(Float64)requiredNumber NS_SWIFT_NAME(build(requiredNumber:));
++ (instancetype) requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredNumber:builderBlock:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end
-  
-@interface Group: Event
-+ (instancetype _Nonnull)initWithEventProperties: (GroupProperties *_Nonnull) eventProperties;
-@end
-  
+
+#pragma mark - EventMaxIntForTest
 
 @interface EventMaxIntForTest: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventMaxIntForTestProperties *_Nonnull) eventProperties;
+/**
+ Event to test schema validation
+ 
+ Owner: Test codegen
+
+ @param intMax10 property to test schema validation
+*/
++ (instancetype) intMax10:(NSInteger)intMax10 NS_SWIFT_NAME(build(intMax10:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end
-  
+
+#pragma mark - EventNoProperties
+
 @interface EventNoProperties: Event
-+ (instancetype _Nonnull)initEvent;
+/**
+ Event w no properties description
+ 
+ Owner: Test codegen
+*/
+- (instancetype)init;
 @end
+
+#pragma mark - EventObjectTypes
 
 @interface EventObjectTypes: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventObjectTypesProperties *_Nonnull) eventProperties;
-@end
-  
-@interface EventWithAllProperties: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithAllPropertiesProperties *_Nonnull) eventProperties;
-@end
-  
-@interface EventWithArrayTypes: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithArrayTypesProperties *_Nonnull) eventProperties;
-@end
-  
-@interface EventWithConstTypes: Event
-+ (instancetype _Nonnull)initEvent;
+/**
+ Event with Object and Object Array
+ 
+ Owner: Test codegen
+
+ @param requiredObject Property Object Type
+ @param requiredObjectArray Property Object Array Type
+*/
++ (instancetype) requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray NS_SWIFT_NAME(build(requiredObject:requiredObjectArray:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end
 
+#pragma mark - EventWithAllProperties Enums
+
+typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
+    EventWithAllPropertiesRequiredEnumEnum1,
+    EventWithAllPropertiesRequiredEnumEnum2
+};
+
+#pragma mark - EventWithAllPropertiesBuilder
+
+@interface EventWithAllPropertiesBuilder: NSObject
+@property (nonatomic) NSString* _Nullable optionalString;
+@end
+
+#pragma mark - EventWithAllProperties
+
+@interface EventWithAllProperties: Event
+/**
+ Event w all properties description
+ 
+ Owner: Test codegen
+
+ @param requiredArray Event 2 Property - Array
+ @param requiredBoolean Event 2 Property - Boolean
+ @param requiredEnum Event 2 Property - Enum
+ @param requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
+ @param requiredNumber Event 2 Property - Number
+ @param requiredString Event 2 Property - String
+ @param optionalString Event 2 Property - Optional String    *     * Examples:    * Some string, or another
+*/
++ (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:));
++ (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:builderBlock:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+@end
+
+#pragma mark - EventWithArrayTypes
+
+@interface EventWithArrayTypes: Event
+/**
+ Description for event with Array Types
+ 
+ Owner: Test codegen
+
+ @param requiredBooleanArray description for required boolean array
+ @param requiredNumberArray Description for required number array
+ @param requiredObjectArray Description for required object array
+ @param requiredStringArray description for required string array
+*/
++ (instancetype) requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray NS_SWIFT_NAME(build(requiredBooleanArray:requiredNumberArray:requiredObjectArray:requiredStringArray:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+@end
+
+#pragma mark - EventWithConstTypes
+
+@interface EventWithConstTypes: Event
+/**
+ Description for event with const types
+ 
+ Owner: Test codegen
+*/
+- (instancetype)init;
+@end
+
+#pragma mark - EventWithDifferentCasingTypes Enums
+
+typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumCamelCase) {
+    EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
+};
+
+typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
+    EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase
+};
+
+typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumSnakeCase) {
+    EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase
+};
+
+typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumWithSpace) {
+    EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
+};
+
+#pragma mark - EventWithDifferentCasingTypes
+
 @interface EventWithDifferentCasingTypes: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithDifferentCasingTypesProperties *_Nonnull) eventProperties;
+/**
+ Description for case with space
+ 
+ Owner: Test codegen
+
+ @param enumCamelCase descriptionForEnumCamelCase
+ @param enumPascalCase DescirptionForEnumPascalCase
+ @param enumSnakeCase description_for_enum_snake_case
+ @param enumWithSpace Description for enum with space
+ @param propertyWithCamelCase descriptionForCamelCase
+ @param propertyWithPascalCase DescriptionForPascalCase
+ @param propertyWithSnakeCase Description_for_snake_case
+ @param propertyWithSpace Description for case with space
+*/
++ (instancetype) enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithSpace:(NSString*)propertyWithSpace NS_SWIFT_NAME(build(enumCamelCase:enumPascalCase:enumSnakeCase:enumWithSpace:propertyWithCamelCase:propertyWithPascalCase:propertyWithSnakeCase:propertyWithSpace:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end
-  
+
+#pragma mark - EventWithEnumTypes Enums
+
+typedef NS_ENUM(NSInteger, EventWithEnumTypesOptionalEnum) {
+    EventWithEnumTypesOptionalEnumOptionalEnum1,
+    EventWithEnumTypesOptionalEnumOptionalEnum2,
+    EventWithEnumTypesOptionalEnumUndefined
+};
+
+typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
+    EventWithEnumTypesRequiredEnumRequiredEnum1,
+    EventWithEnumTypesRequiredEnumRequiredEnum2
+};
+
+#pragma mark - EventWithEnumTypesBuilder
+
+@interface EventWithEnumTypesBuilder: NSObject
+@property (nonatomic) EventWithEnumTypesOptionalEnum optionalEnum;
+@end
+
+#pragma mark - EventWithEnumTypes
+
 @interface EventWithEnumTypes: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithEnumTypesProperties *_Nonnull) eventProperties;
+/**
+ Description for event with enum types
+ 
+ Owner: Test codegen
+
+ @param requiredEnum Description for optional enum
+ @param optionalEnum Description for required enum
+*/
++ (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum NS_SWIFT_NAME(build(requiredEnum:));
++ (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEnum:builderBlock:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 @end
-  
+
+#pragma mark - EventWithOptionalArrayTypesBuilder
+
+@interface EventWithOptionalArrayTypesBuilder: NSObject
+@property (nonatomic) NSArray<NSNumber *> * _Nullable optionalBooleanArray;
+@property (nonatomic) NSDictionary<NSString *, NSObject *> * _Nullable optionalJsonArray;
+@property (nonatomic) NSArray<NSNumber *> * _Nullable optionalNumberArray;
+@property (nonatomic) NSArray<NSString *> * _Nullable optionalStringArray;
+@end
+
+#pragma mark - EventWithOptionalArrayTypes
+
 @interface EventWithOptionalArrayTypes: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalArrayTypesProperties *_Nonnull) eventProperties;
+/**
+ Description for event with optional array types
+ 
+ Owner: Test codegen
+
+ @param optionalBooleanArray Description for optional boolean array
+ @param optionalJsonArray Description for optional object array
+ @param optionalNumberArray Description for optional number array
+ @param optionalStringArray Description for optional string array
+*/
++ (instancetype)  builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
+
+- (instancetype)init;
 @end
-  
+
+#pragma mark - EventWithOptionalPropertiesBuilder
+
+@interface EventWithOptionalPropertiesBuilder: NSObject
+@property (nonatomic) NSArray<NSNumber *> * _Nullable optionalArrayNumber;
+@property (nonatomic) NSArray<NSString *> * _Nullable optionalArrayString;
+@property (nonatomic) NSNumber * optionalBoolean;
+@property (nonatomic) NSNumber * optionalNumber;
+@property (nonatomic) NSString* _Nullable optionalString;
+@end
+
+#pragma mark - EventWithOptionalProperties
+
 @interface EventWithOptionalProperties: Event
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalPropertiesProperties *_Nonnull) eventProperties;
+/**
+ Event w optional properties description
+ 
+ Owner: Test codegen
+
+ @param optionalArrayNumber Property has no description provided in tracking plan.
+ @param optionalArrayString Property has no description provided in tracking plan.
+ @param optionalBoolean Property has no description provided in tracking plan.
+ @param optionalNumber Property has no description provided in tracking plan.
+ @param optionalString Optional String property description
+*/
++ (instancetype)  builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
+
+- (instancetype)init;
 @end
-  
 
 @class EventOptionsBuilder;
 
@@ -338,7 +333,6 @@ NS_ASSUME_NONNULL_END
 - (EventOptions *_Nonnull)build;
 @end
 
-
 @interface Ampli: NSObject
 @property (nonatomic, strong, readonly) Amplitude * _Nullable client;
 @property (nonatomic, assign, readwrite) BOOL disabled;
@@ -349,10 +343,10 @@ NS_ASSUME_NONNULL_END
 - (void)track:(Event *_Nonnull)event;
 - (void)track:(Event *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 - (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties extra:(MiddlewareExtra *_Nullable)extra;
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value;
 - (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value options:(EventOptions *_Nullable)options;
 - (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value extra:(MiddlewareExtra *_Nullable)extra;
@@ -367,10 +361,10 @@ Event to test schema validation
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 EventMaxIntForTest
@@ -381,11 +375,11 @@ Event to test schema validation
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 EventMaxIntForTest
@@ -396,9 +390,9 @@ Event to test schema validation
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event;
 
 /**
 Event No Properties
@@ -448,10 +442,10 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event Object Types
@@ -462,11 +456,11 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event Object Types
@@ -477,9 +471,9 @@ Event with Object and Object Array
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties;
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event;
 
 /**
 Event With All Properties
@@ -490,10 +484,10 @@ Event w all properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With All Properties
@@ -504,11 +498,11 @@ Event w all properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With All Properties
@@ -519,9 +513,9 @@ Event w all properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties;
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event;
 
 /**
 Event With Array Types
@@ -532,10 +526,10 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Array Types
@@ -546,11 +540,11 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Array Types
@@ -561,9 +555,9 @@ Description for event with Array Types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event;
 
 /**
 Event With Const Types
@@ -613,10 +607,10 @@ Description for case with space
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 event withDifferent_CasingTypes
@@ -627,11 +621,11 @@ Description for case with space
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 event withDifferent_CasingTypes
@@ -642,9 +636,9 @@ Description for case with space
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event;
 
 /**
 Event With Enum Types
@@ -655,10 +649,10 @@ Description for event with enum types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Enum Types
@@ -669,11 +663,11 @@ Description for event with enum types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Enum Types
@@ -684,9 +678,9 @@ Description for event with enum types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event;
 
 /**
 Event With Optional Array Types
@@ -697,10 +691,10 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Array Types
@@ -711,11 +705,11 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Array Types
@@ -726,9 +720,9 @@ Description for event with optional array types
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event;
 
 /**
 Event With Optional Properties
@@ -739,10 +733,10 @@ Event w optional properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Properties
@@ -753,11 +747,11 @@ Event w optional properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Properties
@@ -768,7 +762,7 @@ Event w optional properties description
 
 Owner: Test codegen
 
-@param properties The event's properties
+@param event The event
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event;
 @end

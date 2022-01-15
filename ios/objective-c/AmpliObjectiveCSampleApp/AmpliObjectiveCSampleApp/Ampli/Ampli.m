@@ -18,7 +18,7 @@
 #import "Amplitude.h"
 #import "AMPPlan.h"
 
-@implementation Event
+@implementation Event: NSObject
 
 + (instancetype)withEventType:(NSString *) eventType withEventProperties: (NSDictionary *) eventProperties {
     return [[self alloc] initWithEventType:eventType withEventProperties:eventProperties];
@@ -35,1213 +35,422 @@
 
 @end
 
-#define λ(decl, expr) (^(decl) { return (expr); })
+#pragma mark - IdentifyBuilder
 
-static id NSNullify(id _Nullable x) {
-    return (x == nil || x == NSNull.null) ? NSNull.null : x;
-}
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface EventProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface ContextProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventMaxIntForTestProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventNoPropertiesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventObjectTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithAllPropertiesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithArrayTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithConstTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithDifferentCasingTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithEnumTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithOptionalArrayTypesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface EventWithOptionalPropertiesProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface GroupProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@interface IdentifyProperties (JSONConversion)
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict;
-- (NSDictionary *)JSONDictionary;
-@end
-
-@implementation EventWithAllPropertiesRequiredEnum
-+ (NSDictionary<NSString *, EventWithAllPropertiesRequiredEnum *> *)values
-{
-    static NSDictionary<NSString *, EventWithAllPropertiesRequiredEnum *> *values;
-    return values = values ? values : @{
-        @"Enum1": [[EventWithAllPropertiesRequiredEnum alloc] initWithValue:@"Enum1"],
-        @"Enum2": [[EventWithAllPropertiesRequiredEnum alloc] initWithValue:@"Enum2"],
-    };
-}
-
-+ (EventWithAllPropertiesRequiredEnum *)enum1 { return EventWithAllPropertiesRequiredEnum.values[@"Enum1"]; }
-+ (EventWithAllPropertiesRequiredEnum *)enum2 { return EventWithAllPropertiesRequiredEnum.values[@"Enum2"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithAllPropertiesRequiredEnum.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithDifferentCasingTypesEnumCamelCase
-+ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumCamelCase *> *)values
-{
-    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumCamelCase *> *values;
-    return values = values ? values : @{
-        @"enumCamelCase": [[EventWithDifferentCasingTypesEnumCamelCase alloc] initWithValue:@"enumCamelCase"],
-    };
-}
-
-+ (EventWithDifferentCasingTypesEnumCamelCase *)enumCamelCase { return EventWithDifferentCasingTypesEnumCamelCase.values[@"enumCamelCase"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithDifferentCasingTypesEnumCamelCase.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithDifferentCasingTypesEnumPascalCase
-+ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumPascalCase *> *)values
-{
-    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumPascalCase *> *values;
-    return values = values ? values : @{
-        @"EnumPascalCase": [[EventWithDifferentCasingTypesEnumPascalCase alloc] initWithValue:@"EnumPascalCase"],
-    };
-}
-
-+ (EventWithDifferentCasingTypesEnumPascalCase *)enumPascalCase { return EventWithDifferentCasingTypesEnumPascalCase.values[@"EnumPascalCase"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithDifferentCasingTypesEnumPascalCase.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithDifferentCasingTypesEnumSnakeCase
-+ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumSnakeCase *> *)values
-{
-    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumSnakeCase *> *values;
-    return values = values ? values : @{
-        @"enum_snake_case": [[EventWithDifferentCasingTypesEnumSnakeCase alloc] initWithValue:@"enum_snake_case"],
-    };
-}
-
-+ (EventWithDifferentCasingTypesEnumSnakeCase *)enumSnakeCase { return EventWithDifferentCasingTypesEnumSnakeCase.values[@"enum_snake_case"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithDifferentCasingTypesEnumSnakeCase.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithDifferentCasingTypesEnumWithSpace
-+ (NSDictionary<NSString *, EventWithDifferentCasingTypesEnumWithSpace *> *)values
-{
-    static NSDictionary<NSString *, EventWithDifferentCasingTypesEnumWithSpace *> *values;
-    return values = values ? values : @{
-        @"enum with space": [[EventWithDifferentCasingTypesEnumWithSpace alloc] initWithValue:@"enum with space"],
-    };
-}
-
-+ (EventWithDifferentCasingTypesEnumWithSpace *)enumWithSpace { return EventWithDifferentCasingTypesEnumWithSpace.values[@"enum with space"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithDifferentCasingTypesEnumWithSpace.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithEnumTypesOptionalEnum
-+ (NSDictionary<NSString *, EventWithEnumTypesOptionalEnum *> *)values
-{
-    static NSDictionary<NSString *, EventWithEnumTypesOptionalEnum *> *values;
-    return values = values ? values : @{
-        @"optional enum 1": [[EventWithEnumTypesOptionalEnum alloc] initWithValue:@"optional enum 1"],
-        @"optional enum 2": [[EventWithEnumTypesOptionalEnum alloc] initWithValue:@"optional enum 2"],
-    };
-}
-
-+ (EventWithEnumTypesOptionalEnum *)optionalEnum1 { return EventWithEnumTypesOptionalEnum.values[@"optional enum 1"]; }
-+ (EventWithEnumTypesOptionalEnum *)optionalEnum2 { return EventWithEnumTypesOptionalEnum.values[@"optional enum 2"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithEnumTypesOptionalEnum.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-@implementation EventWithEnumTypesRequiredEnum
-+ (NSDictionary<NSString *, EventWithEnumTypesRequiredEnum *> *)values
-{
-    static NSDictionary<NSString *, EventWithEnumTypesRequiredEnum *> *values;
-    return values = values ? values : @{
-        @"required enum 1": [[EventWithEnumTypesRequiredEnum alloc] initWithValue:@"required enum 1"],
-        @"required enum 2": [[EventWithEnumTypesRequiredEnum alloc] initWithValue:@"required enum 2"],
-    };
-}
-
-+ (EventWithEnumTypesRequiredEnum *)requiredEnum1 { return EventWithEnumTypesRequiredEnum.values[@"required enum 1"]; }
-+ (EventWithEnumTypesRequiredEnum *)requiredEnum2 { return EventWithEnumTypesRequiredEnum.values[@"required enum 2"]; }
-
-+ (instancetype _Nullable)withValue:(NSString *)value
-{
-    return EventWithEnumTypesRequiredEnum.values[value];
-}
-
-- (instancetype)initWithValue:(NSString *)value
-{
-    if (self = [super init]) _value = value;
-    return self;
-}
-
-- (NSUInteger)hash { return _value.hash; }
-@end
-
-static id map(id collection, id (^f)(id value)) {
-    id result = nil;
-    if ([collection isKindOfClass:NSArray.class]) {
-        result = [NSMutableArray arrayWithCapacity:[collection count]];
-        for (id x in collection) [result addObject:f(x)];
-    } else if ([collection isKindOfClass:NSDictionary.class]) {
-        result = [NSMutableDictionary dictionaryWithCapacity:[collection count]];
-        for (id key in collection) [result setObject:f([collection objectForKey:key]) forKey:key];
-    }
-    return result;
-}
-
-#pragma mark - JSON serialization
-
-EventProperties *_Nullable EventPropertiesFromData(NSData *data, NSError **error)
-{
-    @try {
-        id json = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:error];
-        return *error ? nil : [EventProperties fromJSONDictionary:json];
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-EventProperties *_Nullable EventPropertiesFromJSON(NSString *json, NSStringEncoding encoding, NSError **error)
-{
-    return EventPropertiesFromData([json dataUsingEncoding:encoding], error);
-}
-
-NSData *_Nullable EventPropertiesToData(EventProperties *eventProperties, NSError **error)
-{
-    @try {
-        id json = [eventProperties JSONDictionary];
-        NSData *data = [NSJSONSerialization dataWithJSONObject:json options:kNilOptions error:error];
-        return *error ? nil : data;
-    } @catch (NSException *exception) {
-        *error = [NSError errorWithDomain:@"JSONSerialization" code:-1 userInfo:@{ @"exception": exception }];
-        return nil;
-    }
-}
-
-NSString *_Nullable EventPropertiesToJSON(EventProperties *eventProperties, NSStringEncoding encoding, NSError **error)
-{
-    NSData *data = EventPropertiesToData(eventProperties, error);
-    return data ? [[NSString alloc] initWithData:data encoding:encoding] : nil;
-}
-
-@implementation EventProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"Context": @"context",
-        @"EventMaxIntForTest": @"eventMaxIntForTest",
-        @"EventNoProperties": @"eventNoProperties",
-        @"EventObjectTypes": @"eventObjectTypes",
-        @"EventWithAllProperties": @"eventWithAllProperties",
-        @"EventWithArrayTypes": @"eventWithArrayTypes",
-        @"EventWithConstTypes": @"eventWithConstTypes",
-        @"EventWithDifferentCasingTypes": @"eventWithDifferentCasingTypes",
-        @"EventWithEnumTypes": @"eventWithEnumTypes",
-        @"EventWithOptionalArrayTypes": @"eventWithOptionalArrayTypes",
-        @"EventWithOptionalProperties": @"eventWithOptionalProperties",
-        @"Group": @"group",
-        @"Identify": @"identify",
-    };
-}
-
-+ (_Nullable instancetype)fromData:(NSData *)data error:(NSError *_Nullable *)error
-{
-    return EventPropertiesFromData(data, error);
-}
-
-+ (_Nullable instancetype)fromJSON:(NSString *)json encoding:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return EventPropertiesFromJSON(json, encoding, error);
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
+@implementation IdentifyBuilder: NSObject
+-(instancetype)init {
     if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _context = [ContextProperties fromJSONDictionary:(id)_context];
-        _eventMaxIntForTest = [EventMaxIntForTestProperties fromJSONDictionary:(id)_eventMaxIntForTest];
-        _eventNoProperties = [EventNoPropertiesProperties fromJSONDictionary:(id)_eventNoProperties];
-        _eventObjectTypes = [EventObjectTypesProperties fromJSONDictionary:(id)_eventObjectTypes];
-        _eventWithAllProperties = [EventWithAllPropertiesProperties fromJSONDictionary:(id)_eventWithAllProperties];
-        _eventWithArrayTypes = [EventWithArrayTypesProperties fromJSONDictionary:(id)_eventWithArrayTypes];
-        _eventWithConstTypes = [EventWithConstTypesProperties fromJSONDictionary:(id)_eventWithConstTypes];
-        _eventWithDifferentCasingTypes = [EventWithDifferentCasingTypesProperties fromJSONDictionary:(id)_eventWithDifferentCasingTypes];
-        _eventWithEnumTypes = [EventWithEnumTypesProperties fromJSONDictionary:(id)_eventWithEnumTypes];
-        _eventWithOptionalArrayTypes = [EventWithOptionalArrayTypesProperties fromJSONDictionary:(id)_eventWithOptionalArrayTypes];
-        _eventWithOptionalProperties = [EventWithOptionalPropertiesProperties fromJSONDictionary:(id)_eventWithOptionalProperties];
-        _group = [GroupProperties fromJSONDictionary:(id)_group];
-        _identify = [IdentifyProperties fromJSONDictionary:(id)_identify];
+        self.optionalArray = nil;
     }
     return self;
 }
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:EventProperties.properties.allValues] mutableCopy];
-
-    for (id jsonName in EventProperties.properties) {
-        id propertyName = EventProperties.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"Context": NSNullify([_context JSONDictionary]),
-        @"EventMaxIntForTest": NSNullify([_eventMaxIntForTest JSONDictionary]),
-        @"EventNoProperties": NSNullify([_eventNoProperties JSONDictionary]),
-        @"EventObjectTypes": NSNullify([_eventObjectTypes JSONDictionary]),
-        @"EventWithAllProperties": NSNullify([_eventWithAllProperties JSONDictionary]),
-        @"EventWithArrayTypes": NSNullify([_eventWithArrayTypes JSONDictionary]),
-        @"EventWithConstTypes": NSNullify([_eventWithConstTypes JSONDictionary]),
-        @"EventWithDifferentCasingTypes": NSNullify([_eventWithDifferentCasingTypes JSONDictionary]),
-        @"EventWithEnumTypes": NSNullify([_eventWithEnumTypes JSONDictionary]),
-        @"EventWithOptionalArrayTypes": NSNullify([_eventWithOptionalArrayTypes JSONDictionary]),
-        @"EventWithOptionalProperties": NSNullify([_eventWithOptionalProperties JSONDictionary]),
-        @"Group": NSNullify([_group JSONDictionary]),
-        @"Identify": NSNullify([_identify JSONDictionary]),
-    }];
-
-    return dict;
-}
-
-- (NSData *_Nullable)toData:(NSError *_Nullable *)error
-{
-    return EventPropertiesToData(self, error);
-}
-
-- (NSString *_Nullable)toJSON:(NSStringEncoding)encoding error:(NSError *_Nullable *)error
-{
-    return EventPropertiesToJSON(self, encoding, error);
-}
 @end
 
-@implementation ContextProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[ContextProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = ContextProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = ContextProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:ContextProperties.properties.allValues];
-}
-@end
-
-@implementation EventMaxIntForTestProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"intMax10": @"intMax10",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventMaxIntForTestProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventMaxIntForTestProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventMaxIntForTestProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventMaxIntForTestProperties.properties.allValues];
-}
-@end
-
-@implementation EventNoPropertiesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventNoPropertiesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventNoPropertiesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventNoPropertiesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventNoPropertiesProperties.properties.allValues];
-}
-@end
-
-@implementation EventObjectTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"requiredObject": @"requiredObject",
-        @"requiredObjectArray": @"requiredObjectArray",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventObjectTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventObjectTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventObjectTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventObjectTypesProperties.properties.allValues];
-}
-@end
-
-@implementation EventWithAllPropertiesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optionalString": @"optionalString",
-        @"requiredArray": @"requiredArray",
-        @"requiredBoolean": @"requiredBoolean",
-        @"requiredEnum": @"requiredEnum",
-        @"requiredInteger": @"requiredInteger",
-        @"requiredNumber": @"requiredNumber",
-        @"requiredString": @"requiredString",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithAllPropertiesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _requiredEnum = [EventWithAllPropertiesRequiredEnum withValue:(id)_requiredEnum];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithAllPropertiesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithAllPropertiesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:EventWithAllPropertiesProperties.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"requiredBoolean": _requiredBoolean ? @YES : @NO,
-        @"requiredEnum": [_requiredEnum value],
-    }];
-
-    return dict;
-}
-@end
-
-@implementation EventWithArrayTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"requiredBooleanArray": @"requiredBooleanArray",
-        @"requiredNumberArray": @"requiredNumberArray",
-        @"requiredObjectArray": @"requiredObjectArray",
-        @"requiredStringArray": @"requiredStringArray",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithArrayTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithArrayTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithArrayTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventWithArrayTypesProperties.properties.allValues];
-}
-@end
-
-@implementation EventWithConstTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithConstTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithConstTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithConstTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventWithConstTypesProperties.properties.allValues];
-}
-@end
-
-@implementation EventWithDifferentCasingTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"enum with space": @"enumWithSpace",
-        @"enum_snake_case": @"enumSnakeCase",
-        @"enumCamelCase": @"enumCamelCase",
-        @"EnumPascalCase": @"enumPascalCase",
-        @"property with space": @"propertyWithSpace",
-        @"property_with_snake_case": @"propertyWithSnakeCase",
-        @"propertyWithCamelCase": @"propertyWithCamelCase",
-        @"PropertyWithPascalCase": @"propertyWithPascalCase",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithDifferentCasingTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _enumWithSpace = [EventWithDifferentCasingTypesEnumWithSpace withValue:(id)_enumWithSpace];
-        _enumSnakeCase = [EventWithDifferentCasingTypesEnumSnakeCase withValue:(id)_enumSnakeCase];
-        _enumCamelCase = [EventWithDifferentCasingTypesEnumCamelCase withValue:(id)_enumCamelCase];
-        _enumPascalCase = [EventWithDifferentCasingTypesEnumPascalCase withValue:(id)_enumPascalCase];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithDifferentCasingTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithDifferentCasingTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:EventWithDifferentCasingTypesProperties.properties.allValues] mutableCopy];
-
-    for (id jsonName in EventWithDifferentCasingTypesProperties.properties) {
-        id propertyName = EventWithDifferentCasingTypesProperties.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"enum with space": [_enumWithSpace value],
-        @"enum_snake_case": [_enumSnakeCase value],
-        @"enumCamelCase": [_enumCamelCase value],
-        @"EnumPascalCase": [_enumPascalCase value],
-    }];
-
-    return dict;
-}
-@end
-
-@implementation EventWithEnumTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optional enum": @"optionalEnum",
-        @"required enum": @"requiredEnum",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithEnumTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-        _optionalEnum = [EventWithEnumTypesOptionalEnum withValue:(id)_optionalEnum];
-        _requiredEnum = [EventWithEnumTypesRequiredEnum withValue:(id)_requiredEnum];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithEnumTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithEnumTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:EventWithEnumTypesProperties.properties.allValues] mutableCopy];
-
-    for (id jsonName in EventWithEnumTypesProperties.properties) {
-        id propertyName = EventWithEnumTypesProperties.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    [dict addEntriesFromDictionary:@{
-        @"optional enum": NSNullify([_optionalEnum value]),
-        @"required enum": [_requiredEnum value],
-    }];
-
-    return dict;
-}
-@end
-
-@implementation EventWithOptionalArrayTypesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optionalBooleanArray": @"optionalBooleanArray",
-        @"optionalJSONArray": @"optionalJsonArray",
-        @"optionalNumberArray": @"optionalNumberArray",
-        @"optionalStringArray": @"optionalStringArray",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithOptionalArrayTypesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithOptionalArrayTypesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithOptionalArrayTypesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:EventWithOptionalArrayTypesProperties.properties.allValues] mutableCopy];
-
-    for (id jsonName in EventWithOptionalArrayTypesProperties.properties) {
-        id propertyName = EventWithOptionalArrayTypesProperties.properties[jsonName];
-        if (![jsonName isEqualToString:propertyName]) {
-            dict[jsonName] = dict[propertyName];
-            [dict removeObjectForKey:propertyName];
-        }
-    }
-
-    return dict;
-}
-@end
-
-@implementation EventWithOptionalPropertiesProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optionalArrayNumber": @"optionalArrayNumber",
-        @"optionalArrayString": @"optionalArrayString",
-        @"optionalBoolean": @"optionalBoolean",
-        @"optionalNumber": @"optionalNumber",
-        @"optionalString": @"optionalString",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[EventWithOptionalPropertiesProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = EventWithOptionalPropertiesProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = EventWithOptionalPropertiesProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:EventWithOptionalPropertiesProperties.properties.allValues];
-}
-@end
-
-@implementation GroupProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optionalString": @"optionalString",
-        @"requiredBoolean": @"requiredBoolean",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[GroupProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = GroupProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = GroupProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    id dict = [[self dictionaryWithValuesForKeys:GroupProperties.properties.allValues] mutableCopy];
-
-    [dict addEntriesFromDictionary:@{
-        @"requiredBoolean": _requiredBoolean ? @YES : @NO,
-    }];
-
-    return dict;
-}
-@end
-
-@implementation IdentifyProperties
-+ (NSDictionary<NSString *, NSString *> *)properties
-{
-    static NSDictionary<NSString *, NSString *> *properties;
-    return properties = properties ? properties : @{
-        @"optionalArray": @"optionalArray",
-        @"requiredNumber": @"requiredNumber",
-    };
-}
-
-+ (instancetype)fromJSONDictionary:(NSDictionary *)dict
-{
-    return dict ? [[IdentifyProperties alloc] initWithJSONDictionary:dict] : nil;
-}
-
-- (instancetype)initWithJSONDictionary:(NSDictionary *)dict
-{
-    if (self = [super init]) {
-        [self setValuesForKeysWithDictionary:dict];
-    }
-    return self;
-}
-
-- (void)setValue:(nullable id)value forKey:(NSString *)key
-{
-    id resolved = IdentifyProperties.properties[key];
-    if (resolved) [super setValue:value forKey:resolved];
-}
-
-- (void)setNilValueForKey:(NSString *)key
-{
-    id resolved = IdentifyProperties.properties[key];
-    if (resolved) [super setValue:@(0) forKey:resolved];
-}
-
-- (NSDictionary *)JSONDictionary
-{
-    return [self dictionaryWithValuesForKeys:IdentifyProperties.properties.allValues];
-}
-@end
-
-NS_ASSUME_NONNULL_END
-
-@implementation Context: Event
-
-+ (instancetype _Nonnull)initEvent {
-    return [self withEventType:@"Context" withEventProperties:nil];
-}
-
-@end
+#pragma mark - Identify
 
 @implementation Identify: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (IdentifyProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Identify" withEventProperties:propertyDict];
++ (instancetype)requiredNumber:(Float64)requiredNumber {
+    return [self requiredNumber: requiredNumber
+                builderBlock:^(IdentifyBuilder * b) {}];
+}
++ (instancetype)requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock {
+    IdentifyBuilder *options = [IdentifyBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithRequiredNumber_Identify: requiredNumber
+                optionalArray: options.optionalArray];
 }
 
-@end
-
-@implementation Group: Event
-
-+ (instancetype _Nonnull)initWithEventProperties: (GroupProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Group" withEventProperties:propertyDict];
+- (instancetype)initWithRequiredNumber_Identify:(Float64)requiredNumber
+optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
+    self = [super initWithEventType:@"Identify"
+                    withEventProperties:@{
+                        @"optionalArray": optionalArray ?: NSNull.null,
+                        @"requiredNumber": @(requiredNumber)
+                    }];
+    return self;
 }
-
 @end
+
+#pragma mark - EventMaxIntForTest
 
 @implementation EventMaxIntForTest: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventMaxIntForTestProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"EventMaxIntForTest" withEventProperties:propertyDict];
++ (instancetype)intMax10:(NSInteger)intMax10 {
+    return [[self alloc] initWithIntMax10_EventMaxIntForTest: intMax10];
 }
 
+- (instancetype)initWithIntMax10_EventMaxIntForTest:(NSInteger)intMax10 {
+    self = [super initWithEventType:@"EventMaxIntForTest"
+                    withEventProperties:@{
+                        @"intMax10": @(intMax10)
+                    }];
+    return self;
+}
 @end
+
+#pragma mark - EventNoProperties
 
 @implementation EventNoProperties: Event
-
-+ (instancetype _Nonnull)initEvent {
-    return [self withEventType:@"Event No Properties" withEventProperties:nil];
+- (instancetype)init {
+    self = (EventNoProperties *) [Event withEventType:@"Event No Properties"
+                    withEventProperties:@{}];
+    return self;
 }
-
 @end
+
+#pragma mark - EventObjectTypes
 
 @implementation EventObjectTypes: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventObjectTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event Object Types" withEventProperties:propertyDict];
++ (instancetype)requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray {
+    return [[self alloc] initWithRequiredObject_EventObjectTypes: requiredObject
+                        requiredObjectArray: requiredObjectArray];
 }
 
+- (instancetype)initWithRequiredObject_EventObjectTypes:(NSDictionary<NSString *, NSObject *> *)requiredObject
+requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray {
+    self = [super initWithEventType:@"Event Object Types"
+                    withEventProperties:@{
+                        @"requiredObject": requiredObject,
+                        @"requiredObjectArray": requiredObjectArray
+                    }];
+    return self;
+}
 @end
+
+#pragma mark - EventWithAllPropertiesBuilder
+
+@implementation EventWithAllPropertiesBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+        self.optionalString = nil;
+    }
+    return self;
+}
+@end
+
+#pragma mark - EventWithAllProperties
 
 @implementation EventWithAllProperties: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithAllPropertiesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-        @"requiredConst": @"some-const-value"
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event With All Properties" withEventProperties:propertyDict];
++ (instancetype)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString {
+    return [self requiredArray: requiredArray
+                requiredBoolean: requiredBoolean
+                requiredEnum: requiredEnum
+                requiredInteger: requiredInteger
+                requiredNumber: requiredNumber
+                requiredString: requiredString
+                builderBlock:^(EventWithAllPropertiesBuilder * b) {}];
+}
++ (instancetype)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock {
+    EventWithAllPropertiesBuilder *options = [EventWithAllPropertiesBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithRequiredArray_EventWithAllProperties: requiredArray
+                requiredBoolean: requiredBoolean
+                requiredEnum: requiredEnum
+                requiredInteger: requiredInteger
+                requiredNumber: requiredNumber
+                requiredString: requiredString
+                optionalString: options.optionalString];
 }
 
+- (instancetype)initWithRequiredArray_EventWithAllProperties:(NSArray<NSString *> *)requiredArray
+requiredBoolean:(Boolean)requiredBoolean
+requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum
+requiredInteger:(NSInteger)requiredInteger
+requiredNumber:(Float64)requiredNumber
+requiredString:(NSString*)requiredString
+optionalString:(NSString* _Nullable)optionalString {
+    self = [super initWithEventType:@"Event With All Properties"
+                    withEventProperties:@{
+                        @"optionalString": optionalString ?: NSNull.null,
+                        @"requiredArray": requiredArray,
+                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
+                        @"requiredConst": @"some-const-value",
+                        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
+                        @"requiredInteger": @(requiredInteger),
+                        @"requiredNumber": @(requiredNumber),
+                        @"requiredString": requiredString
+                    }];
+    return self;
+}
+
++ (NSString * _Nullable)stringFromRequiredEnum:(EventWithAllPropertiesRequiredEnum)enumValue {
+    switch (enumValue) {
+        case EventWithAllPropertiesRequiredEnumEnum1:
+            return @"Enum1";
+        case EventWithAllPropertiesRequiredEnumEnum2:
+            return @"Enum2";
+    }
+}
 @end
+
+#pragma mark - EventWithArrayTypes
 
 @implementation EventWithArrayTypes: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithArrayTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event With Array Types" withEventProperties:propertyDict];
++ (instancetype)requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
+    return [[self alloc] initWithRequiredBooleanArray_EventWithArrayTypes: requiredBooleanArray
+                        requiredNumberArray: requiredNumberArray
+                        requiredObjectArray: requiredObjectArray
+                        requiredStringArray: requiredStringArray];
 }
 
+- (instancetype)initWithRequiredBooleanArray_EventWithArrayTypes:(NSArray<NSNumber *> *)requiredBooleanArray
+requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray
+requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray
+requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
+    self = [super initWithEventType:@"Event With Array Types"
+                    withEventProperties:@{
+                        @"requiredBooleanArray": requiredBooleanArray,
+                        @"requiredNumberArray": requiredNumberArray,
+                        @"requiredObjectArray": requiredObjectArray,
+                        @"requiredStringArray": requiredStringArray
+                    }];
+    return self;
+}
 @end
+
+#pragma mark - EventWithConstTypes
 
 @implementation EventWithConstTypes: Event
-
-+ (instancetype _Nonnull)initEvent {
-    NSDictionary *propertyDict = @{
-        @"Boolean Const": @true,
-        @"Integer Const": @10,
-        @"Number Const": @2.2,
-        @"String Const": @"String-Constant",
-        @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
-        @"String Int Const": @0
-    };
-
-    return [self withEventType:@"Event With Const Types" withEventProperties:propertyDict];
+- (instancetype)init {
+    self = (EventWithConstTypes *)[Event withEventType:@"Event With Const Types"
+                    withEventProperties:@{
+                        @"Boolean Const": @YES,
+                        @"Integer Const": @10,
+                        @"Number Const": @2.2,
+                        @"String Const": @"String-Constant",
+                        @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
+                        @"String Int Const": @0
+                    }];
+    return self;
 }
-
 @end
+
+#pragma mark - EventWithDifferentCasingTypes
 
 @implementation EventWithDifferentCasingTypes: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithDifferentCasingTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"event withDifferent_CasingTypes" withEventProperties:propertyDict];
++ (instancetype)enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithSpace:(NSString*)propertyWithSpace {
+    return [[self alloc] initWithEnumCamelCase_EventWithDifferentCasingTypes: enumCamelCase
+                        enumPascalCase: enumPascalCase
+                        enumSnakeCase: enumSnakeCase
+                        enumWithSpace: enumWithSpace
+                        propertyWithCamelCase: propertyWithCamelCase
+                        propertyWithPascalCase: propertyWithPascalCase
+                        propertyWithSnakeCase: propertyWithSnakeCase
+                        propertyWithSpace: propertyWithSpace];
 }
 
+- (instancetype)initWithEnumCamelCase_EventWithDifferentCasingTypes:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase
+enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase
+enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase
+enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace
+propertyWithCamelCase:(NSString*)propertyWithCamelCase
+propertyWithPascalCase:(NSString*)propertyWithPascalCase
+propertyWithSnakeCase:(NSString*)propertyWithSnakeCase
+propertyWithSpace:(NSString*)propertyWithSpace {
+    self = [super initWithEventType:@"event withDifferent_CasingTypes"
+                    withEventProperties:@{
+                        @"enumCamelCase": [EventWithDifferentCasingTypes stringFromEnumCamelCase: enumCamelCase],
+                        @"EnumPascalCase": [EventWithDifferentCasingTypes stringFromEnumPascalCase: enumPascalCase],
+                        @"enum_snake_case": [EventWithDifferentCasingTypes stringFromEnumSnakeCase: enumSnakeCase],
+                        @"enum with space": [EventWithDifferentCasingTypes stringFromEnumWithSpace: enumWithSpace],
+                        @"propertyWithCamelCase": propertyWithCamelCase,
+                        @"PropertyWithPascalCase": propertyWithPascalCase,
+                        @"property_with_snake_case": propertyWithSnakeCase,
+                        @"property with space": propertyWithSpace
+                    }];
+    return self;
+}
+
++ (NSString * _Nullable)stringFromEnumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumValue {
+    switch (enumValue) {
+        case EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase:
+            return @"enumCamelCase";
+    }
+}
+
++ (NSString * _Nullable)stringFromEnumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumValue {
+    switch (enumValue) {
+        case EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase:
+            return @"EnumPascalCase";
+    }
+}
+
++ (NSString * _Nullable)stringFromEnumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumValue {
+    switch (enumValue) {
+        case EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase:
+            return @"enum_snake_case";
+    }
+}
+
++ (NSString * _Nullable)stringFromEnumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumValue {
+    switch (enumValue) {
+        case EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace:
+            return @"enum with space";
+    }
+}
 @end
+
+#pragma mark - EventWithEnumTypesBuilder
+
+@implementation EventWithEnumTypesBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+        self.optionalEnum = EventWithEnumTypesOptionalEnumUndefined;
+    }
+    return self;
+}
+@end
+
+#pragma mark - EventWithEnumTypes
 
 @implementation EventWithEnumTypes: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithEnumTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event With Enum Types" withEventProperties:propertyDict];
++ (instancetype)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum {
+    return [self requiredEnum: requiredEnum
+                builderBlock:^(EventWithEnumTypesBuilder * b) {}];
+}
++ (instancetype)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock {
+    EventWithEnumTypesBuilder *options = [EventWithEnumTypesBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithRequiredEnum_EventWithEnumTypes: requiredEnum
+                optionalEnum: options.optionalEnum];
 }
 
+- (instancetype)initWithRequiredEnum_EventWithEnumTypes:(EventWithEnumTypesRequiredEnum)requiredEnum
+optionalEnum:(EventWithEnumTypesOptionalEnum)optionalEnum {
+    self = [super initWithEventType:@"Event With Enum Types"
+                    withEventProperties:@{
+                        @"optional enum": [EventWithEnumTypes stringFromOptionalEnum: optionalEnum] ?: NSNull.null,
+                        @"required enum": [EventWithEnumTypes stringFromRequiredEnum: requiredEnum]
+                    }];
+    return self;
+}
+
++ (NSString * _Nullable)stringFromOptionalEnum:(EventWithEnumTypesOptionalEnum)enumValue {
+    switch (enumValue) {
+        case EventWithEnumTypesOptionalEnumOptionalEnum1:
+            return @"optional enum 1";
+        case EventWithEnumTypesOptionalEnumOptionalEnum2:
+            return @"optional enum 2";
+        case EventWithEnumTypesOptionalEnumUndefined:
+            return nil;
+    }
+}
+
++ (NSString * _Nullable)stringFromRequiredEnum:(EventWithEnumTypesRequiredEnum)enumValue {
+    switch (enumValue) {
+        case EventWithEnumTypesRequiredEnumRequiredEnum1:
+            return @"required enum 1";
+        case EventWithEnumTypesRequiredEnumRequiredEnum2:
+            return @"required enum 2";
+    }
+}
 @end
+
+#pragma mark - EventWithOptionalArrayTypesBuilder
+
+@implementation EventWithOptionalArrayTypesBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+        self.optionalBooleanArray = nil;
+        self.optionalJsonArray = nil;
+        self.optionalNumberArray = nil;
+        self.optionalStringArray = nil;
+    }
+    return self;
+}
+@end
+
+#pragma mark - EventWithOptionalArrayTypes
 
 @implementation EventWithOptionalArrayTypes: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalArrayTypesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event With Optional Array Types" withEventProperties:propertyDict];
++ (instancetype) builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock {
+    EventWithOptionalArrayTypesBuilder *options = [EventWithOptionalArrayTypesBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithOptionalBooleanArray_EventWithOptionalArrayTypes: options.optionalBooleanArray
+                optionalJsonArray: options.optionalJsonArray
+                optionalNumberArray: options.optionalNumberArray
+                optionalStringArray: options.optionalStringArray];
 }
 
+- (instancetype)initWithOptionalBooleanArray_EventWithOptionalArrayTypes:(NSArray<NSNumber *> * _Nullable)optionalBooleanArray
+optionalJsonArray:(NSDictionary<NSString *, NSObject *> * _Nullable)optionalJsonArray
+optionalNumberArray:(NSArray<NSNumber *> * _Nullable)optionalNumberArray
+optionalStringArray:(NSArray<NSString *> * _Nullable)optionalStringArray {
+    self = [super initWithEventType:@"Event With Optional Array Types"
+                    withEventProperties:@{
+                        @"optionalBooleanArray": optionalBooleanArray ?: NSNull.null,
+                        @"optionalJSONArray": optionalJsonArray ?: NSNull.null,
+                        @"optionalNumberArray": optionalNumberArray ?: NSNull.null,
+                        @"optionalStringArray": optionalStringArray ?: NSNull.null
+                    }];
+    return self;
+}
+
+- (instancetype)init {
+    return [self initWithOptionalBooleanArray_EventWithOptionalArrayTypes:nil
+                optionalJsonArray:nil
+                optionalNumberArray:nil
+                optionalStringArray:nil];
+}
 @end
+
+#pragma mark - EventWithOptionalPropertiesBuilder
+
+@implementation EventWithOptionalPropertiesBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+        self.optionalArrayNumber = nil;
+        self.optionalArrayString = nil;
+        self.optionalString = nil;
+    }
+    return self;
+}
+@end
+
+#pragma mark - EventWithOptionalProperties
 
 @implementation EventWithOptionalProperties: Event
 
-+ (instancetype _Nonnull)initWithEventProperties: (EventWithOptionalPropertiesProperties *_Nonnull)eventProperties {
-    NSDictionary *constPropertyDict = @{
-
-    };
-    NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-    NSDictionary *nonConstPropertyDict = [eventProperties JSONDictionary];
-    [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-    return [self withEventType:@"Event With Optional Properties" withEventProperties:propertyDict];
++ (instancetype) builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock {
+    EventWithOptionalPropertiesBuilder *options = [EventWithOptionalPropertiesBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithOptionalArrayNumber_EventWithOptionalProperties: options.optionalArrayNumber
+                optionalArrayString: options.optionalArrayString
+                optionalBoolean: options.optionalBoolean
+                optionalNumber: options.optionalNumber
+                optionalString: options.optionalString];
 }
 
+- (instancetype)initWithOptionalArrayNumber_EventWithOptionalProperties:(NSArray<NSNumber *> * _Nullable)optionalArrayNumber
+optionalArrayString:(NSArray<NSString *> * _Nullable)optionalArrayString
+optionalBoolean:(NSNumber * _Nullable)optionalBoolean
+optionalNumber:(NSNumber * _Nullable)optionalNumber
+optionalString:(NSString* _Nullable)optionalString {
+    self = [super initWithEventType:@"Event With Optional Properties"
+                    withEventProperties:@{
+                        @"optionalArrayNumber": optionalArrayNumber ?: NSNull.null,
+                        @"optionalArrayString": optionalArrayString ?: NSNull.null,
+                        @"optionalBoolean": optionalBoolean ?: NSNull.null,
+                        @"optionalNumber": optionalNumber ?: NSNull.null,
+                        @"optionalString": optionalString ?: NSNull.null
+                    }];
+    return self;
+}
+
+- (instancetype)init {
+    return [self initWithOptionalArrayNumber_EventWithOptionalProperties:nil
+                optionalArrayString:nil
+                optionalBoolean:nil
+                optionalNumber:nil
+                optionalString:nil];
+}
 @end
 
 @implementation LoadClientOptions
@@ -1369,8 +578,8 @@ NS_ASSUME_NONNULL_END
 
 - (void)load:(LoadOptions *_Nullable)options {
     NSDictionary *ApiKey = @{
-        @(development): @"",
-        @(production): @""
+        @(development): @"00aa083ba31d20782808820370c15a71",
+        @(production): @"af568af728fe7ecab9800979089ad112"
     };
     self.disabled = options != nil ? options.disabled : NO;
     if (_client != nil) {
@@ -1404,26 +613,26 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
-    if (![self isInitializedAndEnabld]) {
+    if (![self isInitializedAndEnabled]) {
         return;
     }
     [self.client logEvent:event.eventType withEventProperties:event.eventProperties withMiddlewareExtra:extra];
 }
 
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties {
-    [self identify:userId properties:properties options:nil extra:nil];
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event {
+    [self identify:userId event:event options:nil extra:nil];
 }
 
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options {
-    [self identify:userId properties:properties options:options extra:nil];
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options {
+    [self identify:userId event:event options:options extra:nil];
 }
 
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self identify:userId properties:properties options:nil extra:extra];
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self identify:userId event:event options:nil extra:extra];
 }
 
-- (void)identify:(NSString *_Nullable)userId properties:(IdentifyProperties *_Nullable)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
-    if (![self isInitializedAndEnabld]) {
+- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+    if (![self isInitializedAndEnabled]) {
         return;
     }
     if (userId != nil) {
@@ -1432,16 +641,9 @@ NS_ASSUME_NONNULL_END
     if (options != nil && options.deviceId != nil) {
         [self.client setDeviceId:options.deviceId];
     }
-    if (properties != nil) {
+    if (event.eventProperties != nil) {
         AMPIdentify *identifyArgs = [AMPIdentify identify];
-            NSDictionary *constPropertyDict = @{
-
-            };
-            NSMutableDictionary *propertyDict = [constPropertyDict mutableCopy];
-            NSDictionary *nonConstPropertyDict = [properties JSONDictionary];
-            [propertyDict addEntriesFromDictionary:nonConstPropertyDict];
-
-        [propertyDict enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
+        [event.eventProperties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
           [identifyArgs set:key value:value];
         }];
         [self.client identify:identifyArgs];
@@ -1461,7 +663,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
-    if (![self isInitializedAndEnabld]) {
+    if (![self isInitializedAndEnabled]) {
         return;
     }
     [self handleEventOptions:options];
@@ -1469,144 +671,144 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)flush {
-    if (![self isInitializedAndEnabld]) {
+    if (![self isInitializedAndEnabled]) {
         return;
     }
     if (self.client != nil) {
         [self.client uploadEvents];
     }
 }
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventMaxIntForTest initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventMaxIntForTest initWithEventProperties:properties] extra: extra];
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventMaxIntForTest:(EventMaxIntForTestProperties *_Nonnull)properties {
-    [self track:[EventMaxIntForTest initWithEventProperties:properties] extra: nil];
+- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
 - (void)eventNoProperties:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventNoProperties initEvent] options:options extra: extra];
+    [self track:[EventNoProperties new] options:options extra: extra];
 }
 
 - (void)eventNoProperties:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventNoProperties initEvent] extra: extra];
+    [self track:[EventNoProperties new] extra: extra];
 }
 
 - (void)eventNoProperties {
-    [self track:[EventNoProperties initEvent] extra: nil];
+    [self track:[EventNoProperties new] extra: nil];
 }
 
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventObjectTypes initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventObjectTypes initWithEventProperties:properties] extra: extra];
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventObjectTypes:(EventObjectTypesProperties *_Nonnull)properties {
-    [self track:[EventObjectTypes initWithEventProperties:properties] extra: nil];
+- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithAllProperties initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithAllProperties initWithEventProperties:properties] extra: extra];
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithAllProperties:(EventWithAllPropertiesProperties *_Nonnull)properties {
-    [self track:[EventWithAllProperties initWithEventProperties:properties] extra: nil];
+- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithArrayTypes initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithArrayTypes initWithEventProperties:properties] extra: extra];
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypesProperties *_Nonnull)properties {
-    [self track:[EventWithArrayTypes initWithEventProperties:properties] extra: nil];
+- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
 - (void)eventWithConstTypes:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithConstTypes initEvent] options:options extra: extra];
+    [self track:[EventWithConstTypes new] options:options extra: extra];
 }
 
 - (void)eventWithConstTypes:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithConstTypes initEvent] extra: extra];
+    [self track:[EventWithConstTypes new] extra: extra];
 }
 
 - (void)eventWithConstTypes {
-    [self track:[EventWithConstTypes initEvent] extra: nil];
+    [self track:[EventWithConstTypes new] extra: nil];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] extra: extra];
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypesProperties *_Nonnull)properties {
-    [self track:[EventWithDifferentCasingTypes initWithEventProperties:properties] extra: nil];
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithEnumTypes initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithEnumTypes initWithEventProperties:properties] extra: extra];
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypesProperties *_Nonnull)properties {
-    [self track:[EventWithEnumTypes initWithEventProperties:properties] extra: nil];
+- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] extra: extra];
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypesProperties *_Nonnull)properties {
-    [self track:[EventWithOptionalArrayTypes initWithEventProperties:properties] extra: nil];
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
-    [self track:[EventWithOptionalProperties initWithEventProperties:properties] options:options extra: extra];
+    [self track:event options:options extra: extra];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties extra:(MiddlewareExtra *_Nullable)extra {
-    [self track:[EventWithOptionalProperties initWithEventProperties:properties] extra: extra];
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalPropertiesProperties *_Nonnull)properties {
-    [self track:[EventWithOptionalProperties initWithEventProperties:properties] extra: nil];
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event {
+    [self track:event extra: nil];
 }
 
-- (BOOL)isInitializedAndEnabld {
+- (BOOL)isInitializedAndEnabled {
     if (self.client == nil) {
         NSLog(@"Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
        return NO;
@@ -1615,7 +817,7 @@ NS_ASSUME_NONNULL_END
 }
 
 - (void)handleEventOptions:(EventOptions *)options {
-    if (options == nil || ![self isInitializedAndEnabld]) {
+    if (options == nil || ![self isInitializedAndEnabled]) {
         return;
     }
     if (options.userId != nil) {
