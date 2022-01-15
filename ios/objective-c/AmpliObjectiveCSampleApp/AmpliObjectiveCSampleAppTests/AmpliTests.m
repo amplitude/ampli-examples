@@ -31,7 +31,11 @@
 }
 
 - (void)testTrackEventWithAllTypes {
+    NSMutableDictionary *extraDict = [NSMutableDictionary new];
+    [extraDict setObject:@"extra test" forKey:@"test"];
+
     NSArray *requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
+
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Event With All Properties");
         NSMutableDictionary *eventProperties = payload.event[@"event_properties"];
@@ -44,10 +48,8 @@
         XCTAssertNil(eventProperties[@"optionalString"]);
         XCTAssertEqualObjects(payload.extra[@"test"], @"extra test");
     }];
-    [_ampli.client addEventMiddleware:testMiddleware];
-    NSMutableDictionary *extraDict = [NSMutableDictionary new];
-    [extraDict setObject:@"extra test" forKey:@"test"];
 
+    [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli track:[EventWithAllProperties requiredArray:requiredArray
                                          requiredBoolean:@YES
                                          requiredEnum:EventWithAllPropertiesRequiredEnumEnum1
@@ -70,7 +72,7 @@
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
-    [ampli identify:userId
+    [_ampli identify:userId
            event:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
                 b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
            }]
