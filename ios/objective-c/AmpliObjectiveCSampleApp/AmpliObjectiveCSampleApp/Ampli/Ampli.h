@@ -752,7 +752,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithOptionalPropertieseventWithOptionalProperties:(EventWithOptionalProperties *)event;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event;
 @end
 
 NS_ASSUME_NONNULL_END

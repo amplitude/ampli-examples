@@ -20,16 +20,9 @@
 
 @implementation Event: NSObject
 
-+ (instancetype)withEventType:(NSString *) eventType withEventProperties: (NSDictionary *) eventProperties {
-    return [[self alloc] initWithEventType:eventType withEventProperties:eventProperties];
-}
-
 - (instancetype)initWithEventType: (NSString *) eventType withEventProperties: (NSDictionary *) eventProperties {
-    self = [self init];
-    if (self) {
-        _eventType = eventType;
-        _eventProperties = eventProperties;
-    }
+    _eventType = eventType;
+    _eventProperties = eventProperties;
     return self;
 }
 
@@ -93,7 +86,7 @@ optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
 
 @implementation EventNoProperties: Event
 - (instancetype)init {
-    self = (EventNoProperties *) [Event withEventType:@"Event No Properties"
+    self = [super initWithEventType:@"Event No Properties"
                     withEventProperties:@{}];
     return self;
 }
@@ -216,7 +209,7 @@ requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
 
 @implementation EventWithConstTypes: Event
 - (instancetype)init {
-    self = (EventWithConstTypes *)[Event withEventType:@"Event With Const Types"
+    self = [super initWithEventType:@"Event With Const Types"
                     withEventProperties:@{
                         @"Boolean Const": @YES,
                         @"Integer Const": @10,
@@ -456,11 +449,8 @@ optionalString:(NSString* _Nullable)optionalString {
 @implementation LoadClientOptions
 
 - (instancetype)initLoadClientOptions:(NSString *_Nullable)apiKey instance:(Amplitude *_Nullable)instance {
-    self = [self init];
-    if (self) {
-        _apiKey = apiKey;
-        _instance = instance;
-    }
+    _apiKey = apiKey;
+    _instance = instance;
     return self;
 }
 
@@ -469,12 +459,9 @@ optionalString:(NSString* _Nullable)optionalString {
 @implementation LoadOptions
 
 - (instancetype) initLoadOptions:(AmpliEnvironment)environment disabled:(BOOL) disabled client:(LoadClientOptions *_Nullable)client{
-    self = [self init];
-    if (self) {
-        _environment = environment;
-        _disabled = disabled;
-        _client = client;
-    }
+    _environment = environment;
+    _disabled = disabled;
+    _client = client;
     return self;
 }
 
@@ -495,13 +482,10 @@ optionalString:(NSString* _Nullable)optionalString {
 @implementation LoadOptionsBuilder
 
 - (instancetype)initWithOptions:(LoadOptions *)options {
-    self = [self init];
-    if (self) {
-        _environment = options != nil ? options.environment : development;
-        _disabled = options != nil ? options.environment : NO;
-        _instance = options != nil && options.client != nil ? options.client.instance : nil;
-        _apiKey = options != nil && options.client != nil ? options.client.apiKey : nil;
-    }
+    _environment = options != nil ? options.environment : development;
+    _disabled = options != nil ? options.environment : NO;
+    _instance = options != nil && options.client != nil ? options.client.instance : nil;
+    _apiKey = options != nil && options.client != nil ? options.client.apiKey : nil;
     return self;
 }
 
@@ -514,11 +498,8 @@ optionalString:(NSString* _Nullable)optionalString {
 
 @implementation EventOptions
 - (instancetype)initWithUserId:(NSString *_Nullable)userId deviceId:(NSString *_Nullable)deviceId {
-    self = [self init];
-    if (self) {
-        _deviceId = deviceId;
-        _userId = userId;
-    }
+    _deviceId = deviceId;
+    _userId = userId;
     return self;
 }
 
@@ -539,11 +520,8 @@ optionalString:(NSString* _Nullable)optionalString {
 @implementation EventOptionsBuilder
 
 - (instancetype)initWithOptions:(EventOptions *)options {
-    self = [self init];
-    if (self) {
-        _userId = options != nil ? options.userId : nil;
-        _deviceId = options != nil ? options.deviceId : nil;
-    }
+    _userId = options != nil ? options.userId : nil;
+    _deviceId = options != nil ? options.deviceId : nil;
     return self;
 }
 
@@ -578,8 +556,8 @@ optionalString:(NSString* _Nullable)optionalString {
 
 - (void)load:(LoadOptions *_Nullable)options {
     NSDictionary *ApiKey = @{
-        @(development): @"00aa083ba31d20782808820370c15a71",
-        @(production): @"af568af728fe7ecab9800979089ad112"
+        @(development): @"",
+        @(production): @""
     };
     self.disabled = options != nil ? options.disabled : NO;
     if (_client != nil) {
