@@ -40,10 +40,10 @@
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Event With All Properties");
         NSMutableDictionary *eventProperties = payload.event[@"event_properties"];
         XCTAssertEqualObjects(eventProperties[@"requiredArray"], requiredArray);
-        XCTAssertEqualObjects(eventProperties[@"requiredBoolean"], @YES);
+        XCTAssertEqualObjects(eventProperties[@"requiredBoolean"], @true);
         XCTAssertEqualObjects(eventProperties[@"requiredEnum"], @"Enum1");
-        XCTAssertEqualObjects(eventProperties[@"requiredInteger"], 10);
-        XCTAssertEqualObjects(eventProperties[@"requiredNumber"], 2.0F);
+        XCTAssertEqualObjects(eventProperties[@"requiredInteger"], @10);
+        XCTAssertEqualObjects(eventProperties[@"requiredNumber"], @2.0F);
         XCTAssertEqualObjects(eventProperties[@"requiredString"], @"required string");
         XCTAssertNil(eventProperties[@"optionalString"]);
         XCTAssertEqualObjects(payload.extra[@"test"], @"extra test");
@@ -51,7 +51,7 @@
 
     [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli track:[EventWithAllProperties requiredArray:requiredArray
-                                         requiredBoolean:@YES
+                                         requiredBoolean:true
                                          requiredEnum:EventWithAllPropertiesRequiredEnumEnum1
                                          requiredInteger:10
                                          requiredNumber:2.0F
