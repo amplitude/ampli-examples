@@ -66,7 +66,6 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
  Identify properties.
 
  @param requiredNumber Description for identify requiredNumber
- @param optionalArray Description for identify optionalArray
 */
 + (instancetype) requiredNumber:(Float64)requiredNumber NS_SWIFT_NAME(build(requiredNumber:));
 + (instancetype) requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredNumber:builderBlock:));
@@ -146,7 +145,6 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
  @param requiredInteger Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
  @param requiredNumber Event 2 Property - Number
  @param requiredString Event 2 Property - String
- @param optionalString Event 2 Property - Optional String    *     * Examples:    * Some string, or another
 */
 + (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:));
 + (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:builderBlock:));
@@ -254,7 +252,6 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
  Owner: Test codegen
 
  @param requiredEnum Description for optional enum
- @param optionalEnum Description for required enum
 */
 + (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum NS_SWIFT_NAME(build(requiredEnum:));
 + (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEnum:builderBlock:));
@@ -279,11 +276,6 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
  Description for event with optional array types
 
  Owner: Test codegen
-
- @param optionalBooleanArray Description for optional boolean array
- @param optionalJsonArray Description for optional object array
- @param optionalNumberArray Description for optional number array
- @param optionalStringArray Description for optional string array
 */
 + (instancetype)  builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
 
@@ -307,12 +299,6 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
  Event w optional properties description
 
  Owner: Test codegen
-
- @param optionalArrayNumber Property has no description provided in tracking plan.
- @param optionalArrayString Property has no description provided in tracking plan.
- @param optionalBoolean Property has no description provided in tracking plan.
- @param optionalNumber Property has no description provided in tracking plan.
- @param optionalString Optional String property description
 */
 + (instancetype)  builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
 
