@@ -505,7 +505,7 @@ optionalString:(NSString* _Nullable)optionalString {
     return self;
 }
 
-- (LoadOptions *_Nonnull)build {
+- (LoadOptions *)build {
     LoadClientOptions *client = [[LoadClientOptions alloc] initLoadClientOptions:_apiKey instance:_instance];
     return [[LoadOptions alloc] initLoadOptions:_environment disabled:_disabled client:client];
 }
@@ -547,7 +547,7 @@ optionalString:(NSString* _Nullable)optionalString {
     return self;
 }
 
-- (EventOptions *_Nonnull)build {
+- (EventOptions *)build {
     return [[EventOptions alloc] initWithUserId:_userId deviceId:_deviceId];
 }
 
@@ -604,15 +604,15 @@ optionalString:(NSString* _Nullable)optionalString {
     }
 }
 
-- (void)track:(Event *_Nonnull)event {
+- (void)track:(Event *)event {
     [self track:event extra:nil];
 }
 
-- (void)track:(Event *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)track:(Event *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event options:nil extra:extra];
 }
 
-- (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)track:(Event *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     if (![self isInitializedAndEnabled]) {
         return;
     }
@@ -678,16 +678,16 @@ optionalString:(NSString* _Nullable)optionalString {
         [self.client uploadEvents];
     }
 }
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event {
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event {
     [self track:event extra: nil];
 }
 
@@ -704,42 +704,42 @@ optionalString:(NSString* _Nullable)optionalString {
     [self track:[EventNoProperties new] extra: nil];
 }
 
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventObjectTypes:(EventObjectTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventObjectTypes:(EventObjectTypes *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event {
+- (void)eventObjectTypes:(EventObjectTypes *)event {
     [self track:event extra: nil];
 }
 
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithAllProperties:(EventWithAllProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithAllProperties:(EventWithAllProperties *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event {
+- (void)eventWithAllProperties:(EventWithAllProperties *)event {
     [self track:event extra: nil];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event {
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event {
     [self track:event extra: nil];
 }
 
@@ -756,55 +756,55 @@ optionalString:(NSString* _Nullable)optionalString {
     [self track:[EventWithConstTypes new] extra: nil];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event {
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event {
     [self track:event extra: nil];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event {
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event {
     [self track:event extra: nil];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event {
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event {
     [self track:event extra: nil];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     [self handleEventOptions:options];
     [self track:event options:options extra: extra];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self track:event extra: extra];
 }
 
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event {
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event {
     [self track:event extra: nil];
 }
 

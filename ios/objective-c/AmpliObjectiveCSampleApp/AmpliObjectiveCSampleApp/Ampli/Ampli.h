@@ -15,6 +15,8 @@
 #import <Foundation/Foundation.h>
 #import "Amplitude.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NSMutableDictionary<NSString *, id> MiddlewareExtra;
 
 typedef NS_ENUM(NSInteger, AmpliEnvironment) {
@@ -23,7 +25,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 };
 
 @interface Event: NSObject
-@property (nonatomic, strong, readonly) NSString * _Nonnull eventType;
+@property (nonatomic, strong, readonly) NSString * eventType;
 @property (nonatomic, strong, readonly) NSDictionary * _Nullable eventProperties;
 @end
 
@@ -38,8 +40,8 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @property (nonatomic, readwrite) AmpliEnvironment environment;
 @property (nonatomic, readwrite) BOOL disabled;
 @property (nonatomic, readwrite) LoadClientOptions * _Nullable client;
-- (instancetype _Nonnull) withOverrides:(void (^_Nonnull)(LoadOptionsBuilder*_Nonnull))buildBlock;
-+ (instancetype _Nonnull) builderBlock:(void (^_Nonnull)(LoadOptionsBuilder*_Nonnull))buildBlock;
+- (instancetype) withOverrides:(void (^)(LoadOptionsBuilder*))buildBlock;
++ (instancetype) builderBlock:(void (^)(LoadOptionsBuilder*))buildBlock;
 @end
 
 @interface LoadOptionsBuilder: NSObject
@@ -47,8 +49,8 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @property (nonatomic, readwrite) BOOL disabled;
 @property (nonatomic, readwrite) NSString * _Nullable apiKey;
 @property (nonatomic, readwrite) Amplitude * _Nullable instance;
-- (instancetype _Nonnull)initWithOptions:(LoadOptions *_Nullable)options;
-- (LoadOptions *_Nonnull)build;
+- (instancetype)initWithOptions:(LoadOptions *_Nullable)options;
+- (LoadOptions *)build;
 @end
 
 #pragma mark - IdentifyBuilder
@@ -78,7 +80,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @interface EventMaxIntForTest: Event
 /**
  Event to test schema validation
- 
+
  Owner: Test codegen
 
  @param intMax10 property to test schema validation
@@ -94,7 +96,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @interface EventNoProperties: Event
 /**
  Event w no properties description
- 
+
  Owner: Test codegen
 */
 - (instancetype)init;
@@ -105,7 +107,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 @interface EventObjectTypes: Event
 /**
  Event with Object and Object Array
- 
+
  Owner: Test codegen
 
  @param requiredObject Property Object Type
@@ -135,7 +137,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 @interface EventWithAllProperties: Event
 /**
  Event w all properties description
- 
+
  Owner: Test codegen
 
  @param requiredArray Event 2 Property - Array
@@ -158,7 +160,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 @interface EventWithArrayTypes: Event
 /**
  Description for event with Array Types
- 
+
  Owner: Test codegen
 
  @param requiredBooleanArray description for required boolean array
@@ -177,7 +179,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 @interface EventWithConstTypes: Event
 /**
  Description for event with const types
- 
+
  Owner: Test codegen
 */
 - (instancetype)init;
@@ -206,7 +208,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumWithSpace) {
 @interface EventWithDifferentCasingTypes: Event
 /**
  Description for case with space
- 
+
  Owner: Test codegen
 
  @param enumCamelCase descriptionForEnumCamelCase
@@ -248,7 +250,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 @interface EventWithEnumTypes: Event
 /**
  Description for event with enum types
- 
+
  Owner: Test codegen
 
  @param requiredEnum Description for optional enum
@@ -275,7 +277,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 @interface EventWithOptionalArrayTypes: Event
 /**
  Description for event with optional array types
- 
+
  Owner: Test codegen
 
  @param optionalBooleanArray Description for optional boolean array
@@ -303,7 +305,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 @interface EventWithOptionalProperties: Event
 /**
  Event w optional properties description
- 
+
  Owner: Test codegen
 
  @param optionalArrayNumber Property has no description provided in tracking plan.
@@ -322,35 +324,35 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 @interface EventOptions : NSObject
 @property (nonatomic, strong) NSString * _Nullable deviceId;
 @property (nonatomic, strong) NSString * _Nullable userId;
-- (instancetype _Nonnull) withOverrides:(void (^_Nonnull)(EventOptionsBuilder*_Nonnull))buildBlock;
-+ (instancetype _Nonnull) builderBlock:(void (^_Nonnull)(EventOptionsBuilder*_Nonnull))buildBlock;
+- (instancetype) withOverrides:(void (^)(EventOptionsBuilder*))buildBlock;
++ (instancetype) builderBlock:(void (^)(EventOptionsBuilder*))buildBlock;
 @end
 
 @interface EventOptionsBuilder: NSObject
 @property (nonatomic, strong) NSString * _Nullable deviceId;
 @property (nonatomic, strong) NSString * _Nullable userId;
-- (instancetype _Nonnull)initWithOptions:(EventOptions *_Nullable)options;
-- (EventOptions *_Nonnull)build;
+- (instancetype)initWithOptions:(EventOptions *_Nullable)options;
+- (EventOptions *)build;
 @end
 
 @interface Ampli: NSObject
 @property (nonatomic, strong, readonly) Amplitude * _Nullable client;
 @property (nonatomic, assign, readwrite) BOOL disabled;
-+ (instancetype _Nonnull)instance;
-- (instancetype _Nonnull )init;
++ (instancetype)instance;
+- (instancetype)init;
 - (void)load;
 - (void)load:(LoadOptions *_Nullable)options;
-- (void)track:(Event *_Nonnull)event;
-- (void)track:(Event *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
-- (void)track:(Event *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)track:(Event *)event;
+- (void)track:(Event *)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)track:(Event *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event;
 - (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options;
 - (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event extra:(MiddlewareExtra *_Nullable)extra;
 - (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
-- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value;
-- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value options:(EventOptions *_Nullable)options;
-- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value extra:(MiddlewareExtra *_Nullable)extra;
-- (void)setGroup:(NSString *_Nonnull)name value:(NSString *_Nonnull)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)setGroup:(NSString *)name value:(NSString *)value;
+- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options;
+- (void)setGroup:(NSString *)name value:(NSString *)value extra:(MiddlewareExtra *_Nullable)extra;
+- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)flush;
 /**
 EventMaxIntForTest
@@ -364,7 +366,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 EventMaxIntForTest
@@ -379,7 +381,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 EventMaxIntForTest
@@ -392,7 +394,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventMaxIntForTest:(EventMaxIntForTest *_Nonnull)event;
+- (void)eventMaxIntForTest:(EventMaxIntForTest *)event;
 
 /**
 Event No Properties
@@ -445,7 +447,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventObjectTypes:(EventObjectTypes *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event Object Types
@@ -460,7 +462,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventObjectTypes:(EventObjectTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event Object Types
@@ -473,7 +475,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventObjectTypes:(EventObjectTypes *_Nonnull)event;
+- (void)eventObjectTypes:(EventObjectTypes *)event;
 
 /**
 Event With All Properties
@@ -487,7 +489,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithAllProperties:(EventWithAllProperties *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With All Properties
@@ -502,7 +504,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithAllProperties:(EventWithAllProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With All Properties
@@ -515,7 +517,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithAllProperties:(EventWithAllProperties *_Nonnull)event;
+- (void)eventWithAllProperties:(EventWithAllProperties *)event;
 
 /**
 Event With Array Types
@@ -529,7 +531,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Array Types
@@ -544,7 +546,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Array Types
@@ -557,7 +559,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithArrayTypes:(EventWithArrayTypes *_Nonnull)event;
+- (void)eventWithArrayTypes:(EventWithArrayTypes *)event;
 
 /**
 Event With Const Types
@@ -610,7 +612,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 event withDifferent_CasingTypes
@@ -625,7 +627,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 event withDifferent_CasingTypes
@@ -638,7 +640,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *_Nonnull)event;
+- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event;
 
 /**
 Event With Enum Types
@@ -652,7 +654,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Enum Types
@@ -667,7 +669,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Enum Types
@@ -680,7 +682,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithEnumTypes:(EventWithEnumTypes *_Nonnull)event;
+- (void)eventWithEnumTypes:(EventWithEnumTypes *)event;
 
 /**
 Event With Optional Array Types
@@ -694,7 +696,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Array Types
@@ -709,7 +711,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Array Types
@@ -722,7 +724,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *_Nonnull)event;
+- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event;
 
 /**
 Event With Optional Properties
@@ -736,7 +738,7 @@ Owner: Test codegen
 @param event The event
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Properties
@@ -751,7 +753,7 @@ Owner: Test codegen
 @param options Optional EventOptions
 @param extra Extra untyped parameters for use in middleware.
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 
 /**
 Event With Optional Properties
@@ -764,5 +766,7 @@ Owner: Test codegen
 
 @param event The event
 */
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *_Nonnull)event;
+- (void)eventWithOptionalPropertieseventWithOptionalProperties:(EventWithOptionalProperties *)event;
 @end
+
+NS_ASSUME_NONNULL_END
