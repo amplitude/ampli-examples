@@ -1,26 +1,19 @@
 # ampli-examples
-Example apps using the Ampli SDK
+Example applications using the Ampli SDK. 
+See subproject README's for details on each platform.
 
-## Browser JavaScript
-* [browser/javascript/react-app](browser/javascript/react-app)
+## Browser
+#### [browser/javascript](browser/javascript/react-app)
+#### [browser/typescript](browser/typescript/react-app)
 
-## Browser TypeScript
-* [browser/typescript/react-app](browser/typescript/react-app)
+## Node
+#### [node/javascript](node/javascript)
+#### [node/typescript](node/typescript)
 
-## Node JavaScript
-* [node/javascript](node/javascript)
+## iOS
+####  [ios/swift](ios/swift/AmpliSwiftSampleApp)
+####  [ios/objective-c](ios/objective-c/AmpliObjectiveCSampleApp)
 
-## Node TypeScript
-* [node/typescript](node/typescript)
-
-## iOS Swift
-* [ios/swift](ios/swift)
-
-## iOS Objective-C
-* [ios/objective-c](ios/objective-c)
-
-## Android Kotlin
-* [android/kotlin/AmpliApp](android/kotlin/AmpliApp)
-
-## Android Java
-* [android/java/AmpliApp](android/java/AmpliApp)
+## Android
+#### [android/kotlin](android/kotlin/AmpliApp)
+#### [android/java](android/java/AmpliApp)

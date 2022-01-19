@@ -16,10 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    Ampli *ampli = [Ampli instance];
-    EventMaxIntForTestProperties *eventMaxIntForTestProperties = [EventMaxIntForTestProperties new];
-    eventMaxIntForTestProperties.intMax10 = @20;
-    [ampli eventMaxIntForTest:eventMaxIntForTestProperties];
+    [Ampli.instance eventMaxIntForTest:[EventMaxIntForTest intMax10: 10]];
 }
 
 @end

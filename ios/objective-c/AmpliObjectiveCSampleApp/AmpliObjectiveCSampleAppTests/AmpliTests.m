@@ -17,8 +17,8 @@
 
 - (void)setUp {
     _ampli = [Ampli instance];
-    [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *builder) {
-        builder.apiKey = @"test-api-key";
+    [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *b) {
+        b.apiKey = @"test-api-key";
     }]];
 }
 
@@ -31,31 +31,32 @@
 }
 
 - (void)testTrackEventWithAllTypes {
+    NSMutableDictionary *extraDict = [NSMutableDictionary new];
+    [extraDict setObject:@"extra test" forKey:@"test"];
+
     NSArray *requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
+
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Event With All Properties");
         NSMutableDictionary *eventProperties = payload.event[@"event_properties"];
         XCTAssertEqualObjects(eventProperties[@"requiredArray"], requiredArray);
-        XCTAssertEqualObjects(eventProperties[@"requiredBoolean"], @YES);
+        XCTAssertEqualObjects(eventProperties[@"requiredBoolean"], @true);
         XCTAssertEqualObjects(eventProperties[@"requiredEnum"], @"Enum1");
         XCTAssertEqualObjects(eventProperties[@"requiredInteger"], @10);
-        XCTAssertEqualObjects(eventProperties[@"requiredNumber"], @2.0);
+        XCTAssertEqualObjects(eventProperties[@"requiredNumber"], @2.0F);
         XCTAssertEqualObjects(eventProperties[@"requiredString"], @"required string");
         XCTAssertNil(eventProperties[@"optionalString"]);
         XCTAssertEqualObjects(payload.extra[@"test"], @"extra test");
     }];
+
     [_ampli.client addEventMiddleware:testMiddleware];
-    NSMutableDictionary *extraDict = [NSMutableDictionary new];
-    [extraDict setObject:@"extra test" forKey:@"test"];
-    EventWithAllPropertiesProperties *eventWithAllPropertiesProperties = [EventWithAllPropertiesProperties new];
-    eventWithAllPropertiesProperties.requiredArray = requiredArray;
-    eventWithAllPropertiesProperties.requiredBoolean = @YES;
-    eventWithAllPropertiesProperties.requiredEnum = [EventWithAllPropertiesRequiredEnum enum1];
-    eventWithAllPropertiesProperties.requiredInteger = @10;
-    eventWithAllPropertiesProperties.requiredNumber = @2.0;
-    eventWithAllPropertiesProperties.requiredString = @"required string";
-    EventWithAllProperties *eventWithAllProperties = [EventWithAllProperties initWithEventProperties:eventWithAllPropertiesProperties];
-    [_ampli track:eventWithAllProperties extra:extraDict];
+    [_ampli track:[EventWithAllProperties requiredArray:requiredArray
+                                         requiredBoolean:true
+                                         requiredEnum:EventWithAllPropertiesRequiredEnumEnum1
+                                         requiredInteger:10
+                                         requiredNumber:2.0F
+                                         requiredString:@"required string"
+    ] extra:extraDict];
 }
 
 - (void)testIdentify {
@@ -65,22 +66,24 @@
         builder.deviceId = deviceId;
         builder.userId = userId;
     }];
-    IdentifyProperties *identifyProperties = [IdentifyProperties new];
-    identifyProperties.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
-    identifyProperties.requiredNumber = @22;
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Identify");
         XCTAssertEqualObjects(payload.event[@"user_id"], userId);
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
-    [_ampli identify:userId properties:identifyProperties options:eventOptions];
+    [_ampli identify:userId
+           event:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
+                b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
+           }]
+           options:eventOptions
+   ];
 }
 
 - (void)testSetGroup {
     NSString *groupType = @"test group type";
     NSString *groupName = @"test group name";
-    
+
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Identify");
         XCTAssertNil(payload.event[@"event_properties"]);
