@@ -49,6 +49,17 @@ export interface LoadOptions {
   }
 }
 
+export interface ContextProperties {
+  /**
+   * description for context optionalEnum
+   */
+  optionalEnum?: "Value 1" | "Value 2";
+  /**
+   * description for context requiredString
+   */
+  requiredString: string;
+}
+
 export interface IdentifyProperties {
   /**
    * Description for identify optionalArray
@@ -302,9 +313,70 @@ export interface EventWithOptionalPropertiesProperties {
   optionalString?: string;
 }
 
+export interface EventWithTemplatePropertiesProperties {
+  /**
+   * optional_event_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_event_property?: number;
+  /**
+   * optional_template_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_template_property?: number;
+  /**
+   * required_event_property description
+   */
+  required_event_property: string;
+  /**
+   * required_template_property description
+   */
+  required_template_property: string;
+}
+
+export interface EventTemplateProperties {
+  /**
+   * optional_template_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_template_property?: number;
+  /**
+   * required_template_property description
+   */
+  required_template_property: string;
+}
+
+export interface SourceTemplateProperties {
+  /**
+   * description for context optionalEnum
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | Value 1, Value 2 |
+   */
+  optionalEnum?: "Value 1" | "Value 2";
+  /**
+   * description for context requiredString
+   */
+  requiredString: string;
+}
+
 export class Context implements BaseEvent {
   event_type = 'Context';
-  constructor() {}
+  event_properties: ContextProperties;
+
+  constructor(event_properties: ContextProperties) {
+    this.event_properties = event_properties;
+  }
 }
 export class Identify implements BaseEvent {
   event_type = 'Identify';
@@ -411,6 +483,14 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
+export class EventWithTemplateProperties implements BaseEvent {
+  event_type = 'Event With Template Properties';
+
+  constructor(
+    public event_properties: EventWithTemplatePropertiesProperties,
+  ) {}
+}
+
 const getDefaultPromiseResponse = () => Promise.resolve<Response>({
   status: Status.Skipped,
   statusCode: 200,
@@ -426,7 +506,7 @@ function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string,
 
 // prettier-ignore
 export class Ampli {
-  private disabled: boolean;
+  private disabled: boolean = false;
   private amplitude: NodeClient | undefined;
 
   get client() {
@@ -739,6 +819,29 @@ export class Ampli {
     extra?: MiddlewareExtra,
   ) {
     return this.track(userId, new EventWithOptionalProperties(properties), options, extra);
+  }
+
+  /**
+   * Event With Template Properties
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+   *
+   * Event with template properties description
+   *
+   * Owner: Test codegen
+   *
+   * @param userId The user's ID.
+   * @param properties The event's properties (e.g. optional_event_property)
+   * @param options Amplitude event options.
+   * @param extra Extra untyped parameters for use in middleware.
+   */
+  eventWithTemplateProperties(
+    userId: string | undefined,
+    properties: EventWithTemplatePropertiesProperties,
+    options?: EventOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    return this.track(userId, new EventWithTemplateProperties(properties), options, extra);
   }
 }
 

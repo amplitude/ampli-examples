@@ -15,7 +15,7 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli)
  */
 
-import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
+import amplitude, { AmplitudeClient, Callback, Config } from 'amplitude-js';
 
 export type Environment = 'development' | 'production';
 
@@ -43,6 +43,17 @@ export interface LoadOptions {
     config?: Partial<ConfigExt>;
     instance?: AmplitudeClient;
   }
+}
+
+export interface ContextProperties {
+  /**
+   * description for context optionalEnum
+   */
+  optionalEnum?: "Value 1" | "Value 2";
+  /**
+   * description for context requiredString
+   */
+  requiredString: string;
 }
 
 export interface IdentifyProperties {
@@ -298,9 +309,70 @@ export interface EventWithOptionalPropertiesProperties {
   optionalString?: string;
 }
 
+export interface EventWithTemplatePropertiesProperties {
+  /**
+   * optional_event_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_event_property?: number;
+  /**
+   * optional_template_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_template_property?: number;
+  /**
+   * required_event_property description
+   */
+  required_event_property: string;
+  /**
+   * required_template_property description
+   */
+  required_template_property: string;
+}
+
+export interface EventTemplateProperties {
+  /**
+   * optional_template_property description
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
+   */
+  optional_template_property?: number;
+  /**
+   * required_template_property description
+   */
+  required_template_property: string;
+}
+
+export interface SourceTemplateProperties {
+  /**
+   * description for context optionalEnum
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | Value 1, Value 2 |
+   */
+  optionalEnum?: "Value 1" | "Value 2";
+  /**
+   * description for context requiredString
+   */
+  requiredString: string;
+}
+
 export class Context implements BaseEvent {
   event_type = 'Context';
-  constructor() {}
+  event_properties: ContextProperties;
+
+  constructor(event_properties: ContextProperties) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class Identify implements BaseEvent {
@@ -409,6 +481,14 @@ export class EventWithOptionalProperties implements BaseEvent {
   ) {}
 }
 
+export class EventWithTemplateProperties implements BaseEvent {
+  event_type = 'Event With Template Properties';
+
+  constructor(
+    public event_properties: EventWithTemplatePropertiesProperties,
+  ) {}
+}
+
 // prettier-ignore
 export class Ampli {
   private disabled: boolean = false;
@@ -483,7 +563,7 @@ export class Ampli {
       if (e.device_id) {
         this.amplitude?.setDeviceId(e.device_id);
       }
-      const amplitudeIdentify = new AmplitudeIdentify();
+      const amplitudeIdentify = new amplitude.Identify();
       for (const [key, value] of Object.entries({ ...e.event_properties })) {
         amplitudeIdentify.set(key, value as any);
       }
@@ -729,6 +809,27 @@ export class Ampli {
     extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithOptionalProperties(properties), options, extra);
+  }
+
+  /**
+   * Event With Template Properties
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+   *
+   * Event with template properties description
+   *
+   * Owner: Test codegen
+   *
+   * @param properties The event's properties (e.g. optional_event_property)
+   * @param options Amplitude event options.
+   * @param extra Extra untyped parameters for use in middleware.
+   */
+  eventWithTemplateProperties(
+    properties: EventWithTemplatePropertiesProperties,
+    options?: EventOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    return this.track(new EventWithTemplateProperties(properties), options, extra);
   }
 
   addEventMiddleware(middleware: Middleware): void {
