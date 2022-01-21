@@ -1,9 +1,9 @@
 import { Ampli, ApiKey } from './ampli';
 import { SpecialEventType } from "@amplitude/types";
+import { NodeClient } from "@amplitude/node";
 
 describe('Ampli Node JS SDK tests', () => {
-  /** @typedef {Ampli}*/
-  let ampli;
+  let ampli: Ampli;
   let userId = 'test-ampli-user-id';
 
   beforeEach(() => {
@@ -45,7 +45,7 @@ describe('Ampli Node JS SDK tests', () => {
   test('should setGroup()', () => {
     const mockAmp = { logEvent: jest.fn() };
 
-    ampli.load({ client: { instance: mockAmp } });
+    ampli.load({ client: { instance: mockAmp as unknown as NodeClient } });
 
     ampli.setGroup(userId, 'Group name', 'Group Value');
 

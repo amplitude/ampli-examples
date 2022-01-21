@@ -495,8 +495,9 @@ export class Ampli {
   private amplitude?: AmplitudeClient;
   private middlewares: Middleware[] = [];
 
-  get client(): AmplitudeClient | undefined {
-    return this.amplitude;
+  get client(): AmplitudeClient {
+    this.isInitializedAndEnabled();
+    return this.amplitude!;
   }
 
   private isInitializedAndEnabled(): boolean {

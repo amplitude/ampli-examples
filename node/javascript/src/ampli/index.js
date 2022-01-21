@@ -203,9 +203,10 @@ class Ampli {
   }
 
   /**
-   * @return {NodeClient|undefined}
+   * @return {NodeClient}
    */
   get client() {
+    this.isInitializedAndEnabled();
     return this.amplitude;
   }
 

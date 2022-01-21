@@ -509,8 +509,9 @@ export class Ampli {
   private disabled: boolean = false;
   private amplitude: NodeClient | undefined;
 
-  get client() {
-    return this.amplitude;
+  get client(): NodeClient {
+    this.isInitializedAndEnabled();
+    return this.amplitude!;
   }
 
   private isInitializedAndEnabled(): boolean {

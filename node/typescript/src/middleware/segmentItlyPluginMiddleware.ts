@@ -46,7 +46,7 @@ export function getSegmentItlyPluginMiddleware(writeKey: string): Middleware {
     const { event, extra } = payload;
     const userExtra = extra as UserTrackExtra;
     const anonymousId = userExtra?.segment?.anonymousId;
-    const userId = event.user_id;
+    const userId = event.user_id ?? '';
 
     switch (payload.event.event_type) {
       case SpecialEventType.IDENTIFY:

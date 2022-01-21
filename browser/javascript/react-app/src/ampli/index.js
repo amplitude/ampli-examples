@@ -230,7 +230,11 @@ export class Ampli {
     this.middlewares = [];
   }
 
+  /**
+   * @return {AmplitudeClient}
+   */
   get client() {
+    this.isInitializedAndEnabled();
     return this.amplitude;
   }
 
