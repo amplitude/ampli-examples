@@ -61,6 +61,16 @@
         b.apiKey = apiKey;
     }]];
 
+    // Add Middleware
+    AMPBlockMiddleware *loggingMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload *payload, AMPMiddlewareNext _Nonnull next) {
+        // Output event
+        NSString *logString = [NSString stringWithFormat:@"event=%@ extra=%@", [payload event], [payload extra]];
+        NSLog(@"[ampli] %@", logString);
+        // Continue to next middlware
+        next(payload);
+    }];
+    [ampli.client addEventMiddleware:loggingMiddleware];
+
     // Identify
     [ampli identify:@"ampli-objc-user" event:[Identify requiredNumber: 1.23F builderBlock:^(IdentifyBuilder *b) {
         b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];

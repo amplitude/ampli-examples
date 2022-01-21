@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Amplitude
 
 @main
 struct AmpliSwiftSampleAppApp: App {
@@ -41,8 +42,13 @@ struct AmpliSwiftSampleAppApp: App {
         let extraDict = ["test" : "extra test"];
 
         // Load
-        ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)));
-
+        ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)))
+        
+        // Add Middleware
+        ampli.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+            print(String(format:"[ampli] event=\(payload.event) payload=\(payload.extra)"))
+        })
+        
         // Identify
         ampli.identify("ampli-swift-user", Identify(requiredNumber: 22.0, optionalArray: ["optional string"]))
 
