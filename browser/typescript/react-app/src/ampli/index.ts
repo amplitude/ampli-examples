@@ -15,7 +15,7 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/browser-ts-ampli)
  */
 
-import amplitude, { AmplitudeClient, Callback, Config, Identify as AmplitudeIdentify } from 'amplitude-js';
+import amplitude, { AmplitudeClient, Callback, Config } from 'amplitude-js';
 
 export type Environment = 'development' | 'production';
 
@@ -415,8 +415,9 @@ export class Ampli {
   private amplitude?: AmplitudeClient;
   private middlewares: Middleware[] = [];
 
-  get client(): AmplitudeClient | undefined {
-    return this.amplitude;
+  get client(): AmplitudeClient {
+    this.isInitializedAndEnabled();
+    return this.amplitude!;
   }
 
   private isInitializedAndEnabled(): boolean {
@@ -483,7 +484,7 @@ export class Ampli {
       if (e.device_id) {
         this.amplitude?.setDeviceId(e.device_id);
       }
-      const amplitudeIdentify = new AmplitudeIdentify();
+      const amplitudeIdentify = new amplitude.Identify();
       for (const [key, value] of Object.entries({ ...e.event_properties })) {
         amplitudeIdentify.set(key, value as any);
       }
