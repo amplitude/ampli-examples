@@ -63,10 +63,10 @@
 
     // Add Middleware
     AMPBlockMiddleware *loggingMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload *payload, AMPMiddlewareNext _Nonnull next) {
-        // Output event
+        // Output event and extra from payload
         NSString *logString = [NSString stringWithFormat:@"event=%@ extra=%@", [payload event], [payload extra]];
         NSLog(@"[ampli] %@", logString);
-        // Continue to next middlware
+        // Continue to next middleware
         next(payload);
     }];
     [ampli.client addEventMiddleware:loggingMiddleware];

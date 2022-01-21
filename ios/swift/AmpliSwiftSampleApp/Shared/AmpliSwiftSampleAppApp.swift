@@ -43,12 +43,15 @@ struct AmpliSwiftSampleAppApp: App {
 
         // Load
         ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)))
-        
+
         // Add Middleware
         ampli.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
-            print(String(format:"[ampli] event=\(payload.event) payload=\(payload.extra)"))
+            // Output event and extra from payload
+            print(String(format:"[ampli] event=\(payload.event) payload=\(String(describing: payload.extra))"))
+            // Continue to next middleware
+            next(payload);
         })
-        
+
         // Identify
         ampli.identify("ampli-swift-user", Identify(requiredNumber: 22.0, optionalArray: ["optional string"]))
 
