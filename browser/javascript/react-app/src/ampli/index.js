@@ -106,6 +106,18 @@ export const ApiKey = {
   production: ''
 };
 
+/**
+ * @typedef {Object} EventTemplate
+ * @param {number} [optional_template_property] optional_template_property description
+ * @param {string} required_template_property required_template_property description
+ */
+
+/**
+ * @typedef {Object} SourceTemplate
+ * @param {'Value 1'|'Value 2'} [optionalEnum] description for context optionalEnum
+ * @param {string} requiredString description for context requiredString
+ */
+
 export const SpecialEventType = {
   Identify: "Identify",
   Group: "Group"
@@ -197,6 +209,13 @@ export class EventWithOptionalArrayTypes {
 export class EventWithOptionalProperties {
   constructor(properties) {
     this.event_type = 'Event With Optional Properties';
+    this.event_properties = properties;
+  }
+}
+
+export class EventWithTemplateProperties {
+  constructor(properties) {
+    this.event_type = 'Event With Template Properties';
     this.event_properties = properties;
   }
 }
@@ -529,6 +548,27 @@ export class Ampli {
    */
   eventWithOptionalProperties(properties, options, extra) {
     this.track(new EventWithOptionalProperties(properties), options, extra);
+  }
+
+  /**
+   * Event With Template Properties
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+   *
+   * Event with template properties description
+   *
+   * Owner: Test codegen
+   *
+   * @param {Object} properties The event's properties.
+   * @param {number} [properties.optional_event_property] optional_event_property description
+   * @param {number} [properties.optional_template_property] optional_template_property description
+   * @param {string} properties.required_event_property required_event_property description
+   * @param {string} properties.required_template_property required_template_property description
+   * @param {EventOptions} [options] Options for this track call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   */
+  eventWithTemplateProperties(properties, options, extra) {
+    this.track(new EventWithTemplateProperties(properties), options, extra);
   }
 
   /**

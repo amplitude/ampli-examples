@@ -66,6 +66,18 @@ const ApiKey = {
 };
 
 /**
+ * @typedef {Object} EventTemplate
+ * @param {number} [optional_template_property] optional_template_property description
+ * @param {string} required_template_property required_template_property description
+ */
+
+/**
+ * @typedef {Object} SourceTemplate
+ * @param {'Value 1'|'Value 2'} [optionalEnum] description for context optionalEnum
+ * @param {string} requiredString description for context requiredString
+ */
+
+/**
  * Default NodeClient Options. Contains tracking plan information.
  */
 const DefaultOptions = {
@@ -151,6 +163,13 @@ class EventWithOptionalArrayTypes {
 class EventWithOptionalProperties {
   constructor(properties) {
     this.event_type = 'Event With Optional Properties';
+    this.event_properties = properties;
+  }
+}
+
+class EventWithTemplateProperties {
+  constructor(properties) {
+    this.event_type = 'Event With Template Properties';
     this.event_properties = properties;
   }
 }
@@ -504,6 +523,30 @@ class Ampli {
   }
 
   /**
+   * Event With Template Properties
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+   *
+   * Event with template properties description
+   *
+   * Owner: Test codegen
+   *
+   * @param {string} userId The user's ID.
+   * @param {Object} properties The event's properties.
+   * @param {number} [properties.optional_event_property] optional_event_property description
+   * @param {number} [properties.optional_template_property] optional_template_property description
+   * @param {string} properties.required_event_property required_event_property description
+   * @param {string} properties.required_template_property required_template_property description
+   * @param {EventOptions} [options] Options for this track call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
+   */
+  eventWithTemplateProperties(userId, properties, options, extra) {
+    return this.track(userId, new EventWithTemplateProperties(properties), options, extra);
+  }
+
+  /**
    * Track any event.
    * @param {string|undefined} userId The user's ID.
    * @param {BaseEvent} event The event.
@@ -547,4 +590,5 @@ module.exports.EventWithDifferentCasingTypes = EventWithDifferentCasingTypes;
 module.exports.EventWithEnumTypes = EventWithEnumTypes;
 module.exports.EventWithOptionalArrayTypes = EventWithOptionalArrayTypes;
 module.exports.EventWithOptionalProperties = EventWithOptionalProperties;
+module.exports.EventWithTemplateProperties = EventWithTemplateProperties;
 module.exports.ampli = new Ampli();
