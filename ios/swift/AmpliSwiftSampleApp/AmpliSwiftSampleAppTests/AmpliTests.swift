@@ -22,7 +22,7 @@ class AmpliTests: XCTestCase {
         let deviceId = "test-device-id";
         let identifyProperties = Identify(requiredNumber: 22.0, optionalArray: ["optional array str"])
         let eventOptions = EventOptions(deviceId: deviceId)
-        ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
             XCTAssertNil(payload.event["event_properties"])
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
@@ -32,7 +32,7 @@ class AmpliTests: XCTestCase {
     }
 
     func testTrackWithNoProperies() throws {
-        ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event No Properties")
             XCTAssertNil(payload.event["event_properties"])
             XCTAssertNil(payload.event["user_id"])
@@ -46,7 +46,7 @@ class AmpliTests: XCTestCase {
         let deviceId = "test-device-id";
         let eventOptions = EventOptions(deviceId: deviceId)
         let extraDict: MiddlewareExtra = ["test" : "extra test"];
-        ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event With All Properties")
             let eventProperties = payload.event["event_properties"] as? Dictionary<String, Any>
             XCTAssertEqual(eventProperties!["requiredArray"] as! Array, ["array element 1", "array element 2"])
@@ -77,7 +77,7 @@ class AmpliTests: XCTestCase {
     func testSetGroup() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        ampli?.amplitude?.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
             XCTAssertNil(payload.event["event_properties"])
             let userProperties = payload.event["user_properties"] as? Dictionary<String, Any>

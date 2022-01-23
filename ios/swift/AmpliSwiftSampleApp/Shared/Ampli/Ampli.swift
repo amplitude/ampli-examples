@@ -461,6 +461,42 @@ public class EventWithOptionalProperties : GenericEvent<EventWithOptionalPropert
     }
 }
 
+public class EventWithTemplateProperties : GenericEvent<EventWithTemplateProperties> {
+
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
+        super.init(
+            eventType: "Event With Template Properties",
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithTemplateProperties.init
+        );
+    }
+
+    /**
+    Event with template properties description
+
+    Owner: Test codegen
+
+    - Parameter requiredEventProperty: required_event_property description
+    - Parameter requiredTemplateProperty: required_template_property description
+    - Parameter optionalEventProperty: optional_event_property description
+    - Parameter optionalTemplateProperty: optional_template_property description
+    */
+    public convenience init(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = nil,
+        optionalTemplateProperty: Double? = nil
+    ) {
+        self.init([
+            "optional_event_property": optionalEventProperty,
+            "optional_template_property": optionalTemplateProperty,
+            "required_event_property": requiredEventProperty,
+            "required_template_property": requiredTemplateProperty
+        ]);
+    }
+}
+
 public struct LoadClientConfig {
     let plan: AMPPlan?
 
@@ -504,7 +540,14 @@ public struct EventOptions {
 }
 
 public class Ampli {
-    public private(set) var amplitude: Amplitude?;
+    private var amplitude: Amplitude?;
+    public var client: Amplitude {
+        get {
+            _ = isInitializedAndEnabled();
+            return amplitude!;
+        }
+    }
+
     public private(set) var disabled: Bool;
 
     public static let instance: Ampli = Ampli()
@@ -822,6 +865,34 @@ public class Ampli {
             optionalBoolean: optionalBoolean,
             optionalNumber: optionalNumber,
             optionalString: optionalString
+        ));
+    }
+
+    /**
+    Event With Template Properties
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+
+    Event with template properties description
+
+    Owner: Test codegen
+
+    - Parameter requiredEventProperty: required_event_property description
+    - Parameter requiredTemplateProperty: required_template_property description
+    - Parameter optionalEventProperty: optional_event_property description
+    - Parameter optionalTemplateProperty: optional_template_property description
+    */
+    public func eventWithTemplateProperties(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = nil,
+        optionalTemplateProperty: Double? = nil
+    ) {
+        self.track(EventWithTemplateProperties(
+            requiredEventProperty: requiredEventProperty,
+            requiredTemplateProperty: requiredTemplateProperty,
+            optionalEventProperty: optionalEventProperty,
+            optionalTemplateProperty: optionalTemplateProperty
         ));
     }
     private func isInitializedAndEnabled() -> Bool {
