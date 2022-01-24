@@ -1,6 +1,12 @@
-name: CI - Build, Lint, Test
+name: CI - JS/TS Tests
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'browser/javascript/**'
+      - 'browser/typescript/**'
+      - 'node/javascript/**'
+      - 'node/typescript/**'
 
 jobs:
   build:

@@ -1,6 +1,10 @@
-name: CI - Build, iOS, Test
+name: CI - iOS Tests
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'ios/objective-c/**'
+      - 'ios/swift/**'
 
 jobs:
   test:
