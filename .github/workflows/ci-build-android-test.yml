@@ -3,8 +3,8 @@ name: CI - Android Tests
 on:
   pull_request:
     paths:
-      - 'android/kotlin/AmpliApp/**'
-      - 'android/java/AmpliApp/**'
+      - 'android/kotlin/**'
+      - 'android/java/**'
 
 jobs:
   test:
