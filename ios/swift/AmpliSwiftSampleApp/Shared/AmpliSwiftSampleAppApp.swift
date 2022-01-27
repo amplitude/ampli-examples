@@ -51,7 +51,7 @@ struct AmpliSwiftSampleAppApp: App {
             // Continue to next middleware
             next(payload);
         }
-        ampli.amplitude?.addEventMiddleware(loggingMiddleware)
+        ampli.client.addEventMiddleware(loggingMiddleware)
 
         // Identify
         ampli.identify("ampli-swift-user", Identify(requiredNumber: 22.0, optionalArray: ["optional string"]))
