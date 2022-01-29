@@ -1,0 +1,31 @@
+name: CI - JRE Tests
+
+on:
+  pull_request:
+    paths:
+      - 'jre/kotlin/**'
+
+jobs:
+  test:
+    name: Test JRE Kotlin/Java
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set Java SDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '8'
+
+      - name: Run Kotlin Tests
+        working-directory: ./jre/kotlin/AmpliApp
+        run: |
+          ./gradlew build
+
+      - name: Stop gradlew daemon
+        working-directory: ./jre/kotlin/AmpliApp
+        run: |
+          ./gradlew --stop
