@@ -76,8 +76,6 @@ fun initAmpli() {
      * The Amplitude client can be additionally configured
      */
     ampli.client.setEventUploadPeriodMillis(1000)
-
-    sendEvents()
 }
 
 fun sendEvents() {
