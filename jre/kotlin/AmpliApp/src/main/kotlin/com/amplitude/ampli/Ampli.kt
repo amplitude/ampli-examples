@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:java-sdk:1.6.0, org.json:json:20201115
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: jre:kotlin-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //

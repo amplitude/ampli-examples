@@ -85,6 +85,10 @@ fun sendEvents() {
         requiredNumber = 42.0,
     ))
 
+    ampli.setGroup(userId, "test-group", "a-group-value")
+
+    ampli.eventNoProperties(userId)
+
     val extra = MiddlewareExtra(mapOf("extra-key" to "extra-value"))
     ampli.track(userId, EventWithOptionalProperties(
         optionalBoolean = true,
@@ -97,6 +101,15 @@ fun sendEvents() {
         requiredEnum = EventWithAllProperties.RequiredEnum.ENUM_1,
         requiredInteger = 42,
         requiredString = "Hi!"
+    ))
+
+    ampli.track(null, EventWithConstTypes(), EventOptions(userId = userId))
+
+    ampli.eventWithArrayTypes(userId, EventWithArrayTypes(
+        requiredBooleanArray = arrayOf(true, false, true),
+        requiredNumberArray = arrayOf(1.1, 2.2, 3.3),
+        requiredStringArray = arrayOf("a", "bc", "def"),
+        requiredObjectArray = arrayOf(1, "a", true)
     ))
 
     ampli.flush()
