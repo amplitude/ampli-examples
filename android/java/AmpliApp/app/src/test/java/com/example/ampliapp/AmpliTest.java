@@ -13,7 +13,6 @@ import android.content.Context;
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
 import com.amplitude.ampli.EventWithAllProperties;
-import com.amplitude.ampli.EventWithAllPropertiesRequiredEnum;
 import com.amplitude.ampli.Identify;
 import com.amplitude.ampli.LoadClientOptions;
 import com.amplitude.ampli.LoadOptions;
@@ -191,7 +190,7 @@ public class AmpliTest {
                 EventWithAllProperties.builder()
                         .requiredArray(new String[]{"Required", "array"})
                         .requiredBoolean(true)
-                        .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM2)
+                        .requiredEnum(EventWithAllProperties.RequiredEnum.ENUM2)
                         .requiredInteger(41)
                         .requiredNumber(42.0)
                         .requiredString("Required string")
