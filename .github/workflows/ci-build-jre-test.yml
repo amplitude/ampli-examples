@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'jre/kotlin/**'
+      - 'jre/java/**'
 
 jobs:
   test:
@@ -29,3 +30,8 @@ jobs:
         working-directory: ./jre/kotlin/AmpliApp
         run: |
           ./gradlew --stop
+
+      - name: Run Java Tests
+        working-directory: ./jre/java/AmpliApp
+        run: |
+          mvn test
