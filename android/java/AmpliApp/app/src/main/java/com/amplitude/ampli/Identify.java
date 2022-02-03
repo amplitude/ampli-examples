@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -18,7 +19,7 @@ import java.util.HashMap;
 
 public class Identify extends Event {
     private Identify(Builder builder) {
-        super("identify", builder.properties);
+        super("Identify", builder.properties);
     }
 
     public static IRequiredNumber builder() { return new Builder(); }

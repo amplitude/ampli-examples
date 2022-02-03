@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -17,6 +18,38 @@ package com.amplitude.ampli;
 import java.util.HashMap;
 
 public class EventWithEnumTypes extends Event {
+    public enum OptionalEnum {
+        OPTIONAL_ENUM_1("optional enum 1"), OPTIONAL_ENUM_2("optional enum 2");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        OptionalEnum(String value)
+        {
+            this.value = value;
+        }
+    }
+
+    public enum RequiredEnum {
+        REQUIRED_ENUM_1("required enum 1"), REQUIRED_ENUM_2("required enum 2");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        RequiredEnum(String value)
+        {
+            this.value = value;
+        }
+    }
+
     private EventWithEnumTypes(Builder builder) {
         super("Event With Enum Types", builder.properties);
     }
@@ -36,16 +69,16 @@ public class EventWithEnumTypes extends Event {
          * <p>
          * Must be followed by by additional optional properties or build() method
          */
-        public IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum) {
-            this.properties.put("required enum", requiredEnum.toValue());
+        public IBuild requiredEnum(RequiredEnum requiredEnum) {
+            this.properties.put("required enum", requiredEnum.getValue());
             return this;
         }
 
         /**
          * Description for required enum
          */
-        public IBuild optionalEnum(EventWithEnumTypesOptionalEnum optionalEnum) {
-            this.properties.put("optional enum", optionalEnum.toValue());
+        public IBuild optionalEnum(OptionalEnum optionalEnum) {
+            this.properties.put("optional enum", optionalEnum.getValue());
             return this;
         }
 
@@ -56,12 +89,12 @@ public class EventWithEnumTypes extends Event {
 
     // Required property interfaces
     public interface IRequiredEnum {
-        IBuild requiredEnum(EventWithEnumTypesRequiredEnum requiredEnum);
+        IBuild requiredEnum(RequiredEnum requiredEnum);
     }
 
     /** Build interface with optional properties */
     public interface IBuild {
-        IBuild optionalEnum(EventWithEnumTypesOptionalEnum optionalEnum);
+        IBuild optionalEnum(OptionalEnum optionalEnum);
         EventWithEnumTypes build();
     }
 }

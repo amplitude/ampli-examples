@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -53,18 +54,19 @@ public class Ampli {
         API_KEY.put(Environment.PRODUCTION, "");
     }
 
-    private final Plan observePlan = new Plan()
-        .setBranch("main")
-        .setSource("java-ampli")
-        .setVersion("0");
+    private boolean disabled = false;
 
     private AmplitudeClient client;
 
     public AmplitudeClient getClient() {
+        this.isInitializedAndEnabled();
         return this.client;
     }
 
-    private boolean disabled = false;
+    private final Plan observePlan = new Plan()
+        .setBranch("main")
+        .setSource("java-ampli")
+        .setVersion("0");
 
     public void load(android.content.Context appContext) {
         this.load(appContext, null);
@@ -125,6 +127,10 @@ public class Ampli {
         this.track(event, options, null);
     }
 
+    public void track(Event event, MiddlewareExtra extra) {
+        this.track(event, null, extra);
+    }
+
     public void track(Event event, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
@@ -139,6 +145,10 @@ public class Ampli {
 
     public void identify(String userId, Identify event, EventOptions options) {
         this.identify(userId, event, options, null);
+    }
+
+    public void identify(String userId, Identify event, MiddlewareExtra extra) {
+        this.identify(userId, event, null, extra);
     }
 
     public void identify(String userId, Identify event, EventOptions options, MiddlewareExtra extra) {
@@ -157,6 +167,10 @@ public class Ampli {
         this.setGroup(name, value, options, null);
     }
 
+    public void setGroup(String name, String value, MiddlewareExtra extra) {
+        this.setGroup(name, value, null, extra);
+    }
+
     public void setGroup(String name, String value, EventOptions options, MiddlewareExtra extra) {
         if (!this.isInitializedAndEnabled()) {
             return;
@@ -171,6 +185,10 @@ public class Ampli {
 
     public void setGroup(String name, String[] value, EventOptions options) {
         this.setGroup(name, value, options, null);
+    }
+
+    public void setGroup(String name, String[] value, MiddlewareExtra extra) {
+        this.setGroup(name, value, null, extra);
     }
 
     public void setGroup(String name, String[] value, EventOptions options, MiddlewareExtra extra) {
@@ -237,6 +255,22 @@ public class Ampli {
      * Owner: Test codegen
      *
      * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventMaxIntForTest(EventMaxIntForTest event, MiddlewareExtra extra) {
+        this.eventMaxIntForTest(event, null, extra);
+    }
+
+    /**
+     * EventMaxIntForTest
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <p>
+     * Event to test schema validation
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
@@ -271,6 +305,21 @@ public class Ampli {
      */
     public void eventNoProperties(EventOptions options) {
         this.eventNoProperties(options, null);
+    }
+
+    /**
+     * Event No Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event w no properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventNoProperties(MiddlewareExtra extra) {
+        this.eventNoProperties(null, extra);
     }
 
     /**
@@ -318,6 +367,22 @@ public class Ampli {
      */
     public void eventObjectTypes(EventObjectTypes event, EventOptions options) {
         this.eventObjectTypes(event, options, null);
+    }
+
+    /**
+     * Event Object Types
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <p>
+     * Event with Object and Object Array
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventObjectTypes(EventObjectTypes event, MiddlewareExtra extra) {
+        this.eventObjectTypes(event, null, extra);
     }
 
     /**
@@ -378,6 +443,22 @@ public class Ampli {
      * Owner: Test codegen
      *
      * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithAllProperties(EventWithAllProperties event, MiddlewareExtra extra) {
+        this.eventWithAllProperties(event, null, extra);
+    }
+
+    /**
+     * Event With All Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event w all properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
@@ -414,6 +495,22 @@ public class Ampli {
      */
     public void eventWithArrayTypes(EventWithArrayTypes event, EventOptions options) {
         this.eventWithArrayTypes(event, options, null);
+    }
+
+    /**
+     * Event With Array Types
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <p>
+     * Description for event with Array Types
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithArrayTypes(EventWithArrayTypes event, MiddlewareExtra extra) {
+        this.eventWithArrayTypes(event, null, extra);
     }
 
     /**
@@ -471,6 +568,21 @@ public class Ampli {
      * <p>
      * Owner: Test codegen
      *
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithConstTypes(MiddlewareExtra extra) {
+        this.eventWithConstTypes(null, extra);
+    }
+
+    /**
+     * Event With Const Types
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <p>
+     * Description for event with const types
+     * <p>
+     * Owner: Test codegen
+     *
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
@@ -507,6 +619,22 @@ public class Ampli {
      */
     public void eventWithDifferentCasingTypes(EventWithDifferentCasingTypes event, EventOptions options) {
         this.eventWithDifferentCasingTypes(event, options, null);
+    }
+
+    /**
+     * event withDifferent_CasingTypes
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <p>
+     * Description for case with space
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithDifferentCasingTypes(EventWithDifferentCasingTypes event, MiddlewareExtra extra) {
+        this.eventWithDifferentCasingTypes(event, null, extra);
     }
 
     /**
@@ -567,6 +695,22 @@ public class Ampli {
      * Owner: Test codegen
      *
      * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithEnumTypes(EventWithEnumTypes event, MiddlewareExtra extra) {
+        this.eventWithEnumTypes(event, null, extra);
+    }
+
+    /**
+     * Event With Enum Types
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <p>
+     * Description for event with enum types
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
@@ -603,6 +747,22 @@ public class Ampli {
      */
     public void eventWithOptionalArrayTypes(EventWithOptionalArrayTypes event, EventOptions options) {
         this.eventWithOptionalArrayTypes(event, options, null);
+    }
+
+    /**
+     * Event With Optional Array Types
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <p>
+     * Description for event with optional array types
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithOptionalArrayTypes(EventWithOptionalArrayTypes event, MiddlewareExtra extra) {
+        this.eventWithOptionalArrayTypes(event, null, extra);
     }
 
     /**
@@ -663,6 +823,22 @@ public class Ampli {
      * Owner: Test codegen
      *
      * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithOptionalProperties(EventWithOptionalProperties event, MiddlewareExtra extra) {
+        this.eventWithOptionalProperties(event, null, extra);
+    }
+
+    /**
+     * Event With Optional Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event w optional properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
      * @param options The event's options
      * @param extra Extra untyped parameters for use in middleware
      */
@@ -670,12 +846,68 @@ public class Ampli {
         this.track(event, options, extra);
     }
 
-    private boolean isInitializedAndEnabled() {
-        if (this.client == null) {
-            System.err.println("Ampli is not yet initialized. Have you called `Ampli.getInstance().load()` on app start?");
-            return false;
-        }
-        return !this.disabled;
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event) {
+        this.eventWithTemplateProperties(event, null, null);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param options The event's options
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event, EventOptions options) {
+        this.eventWithTemplateProperties(event, options, null);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event, MiddlewareExtra extra) {
+        this.eventWithTemplateProperties(event, null, extra);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param options The event's options
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event, EventOptions options, MiddlewareExtra extra) {
+        this.track(event, options, extra);
     }
 
     private void handleEventOptions(EventOptions options, String userId) {
@@ -687,8 +919,16 @@ public class Ampli {
         }
     }
 
+    private boolean isInitializedAndEnabled() {
+        if (this.client == null) {
+            System.err.println("Ampli is not yet initialized. Have you called `Ampli.getInstance().load()` on app start?");
+            return false;
+        }
+        return !this.disabled;
+    }
+
     private JSONObject getEventPropertiesJson(Event event) {
-        if (event.eventProperties == null) {
+        if (event == null || event.eventProperties == null) {
             return null;
         }
 

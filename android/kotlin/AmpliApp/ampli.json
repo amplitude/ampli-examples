@@ -4,5 +4,6 @@
   "SourceId": "a23edd97-2c05-4c1c-ab0a-663823528255",
   "Path": "./app/src/main/java/com/amplitude/ampli",
   "Branch": "main",
-  "Version": "0.0.0"
+  "Version": "0.0.0",
+  "Runtime": "android:kotlin-ampli"
 }

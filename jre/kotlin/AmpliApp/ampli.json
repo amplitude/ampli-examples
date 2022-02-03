@@ -1,0 +1,9 @@
+{
+  "OrgId": "132559",
+  "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
+  "SourceId": "30ec8a23-466d-42bd-a3eb-e688ce13b557",
+  "Path": "./src/main/kotlin/com/amplitude/ampli",
+  "Branch": "main",
+  "Version": "0.0.0",
+  "Runtime": "jre:kotlin-ampli"
+}

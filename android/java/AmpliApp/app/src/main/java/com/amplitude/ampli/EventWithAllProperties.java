@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -17,6 +18,22 @@ package com.amplitude.ampli;
 import java.util.HashMap;
 
 public class EventWithAllProperties extends Event {
+    public enum RequiredEnum {
+        ENUM1("Enum1"), ENUM2("Enum2");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        RequiredEnum(String value)
+        {
+            this.value = value;
+        }
+    }
+
     private EventWithAllProperties(Builder builder) {
         super("Event With All Properties", builder.properties);
     }
@@ -44,7 +61,7 @@ public class EventWithAllProperties extends Event {
         /**
          * Event 2 Property - Boolean
          * <p>
-         * Must be followed by {@link IRequiredEnum#requiredEnum(EventWithAllPropertiesRequiredEnum)
+         * Must be followed by {@link IRequiredEnum#requiredEnum(RequiredEnum)
          */
         public IRequiredEnum requiredBoolean(boolean requiredBoolean) {
             this.properties.put("requiredBoolean", requiredBoolean);
@@ -56,8 +73,8 @@ public class EventWithAllProperties extends Event {
          * <p>
          * Must be followed by {@link IRequiredInteger#requiredInteger(Integer)
          */
-        public IRequiredInteger requiredEnum(EventWithAllPropertiesRequiredEnum requiredEnum) {
-            this.properties.put("requiredEnum", requiredEnum.toValue());
+        public IRequiredInteger requiredEnum(RequiredEnum requiredEnum) {
+            this.properties.put("requiredEnum", requiredEnum.getValue());
             return this;
         }
 
@@ -114,7 +131,7 @@ public class EventWithAllProperties extends Event {
     }
 
     public interface IRequiredEnum {
-        IRequiredInteger requiredEnum(EventWithAllPropertiesRequiredEnum requiredEnum);
+        IRequiredInteger requiredEnum(RequiredEnum requiredEnum);
     }
 
     public interface IRequiredInteger {

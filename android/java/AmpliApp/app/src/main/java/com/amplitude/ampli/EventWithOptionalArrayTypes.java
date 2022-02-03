@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -42,7 +43,7 @@ public class EventWithOptionalArrayTypes extends Event {
         /**
          * Description for optional object array
          */
-        public IBuild optionalJsonArray(org.json.JSONObject[] optionalJsonArray) {
+        public IBuild optionalJsonArray(Object[] optionalJsonArray) {
             this.properties.put("optionalJSONArray", optionalJsonArray);
             return this;
         }
@@ -71,7 +72,7 @@ public class EventWithOptionalArrayTypes extends Event {
     /** Build interface with optional properties */
     public interface IBuild {
         IBuild optionalBooleanArray(Boolean[] optionalBooleanArray);
-        IBuild optionalJsonArray(org.json.JSONObject[] optionalJsonArray);
+        IBuild optionalJsonArray(Object[] optionalJsonArray);
         IBuild optionalNumberArray(Double[] optionalNumberArray);
         IBuild optionalStringArray(String[] optionalStringArray);
         EventWithOptionalArrayTypes build();

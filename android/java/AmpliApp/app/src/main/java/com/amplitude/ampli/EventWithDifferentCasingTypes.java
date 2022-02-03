@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -17,6 +18,70 @@ package com.amplitude.ampli;
 import java.util.HashMap;
 
 public class EventWithDifferentCasingTypes extends Event {
+    public enum EnumCamelCase {
+        ENUMCAMELCASE("enumCamelCase");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        EnumCamelCase(String value)
+        {
+            this.value = value;
+        }
+    }
+
+    public enum EnumPascalCase {
+        ENUMPASCALCASE("EnumPascalCase");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        EnumPascalCase(String value)
+        {
+            this.value = value;
+        }
+    }
+
+    public enum EnumSnakeCase {
+        ENUM_SNAKE_CASE("enum_snake_case");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        EnumSnakeCase(String value)
+        {
+            this.value = value;
+        }
+    }
+
+    public enum EnumWithSpace {
+        ENUM_WITH_SPACE("enum with space");
+
+        private final String value;
+
+        public String getValue()
+        {
+            return this.value;
+        }
+
+        EnumWithSpace(String value)
+        {
+            this.value = value;
+        }
+    }
+
     private EventWithDifferentCasingTypes(Builder builder) {
         super("event withDifferent_CasingTypes", builder.properties);
     }
@@ -34,30 +99,30 @@ public class EventWithDifferentCasingTypes extends Event {
         /**
          * descriptionForEnumCamelCase
          * <p>
-         * Must be followed by {@link IEnumPascalCase#enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase)
+         * Must be followed by {@link IEnumPascalCase#enumPascalCase(EnumPascalCase)
          */
-        public IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase) {
-            this.properties.put("enumCamelCase", enumCamelCase.toValue());
+        public IEnumPascalCase enumCamelCase(EnumCamelCase enumCamelCase) {
+            this.properties.put("enumCamelCase", enumCamelCase.getValue());
             return this;
         }
 
         /**
          * DescirptionForEnumPascalCase
          * <p>
-         * Must be followed by {@link IEnumSnakeCase#enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase)
+         * Must be followed by {@link IEnumSnakeCase#enumSnakeCase(EnumSnakeCase)
          */
-        public IEnumSnakeCase enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase enumPascalCase) {
-            this.properties.put("EnumPascalCase", enumPascalCase.toValue());
+        public IEnumSnakeCase enumPascalCase(EnumPascalCase enumPascalCase) {
+            this.properties.put("EnumPascalCase", enumPascalCase.getValue());
             return this;
         }
 
         /**
          * description_for_enum_snake_case
          * <p>
-         * Must be followed by {@link IEnumWithSpace#enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace)
+         * Must be followed by {@link IEnumWithSpace#enumWithSpace(EnumWithSpace)
          */
-        public IEnumWithSpace enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase enumSnakeCase) {
-            this.properties.put("enum_snake_case", enumSnakeCase.toValue());
+        public IEnumWithSpace enumSnakeCase(EnumSnakeCase enumSnakeCase) {
+            this.properties.put("enum_snake_case", enumSnakeCase.getValue());
             return this;
         }
 
@@ -66,8 +131,8 @@ public class EventWithDifferentCasingTypes extends Event {
          * <p>
          * Must be followed by {@link IPropertyWithCamelCase#propertyWithCamelCase(String)
          */
-        public IPropertyWithCamelCase enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace enumWithSpace) {
-            this.properties.put("enum with space", enumWithSpace.toValue());
+        public IPropertyWithCamelCase enumWithSpace(EnumWithSpace enumWithSpace) {
+            this.properties.put("enum with space", enumWithSpace.getValue());
             return this;
         }
 
@@ -118,19 +183,19 @@ public class EventWithDifferentCasingTypes extends Event {
 
     // Required property interfaces
     public interface IEnumCamelCase {
-        IEnumPascalCase enumCamelCase(EventWithDifferentCasingTypesEnumCamelCase enumCamelCase);
+        IEnumPascalCase enumCamelCase(EnumCamelCase enumCamelCase);
     }
 
     public interface IEnumPascalCase {
-        IEnumSnakeCase enumPascalCase(EventWithDifferentCasingTypesEnumPascalCase enumPascalCase);
+        IEnumSnakeCase enumPascalCase(EnumPascalCase enumPascalCase);
     }
 
     public interface IEnumSnakeCase {
-        IEnumWithSpace enumSnakeCase(EventWithDifferentCasingTypesEnumSnakeCase enumSnakeCase);
+        IEnumWithSpace enumSnakeCase(EnumSnakeCase enumSnakeCase);
     }
 
     public interface IEnumWithSpace {
-        IPropertyWithCamelCase enumWithSpace(EventWithDifferentCasingTypesEnumWithSpace enumWithSpace);
+        IPropertyWithCamelCase enumWithSpace(EnumWithSpace enumWithSpace);
     }
 
     public interface IPropertyWithCamelCase {

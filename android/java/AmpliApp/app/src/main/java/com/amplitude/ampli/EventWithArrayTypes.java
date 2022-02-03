@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -44,7 +45,7 @@ public class EventWithArrayTypes extends Event {
         /**
          * Description for required number array
          * <p>
-         * Must be followed by {@link IRequiredObjectArray#requiredObjectArray(org.json.JSONObject[])
+         * Must be followed by {@link IRequiredObjectArray#requiredObjectArray(Object[])
          */
         public IRequiredObjectArray requiredNumberArray(Double[] requiredNumberArray) {
             this.properties.put("requiredNumberArray", requiredNumberArray);
@@ -56,7 +57,7 @@ public class EventWithArrayTypes extends Event {
          * <p>
          * Must be followed by {@link IRequiredStringArray#requiredStringArray(String[])
          */
-        public IRequiredStringArray requiredObjectArray(org.json.JSONObject[] requiredObjectArray) {
+        public IRequiredStringArray requiredObjectArray(Object[] requiredObjectArray) {
             this.properties.put("requiredObjectArray", requiredObjectArray);
             return this;
         }
@@ -86,7 +87,7 @@ public class EventWithArrayTypes extends Event {
     }
 
     public interface IRequiredObjectArray {
-        IRequiredStringArray requiredObjectArray(org.json.JSONObject[] requiredObjectArray);
+        IRequiredStringArray requiredObjectArray(Object[] requiredObjectArray);
     }
 
     public interface IRequiredStringArray {

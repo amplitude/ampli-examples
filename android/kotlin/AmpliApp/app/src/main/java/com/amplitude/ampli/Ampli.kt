@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:kotlin-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -41,6 +42,23 @@ abstract class Event<E: Event<E>>(
         return this.eventFactory(this.eventProperties?.toMap(), options)
     }
 }
+
+class LoadOptions(
+    val environment: Ampli.Environment? = null,
+    val disabled: Boolean? = null,
+    val client: LoadClientOptions? = null
+)
+
+class EventOptions(
+    val userId: String? = null,
+    val deviceId: String? = null
+)
+
+class LoadClientOptions(
+    val apiKey: String? = null,
+    val instance: AmplitudeClient? = null,
+    val plan: Plan? = null
+)
 
 class Identify private constructor(
     eventProperties: Map<String, Any?>?,
@@ -387,22 +405,36 @@ class EventWithOptionalProperties private constructor(
     ))
 }
 
-class LoadClientOptions(
-    val apiKey: String? = null,
-    val instance: AmplitudeClient? = null,
-    val plan: Plan? = null
-)
-
-class LoadOptions(
-    val environment: Ampli.Environment? = null,
-    val disabled: Boolean? = null,
-    val client: LoadClientOptions? = null
-)
-
-class EventOptions(
-    val userId: String? = null,
-    val deviceId: String? = null
-)
+class EventWithTemplateProperties private constructor(
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event<EventWithTemplateProperties>("Event With Template Properties", eventProperties, options, ::EventWithTemplateProperties) {
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEventProperty required_event_property description
+     * @param requiredTemplateProperty required_template_property description
+     * @param optionalEventProperty optional_event_property description
+     * @param optionalTemplateProperty optional_template_property description
+     */
+    constructor(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = null,
+        optionalTemplateProperty: Double? = null
+    ) : this(mapOf(
+        *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
+        *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
+        "required_event_property" to requiredEventProperty,
+        "required_template_property" to requiredTemplateProperty
+    ))
+}
 
 val ampli = Ampli()
 
@@ -424,15 +456,19 @@ open class Ampli {
         PRODUCTION
     }
 
-    @android.annotation.SuppressLint("StaticFieldLeak")
-    var client: AmplitudeClient? = null
-        private set
-
     private var disabled: Boolean = false
+
+    @android.annotation.SuppressLint("StaticFieldLeak")
+    private var _client: AmplitudeClient? = null
+    val client: AmplitudeClient
+        get() {
+            this.isInitializedAndEnabled()
+            return this._client!!
+        }
 
     open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
         this.disabled = options?.disabled ?: false
-        if (this.client != null) {
+        if (this._client != null) {
             System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
@@ -441,11 +477,11 @@ open class Ampli {
 
         when {
             options?.client?.instance != null -> {
-                this.client = options.client.instance
+                this._client = options.client.instance
             }
             apiKey != null && apiKey != "" -> {
-                this.client = Amplitude.getInstance()
-                this.client?.initialize(appContext.applicationContext, apiKey)
+                this._client = Amplitude.getInstance()
+                this._client?.initialize(appContext.applicationContext, apiKey)
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
@@ -453,7 +489,7 @@ open class Ampli {
             }
         }
 
-        this.client?.setPlan(options?.client?.plan ?: observePlan)
+        this._client?.setPlan(options?.client?.plan ?: observePlan)
     }
 
     open fun track(event: Event<*>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -461,7 +497,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(event.options, options)
-        this.client?.logEvent(event.eventType, this.getEventPropertiesJson(event), extra)
+        this._client?.logEvent(event.eventType, this.getEventPropertiesJson(event), extra)
     }
 
     open fun identify(userId: String?, event: Identify, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -469,7 +505,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(event.options, options, userId)
-        this.client?.setUserProperties(this.getEventPropertiesJson(event), extra)
+        this._client?.setUserProperties(this.getEventPropertiesJson(event), extra)
     }
 
     open fun setGroup(name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -477,7 +513,7 @@ open class Ampli {
             return
         }
         this.handleEventOptions(null, options)
-        this.client?.setGroup(name, value, extra)
+        this._client?.setGroup(name, value, extra)
     }
 
     open fun setGroup(name: String, value: Array<String>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
@@ -492,14 +528,14 @@ open class Ampli {
             return
         }
         this.handleEventOptions(null, options)
-        this.client?.setGroup(name, jsonValue, extra)
+        this._client?.setGroup(name, jsonValue, extra)
     }
 
     open fun flush() {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this.client?.uploadEvents()
+        this._client?.uploadEvents()
     }
 
     /**
@@ -755,28 +791,56 @@ open class Ampli {
         ))
     }
 
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEventProperty required_event_property description
+     * @param requiredTemplateProperty required_template_property description
+     * @param optionalEventProperty optional_event_property description
+     * @param optionalTemplateProperty optional_template_property description
+     */
+    fun eventWithTemplateProperties(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = null,
+        optionalTemplateProperty: Double? = null
+    ) {
+        this.track(EventWithTemplateProperties(
+            requiredEventProperty = requiredEventProperty,
+            requiredTemplateProperty = requiredTemplateProperty,
+            optionalEventProperty = optionalEventProperty,
+            optionalTemplateProperty = optionalTemplateProperty
+        ))
+    }
+
+    private fun handleEventOptions(options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String? = null) {
+        val userId = overrideUserId ?: overrideOptions?.userId ?: options?.userId
+        if (userId != null) {
+            this._client?.userId = userId
+        }
+
+        val deviceId = overrideOptions?.deviceId ?: options?.deviceId
+        if (deviceId != null) {
+            this._client?.deviceId = deviceId
+        }
+    }
+
     private fun isInitializedAndEnabled(): Boolean {
-        if (this.client == null) {
+        if (this._client == null) {
             System.err.println("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")
             return false
         }
         return !this.disabled
     }
 
-    private fun handleEventOptions(options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String? = null) {
-        val userId = overrideUserId ?: overrideOptions?.userId ?: options?.userId
-        if (userId != null) {
-            this.client?.userId = userId
-        }
-
-        val deviceId = overrideOptions?.deviceId ?: options?.deviceId
-        if (deviceId != null) {
-            this.client?.deviceId = deviceId
-        }
-    }
-
-    private fun getEventPropertiesJson(event: Event<*>): JSONObject? {
-        if (event.eventProperties == null) {
+    private fun getEventPropertiesJson(event: Event<*>?): JSONObject? {
+        if (event?.eventProperties == null) {
             return null
         }
 

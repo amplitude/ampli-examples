@@ -17,3 +17,7 @@ See subproject README's for details on each platform.
 ## Android
 #### [android/kotlin](android/kotlin/AmpliApp)
 #### [android/java](android/java/AmpliApp)
+
+## JRE
+#### [jre/kotlin](jre/kotlin/AmpliApp)
+#### [jre/java](jre/java/AmpliApp)

@@ -7,6 +7,7 @@
 // Required dependencies: com.amplitude:android-sdk:2.34.1, com.squareup.okhttp3:okhttp:4.2.2
 // Tracking Plan Version: 0
 // Build: 1.0.0
+// Runtime: android:java-ampli
 //
 // [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
 //
@@ -36,7 +37,7 @@ public class EventObjectTypes extends Event {
          * <p>
          * Must be followed by by additional optional properties or build() method
          */
-        public IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray) {
+        public IBuild requiredObjectArray(Object[] requiredObjectArray) {
             this.properties.put("requiredObjectArray", requiredObjectArray);
             return this;
         }
@@ -48,7 +49,7 @@ public class EventObjectTypes extends Event {
 
     // Required property interfaces
     public interface IRequiredObjectArray {
-        IBuild requiredObjectArray(org.json.JSONObject[] requiredObjectArray);
+        IBuild requiredObjectArray(Object[] requiredObjectArray);
     }
 
     /** Build interface with optional properties */

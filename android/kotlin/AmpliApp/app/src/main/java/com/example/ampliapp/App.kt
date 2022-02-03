@@ -68,6 +68,6 @@ class App : Application() {
          * Middleware can be used for many things including
          * logging, filtering, event modification and more.
          */
-        ampli.client?.addEventMiddleware(LoggingMiddleware())
+        ampli.client.addEventMiddleware(LoggingMiddleware())
     }
 }

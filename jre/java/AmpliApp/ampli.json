@@ -1,0 +1,9 @@
+{
+  "OrgId": "132559",
+  "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
+  "SourceId": "1b2ab6d2-929c-41f7-ad95-60f034b67f81",
+  "Path": "./src/main/java/com/amplitude/ampli",
+  "Branch": "main",
+  "Version": "0.0.0",
+  "Runtime": "jre:java-ampli"
+}

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             Ampli.getInstance().eventWithAllProperties(EventWithAllProperties.builder()
                     .requiredArray(new String[]{"I'm", "required"})
                     .requiredBoolean(false)
-                    .requiredEnum(EventWithAllPropertiesRequiredEnum.ENUM1)
+                    .requiredEnum(EventWithAllProperties.RequiredEnum.ENUM1)
                     .requiredInteger(42)
                     .requiredNumber(1.23)
                     .requiredString("Hi!")
