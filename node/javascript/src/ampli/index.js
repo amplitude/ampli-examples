@@ -9,6 +9,7 @@
  * Required dependencies: @amplitude/node@^1.9.0
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: node.js:javascript-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -87,6 +88,20 @@ const DefaultOptions = {
     source: 'node-js-ampli'
   }
 };
+
+class Identify {
+  constructor(properties) {
+    this.event_type = 'Identify';
+    this.event_properties = properties;
+  }
+}
+
+class Group {
+  constructor(properties) {
+    this.event_type = 'Group';
+    this.event_properties = properties;
+  }
+}
 
 class EventMaxIntForTest {
   constructor(properties) {
@@ -246,6 +261,7 @@ class Ampli {
 
   /**
    * Identify a user and set or update that user's properties.
+   *
    * @param {string|undefined} userId The user's ID.
    * @param {Object} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
@@ -256,13 +272,15 @@ class Ampli {
    * @return {{promise: Promise<Response>}}
    */
   identify(userId, properties, options, extra) {
+    const eventProperties = new Identify(properties).event_properties;
     const identify = new AmplitudeIdentify();
-    for (const [key, value] of Object.entries({ ...properties })) {
-      if (value !== undefined) {
-        identify.set(key, value);
+    if (eventProperties != null) {
+      for (const [key, value] of Object.entries(eventProperties)) {
+        if (value !== undefined) {
+          identify.set(key, value);
+        }
       }
     }
-
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude?.logEvent({ ...options, ...identifyEvent }, extra)
@@ -287,6 +305,37 @@ class Ampli {
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      : getDefaultPromiseResponse();
+
+    return { promise };
+  }
+
+  /**
+   * Identify a group and set or update that group's properties.
+   *
+   * @param {string} groupType The group type.
+   * @param {string} groupName The group name.
+   * @param {Object} properties The group's properties.
+   * @param {string} [properties.optionalString] Description for group optionalString
+   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
+   * @param {GroupOptions} [options] Options for this groupIdentify call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<Response>}}
+   */
+  groupIdentify(groupType, groupName, properties, options, extra) {
+    const eventProperties = new Group(properties).event_properties;
+    const identify = new AmplitudeIdentify();
+    if (eventProperties != null) {
+      for (const [key, value] of Object.entries(eventProperties)) {
+        if (value !== undefined) {
+          identify.set(key, value);
+        }
+      }
+    }
+    const groupIdentifyEvent = identify.identifyGroup(groupType, groupName);
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude?.logEvent({ ...options, ...groupIdentifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };

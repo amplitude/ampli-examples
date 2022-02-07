@@ -9,6 +9,7 @@
  * Required dependencies: amplitude-js
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: browser:typescript-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -45,24 +46,22 @@ export interface LoadOptions {
   }
 }
 
-export interface ContextProperties {
-  /**
-   * description for context optionalEnum
-   */
-  optionalEnum?: "Value 1" | "Value 2";
-  /**
-   * description for context requiredString
-   */
-  requiredString: string;
-}
-
 export interface IdentifyProperties {
   /**
    * Description for identify optionalArray
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Unique Items | false |
+   * | Item Type | string |
    */
   optionalArray?: string[];
   /**
    * Description for identify requiredNumber
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
    */
   requiredNumber: number;
 }
@@ -366,31 +365,20 @@ export interface SourceTemplateProperties {
   requiredString: string;
 }
 
-export class Context implements BaseEvent {
-  event_type = 'Context';
-  event_properties: ContextProperties;
-
-  constructor(event_properties: ContextProperties) {
-    this.event_properties = event_properties;
-  }
-}
-
 export class Identify implements BaseEvent {
   event_type = 'Identify';
-  event_properties: IdentifyProperties;
 
-  constructor(event_properties: IdentifyProperties) {
-    this.event_properties = event_properties;
-  }
+  constructor(
+    public event_properties: IdentifyProperties,
+  ) {}
 }
 
 export class Group implements BaseEvent {
   event_type = 'Group';
-  event_properties: GroupProperties;
 
-  constructor(event_properties: GroupProperties) {
-    this.event_properties = event_properties;
-  }
+  constructor(
+    public event_properties: GroupProperties,
+  ) {}
 }
 
 export class EventMaxIntForTest implements BaseEvent {
@@ -535,7 +523,7 @@ export class Ampli {
   /**
    * Identify a user and set user properties.
    *
-   * @param userId  The user's id.
+   * @param userId The user's id.
    * @param properties The user properties.
    * @param options Optional event options.
    * @param extra Extra unstructured data for middleware.
@@ -552,7 +540,7 @@ export class Ampli {
 
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
-      event_properties: properties,
+      event_properties: new Identify(properties).event_properties,
       user_id: userId || options?.user_id,
       device_id: options?.device_id
     };
@@ -565,8 +553,10 @@ export class Ampli {
         this.amplitude?.setDeviceId(e.device_id);
       }
       const amplitudeIdentify = new amplitude.Identify();
-      for (const [key, value] of Object.entries({ ...e.event_properties })) {
-        amplitudeIdentify.set(key, value as any);
+      if (e.event_properties != null) {
+        for (const [key, value] of Object.entries(e.event_properties)) {
+          amplitudeIdentify.set(key, value);
+        }
       }
       this.amplitude?.identify(
         amplitudeIdentify,
@@ -582,6 +572,50 @@ export class Ampli {
     }
 
     this.amplitude?.setGroup(name, value);
+  }
+
+  /**
+   * Identify a group and set group properties.
+   *
+   * @param groupType The group type.
+   * @param groupName The group name.
+   * @param properties The group properties.
+   * @param options Optional event options.
+   * @param extra Extra unstructured data for middleware.
+   */
+  groupIdentify(
+    groupType: string,
+    groupName: string | string[],
+    properties: GroupProperties,
+    options?: GroupOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
+    }
+
+    const event: GroupEvent = {
+      event_type: SpecialEventType.Group,
+      event_properties: new Group(properties).event_properties,
+      user_id: options?.user_id,
+      device_id: options?.device_id
+    };
+    this.runMiddleware({ event, extra }, payload => {
+      const e = payload.event;
+      if (e.user_id) {
+        this.amplitude?.setUserId(e.user_id);
+      }
+      if (e.device_id) {
+        this.amplitude?.setDeviceId(e.device_id);
+      }
+      const amplitudeIdentify = new amplitude.Identify();
+      if (e.event_properties != null) {
+        for (const [key, value] of Object.entries(e.event_properties)) {
+          amplitudeIdentify.set(key, value);
+        }
+      }
+      this.amplitude?.groupIdentify(groupType, groupName, amplitudeIdentify, options?.callback);
+    });
   }
 
   /**

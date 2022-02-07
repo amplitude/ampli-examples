@@ -9,6 +9,7 @@
  * Required dependencies: @amplitude/node@^1.9.0
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: node.js:typescript-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -49,24 +50,22 @@ export interface LoadOptions {
   }
 }
 
-export interface ContextProperties {
-  /**
-   * description for context optionalEnum
-   */
-  optionalEnum?: "Value 1" | "Value 2";
-  /**
-   * description for context requiredString
-   */
-  requiredString: string;
-}
-
 export interface IdentifyProperties {
   /**
    * Description for identify optionalArray
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Unique Items | false |
+   * | Item Type | string |
    */
   optionalArray?: string[];
   /**
    * Description for identify requiredNumber
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | number |
    */
   requiredNumber: number;
 }
@@ -370,29 +369,20 @@ export interface SourceTemplateProperties {
   requiredString: string;
 }
 
-export class Context implements BaseEvent {
-  event_type = 'Context';
-  event_properties: ContextProperties;
-
-  constructor(event_properties: ContextProperties) {
-    this.event_properties = event_properties;
-  }
-}
 export class Identify implements BaseEvent {
   event_type = 'Identify';
-  event_properties: IdentifyProperties;
 
-  constructor(event_properties: IdentifyProperties) {
-    this.event_properties = event_properties;
-  }
+  constructor(
+    public event_properties: IdentifyProperties,
+  ) {}
 }
+
 export class Group implements BaseEvent {
   event_type = 'Group';
-  event_properties: GroupProperties;
 
-  constructor(event_properties: GroupProperties) {
-    this.event_properties = event_properties;
-  }
+  constructor(
+    public event_properties: GroupProperties,
+  ) {}
 }
 
 export class EventMaxIntForTest implements BaseEvent {
@@ -497,11 +487,7 @@ const getDefaultPromiseResponse = () => Promise.resolve<Response>({
 });
 
 function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string, deviceId?: string): IdentifyEvent {
-  const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
-  identifyEvent.user_id = userId;
-  identifyEvent.device_id = deviceId;
-
-  return identifyEvent as any;
+  return amplitudeIdentify.identifyUser(userId ?? null, deviceId);
 }
 
 // prettier-ignore
@@ -550,10 +536,13 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra,
   ) {
+    const eventProperties = new Identify(properties).event_properties;
     const identify = new AmplitudeIdentify();
-    for (const [key, value] of Object.entries({ ...properties })) {
-      if (value !== undefined) {
-        identify.set(key, value);
+    if (eventProperties != null) {
+      for (const [key, value] of Object.entries(eventProperties)) {
+        if (value !== undefined) {
+          identify.set(key, value);
+        }
       }
     }
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
@@ -575,6 +564,31 @@ export class Ampli {
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra,)
+      : getDefaultPromiseResponse();
+
+    return { promise };
+  }
+
+  groupIdentify(
+    groupType: string,
+    groupName: string,
+    properties: GroupProperties,
+    options?: GroupOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    const eventProperties = new Group(properties).event_properties;
+    const identify = new AmplitudeIdentify();
+    if (eventProperties != null) {
+      for (const [key, value] of Object.entries(eventProperties)) {
+        if (value !== undefined) {
+          identify.set(key, value);
+        }
+      }
+    }
+    const groupIdentifyEvent = identify.identifyGroup(groupType, groupName);
+
+    const promise = this.isInitializedAndEnabled()
+      ? this.amplitude!.logEvent({ ...options, ...groupIdentifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };

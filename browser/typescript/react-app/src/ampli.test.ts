@@ -1,8 +1,8 @@
 import { Ampli, ApiKey } from './ampli';
+import { AmplitudeClient } from 'amplitude-js';
 
 describe('Ampli Browser TS SDK tests', () => {
-  /** @typedef {Ampli}*/
-  let ampli;
+  let ampli: Ampli;
   let userId = 'test-browser-ts-ampli-user-id';
 
   beforeEach(() => {
@@ -44,13 +44,41 @@ describe('Ampli Browser TS SDK tests', () => {
   test('should setGroup()', () => {
     const mockAmp = { setGroup: jest.fn() };
 
-    ampli.load({ client: { instance: mockAmp } });
+    ampli.load({ client: { instance: mockAmp as unknown as AmplitudeClient } });
 
     ampli.setGroup('Group name', 'Group Value');
 
     const setGroupCalls = mockAmp.setGroup.mock.calls;
     expect(setGroupCalls.length).toBe(1);
     expect(setGroupCalls[0]).toEqual(["Group name", "Group Value"]);
+  });
+
+  test('should groupIdentify()', () => {
+    const mockAmp = { groupIdentify: jest.fn() };
+
+    ampli.load({ client: { instance: mockAmp as unknown as AmplitudeClient } });
+
+    ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+
+    const groupIdentifyCalls = mockAmp.groupIdentify.mock.calls;
+    expect(groupIdentifyCalls.length).toBe(1);
+    expect(groupIdentifyCalls[0]).toEqual([
+      "Group name",
+      "Group Value",
+      {
+        "properties": [
+          "requiredBoolean",
+          "optionalString"
+        ],
+        "userPropertiesOperations": {
+          "$set": {
+            "optionalString": "some-string",
+            "requiredBoolean": true
+          }
+        }
+      },
+      undefined
+    ]);
   });
 
   test('should track an event with no properties', done => {

@@ -53,6 +53,34 @@ describe('Ampli Browser JS SDK tests', () => {
     expect(setGroupCalls[0]).toEqual(["Group name", "Group Value"]);
   });
 
+  test('should groupIdentify()', () => {
+    const mockAmp = { groupIdentify: jest.fn() };
+
+    ampli.load({ client: { instance: mockAmp } });
+
+    ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+
+    const groupIdentifyCalls = mockAmp.groupIdentify.mock.calls;
+    expect(groupIdentifyCalls.length).toBe(1);
+    expect(groupIdentifyCalls[0]).toEqual([
+      "Group name",
+      "Group Value",
+      {
+        "properties": [
+          "requiredBoolean",
+          "optionalString"
+        ],
+        "userPropertiesOperations": {
+          "$set": {
+            "optionalString": "some-string",
+            "requiredBoolean": true
+          }
+        }
+      },
+      undefined
+    ]);
+  });
+
   test('should track an event with no properties', done => {
     ampli.load();
     ampli.addEventMiddleware((payload) => {

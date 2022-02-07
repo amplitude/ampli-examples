@@ -9,6 +9,7 @@
  * Required dependencies: amplitude-js
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: browser:javascript-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -133,6 +134,20 @@ export const DefaultConfig = {
     source: 'browser-js-ampli'
   }
 };
+
+export class Identify {
+  constructor(properties) {
+    this.event_type = 'Identify';
+    this.event_properties = properties;
+  }
+}
+
+export class Group {
+  constructor(properties) {
+    this.event_type = 'Group';
+    this.event_properties = properties;
+  }
+}
 
 export class EventMaxIntForTest {
   constructor(properties) {
@@ -275,12 +290,12 @@ export class Ampli {
   }
 
   /**
-   * Identify a user and set user properties.
+   * Identify a user and set or update that user's properties.
    *
-   * @param {string|undefined} userId  The user's id.
-   * @param {Identify} properties The user's properties.
+   * @param {string|undefined} userId The user's id.
+   * @param {Object} properties The user's properties.
    * @param {string[]} [properties.optionalArray] Description for identify optionalArray
-     * @param {number} properties.requiredNumber Description for identify requiredNumber
+   * @param {number} properties.requiredNumber Description for identify requiredNumber
    * @param {IdentifyOptions} [options] Optional event options.
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    */
@@ -291,7 +306,7 @@ export class Ampli {
 
     const event = {
       event_type: SpecialEventType.Identify,
-      event_properties: properties,
+      event_properties: new Identify(properties).event_properties,
       user_id: userId || options?.user_id,
       device_id: options?.device_id
     };
@@ -304,8 +319,10 @@ export class Ampli {
         this.amplitude.setDeviceId(e.device_id);
       }
       const ampIdentify = new amplitude.Identify();
-      for (const [key, value] of Object.entries({ ...e.event_properties })) {
-        ampIdentify.set(key, value);
+      if (e.event_properties != null) {
+        for (const [key, value] of Object.entries(e.event_properties)) {
+          ampIdentify.set(key, value);
+        }
       }
       this.amplitude.identify(
         ampIdentify,
@@ -329,6 +346,46 @@ export class Ampli {
     }
 
     this.amplitude?.setGroup(name, value);
+  }
+
+  /**
+   * Identify a group and set or update that group's properties.
+   *
+   * @param {string} groupType The group type.
+   * @param {string|string[]} groupName The group name.
+   * @param {Object} properties The group's properties.
+   * @param {string} [properties.optionalString] Description for group optionalString
+   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
+   * @param {GroupOptions} [options] Options for this groupIdentify call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   */
+  groupIdentify(groupType, groupName, properties, options, extra) {
+    if (!this.isInitializedAndEnabled()) {
+      return;
+    }
+
+    const event = {
+      event_type: SpecialEventType.Group,
+      event_properties: new Group(properties).event_properties,
+      user_id: options?.user_id,
+      device_id: options?.device_id
+    };
+    this.runMiddleware({ event, extra }, payload => {
+      const e = payload.event;
+      if (e.user_id) {
+        this.amplitude.setUserId(e.user_id);
+      }
+      if (e.device_id) {
+        this.amplitude.setDeviceId(e.device_id);
+      }
+      const amplitudeIdentify = new amplitude.Identify();
+      if (e.event_properties != null) {
+        for (const [key, value] of Object.entries(e.event_properties)) {
+          amplitudeIdentify.set(key, value);
+        }
+      }
+      this.amplitude.groupIdentify(groupType, groupName, amplitudeIdentify, options?.callback);
+    });
   }
 
   /**
