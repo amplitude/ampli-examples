@@ -111,6 +111,10 @@ function App() {
           Group
         </button>
 
+        <button onClick={() => ampli.groupIdentify('test-group-2', 'a-group-value-2', { requiredBoolean: true })}>
+          Group Identify
+        </button>
+
         <button onClick={() => ampli.track(new EventWithOptionalProperties({ optionalBoolean: true }))}>
           Event w/ Optional Properties
         </button>
