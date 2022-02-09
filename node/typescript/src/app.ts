@@ -157,7 +157,7 @@ ampli.track(userId, new Page({
   myPageProp: true,
 }));
 
-ampli.groupIdentify('test-group-2', 'a-group-value-2', { requiredBoolean: true });
+ampli.groupIdentify('test-group', 'a-group-value', { requiredBoolean: true });
 
 const myService = new Service1();
 myService.doAction1();

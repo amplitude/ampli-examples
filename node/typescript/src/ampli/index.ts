@@ -536,8 +536,8 @@ export class Ampli {
     options?: IdentifyOptions,
     extra?: MiddlewareExtra,
   ) {
-    const eventProperties = new Identify(properties).event_properties;
     const identify = new AmplitudeIdentify();
+    const eventProperties = properties;
     if (eventProperties != null) {
       for (const [key, value] of Object.entries(eventProperties)) {
         if (value !== undefined) {
@@ -576,8 +576,8 @@ export class Ampli {
     options?: GroupOptions,
     extra?: MiddlewareExtra,
   ) {
-    const eventProperties = new Group(properties).event_properties;
     const identify = new AmplitudeIdentify();
+    const eventProperties = properties;
     if (eventProperties != null) {
       for (const [key, value] of Object.entries(eventProperties)) {
         if (value !== undefined) {

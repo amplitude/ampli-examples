@@ -138,7 +138,7 @@ ampli.eventWithOptionalProperties(undefined,
   { segment: { anonymousId: 'anon-id' } }
 )
 
-ampli.groupIdentify('test-group-2', 'a-group-value-2', { requiredBoolean: true });
+ampli.groupIdentify('test-group', 'a-group-value', { requiredBoolean: true });
 
 /**
  * Flush all pending events

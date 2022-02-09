@@ -540,7 +540,7 @@ export class Ampli {
 
     const event: IdentifyEvent = {
       event_type: SpecialEventType.Identify,
-      event_properties: new Identify(properties).event_properties,
+      event_properties: properties,
       user_id: userId || options?.user_id,
       device_id: options?.device_id
     };
@@ -596,7 +596,7 @@ export class Ampli {
 
     const event: GroupEvent = {
       event_type: SpecialEventType.Group,
-      event_properties: new Group(properties).event_properties,
+      event_properties: properties,
       user_id: options?.user_id,
       device_id: options?.device_id
     };
