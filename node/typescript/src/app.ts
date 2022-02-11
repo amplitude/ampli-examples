@@ -110,7 +110,7 @@ ampli.identify(userId,
   { platform: process.platform },
 );
 
-ampli.setGroup(userId, 'test-group', 'a-group-value');
+ampli.setGroup(userId, 'test group', 'node-ts-ampli');
 
 /**
  * Track Events via strongly typed methods
@@ -157,7 +157,7 @@ ampli.track(userId, new Page({
   myPageProp: true,
 }));
 
-ampli.groupIdentify('test-group', 'a-group-value', { requiredBoolean: true });
+ampli.groupIdentify('test group', 'node-ts-ampli', { requiredBoolean: true });
 
 const myService = new Service1();
 myService.doAction1();

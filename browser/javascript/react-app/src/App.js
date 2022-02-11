@@ -111,7 +111,7 @@ function App() {
           Group
         </button>
 
-        <button onClick={() => ampli.groupIdentify('test-group', 'a-group-value', { requiredBoolean: true })}>
+        <button onClick={() => ampli.groupIdentify('test group', 'browser-js-ampli', { requiredBoolean: true })}>
           Group Identify
         </button>
 
