@@ -5,7 +5,7 @@ import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
 import { Service1 } from "./services/service-1";
 import { getUserIdMiddleware } from "./middleware/userIdMiddleware";
-import loggingMiddleware from "../../../browser/typescript/react-app/src/middleware/loggingMiddleware";
+import loggingMiddleware from "./middleware/loggingMiddleware";
 
 export const userId = 'ampli-node-ts-user-id';
 
@@ -110,7 +110,7 @@ ampli.identify(userId,
   { platform: process.platform },
 );
 
-ampli.setGroup(userId, 'test-group', 'a-group-value');
+ampli.setGroup(userId, 'test group', 'node-ts-ampli');
 
 /**
  * Track Events via strongly typed methods
@@ -156,6 +156,8 @@ ampli.track(userId, new Page({
   category: 'Registration',
   myPageProp: true,
 }));
+
+ampli.groupIdentify('test group', 'node-ts-ampli', { requiredBoolean: true });
 
 const myService = new Service1();
 myService.doAction1();

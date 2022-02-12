@@ -112,8 +112,12 @@ function App() {
           Identify
         </button>
 
-        <button onClick={() => ampli.setGroup('test group', 'test group 1')}>
+        <button onClick={() => ampli.setGroup('test group', 'browser-ts-ampli')}>
           Group
+        </button>
+
+        <button onClick={() => ampli.groupIdentify('test group', 'browser-ts-ampli', { requiredBoolean: true })}>
+          Group Identify
         </button>
 
         <button onClick={() => ampli.track(new EventWithOptionalProperties({ optionalBoolean: true }))}>
