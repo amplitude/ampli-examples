@@ -23,6 +23,18 @@ public class MainActivity extends AppCompatActivity {
                     .build());
         });
 
+        Button btnSetGroup = this.findViewById(R.id.btn_set_group);
+        btnSetGroup.setOnClickListener(v -> {
+            Ampli.getInstance().setGroup("test group", "android-java-ampli");
+        });
+
+        Button btnGroupIdentify = this.findViewById(R.id.btn_group_identify);
+        btnGroupIdentify.setOnClickListener(v -> {
+            Ampli.getInstance().groupIdentify("test group", "android-java-ampli", Group.builder()
+                    .requiredBoolean( true)
+                    .build());
+        });
+
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
         btnEventWithOptionalProperties.setOnClickListener(v -> {
             MiddlewareExtra extra = new MiddlewareExtra();

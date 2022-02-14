@@ -16,6 +16,7 @@
 package com.amplitude.ampli;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -205,6 +206,62 @@ public class Ampli {
         }
         this.handleEventOptions(options, null);
         this.client.setGroup(name, jsonValue, extra);
+    }
+
+    public void groupIdentify(String groupType, String groupName, Group event) {
+        this.groupIdentify(groupType, groupName, event, null, null);
+    }
+
+    public void groupIdentify(String groupType, String groupName, Group event, EventOptions options) {
+        this.groupIdentify(groupType, groupName, event, options, null);
+    }
+
+    public void groupIdentify(String groupType, String groupName, Group event, MiddlewareExtra extra) {
+        this.groupIdentify(groupType, groupName, event, null, extra);
+    }
+
+    public void groupIdentify(String groupType, String groupName, Group event, EventOptions options, MiddlewareExtra extra) {
+        if (!this.isInitializedAndEnabled()) {
+            return;
+        }
+        this.handleEventOptions(options, null);
+        com.amplitude.api.Identify identify = new com.amplitude.api.Identify();
+        JSONObject groupProperties = this.getEventPropertiesJson(event);
+        if (groupProperties != null) {
+            Iterator<String> keys = groupProperties.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+
+                Object value;
+                try {
+                    value = groupProperties.get(key);
+                } catch (JSONException e) {
+                    System.err.println("Can't get value for a group property '" + key + "': " + e);
+                    continue;
+                }
+
+                if (value instanceof Boolean) {
+                    identify.set(key, ((Boolean)value).booleanValue());
+                } else if (value instanceof Double) {
+                    identify.set(key, ((Double)value).doubleValue());
+                } else if (value instanceof Float) {
+                    identify.set(key, ((Float)value).floatValue());
+                } else if (value instanceof Integer) {
+                    identify.set(key, ((Integer)value).intValue());
+                } else if (value instanceof Long) {
+                    identify.set(key, ((Long)value).longValue());
+                } else if (value instanceof String) {
+                    identify.set(key, (String)value);
+                } else if (value instanceof JSONObject) {
+                    identify.set(key, (JSONObject)value);
+                } else if (value instanceof JSONArray) {
+                    identify.set(key, (JSONArray)value);
+                } else {
+                    System.err.println("Invalid type encountered for a group property '" + key + "': " + value);
+                }
+            }
+        }
+        this.client.groupIdentify(groupType, groupName, identify, false, extra);
     }
 
     public void flush() {

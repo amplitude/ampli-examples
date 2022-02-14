@@ -16,7 +16,6 @@ import org.mockito.Captor
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
-
 @RunWith(MockitoJUnitRunner::class)
 class AmpliTest {
     lateinit var ampli: Ampli
@@ -30,6 +29,8 @@ class AmpliTest {
     lateinit var jsonArrayCaptor: ArgumentCaptor<JSONArray>
     @Captor
     lateinit var extraCaptor: ArgumentCaptor<MiddlewareExtra>
+    @Captor
+    lateinit var identifyCaptor: ArgumentCaptor<com.amplitude.api.Identify>
 
     @Before
     fun setUp() {
@@ -122,6 +123,29 @@ class AmpliTest {
         verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).setGroup(eq("group-1"), jsonArrayCaptor.capture(), extraCaptor.capture())
         assertEquals("""["value-1","value-2","value-3"]""", jsonArrayCaptor.value.toString())
+        assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
+    }
+
+    @Test
+    fun groupIdentify() {
+        val client = mock(AmplitudeClient::class.java)
+        val appContext = mock(Context::class.java)
+        this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
+
+        val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
+
+        this.ampli.groupIdentify(
+            "group-type-1",
+            "group-name-1",
+            Group(false, "test-string"),
+            EventOptions(deviceId = deviceId, userId = userId),
+            extra
+        )
+
+        verify(client, times(1)).userId = userId
+        verify(client, times(1)).deviceId = deviceId
+        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), identifyCaptor.capture(), eq(false), extraCaptor.capture())
+        assertEquals("""{"${'$'}set":{"optionalString":"test-string","requiredBoolean":false}}""", identifyCaptor.value.userPropertiesOperations.toString())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 
