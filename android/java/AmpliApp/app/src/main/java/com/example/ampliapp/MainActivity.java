@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnGroupIdentify = this.findViewById(R.id.btn_group_identify);
         btnGroupIdentify.setOnClickListener(v -> {
             Ampli.getInstance().groupIdentify("test group", "android-java-ampli", Group.builder()
-                    .requiredBoolean( true)
+                    .requiredBoolean(true)
                     .build());
         });
 
