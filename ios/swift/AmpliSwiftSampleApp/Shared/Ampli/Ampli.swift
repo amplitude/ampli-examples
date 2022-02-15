@@ -7,6 +7,7 @@
  * Required dependencies: Amplitude-iOS^8.6.0
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: ios:swift-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -85,6 +86,34 @@ public class Identify : GenericEvent<Identify> {
         self.init([
             "optionalArray": optionalArray,
             "requiredNumber": requiredNumber
+        ]);
+    }
+}
+
+public class Group : GenericEvent<Group> {
+
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
+        super.init(
+            eventType: "Group",
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: Group.init
+        );
+    }
+
+    /**
+    Group properties.
+
+    - Parameter requiredBoolean: Description for group requiredBoolean
+    - Parameter optionalString: Description for group optionalString
+    */
+    public convenience init(
+        requiredBoolean: Bool,
+        optionalString: String? = nil
+    ) {
+        self.init([
+            "optionalString": optionalString,
+            "requiredBoolean": requiredBoolean
         ]);
     }
 }
@@ -606,6 +635,20 @@ public class Ampli {
         }
         self.handleEventOptions(nil, options);
         amplitude?.setGroup(name, groupName: value as NSObject)
+    }
+
+    public func groupIdentify(_ groupType: String, _ groupName: String, _ event: Group, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+        if (!isInitializedAndEnabled()) {
+            return;
+        }
+        self.handleEventOptions(event.options, options)
+
+        let identifyArgs = AMPIdentify()
+        event.eventProperties?.forEach{ key, value in
+            identifyArgs.set(key, value: value as? NSObject)
+        }
+
+        amplitude?.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
     }
 
     public func flush() -> Void {

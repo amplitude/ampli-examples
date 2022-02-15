@@ -4,5 +4,6 @@
   "SourceId": "2c9d4579-657b-4eac-a989-cdb3e3daf39f",
   "Path": "./Shared/Ampli",
   "Branch": "main",
-  "Version": "0.0.0"
+  "Version": "0.0.0",
+  "Runtime": "ios:swift-ampli"
 }
