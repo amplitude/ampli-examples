@@ -79,6 +79,11 @@
     // Set Group
     [ampli setGroup:@"ampli group type" value:@"ampli objective-c group"];
 
+    // GroupIdentify
+    [ampli groupIdentify:@"ampli group type" groupName:@"ampli swift group" event:[Group requiredBoolean: true builderBlock:^(GroupBuilder *b) {
+        b.optionalString = @"optional string";
+    }]];
+
     // MiddlewareExtra can be used to pass information to middleware
     NSMutableDictionary *extra = [NSMutableDictionary new];
     [extra setObject:@"extra test" forKey:@"test"];
