@@ -77,10 +77,13 @@ class Identify private constructor(
     constructor(
         requiredNumber: Double,
         optionalArray: Array<String>? = null
-    ) : this(mapOf(
-        *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
-        "requiredNumber" to requiredNumber
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
+            "requiredNumber" to requiredNumber
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventMaxIntForTest private constructor(
@@ -100,9 +103,12 @@ class EventMaxIntForTest private constructor(
      */
     constructor(
         intMax10: Int
-    ) : this(mapOf(
-        "intMax10" to intMax10
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            "intMax10" to intMax10
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventNoProperties private constructor(
@@ -118,7 +124,10 @@ class EventNoProperties private constructor(
      *
      * Owner: Test codegen
      */
-    constructor() : this(null)
+    constructor() : this(
+        eventProperties = null as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventObjectTypes private constructor(
@@ -140,10 +149,13 @@ class EventObjectTypes private constructor(
     constructor(
         requiredObject: Any,
         requiredObjectArray: Array<Any>
-    ) : this(mapOf(
-        "requiredObject" to requiredObject,
-        "requiredObjectArray" to requiredObjectArray
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            "requiredObject" to requiredObject,
+            "requiredObjectArray" to requiredObjectArray
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventWithAllProperties private constructor(
@@ -175,16 +187,19 @@ class EventWithAllProperties private constructor(
         requiredNumber: Double,
         requiredString: String,
         optionalString: String? = null
-    ) : this(mapOf(
-        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
-        "requiredArray" to requiredArray,
-        "requiredBoolean" to requiredBoolean,
-        "requiredConst" to "some-const-value",
-        "requiredEnum" to requiredEnum.value,
-        "requiredInteger" to requiredInteger,
-        "requiredNumber" to requiredNumber,
-        "requiredString" to requiredString
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
+            "requiredArray" to requiredArray,
+            "requiredBoolean" to requiredBoolean,
+            "requiredConst" to "some-const-value",
+            "requiredEnum" to requiredEnum.value,
+            "requiredInteger" to requiredInteger,
+            "requiredNumber" to requiredNumber,
+            "requiredString" to requiredString
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 
     enum class RequiredEnum(val value: String) {
         ENUM_1("Enum1"),
@@ -215,12 +230,15 @@ class EventWithArrayTypes private constructor(
         requiredNumberArray: Array<Double>,
         requiredObjectArray: Array<Any>,
         requiredStringArray: Array<String>
-    ) : this(mapOf(
-        "requiredBooleanArray" to requiredBooleanArray,
-        "requiredNumberArray" to requiredNumberArray,
-        "requiredObjectArray" to requiredObjectArray,
-        "requiredStringArray" to requiredStringArray
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            "requiredBooleanArray" to requiredBooleanArray,
+            "requiredNumberArray" to requiredNumberArray,
+            "requiredObjectArray" to requiredObjectArray,
+            "requiredStringArray" to requiredStringArray
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventWithConstTypes private constructor(
@@ -236,14 +254,17 @@ class EventWithConstTypes private constructor(
      *
      * Owner: Test codegen
      */
-    constructor() : this(mapOf(
-        "Boolean Const" to true,
-        "Integer Const" to 10,
-        "Number Const" to 2.2,
-        "String Const" to "String-Constant",
-        "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
-        "String Int Const" to 0
-    ))
+    constructor() : this(
+        eventProperties = mapOf(
+            "Boolean Const" to true,
+            "Integer Const" to 10,
+            "Number Const" to 2.2,
+            "String Const" to "String-Constant",
+            "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
+            "String Int Const" to 0
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventWithDifferentCasingTypes private constructor(
@@ -277,16 +298,19 @@ class EventWithDifferentCasingTypes private constructor(
         propertyWithPascalCase: String,
         propertyWithSnakeCase: String,
         propertyWithSpace: String
-    ) : this(mapOf(
-        "enumCamelCase" to enumCamelCase.value,
-        "EnumPascalCase" to enumPascalCase.value,
-        "enum_snake_case" to enumSnakeCase.value,
-        "enum with space" to enumWithSpace.value,
-        "propertyWithCamelCase" to propertyWithCamelCase,
-        "PropertyWithPascalCase" to propertyWithPascalCase,
-        "property_with_snake_case" to propertyWithSnakeCase,
-        "property with space" to propertyWithSpace
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            "enumCamelCase" to enumCamelCase.value,
+            "EnumPascalCase" to enumPascalCase.value,
+            "enum_snake_case" to enumSnakeCase.value,
+            "enum with space" to enumWithSpace.value,
+            "propertyWithCamelCase" to propertyWithCamelCase,
+            "PropertyWithPascalCase" to propertyWithPascalCase,
+            "property_with_snake_case" to propertyWithSnakeCase,
+            "property with space" to propertyWithSpace
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 
     enum class EnumCamelCase(val value: String) {
         ENUM_CAMEL_CASE("enumCamelCase")
@@ -324,10 +348,13 @@ class EventWithEnumTypes private constructor(
     constructor(
         requiredEnum: EventWithEnumTypes.RequiredEnum,
         optionalEnum: EventWithEnumTypes.OptionalEnum? = null
-    ) : this(mapOf(
-        *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
-        "required enum" to requiredEnum.value
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
+            "required enum" to requiredEnum.value
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 
     enum class OptionalEnum(val value: String) {
         OPTIONAL_ENUM_1("optional enum 1"),
@@ -363,12 +390,15 @@ class EventWithOptionalArrayTypes private constructor(
         optionalJsonArray: Array<Any>? = null,
         optionalNumberArray: Array<Double>? = null,
         optionalStringArray: Array<String>? = null
-    ) : this(mapOf(
-        *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
-        *(if (optionalJsonArray != null) arrayOf("optionalJSONArray" to optionalJsonArray) else arrayOf()),
-        *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
-        *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
+            *(if (optionalJsonArray != null) arrayOf("optionalJSONArray" to optionalJsonArray) else arrayOf()),
+            *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
+            *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventWithOptionalProperties private constructor(
@@ -396,13 +426,16 @@ class EventWithOptionalProperties private constructor(
         optionalBoolean: Boolean? = null,
         optionalNumber: Double? = null,
         optionalString: String? = null
-    ) : this(mapOf(
-        *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
-        *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
-        *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
-        *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
-        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
+            *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
+            *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
+            *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
+            *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 class EventWithTemplateProperties private constructor(
@@ -428,12 +461,15 @@ class EventWithTemplateProperties private constructor(
         requiredTemplateProperty: String,
         optionalEventProperty: Double? = null,
         optionalTemplateProperty: Double? = null
-    ) : this(mapOf(
-        *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
-        *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
-        "required_event_property" to requiredEventProperty,
-        "required_template_property" to requiredTemplateProperty
-    ))
+    ) : this(
+        eventProperties = mapOf(
+            *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
+            *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
+            "required_event_property" to requiredEventProperty,
+            "required_template_property" to requiredTemplateProperty
+        ) as Map<String, Any?>?,
+        options = null as EventOptions?
+    )
 }
 
 val ampli = Ampli()
