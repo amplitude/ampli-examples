@@ -80,7 +80,7 @@
     [ampli setGroup:@"ampli group type" value:@"ampli objective-c group"];
 
     // GroupIdentify
-    [ampli groupIdentify:@"ampli group type" groupName:@"ampli swift group" event:[Group requiredBoolean: true builderBlock:^(GroupBuilder *b) {
+    [ampli groupIdentify:@"ampli group type" groupName:@"ampli objective-c group" event:[Group requiredBoolean: true builderBlock:^(GroupBuilder *b) {
         b.optionalString = @"optional string";
     }]];
 
