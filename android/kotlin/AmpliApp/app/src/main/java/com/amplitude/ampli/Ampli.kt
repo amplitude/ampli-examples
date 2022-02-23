@@ -80,7 +80,7 @@ class Identify private constructor(
     ) : this(mapOf(
         *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
         "requiredNumber" to requiredNumber
-    ))
+    ), null as EventOptions?)
 }
 
 class Group private constructor(
@@ -125,7 +125,7 @@ class EventMaxIntForTest private constructor(
         intMax10: Int
     ) : this(mapOf(
         "intMax10" to intMax10
-    ))
+    ), null as EventOptions?)
 }
 
 class EventNoProperties private constructor(
@@ -141,7 +141,7 @@ class EventNoProperties private constructor(
      *
      * Owner: Test codegen
      */
-    constructor() : this(null)
+    constructor() : this(null, null as EventOptions?)
 }
 
 class EventObjectTypes private constructor(
@@ -166,7 +166,7 @@ class EventObjectTypes private constructor(
     ) : this(mapOf(
         "requiredObject" to requiredObject,
         "requiredObjectArray" to requiredObjectArray
-    ))
+    ), null as EventOptions?)
 }
 
 class EventWithAllProperties private constructor(
@@ -207,7 +207,7 @@ class EventWithAllProperties private constructor(
         "requiredInteger" to requiredInteger,
         "requiredNumber" to requiredNumber,
         "requiredString" to requiredString
-    ))
+    ), null as EventOptions?)
 
     enum class RequiredEnum(val value: String) {
         ENUM_1("Enum1"),
@@ -243,7 +243,7 @@ class EventWithArrayTypes private constructor(
         "requiredNumberArray" to requiredNumberArray,
         "requiredObjectArray" to requiredObjectArray,
         "requiredStringArray" to requiredStringArray
-    ))
+    ), null as EventOptions?)
 }
 
 class EventWithConstTypes private constructor(
@@ -266,7 +266,7 @@ class EventWithConstTypes private constructor(
         "String Const" to "String-Constant",
         "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
         "String Int Const" to 0
-    ))
+    ), null as EventOptions?)
 }
 
 class EventWithDifferentCasingTypes private constructor(
@@ -309,7 +309,7 @@ class EventWithDifferentCasingTypes private constructor(
         "PropertyWithPascalCase" to propertyWithPascalCase,
         "property_with_snake_case" to propertyWithSnakeCase,
         "property with space" to propertyWithSpace
-    ))
+    ), null as EventOptions?)
 
     enum class EnumCamelCase(val value: String) {
         ENUM_CAMEL_CASE("enumCamelCase")
@@ -350,7 +350,7 @@ class EventWithEnumTypes private constructor(
     ) : this(mapOf(
         *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
         "required enum" to requiredEnum.value
-    ))
+    ), null as EventOptions?)
 
     enum class OptionalEnum(val value: String) {
         OPTIONAL_ENUM_1("optional enum 1"),
@@ -391,7 +391,7 @@ class EventWithOptionalArrayTypes private constructor(
         *(if (optionalJsonArray != null) arrayOf("optionalJSONArray" to optionalJsonArray) else arrayOf()),
         *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
         *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
-    ))
+    ), null as EventOptions?)
 }
 
 class EventWithOptionalProperties private constructor(
@@ -425,7 +425,7 @@ class EventWithOptionalProperties private constructor(
         *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
         *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
         *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
-    ))
+    ), null as EventOptions?)
 }
 
 class EventWithTemplateProperties private constructor(
@@ -456,7 +456,7 @@ class EventWithTemplateProperties private constructor(
         *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
         "required_event_property" to requiredEventProperty,
         "required_template_property" to requiredTemplateProperty
-    ))
+    ), null as EventOptions?)
 }
 
 val ampli = Ampli()
