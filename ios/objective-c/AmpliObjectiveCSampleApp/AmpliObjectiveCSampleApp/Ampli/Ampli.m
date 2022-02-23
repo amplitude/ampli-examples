@@ -7,6 +7,7 @@
  * Required dependencies: Amplitude-iOS^8.6.0
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: ios:obj-c-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -60,6 +61,43 @@ optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
                     withEventProperties:@{
                         @"optionalArray": optionalArray ?: NSNull.null,
                         @"requiredNumber": @(requiredNumber)
+                    }];
+    return self;
+}
+@end
+
+#pragma mark - GroupBuilder
+
+@implementation GroupBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+        self.optionalString = nil;
+    }
+    return self;
+}
+@end
+
+#pragma mark - Group
+
+@implementation Group: Event
+
++ (instancetype)requiredBoolean:(Boolean)requiredBoolean {
+    return [self requiredBoolean: requiredBoolean
+                builderBlock:^(GroupBuilder * b) {}];
+}
++ (instancetype)requiredBoolean:(Boolean)requiredBoolean builderBlock:(void (^)(GroupBuilder *b))builderBlock {
+    GroupBuilder *options = [GroupBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithRequiredBoolean_Group: requiredBoolean
+                optionalString: options.optionalString];
+}
+
+- (instancetype)initWithRequiredBoolean_Group:(Boolean)requiredBoolean
+optionalString:(NSString* _Nullable)optionalString {
+    self = [super initWithEventType:@"Group"
+                    withEventProperties:@{
+                        @"optionalString": optionalString ?: NSNull.null,
+                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean]
                     }];
     return self;
 }
@@ -446,6 +484,50 @@ optionalString:(NSString* _Nullable)optionalString {
 }
 @end
 
+#pragma mark - EventWithTemplatePropertiesBuilder
+
+@implementation EventWithTemplatePropertiesBuilder: NSObject
+-(instancetype)init {
+    if (self = [super init]) {
+
+    }
+    return self;
+}
+@end
+
+#pragma mark - EventWithTemplateProperties
+
+@implementation EventWithTemplateProperties: Event
+
++ (instancetype)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty {
+    return [self requiredEventProperty: requiredEventProperty
+                requiredTemplateProperty: requiredTemplateProperty
+                builderBlock:^(EventWithTemplatePropertiesBuilder * b) {}];
+}
++ (instancetype)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock {
+    EventWithTemplatePropertiesBuilder *options = [EventWithTemplatePropertiesBuilder new];
+    builderBlock(options);
+    return [[self alloc] initWithRequiredEventProperty_EventWithTemplateProperties: requiredEventProperty
+                requiredTemplateProperty: requiredTemplateProperty
+                optionalEventProperty: options.optionalEventProperty
+                optionalTemplateProperty: options.optionalTemplateProperty];
+}
+
+- (instancetype)initWithRequiredEventProperty_EventWithTemplateProperties:(NSString*)requiredEventProperty
+requiredTemplateProperty:(NSString*)requiredTemplateProperty
+optionalEventProperty:(NSNumber * _Nullable)optionalEventProperty
+optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
+    self = [super initWithEventType:@"Event With Template Properties"
+                    withEventProperties:@{
+                        @"optional_event_property": optionalEventProperty ?: NSNull.null,
+                        @"optional_template_property": optionalTemplateProperty ?: NSNull.null,
+                        @"required_event_property": requiredEventProperty,
+                        @"required_template_property": requiredTemplateProperty
+                    }];
+    return self;
+}
+@end
+
 @implementation LoadClientOptions
 
 - (instancetype)initLoadClientOptions:(NSString *_Nullable)apiKey instance:(Amplitude *_Nullable)instance {
@@ -597,19 +679,19 @@ optionalString:(NSString* _Nullable)optionalString {
     [self.client logEvent:event.eventType withEventProperties:event.eventProperties withMiddlewareExtra:extra];
 }
 
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event {
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event {
     [self identify:userId event:event options:nil extra:nil];
 }
 
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options {
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event options:(EventOptions *_Nullable)options {
     [self identify:userId event:event options:options extra:nil];
 }
 
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event extra:(MiddlewareExtra *_Nullable)extra {
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event extra:(MiddlewareExtra *_Nullable)extra {
     [self identify:userId event:event options:nil extra:extra];
 }
 
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
     if (![self isInitializedAndEnabled]) {
         return;
     }
@@ -619,14 +701,14 @@ optionalString:(NSString* _Nullable)optionalString {
     if (options != nil && options.deviceId != nil) {
         [self.client setDeviceId:options.deviceId];
     }
+    AMPIdentify *identifyArgs = [AMPIdentify identify];
     if (event.eventProperties != nil) {
-        AMPIdentify *identifyArgs = [AMPIdentify identify];
         [event.eventProperties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
           [identifyArgs set:key value:value];
         }];
-        [self.client identify:identifyArgs];
     }
-}
+    [self.client identify:identifyArgs];
+ }
 
 - (void)setGroup:(NSString *)name value:(NSString *)value {
     [self setGroup:name value:value options:nil extra:nil];
@@ -646,6 +728,37 @@ optionalString:(NSString* _Nullable)optionalString {
     }
     [self handleEventOptions:options];
     [self.client setGroup:name groupName:value];
+}
+
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event {
+    [self groupIdentify:groupType groupName:groupName event:event options:nil extra:nil];
+}
+
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options {
+    [self groupIdentify:groupType groupName:groupName event:event options:options extra:nil];
+}
+
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self groupIdentify:groupType groupName:groupName event:event options:nil extra:extra];
+}
+
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+    if (![self isInitializedAndEnabled]) {
+        return;
+    }
+    if (options != nil && options.userId != nil) {
+        [self.client setUserId:options.userId];
+    }
+    if (options != nil && options.deviceId != nil) {
+        [self.client setDeviceId:options.deviceId];
+    }
+    AMPIdentify *identifyArgs = [AMPIdentify identify];
+    if (event.eventProperties != nil) {
+        [event.eventProperties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
+          [identifyArgs set:key value:value];
+        }];
+    }
+    [self.client groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:identifyArgs];
 }
 
 - (void)flush {
@@ -783,6 +896,19 @@ optionalString:(NSString* _Nullable)optionalString {
 }
 
 - (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event {
+    [self track:event extra: nil];
+}
+
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
+    [self handleEventOptions:options];
+    [self track:event options:options extra: extra];
+}
+
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event extra:(MiddlewareExtra *_Nullable)extra {
+    [self track:event extra: extra];
+}
+
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event {
     [self track:event extra: nil];
 }
 

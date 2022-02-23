@@ -23,7 +23,7 @@ class AmpliTests: XCTestCase {
         let identifyProperties = Identify(requiredNumber: 22.0, optionalArray: ["optional array str"])
         let eventOptions = EventOptions(deviceId: deviceId)
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
-            XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
+            XCTAssertEqual(payload.event["event_type"] as! String, "$identify")
             XCTAssertNil(payload.event["event_properties"])
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
             XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
@@ -78,12 +78,48 @@ class AmpliTests: XCTestCase {
         let groupType = "test-group-type";
         let groupName = "test-group";
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
-            XCTAssertEqual(payload.event["event_type"] as! String, "Identify")
+            XCTAssertEqual(payload.event["event_type"] as! String, "$identify")
             XCTAssertNil(payload.event["event_properties"])
             let userProperties = payload.event["user_properties"] as? Dictionary<String, Any>
             let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
         })
         ampli?.setGroup(groupType, groupName)
+    }
+
+    func testGroupIdentify() throws {
+        let groupType = "test-group-type";
+        let groupName = "test-group";
+        let groupProperties = Group(requiredBoolean: false, optionalString: "optional str")
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+            XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
+            XCTAssertNil(payload.event["event_properties"])
+            XCTAssertNil(payload.event["user_properties"])
+            let groups = payload.event["groups"] as? Dictionary<String, Any>
+            XCTAssertEqual(groups![groupType] as! String, groupName)
+            let groupProperties = payload.event["group_properties"] as? Dictionary<String, Any>
+            let groupPropertiesSet = groupProperties!["$set"] as? Dictionary<String, Any>
+            XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, true)
+            XCTAssertEqual(groupPropertiesSet!["optionalString"] as! String, "optional str")
+        })
+        ampli?.groupIdentify(groupType, groupName, groupProperties)
+    }
+
+    func testGroupIdentifyNilOptionalString() throws {
+        let groupType = "test-group-type";
+        let groupName = "test-group";
+        let groupProperties = Group(requiredBoolean: false, optionalString: nil)
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+            XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
+            XCTAssertNil(payload.event["event_properties"])
+            XCTAssertNil(payload.event["user_properties"])
+            let groups = payload.event["groups"] as? Dictionary<String, Any>
+            XCTAssertEqual(groups![groupType] as! String, groupName)
+            let groupProperties = payload.event["group_properties"] as? Dictionary<String, Any>
+            let groupPropertiesSet = groupProperties!["$set"] as? Dictionary<String, Any>
+            XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, true)
+            XCTAssertNil(groupPropertiesSet!["optionalString"])
+        })
+        ampli?.groupIdentify(groupType, groupName, groupProperties)
     }
 }

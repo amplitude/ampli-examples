@@ -59,6 +59,9 @@ struct AmpliSwiftSampleAppApp: App {
         // Set group
         ampli.setGroup("ampli group type", "ampli swift group")
 
+        // GroupIdentify
+        ampli.groupIdentify("ampli group type", "ampli swift group", Group(requiredBoolean: true))
+
         // Track events with dedicated event methods
         ampli.eventNoProperties()
         ampli.eventMaxIntForTest(intMax10: 20)

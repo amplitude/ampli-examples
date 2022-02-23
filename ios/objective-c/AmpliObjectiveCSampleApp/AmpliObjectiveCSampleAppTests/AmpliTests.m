@@ -67,7 +67,7 @@
         builder.userId = userId;
     }];
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
-        XCTAssertEqualObjects(payload.event[@"event_type"], @"Identify");
+        XCTAssertEqualObjects(payload.event[@"event_type"], @"@identify");
         XCTAssertEqualObjects(payload.event[@"user_id"], userId);
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
     }];
@@ -85,7 +85,7 @@
     NSString *groupName = @"test group name";
 
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
-        XCTAssertEqualObjects(payload.event[@"event_type"], @"Identify");
+        XCTAssertEqualObjects(payload.event[@"event_type"], @"@identify");
         XCTAssertNil(payload.event[@"event_properties"]);
         NSMutableDictionary *userPropertiesSet = payload.event[@"user_properties"][@"$set"];
         XCTAssertEqualObjects(userPropertiesSet[groupType], groupName);
@@ -94,5 +94,35 @@
     [_ampli setGroup:groupType value:groupName];
 }
 
+- (void)testGroupIdentify {
+    NSString *userId = @"test-user-id";
+    NSString *deviceId = @"test-device-id";
+    NSString *groupType = @"test-group-type";
+    NSString *groupName = @"test-group";
+    EventOptions *eventOptions = [EventOptions builderBlock:^(EventOptionsBuilder *builder) {
+        builder.deviceId = deviceId;
+        builder.userId = userId;
+    }];
+    AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
+        XCTAssertEqualObjects(payload.event[@"event_type"], @"@groupidentify");
+        XCTAssertEqualObjects(payload.event[@"user_id"], userId);
+        XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
+        XCTAssertNil(payload.event[@"event_properties"]);
+        XCTAssertNil(payload.event[@"user_properties"]);
+        NSMutableDictionary *groups = payload.event[@"groups"];
+        XCTAssertEqual(groups[groupType], groupName);
+        NSMutableDictionary *groupPropertiesSet = payload.event[@"group_properties"][@"$set"];
+        XCTAssertEqual(groupPropertiesSet[@"requiredBoolean"], @false);
+        XCTAssertEqual(groupPropertiesSet[@"optionalString"], @"optional string");
+    }];
+    [_ampli.client addEventMiddleware:testMiddleware];
+    [_ampli groupIdentify:groupType
+           groupName:groupName
+           event:[Group requiredBoolean:false builderBlock:^(GroupBuilder *b) {
+                b.optionalString = @"optional string";
+           }]
+           options:eventOptions
+   ];
+}
 
 @end

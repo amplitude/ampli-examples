@@ -7,6 +7,7 @@
  * Required dependencies: Amplitude-iOS^8.6.0
  * Tracking Plan Version: 0
  * Build: 1.0.0
+ * Runtime: ios:obj-c-ampli
  *
  * [View Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest)
  *
@@ -69,6 +70,27 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 */
 + (instancetype) requiredNumber:(Float64)requiredNumber NS_SWIFT_NAME(build(requiredNumber:));
 + (instancetype) requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredNumber:builderBlock:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+@end
+
+#pragma mark - GroupBuilder
+
+@interface GroupBuilder: NSObject
+@property (nonatomic) NSString* _Nullable optionalString;
+@end
+
+#pragma mark - Group
+
+@interface Group: Event
+/**
+ Group properties.
+
+ @param requiredBoolean Description for group requiredBoolean
+*/
++ (instancetype) requiredBoolean:(Boolean)requiredBoolean NS_SWIFT_NAME(build(requiredBoolean:));
++ (instancetype) requiredBoolean:(Boolean)requiredBoolean builderBlock:(void (^)(GroupBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredBoolean:builderBlock:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -305,6 +327,31 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 - (instancetype)init;
 @end
 
+#pragma mark - EventWithTemplatePropertiesBuilder
+
+@interface EventWithTemplatePropertiesBuilder: NSObject
+@property (nonatomic) NSNumber * optionalEventProperty;
+@property (nonatomic) NSNumber * optionalTemplateProperty;
+@end
+
+#pragma mark - EventWithTemplateProperties
+
+@interface EventWithTemplateProperties: Event
+/**
+ Event with template properties description
+
+ Owner: Test codegen
+
+ @param requiredEventProperty required_event_property description
+ @param requiredTemplateProperty required_template_property description
+*/
++ (instancetype) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:));
++ (instancetype) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:builderBlock:));
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+@end
+
 @class EventOptionsBuilder;
 
 @interface EventOptions : NSObject
@@ -331,14 +378,18 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 - (void)track:(Event *)event;
 - (void)track:(Event *)event extra:(MiddlewareExtra *_Nullable)extra;
 - (void)track:(Event *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event;
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options;
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event extra:(MiddlewareExtra *_Nullable)extra;
-- (void)identify:(NSString *_Nullable)userId event:(Identify *_Nullable)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event options:(EventOptions *_Nullable)options;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)identify:(NSString *_Nullable)userId event:(Identify *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)setGroup:(NSString *)name value:(NSString *)value;
 - (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options;
 - (void)setGroup:(NSString *)name value:(NSString *)value extra:(MiddlewareExtra *_Nullable)extra;
 - (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event;
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options;
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event extra:(MiddlewareExtra *_Nullable)extra;
+- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
 - (void)flush;
 /**
 EventMaxIntForTest
@@ -753,6 +804,48 @@ Owner: Test codegen
 @param event The event
 */
 - (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event;
+
+/**
+Event With Template Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+
+Event with template properties description
+
+Owner: Test codegen
+
+@param event The event
+@param extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Template Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+
+Event with template properties description
+
+Owner: Test codegen
+
+@param event The event
+@param options Optional EventOptions
+@param extra Extra untyped parameters for use in middleware.
+*/
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra;
+
+/**
+Event With Template Properties
+
+[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+
+Event with template properties description
+
+Owner: Test codegen
+
+@param event The event
+*/
+- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event;
 @end
 
 NS_ASSUME_NONNULL_END
