@@ -20,7 +20,7 @@ import java.util.Map;
 public abstract class Event {
     final String eventType;
     final Map<String, Object> eventProperties;
-    
+
     protected Event(String eventType, Map<String, Object> eventProperties) {
         this.eventType = eventType;
         this.eventProperties = eventProperties == null || eventProperties.isEmpty() ? null : eventProperties;

@@ -103,7 +103,7 @@ class Group private constructor(
     ) : this(mapOf(
         *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
         "requiredBoolean" to requiredBoolean
-    ))
+    ), null as EventOptions?)
 }
 
 class EventMaxIntForTest private constructor(
@@ -559,52 +559,8 @@ open class Ampli {
             return
         }
         this.handleEventOptions(event.options, options)
-        val identify = com.amplitude.api.Identify()
         val groupProperties = this.getEventPropertiesJson(event)
-        if (groupProperties != null) {
-            val keys: Iterator<String> = groupProperties.keys()
-            while (keys.hasNext()) {
-                val key = keys.next()
-
-                val value = try {
-                    groupProperties.get(key)
-                } catch (e: JSONException) {
-                    System.err.println("Can't get value for a group property '$key': $e")
-                    continue
-                }
-
-                when (value) {
-                    is Boolean -> {
-                        identify.set(key, value)
-                    }
-                    is Double -> {
-                        identify.set(key, value)
-                    }
-                    is Float -> {
-                        identify.set(key, value)
-                    }
-                    is Int -> {
-                        identify.set(key, value)
-                    }
-                    is Long -> {
-                        identify.set(key, value)
-                    }
-                    is String -> {
-                        identify.set(key, value)
-                    }
-                    is JSONObject -> {
-                        identify.set(key, value)
-                    }
-                    is JSONArray -> {
-                        identify.set(key, value)
-                    }
-                    else -> {
-                        System.err.println("Invalid type encountered for a group property '$key': $value")
-                    }
-                }
-            }
-        }
-        this._client?.groupIdentify(groupType, groupName, identify, false, extra)
+        this._client?.groupIdentify(groupType, groupName, groupProperties, false, extra)
     }
 
     open fun flush() {

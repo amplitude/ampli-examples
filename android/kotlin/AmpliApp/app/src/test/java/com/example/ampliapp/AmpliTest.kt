@@ -29,8 +29,6 @@ class AmpliTest {
     lateinit var jsonArrayCaptor: ArgumentCaptor<JSONArray>
     @Captor
     lateinit var extraCaptor: ArgumentCaptor<MiddlewareExtra>
-    @Captor
-    lateinit var identifyCaptor: ArgumentCaptor<com.amplitude.api.Identify>
 
     @Before
     fun setUp() {
@@ -144,8 +142,8 @@ class AmpliTest {
 
         verify(client, times(1)).userId = userId
         verify(client, times(1)).deviceId = deviceId
-        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), identifyCaptor.capture(), eq(false), extraCaptor.capture())
-        assertEquals("""{"${'$'}set":{"optionalString":"test-string","requiredBoolean":false}}""", identifyCaptor.value.userPropertiesOperations.toString())
+        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), jsonObjectCaptor.capture(), eq(false), extraCaptor.capture())
+        assertEquals("""{"optionalString":"test-string","requiredBoolean":false}""", jsonObjectCaptor.value.toString())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
 

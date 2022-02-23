@@ -43,8 +43,6 @@ public class AmpliTest {
     ArgumentCaptor<JSONArray> jsonArrayCaptor;
     @Captor
     ArgumentCaptor<MiddlewareExtra> extraCaptor;
-    @Captor
-    ArgumentCaptor<com.amplitude.api.Identify> identifyCaptor;
 
     @Before
     public void setUp() {
@@ -170,10 +168,10 @@ public class AmpliTest {
 
         verify(client, times(1)).setUserId(userId);
         verify(client, times(1)).setDeviceId(deviceId);
-        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), identifyCaptor.capture(), eq(false), extraCaptor.capture());
+        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), jsonObjectCaptor.capture(), eq(false), extraCaptor.capture());
         assertEquals(
-                "{\"$set\":{\"optionalString\":\"test-string\",\"requiredBoolean\":false}}",
-                identifyCaptor.getValue().getUserPropertiesOperations().toString());
+                "{\"optionalString\":\"test-string\",\"requiredBoolean\":false}",
+                jsonObjectCaptor.getValue().toString());
         assertEquals(
                 "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()
