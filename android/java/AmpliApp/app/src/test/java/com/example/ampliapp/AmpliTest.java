@@ -13,6 +13,7 @@ import android.content.Context;
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
 import com.amplitude.ampli.EventWithAllProperties;
+import com.amplitude.ampli.Group;
 import com.amplitude.ampli.Identify;
 import com.amplitude.ampli.LoadClientOptions;
 import com.amplitude.ampli.LoadOptions;
@@ -141,6 +142,36 @@ public class AmpliTest {
                 "[\"value-1\",\"value-2\",\"value-3\"]",
                 jsonArrayCaptor.getValue().toString()
         );
+        assertEquals(
+                "{abc=123, xyz=987}",
+                extraCaptor.getValue().toString()
+        );
+    }
+
+    @Test
+    public void groupIdentify() {
+        AmplitudeClient client = mock(AmplitudeClient.class);
+        Context appContext = mock(Context.class);
+        this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
+
+        MiddlewareExtra extra = new MiddlewareExtra();
+        extra.put("abc", 123);
+        extra.put("xyz", "987");
+
+        this.ampli.groupIdentify(
+                "group-type-1",
+                "group-name-1",
+                Group.builder().requiredBoolean(false).optionalString("test-string").build(),
+                new EventOptions().setDeviceId(deviceId).setUserId(userId),
+                extra
+        );
+
+        verify(client, times(1)).setUserId(userId);
+        verify(client, times(1)).setDeviceId(deviceId);
+        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), jsonObjectCaptor.capture(), eq(false), extraCaptor.capture());
+        assertEquals(
+                "{\"optionalString\":\"test-string\",\"requiredBoolean\":false}",
+                jsonObjectCaptor.getValue().toString());
         assertEquals(
                 "{abc=123, xyz=987}",
                 extraCaptor.getValue().toString()

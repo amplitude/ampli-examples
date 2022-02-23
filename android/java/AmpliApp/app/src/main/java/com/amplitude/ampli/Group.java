@@ -17,15 +17,15 @@ package com.amplitude.ampli;
 
 import java.util.HashMap;
 
-public class EventMaxIntForTest extends Event {
-    private EventMaxIntForTest(Builder builder) {
-        super("EventMaxIntForTest", builder.properties);
+public class Group extends Event {
+    private Group(Builder builder) {
+        super("Group", builder.properties);
     }
 
-    public static IIntMax10 builder() { return new Builder(); }
+    public static IRequiredBoolean builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IIntMax10, IBuild {
+    public static class Builder implements IRequiredBoolean, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
@@ -33,27 +33,36 @@ public class EventMaxIntForTest extends Event {
         }
 
         /**
-         * property to test schema validation
+         * Description for group requiredBoolean
          * <p>
          * Must be followed by by additional optional properties or build() method
          */
-        public IBuild intMax10(Integer intMax10) {
-            this.properties.put("intMax10", intMax10);
+        public IBuild requiredBoolean(boolean requiredBoolean) {
+            this.properties.put("requiredBoolean", requiredBoolean);
             return this;
         }
 
-        public EventMaxIntForTest build() {
-            return new EventMaxIntForTest(this);
+        /**
+         * Description for group optionalString
+         */
+        public IBuild optionalString(String optionalString) {
+            this.properties.put("optionalString", optionalString);
+            return this;
+        }
+
+        public Group build() {
+            return new Group(this);
         }
     }
 
     // Required property interfaces
-    public interface IIntMax10 {
-        IBuild intMax10(Integer intMax10);
+    public interface IRequiredBoolean {
+        IBuild requiredBoolean(boolean requiredBoolean);
     }
 
     /** Build interface with optional properties */
     public interface IBuild {
-        EventMaxIntForTest build();
+        IBuild optionalString(String optionalString);
+        Group build();
     }
 }

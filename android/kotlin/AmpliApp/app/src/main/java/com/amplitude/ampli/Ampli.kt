@@ -83,6 +83,29 @@ class Identify private constructor(
     ), null as EventOptions?)
 }
 
+class Group private constructor(
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event<Group>("Group", eventProperties, options, ::Group) {
+    /**
+     * Group
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Group)
+     *
+     * Group properties.
+     *
+     * @param requiredBoolean Description for group requiredBoolean
+     * @param optionalString Description for group optionalString
+     */
+    constructor(
+        requiredBoolean: Boolean,
+        optionalString: String? = null
+    ) : this(mapOf(
+        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
+        "requiredBoolean" to requiredBoolean
+    ), null as EventOptions?)
+}
+
 class EventMaxIntForTest private constructor(
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
@@ -531,6 +554,15 @@ open class Ampli {
         this._client?.setGroup(name, jsonValue, extra)
     }
 
+    open fun groupIdentify(groupType: String, groupName: String, event: Group, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
+        if (!this.isInitializedAndEnabled()) {
+            return
+        }
+        this.handleEventOptions(event.options, options)
+        val groupProperties = this.getEventPropertiesJson(event)
+        this._client?.groupIdentify(groupType, groupName, groupProperties, false, extra)
+    }
+
     open fun flush() {
         if (!this.isInitializedAndEnabled()) {
             return
@@ -852,7 +884,7 @@ open class Ampli {
 
             try {
                 value?.let {
-                    json.put(key, if (isArray(value)) getJsonArray(value) else value)
+                    json.put(key, if (value.javaClass.isArray) getJsonArray(value) else value)
                 } ?: run {
                     json.put(key, JSONObject.NULL)
                 }
@@ -862,16 +894,6 @@ open class Ampli {
         }
 
         return json
-    }
-
-    private fun isArray(value: Any): Boolean {
-        return when (value) {
-            is Array<*> -> true
-            is BooleanArray -> true
-            is IntArray -> true
-            is FloatArray -> true
-            else -> false
-        }
     }
 
     private fun getJsonArray(value: Any): JSONArray {

@@ -20,6 +20,16 @@ class MainActivity : AppCompatActivity() {
             ))
         }
 
+        val btnSetGroup = findViewById<Button>(R.id.btn_set_group)
+        btnSetGroup.setOnClickListener {
+            ampli.setGroup("test group", "android-kotlin-ampli")
+        }
+
+        val btnGroupIdentify = findViewById<Button>(R.id.btn_group_identify)
+        btnGroupIdentify.setOnClickListener {
+            ampli.groupIdentify("test group", "android-kotlin-ampli", Group(requiredBoolean = true))
+        }
+
         val btnEventWithOptionalProperties = findViewById<Button>(R.id.btn_optional_properties)
         btnEventWithOptionalProperties.setOnClickListener {
             val extra = MiddlewareExtra(mapOf("extra-key" to "extra-value"))
