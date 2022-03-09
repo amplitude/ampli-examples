@@ -111,13 +111,15 @@ function App() {
 
         <Button
           title="Set Group"
-          onPress={() => ampli.setGroup('test group', 'browser-ts-ampli')}
+          onPress={() =>
+            ampli.setGroup('test group', 'react-native-typescript-ampli')
+          }
         />
 
         <Button
           title="Group Identify"
           onPress={() =>
-            ampli.groupIdentify('test group', 'browser-ts-ampli', {
+            ampli.groupIdentify('test group', 'react-native-typescript-ampli', {
               requiredBoolean: true,
             })
           }
