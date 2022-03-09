@@ -12,8 +12,8 @@ import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 
-import {ampli} from './ampli/index';
-import {EventWithOptionalProperties} from './ampli/index';
+import {ampli} from './ampli';
+import {EventWithOptionalProperties} from './ampli';
 // import {getSegmentMiddleware} from './middleware/segmentMiddleware';
 // import stopMiddleware from './middleware/stopMiddleware';
 import loggingMiddleware from './middleware/loggingMiddleware';
