@@ -542,7 +542,7 @@ export class Ampli {
       return { promise: getPromiseResponse(false) };
     }
 
-    this.handleEventOptions(options);
+    this.handleEventOptions(options, userId);
 
     const amplitudeIdentify = new AmplitudeIdentify();
     if (properties != null) {
@@ -853,9 +853,9 @@ export class Ampli {
     return this.track(new EventWithTemplateProperties(properties), options, extra);
   }
 
-  private handleEventOptions(options: EventOptions | undefined) {
-    if (options?.user_id) {
-      this.amplitude?.setUserId(options.user_id);
+  private handleEventOptions(options: EventOptions | undefined, userId?: string) {
+    if (userId || options?.user_id) {
+      this.amplitude?.setUserId(userId ?? options?.user_id ?? null);
     }
 
     if (options?.device_id) {

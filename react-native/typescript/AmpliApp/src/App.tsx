@@ -147,23 +147,6 @@ function App() {
             });
           }}
         />
-
-        <Button
-          title="Event w/ Segment"
-          onPress={() => {
-            ampli.track(
-              new EventWithOptionalProperties({
-                optionalString: 'Event with segment middleware extras',
-              }),
-              undefined,
-              {
-                segment: {
-                  userId,
-                },
-              },
-            );
-          }}
-        />
       </View>
     </View>
   );
