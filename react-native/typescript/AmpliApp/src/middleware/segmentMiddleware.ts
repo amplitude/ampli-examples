@@ -3,6 +3,7 @@ import {
   BaseEvent,
   GroupIdentifyEvent,
   IdentifyEvent,
+  IdentifyOperation,
   Middleware,
   SpecialEventType,
 } from '@amplitude/react-native';
@@ -20,48 +21,48 @@ export function getSegmentMiddleware(config: Config): Middleware {
   return (payload, next) => {
     const {event} = payload;
 
-    switch (event.event_type) {
+    switch (event.eventType) {
       case SpecialEventType.IDENTIFY:
         const identifyEvent = event as IdentifyEvent;
-        const userId = event.user_id;
+        const userId = event.userId;
 
         console.log(
           `segment.identify(${userId}, ${JSON.stringify(
-            identifyEvent.user_properties,
+            identifyEvent.userProperties,
           )})`,
         );
         analytics.identify(
           userId,
-          identifyEvent.user_properties.payload.$set as JsonMap,
+          identifyEvent.userProperties[IdentifyOperation.SET] as JsonMap,
         );
         break;
 
       case SpecialEventType.GROUP_IDENTIFY:
         const groupIdentifyEvent = event as GroupIdentifyEvent;
-        const groupId = `${groupIdentifyEvent.group_type}:${
-          Array.isArray(groupIdentifyEvent.group_name)
-            ? groupIdentifyEvent.group_name.join(',')
-            : groupIdentifyEvent.group_name
+        const groupId = `${groupIdentifyEvent.groupType}:${
+          Array.isArray(groupIdentifyEvent.groupName)
+            ? groupIdentifyEvent.groupName.join(',')
+            : groupIdentifyEvent.groupName
         }`;
         console.log(
           `segment.group(${groupId}, ${JSON.stringify(
-            groupIdentifyEvent.group_properties,
+            groupIdentifyEvent.groupProperties,
           )})`,
         );
         analytics.group(
           groupId,
-          groupIdentifyEvent.group_properties.payload.$set as JsonMap,
+          groupIdentifyEvent.groupProperties[IdentifyOperation.SET] as JsonMap,
         );
         break;
 
       default:
         const baseEvent = event as BaseEvent;
         console.log(
-          `segment.track(${event.event_type}, ${JSON.stringify(
-            baseEvent.event_properties,
+          `segment.track(${event.eventType}, ${JSON.stringify(
+            baseEvent.eventProperties,
           )})`,
         );
-        analytics.track(event.event_type, baseEvent.event_properties);
+        analytics.track(event.eventType, baseEvent.eventProperties);
         break;
     }
 

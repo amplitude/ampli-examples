@@ -365,68 +365,68 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements Event {
-  event_type = 'Identify';
+  eventType = 'Identify';
 
   constructor(
-    public event_properties: IdentifyProperties,
+    public eventProperties: IdentifyProperties,
   ) {}
 }
 
 export class Group implements Event {
-  event_type = 'Group';
+  eventType = 'Group';
 
   constructor(
-    public event_properties: GroupProperties,
+    public eventProperties: GroupProperties,
   ) {}
 }
 
 export class EventMaxIntForTest implements Event {
-  event_type = 'EventMaxIntForTest';
+  eventType = 'EventMaxIntForTest';
 
   constructor(
-    public event_properties: EventMaxIntForTestProperties,
+    public eventProperties: EventMaxIntForTestProperties,
   ) {}
 }
 
 export class EventNoProperties implements Event {
-  event_type = 'Event No Properties';
+  eventType = 'Event No Properties';
 }
 
 export class EventObjectTypes implements Event {
-  event_type = 'Event Object Types';
+  eventType = 'Event Object Types';
 
   constructor(
-    public event_properties: EventObjectTypesProperties,
+    public eventProperties: EventObjectTypesProperties,
   ) {}
 }
 
 export class EventWithAllProperties implements Event {
-  event_type = 'Event With All Properties';
-  event_properties: EventWithAllPropertiesProperties & {
+  eventType = 'Event With All Properties';
+  eventProperties: EventWithAllPropertiesProperties & {
     'requiredConst': "some-const-value";
   };
 
   constructor(
-    event_properties: EventWithAllPropertiesProperties,
+    eventProperties: EventWithAllPropertiesProperties,
   ) {
-    this.event_properties = {
-      ...event_properties,
+    this.eventProperties = {
+      ...eventProperties,
       'requiredConst': "some-const-value",
     };
   }
 }
 
 export class EventWithArrayTypes implements Event {
-  event_type = 'Event With Array Types';
+  eventType = 'Event With Array Types';
 
   constructor(
-    public event_properties: EventWithArrayTypesProperties,
+    public eventProperties: EventWithArrayTypesProperties,
   ) {}
 }
 
 export class EventWithConstTypes implements Event {
-  event_type = 'Event With Const Types';
-  event_properties = {
+  eventType = 'Event With Const Types';
+  eventProperties = {
     'Boolean Const': true,
     'Integer Const': 10,
     'Number Const': 2.2,
@@ -437,42 +437,42 @@ export class EventWithConstTypes implements Event {
 }
 
 export class EventWithDifferentCasingTypes implements Event {
-  event_type = 'event withDifferent_CasingTypes';
+  eventType = 'event withDifferent_CasingTypes';
 
   constructor(
-    public event_properties: EventWithDifferentCasingTypesProperties,
+    public eventProperties: EventWithDifferentCasingTypesProperties,
   ) {}
 }
 
 export class EventWithEnumTypes implements Event {
-  event_type = 'Event With Enum Types';
+  eventType = 'Event With Enum Types';
 
   constructor(
-    public event_properties: EventWithEnumTypesProperties,
+    public eventProperties: EventWithEnumTypesProperties,
   ) {}
 }
 
 export class EventWithOptionalArrayTypes implements Event {
-  event_type = 'Event With Optional Array Types';
+  eventType = 'Event With Optional Array Types';
 
   constructor(
-    public event_properties?: EventWithOptionalArrayTypesProperties,
+    public eventProperties?: EventWithOptionalArrayTypesProperties,
   ) {}
 }
 
 export class EventWithOptionalProperties implements Event {
-  event_type = 'Event With Optional Properties';
+  eventType = 'Event With Optional Properties';
 
   constructor(
-    public event_properties?: EventWithOptionalPropertiesProperties,
+    public eventProperties?: EventWithOptionalPropertiesProperties,
   ) {}
 }
 
 export class EventWithTemplateProperties implements Event {
-  event_type = 'Event With Template Properties';
+  eventType = 'Event With Template Properties';
 
   constructor(
-    public event_properties: EventWithTemplatePropertiesProperties,
+    public eventProperties: EventWithTemplatePropertiesProperties,
   ) {}
 }
 
@@ -613,7 +613,7 @@ export class Ampli {
 
     this.handleEventOptions(options);
 
-    const promise = this.amplitude!.logEvent(event.event_type, event.event_properties, extra);
+    const promise = this.amplitude!.logEvent(event.eventType, event.eventProperties, extra);
     return { promise };
   }
 
