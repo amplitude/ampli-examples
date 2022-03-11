@@ -25,8 +25,8 @@ import {
 } from '@amplitude/react-native';
 
 export type EventOptions = {
-  user_id?: string;
-  device_id?: string;
+  userId?: string;
+  deviceId?: string;
 }
 
 export type Environment = 'development' | 'production';
@@ -854,12 +854,12 @@ export class Ampli {
   }
 
   private handleEventOptions(options: EventOptions | undefined, userId?: string) {
-    if (userId || options?.user_id) {
-      this.amplitude?.setUserId(userId ?? options?.user_id ?? null);
+    if (userId || options?.userId) {
+      this.amplitude?.setUserId(userId ?? options?.userId ?? null);
     }
 
-    if (options?.device_id) {
-      this.amplitude?.setDeviceId(options.device_id);
+    if (options?.deviceId) {
+      this.amplitude?.setDeviceId(options.deviceId);
     }
   }
 }
