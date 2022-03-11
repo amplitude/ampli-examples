@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'react-native/typescript/**'
+      - 'react-native/javascript/**'
 
 jobs:
   build:
@@ -27,4 +28,12 @@ jobs:
 
       - name: TS - Test
         working-directory: react-native/typescript/AmpliApp
+        run: yarn test
+
+      - name: JS - Install
+        working-directory: react-native/javascript/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: JS - Test
+        working-directory: react-native/javascript/AmpliApp
         run: yarn test

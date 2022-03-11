@@ -23,4 +23,5 @@ See subproject README's for details on each platform.
 #### [jre/java](jre/java/AmpliApp)
 
 ## React Native
+#### [react-native/javascript](react-native/javascript/AmpliApp)
 #### [react-native/typescript](react-native/typescript/AmpliApp)
