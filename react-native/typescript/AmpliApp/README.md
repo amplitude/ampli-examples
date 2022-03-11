@@ -16,8 +16,8 @@ You will need to do the following before running the app.
 You can run the app using the events from our sample tracking plan.
 This will log events to your Amplitude project.
 * `yarn start`
-* `yarn start android` (Android)
-* `yarn start ios` (iOS)
+* `yarn run android` (Android)
+* `yarn run ios` (iOS)
 
 ### Pull your Ampli SDK
 If you want to use your own tracking plan and Ampli SDK
