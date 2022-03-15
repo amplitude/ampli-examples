@@ -34,9 +34,9 @@ let AmpliObservePlan = AMPPlan()
                       .setVersion("0");
 
 public class Event {
-    let eventType: String
-    let eventProperties: [String:Any]?
-    let options: EventOptions?;
+    public let eventType: String
+    public let eventProperties: [String:Any]?
+    public let options: EventOptions?;
 
     init(eventType: String, eventProperties: [String:Any?]?, options: EventOptions?) {
         self.eventType = eventType;
@@ -527,7 +527,7 @@ public class EventWithTemplateProperties : GenericEvent<EventWithTemplatePropert
 }
 
 public struct LoadClientConfig {
-    let plan: AMPPlan?
+    public let plan: AMPPlan?
 
     public init(plan: AMPPlan? = nil) {
         self.plan = plan
@@ -535,9 +535,9 @@ public struct LoadClientConfig {
 }
 
 public struct LoadClientOptions {
-    let apiKey: String?
-    let instance: Amplitude?
-    let config: LoadClientConfig?
+    public let apiKey: String?
+    public let instance: Amplitude?
+    public let config: LoadClientConfig?
 
     public init(apiKey: String? = nil, instance: Amplitude? = nil, config: LoadClientConfig? = nil) {
         self.apiKey = apiKey
@@ -547,9 +547,9 @@ public struct LoadClientOptions {
 }
 
 public struct LoadOptions {
-    let environment: AmpliEnvironment?
-    let disabled: Bool?
-    let client: LoadClientOptions?
+    public let environment: AmpliEnvironment?
+    public let disabled: Bool?
+    public let client: LoadClientOptions?
 
     public init(environment: AmpliEnvironment? = nil, disabled: Bool? = nil, client: LoadClientOptions? = nil) {
         self.environment = environment
@@ -559,8 +559,8 @@ public struct LoadOptions {
 }
 
 public struct EventOptions {
-    let deviceId: String?
-    let userId: String?
+    public let deviceId: String?
+    public let userId: String?
 
     public init(deviceId: String? = nil, userId: String? = nil) {
         self.deviceId = deviceId;
