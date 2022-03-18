@@ -9,6 +9,7 @@ See subproject README's for details on each platform.
 ## Node
 #### [node/javascript](node/javascript)
 #### [node/typescript](node/typescript)
+#### [nextjs/typescript](node/nextjs/ampli-app)
 
 ## iOS
 ####  [ios/swift](ios/swift/AmpliSwiftSampleApp)
