@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -14,14 +16,11 @@ import Config from 'react-native-config';
 
 import {ampli} from './ampli';
 import {EventWithOptionalProperties} from './ampli';
-// import {getSegmentMiddleware} from './middleware/segmentMiddleware';
-// import stopMiddleware from './middleware/stopMiddleware';
+import {getSegmentMiddleware} from './middleware/segmentMiddleware';
+import stopMiddleware from './middleware/stopMiddleware';
 import loggingMiddleware from './middleware/loggingMiddleware';
 
-const {
-  AMPLITUDE_API_KEY = '',
-  // SEGMENT_WRITE_KEY = '',
-} = Config;
+const {AMPLITUDE_API_KEY = '', SEGMENT_WRITE_KEY = ''} = Config;
 
 const userId = 'ampli-react-native-ts-user-id';
 
@@ -141,14 +140,18 @@ function App() {
         <Button
           title="Event w/ All Properties"
           onPress={() => {
-            ampli.eventWithAllProperties({
-              requiredNumber: 1.23,
-              requiredArray: ["I'm", 'required'],
-              requiredBoolean: false,
-              requiredEnum: 'Enum1',
-              requiredInteger: 42,
-              requiredString: 'Hi!',
-            });
+            ampli.eventWithAllProperties(
+              {
+                requiredNumber: 1.23,
+                requiredArray: ["I'm", 'required'],
+                requiredBoolean: false,
+                requiredEnum: 'Enum1',
+                requiredInteger: 42,
+                requiredString: 'Hi!',
+              },
+              undefined,
+              {'extra-key': 'extra-value'},
+            );
           }}
         />
       </View>
