@@ -1,0 +1,30 @@
+name: CI - React Native Tests
+
+on:
+  pull_request:
+    paths:
+      - 'react-native/typescript/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: TS - Install
+        working-directory: react-native/typescript/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: TS - Test
+        working-directory: react-native/typescript/AmpliApp
+        run: yarn test

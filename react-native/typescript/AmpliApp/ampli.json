@@ -1,0 +1,9 @@
+{
+  "OrgId": "132559",
+  "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
+  "SourceId": "4afe79f0-c63a-484c-8589-11380377ead8",
+  "Runtime": "react-native:typescript-ampli",
+  "Path": "./src/ampli",
+  "Branch": "main",
+  "Version": "0.0.0"
+}
