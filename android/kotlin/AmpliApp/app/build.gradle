@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+
+    // For Firebase
+    // Uncomment next line:
+    // id 'com.google.gms.google-services' // Google Services plugin
 }
 
 android {
@@ -49,6 +53,12 @@ dependencies {
     androidTestImplementation "org.mockito:mockito-android:+"
 
     testImplementation 'org.json:json:20201115'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    // Declare the dependency for the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 }
 
 // https://stackoverflow.com/questions/3963708/gradle-how-to-display-test-results-in-the-console-in-real-time

@@ -69,5 +69,10 @@ class App : Application() {
          * logging, filtering, event modification and more.
          */
         ampli.client.addEventMiddleware(LoggingMiddleware())
+
+        /**
+         * Firebase analytics support
+         */
+        // ampli.client.addEventMiddleware(FirebaseMiddleware())
     }
 }
