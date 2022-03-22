@@ -42,3 +42,7 @@ build.xcarchive
 **/Carthage/Checkouts
 **/Carthage/Build
 *.xcsheme
+
+# Java
+target/
+.gradle
