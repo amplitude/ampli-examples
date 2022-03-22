@@ -1,0 +1,261 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ampli tests eventNoProperties: groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests eventNoProperties: identify 1`] = `Array []`;
+
+exports[`ampli tests eventNoProperties: logEvent 1`] = `
+Array [
+  Array [
+    "Event No Properties",
+    undefined,
+    Object {
+      "extra-key": "extra-value",
+    },
+  ],
+]
+`;
+
+exports[`ampli tests eventNoProperties: setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests eventNoProperties: setGroup 1`] = `Array []`;
+
+exports[`ampli tests eventNoProperties: setUserId 1`] = `
+Array [
+  Array [
+    "options-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests eventNoProperties: uploadEvents 1`] = `Array []`;
+
+exports[`ampli tests eventWithAllProperties: groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests eventWithAllProperties: identify 1`] = `Array []`;
+
+exports[`ampli tests eventWithAllProperties: logEvent 1`] = `
+Array [
+  Array [
+    "Event With All Properties",
+    Object {
+      "optionalString": "optional-string",
+      "requiredArray": Array [
+        "a",
+        "bc",
+      ],
+      "requiredBoolean": true,
+      "requiredConst": "some-const-value",
+      "requiredEnum": "Enum1",
+      "requiredInteger": 123,
+      "requiredNumber": 45.67,
+      "requiredString": "required-string",
+    },
+    Object {
+      "extra-key": "extra-value",
+    },
+  ],
+]
+`;
+
+exports[`ampli tests eventWithAllProperties: setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests eventWithAllProperties: setGroup 1`] = `Array []`;
+
+exports[`ampli tests eventWithAllProperties: setUserId 1`] = `
+Array [
+  Array [
+    "options-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests eventWithAllProperties: uploadEvents 1`] = `Array []`;
+
+exports[`ampli tests flush: groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests flush: identify 1`] = `Array []`;
+
+exports[`ampli tests flush: logEvent 1`] = `Array []`;
+
+exports[`ampli tests flush: setDeviceId 1`] = `Array []`;
+
+exports[`ampli tests flush: setGroup 1`] = `Array []`;
+
+exports[`ampli tests flush: setUserId 1`] = `Array []`;
+
+exports[`ampli tests flush: uploadEvents 1`] = `
+Array [
+  Array [],
+]
+`;
+
+exports[`ampli tests groupIdentify: groupIdentify 1`] = `
+Array [
+  Array [
+    "test-group-type",
+    "test-group-name",
+    Identify {
+      "payload": Object {
+        "$set": Object {
+          "optionalString": "abc",
+          "requiredBoolean": true,
+        },
+      },
+    },
+    Object {
+      "extra-key": "extra-value",
+    },
+  ],
+]
+`;
+
+exports[`ampli tests groupIdentify: identify 1`] = `Array []`;
+
+exports[`ampli tests groupIdentify: logEvent 1`] = `Array []`;
+
+exports[`ampli tests groupIdentify: setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests groupIdentify: setGroup 1`] = `Array []`;
+
+exports[`ampli tests groupIdentify: setUserId 1`] = `
+Array [
+  Array [
+    "options-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests groupIdentify: uploadEvents 1`] = `Array []`;
+
+exports[`ampli tests identify: groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests identify: identify 1`] = `
+Array [
+  Array [
+    Identify {
+      "payload": Object {
+        "$set": Object {
+          "optionalArray": Array [
+            "A",
+            "BC",
+          ],
+          "requiredNumber": 123,
+        },
+      },
+    },
+    Object {
+      "extra-key": "extra-value",
+    },
+  ],
+]
+`;
+
+exports[`ampli tests identify: logEvent 1`] = `Array []`;
+
+exports[`ampli tests identify: setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests identify: setGroup 1`] = `Array []`;
+
+exports[`ampli tests identify: setUserId 1`] = `
+Array [
+  Array [
+    "test-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests identify: uploadEvents 1`] = `Array []`;
+
+exports[`ampli tests setGroup (multiple names): groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests setGroup (multiple names): identify 1`] = `Array []`;
+
+exports[`ampli tests setGroup (multiple names): logEvent 1`] = `Array []`;
+
+exports[`ampli tests setGroup (multiple names): setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests setGroup (multiple names): setGroup 1`] = `
+Array [
+  Array [
+    "test-group-type",
+    Array [
+      "test-group-name1",
+      "test-group-name2",
+    ],
+  ],
+]
+`;
+
+exports[`ampli tests setGroup (multiple names): setUserId 1`] = `
+Array [
+  Array [
+    "options-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests setGroup (multiple names): uploadEvents 1`] = `Array []`;
+
+exports[`ampli tests setGroup: groupIdentify 1`] = `Array []`;
+
+exports[`ampli tests setGroup: identify 1`] = `Array []`;
+
+exports[`ampli tests setGroup: logEvent 1`] = `Array []`;
+
+exports[`ampli tests setGroup: setDeviceId 1`] = `
+Array [
+  Array [
+    "options-device-id",
+  ],
+]
+`;
+
+exports[`ampli tests setGroup: setGroup 1`] = `
+Array [
+  Array [
+    "test-group-type",
+    "test-group-name",
+  ],
+]
+`;
+
+exports[`ampli tests setGroup: setUserId 1`] = `
+Array [
+  Array [
+    "options-user-id",
+  ],
+]
+`;
+
+exports[`ampli tests setGroup: uploadEvents 1`] = `Array []`;
