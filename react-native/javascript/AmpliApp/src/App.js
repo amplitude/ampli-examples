@@ -87,9 +87,9 @@ ampli.client.addEventMiddleware(loggingMiddleware);
 /**
  * 3rd party destination support
  */
-const {client: segmentClient, middleware: segmentMiddleware} =
-  getSegmentMiddleware({writeKey: SEGMENT_WRITE_KEY});
-ampli.client.addEventMiddleware(segmentMiddleware);
+// const {client: segmentClient, middleware: segmentMiddleware} =
+//   getSegmentMiddleware({writeKey: SEGMENT_WRITE_KEY});
+// ampli.client.addEventMiddleware(segmentMiddleware);
 
 /**
  * Middleware can also modify the event stream
@@ -104,7 +104,7 @@ function App() {
         <Button
           title="Identify"
           onPress={() => {
-            segmentClient.identify(userId);
+            // segmentClient.identify(userId);
             ampli.identify(userId, {requiredNumber: 42});
           }}
         />
