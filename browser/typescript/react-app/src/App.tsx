@@ -48,7 +48,7 @@ const userId = 'ampli-browser-ts-user-id';
  * OR Use an existing window.amplitude instance from code snippet (not recommended)
  */
 // const instance = window.amplitude.getInstance().init(REACT_APP_AMPLITUDE_API_KEY);
-// ampli.load({ client: { instance as any } });
+// ampli.load({ client: { instance: instance as any } });
 
 /**
  * OR Specify AmplitudeClient 'config'
