@@ -487,11 +487,7 @@ const getDefaultPromiseResponse = () => Promise.resolve<Response>({
 });
 
 function getIdentifyEvent(amplitudeIdentify: AmplitudeIdentify, userId?: string, deviceId?: string): IdentifyEvent {
-  const identifyEvent = amplitudeIdentify.identifyUser('tmp-user-id-to-pass-validation');
-  identifyEvent.user_id = userId;
-  identifyEvent.device_id = deviceId;
-
-  return identifyEvent;
+  return amplitudeIdentify.identifyUser(userId ?? null, deviceId);
 }
 
 // prettier-ignore
@@ -567,7 +563,7 @@ export class Ampli {
     const identify = new AmplitudeIdentify().setGroup(name, value);
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra)
+      ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra,)
       : getDefaultPromiseResponse();
 
     return { promise };

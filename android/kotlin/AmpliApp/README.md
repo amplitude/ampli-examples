@@ -19,6 +19,23 @@ You will need to do the following before running the app.
     </resources>
     ```
 
+### Firebase Middleware
+
+1. Put `google-services.json` into [app](app) folder ([Add Firebase to your Android project](https://firebase.google.com/docs/android/setup#add-config-file))
+2. Uncomment a line in app-level [app/build.gradle](app/build.gradle):
+    ```groovy
+    // For Firebase
+    // Uncomment next line:
+    id 'com.google.gms.google-services' // Google Services plugin
+    ```
+3. Uncomment a line in [App.kt](app/src/main/java/com/example/ampliapp/App.kt):
+    ```kotlin
+    /**
+     * Firebase analytics support
+     */
+    ampli.client.addEventMiddleware(FirebaseMiddleware())
+    ```
+
 ### Run the App
 Run the application using Android Studio or your favorite IDE.
 

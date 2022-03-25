@@ -22,6 +22,7 @@ import {
   Identify as AmplitudeIdentify,
   BaseEvent as Event,
   MiddlewareExtra,
+  Plan,
 } from '@amplitude/react-native';
 
 export type EventOptions = {
@@ -36,12 +37,25 @@ export const ApiKey: Record<Environment, string> = {
   production: ''
 };
 
+export type ClientOptions = {
+  plan?: Plan,
+}
+
 export interface LoadOptions {
   environment?: Environment;
   disabled?: boolean;
   client?: {
     apiKey?: string;
     instance?: Amplitude;
+    options?: ClientOptions;
+  }
+}
+
+export const DefaultOptions: ClientOptions = {
+  plan: {
+    branch: 'main',
+    source: 'react-native-typescript-ampli',
+    version: '0',
   }
 }
 
@@ -517,7 +531,13 @@ export class Ampli {
 
     if (apiKey) {
       this.amplitude = Amplitude.getInstance();
-      const promise = this.amplitude!.init(apiKey);
+      let promise = this.amplitude!.init(apiKey);
+
+      const clientOptions = { ...DefaultOptions, ...options?.client?.options };
+      const plan = clientOptions.plan;
+      if (plan) {
+        promise = promise.then(ok => ok ? this.amplitude!.setPlan(plan) : false);
+      }
       return { promise };
     }
 

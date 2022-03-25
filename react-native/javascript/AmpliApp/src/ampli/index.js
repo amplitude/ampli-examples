@@ -21,6 +21,7 @@ import {
   Amplitude,
   Identify as AmplitudeIdentify,
   MiddlewareExtra,
+  Plan,
 } from '@amplitude/react-native';
 
 /**
@@ -30,10 +31,17 @@ import {
  */
 
 /**
+ * @typedef ClientOptions
+ * @type {object}
+ * @property {Plan} [plan]
+ */
+
+/**
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
  * @property {Amplitude} [instance]
+ * @property {ClientOptions} [options]
  */
 
 /**
@@ -61,6 +69,14 @@ export const ApiKey = {
   development: '',
   production: ''
 };
+
+export const DefaultOptions = {
+  plan: {
+    branch: 'main',
+    source: 'react-native-javascript-ampli',
+    version: '0',
+  }
+}
 
 /**
  * @typedef {Object} EventTemplate
@@ -225,7 +241,13 @@ export class Ampli {
 
     if (apiKey) {
       this.amplitude = Amplitude.getInstance();
-      const promise = this.amplitude.init(apiKey);
+      let promise = this.amplitude.init(apiKey);
+
+      const clientOptions = { ...DefaultOptions, ...options?.client?.options };
+      const plan = clientOptions.plan;
+      if (plan) {
+        promise = promise.then(ok => ok ? this.amplitude.setPlan(plan) : false);
+      }
       return { promise };
     }
 
