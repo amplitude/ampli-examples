@@ -17,6 +17,7 @@ describe('ampli tests', () => {
     setUserId: jest.fn(),
     setDeviceId: jest.fn(),
     uploadEvents: jest.fn(),
+    setPlan: jest.fn(),
   };
 
   beforeEach(() => {
@@ -32,6 +33,7 @@ describe('ampli tests', () => {
     client.setUserId.mockReset();
     client.setDeviceId.mockReset();
     client.uploadEvents.mockReset();
+    client.setPlan.mockReset();
   });
 
   function checkSnapshots() {
