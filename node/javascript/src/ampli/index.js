@@ -304,7 +304,7 @@ class Ampli {
     const identify = new AmplitudeIdentify().setGroup(name, value);
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra,)
+      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };
