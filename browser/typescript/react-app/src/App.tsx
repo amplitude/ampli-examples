@@ -91,6 +91,9 @@ ampli.addEventMiddleware(loggingMiddleware);
 
 /**
  * Legacy Itly Plugins can also be adapted to middleware
+ * WARNING: This is not recommended, but is shown for legacy Itly customers as an example.
+ * WARNING: Instead, we recommend directly integrating with 3rd party destinations
+ * WARNING: in Middleware like in the getSegmentMiddleware above.
  */
 // const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
 // ampli.addEventMiddleware(segmentItlyPluginMiddleware);
