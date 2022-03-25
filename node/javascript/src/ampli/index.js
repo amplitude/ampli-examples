@@ -16,15 +16,21 @@
  * [Full Setup Instructions](https://data.amplitude.com/test-codegen/Test%20Codegen/implementation/node-js-ampli)
  */
 
-const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
-const { init: initNodeClient, NodeClient } = require('@amplitude/node');
+const { Identify: AmplitudeIdentify, IdentifyEvent } = require('@amplitude/identify');
+const { init: initNodeClient, NodeClient, Status, Options } = require('@amplitude/node');
+
+/**
+ * @typedef {Object} BaseEvent
+ * @property {string} event_type
+ * @property {Object.<string, *>} [event_properties]
+ */
 
 /**
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
- * @property {Config} [config]
- * @property {AmplitudeClient} [instance]
+ * @property {Options} [config]
+ * @property {NodeClient} [instance]
  */
 
 /**

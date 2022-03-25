@@ -22,8 +22,7 @@ import amplitude from 'amplitude-js';
  * @typedef BaseEvent
  * @type {object}
  * @property {string} event_type
- * @property {Object.<string, *>} event_properties
- * @property {Plan} plan
+ * @property {Object.<string, *>} [event_properties]
  */
 
 /**
@@ -38,8 +37,8 @@ import amplitude from 'amplitude-js';
  * Data to be processed by middleware
  * @typedef MiddlewarePayload
  * @type {object}
- * @property {string} event
- * @property {string} [extra]
+ * @property {BaseEvent} event
+ * @property {MiddlewareExtra} [extra]
  */
 
 /**
@@ -64,7 +63,7 @@ import amplitude from 'amplitude-js';
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
- * @property {Config} [config]
+ * @property {Object} [config]
  * @property {AmplitudeClient} [instance]
  */
 

@@ -20,10 +20,15 @@
 import {
   Amplitude,
   Identify as AmplitudeIdentify,
-  BaseEvent as Event,
   MiddlewareExtra,
   Plan,
 } from '@amplitude/react-native';
+
+/**
+ * @typedef {Object} BaseEvent
+ * @property {string} event_type
+ * @property {Object.<string, *>} [event_properties]
+ */
 
 /**
  * @typedef ClientOptions
@@ -334,7 +339,7 @@ export class Ampli {
   /**
    * Track event
    *
-   * @param {Event} event The event to track.
+   * @param {BaseEvent} event The event to track.
    * @param {EventOptions} [options] Optional event options.
    * @param {MiddlewareExtra} [extra] Extra unstructured data for middleware.
    *
