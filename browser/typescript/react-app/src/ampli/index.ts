@@ -26,9 +26,9 @@ export const ApiKey: Record<Environment, string> = {
 };
 
 /**
- * Default Amplitude Config. Contains tracking plan information.
+ * Default Amplitude configuration options. Contains tracking plan information.
  */
-export const DefaultConfig: ConfigExt = {
+export const DefaultOptions: ConfigExt = {
   plan: {
     version: '0',
     branch: 'main',
@@ -41,7 +41,7 @@ export interface LoadOptions {
   disabled?: boolean;
   client?: {
     apiKey?: string;
-    config?: Partial<ConfigExt>;
+    options?: Partial<ConfigExt>;
     instance?: AmplitudeClient;
   }
 }
@@ -514,7 +514,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude?.init(apiKey, undefined, { ...DefaultConfig, ...options?.client?.config });
+      this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.options });
     } else {
       throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }

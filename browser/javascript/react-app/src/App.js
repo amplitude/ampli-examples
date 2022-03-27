@@ -2,7 +2,7 @@
 import logo from './logo.svg';
 import './App.css';
 
-import { ampli, DefaultConfig, EventWithOptionalProperties } from './ampli';
+import { ampli, DefaultOptions, EventWithOptionalProperties } from './ampli';
 import { getSegmentMiddleware, loggingMiddleware, stopMiddleware } from './middleware';
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
@@ -36,7 +36,7 @@ const userId = 'ampli-browser-js-user-id';
  * requires "import amplitude from 'amplitude-js';"
  */
 // const instance = amplitude.getInstance();
-// instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultConfig, logLevel: "INFO" });
+// instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
 // ampli.load({ client: { instance } });
 
 /**
@@ -46,12 +46,12 @@ const userId = 'ampli-browser-js-user-id';
 // ampli.load({ client: { instance as any } });
 
 /**
- * OR Specify AmplitudeClient 'config'
+ * OR Specify AmplitudeClient 'options'
  */
 ampli.load({
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
-    config: { ...DefaultConfig, logLevel: "INFO" }
+    options: { ...DefaultOptions, logLevel: "INFO" }
   }
 })
 

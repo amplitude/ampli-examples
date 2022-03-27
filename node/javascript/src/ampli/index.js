@@ -29,7 +29,7 @@ const { init: initNodeClient, NodeClient, Status, Options } = require('@amplitud
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
- * @property {Options} [config]
+ * @property {Options} [options]
  * @property {NodeClient} [instance]
  */
 
