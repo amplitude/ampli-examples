@@ -63,7 +63,7 @@ import amplitude from 'amplitude-js';
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
- * @property {Object} [config]
+ * @property {Object} [options]
  * @property {AmplitudeClient} [instance]
  */
 
@@ -124,9 +124,9 @@ export const SpecialEventType = {
 }
 
 /**
- * Default Amplitude Config. Contains tracking plan information.
+ * Default Amplitude configuration options. Contains tracking plan information.
  */
-export const DefaultConfig = {
+export const DefaultOptions = {
   plan: {
     version: '0',
     branch: 'main',
@@ -282,7 +282,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude.getInstance();
-      this.amplitude?.init(apiKey, undefined, { ...DefaultConfig, ...options?.client?.config });
+      this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.options });
     } else {
       throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }

@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import { ampli, Ampli } from "./ampli";
-import { DefaultConfig, EventWithOptionalProperties } from "./ampli";
+import { DefaultOptions, EventWithOptionalProperties } from "./ampli";
 import { getSegmentMiddleware, SegmentExtra } from "./middleware/segmentMiddleware";
 import { getSegmentItlyPluginMiddleware } from "./middleware/segmentItlyPluginMiddleware";
 import { stopMiddleware } from "./middleware/stopMiddleware";
@@ -41,7 +41,7 @@ const userId = 'ampli-browser-ts-user-id';
  * requires "import amplitude from 'amplitude-js';"
  */
 // const instance = amplitude.getInstance();
-// instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultConfig, logLevel: "INFO" });
+// instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
 // ampli.load({ client: { instance } });
 
 /**
@@ -51,12 +51,12 @@ const userId = 'ampli-browser-ts-user-id';
 // ampli.load({ client: { instance: instance as any } });
 
 /**
- * OR Specify AmplitudeClient 'config'
+ * OR Specify AmplitudeClient 'options'
  */
 ampli.load({
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
-    config: { ...DefaultConfig, logLevel: "INFO" }
+    options: { ...DefaultOptions, logLevel: "INFO" }
   }
 })
 
