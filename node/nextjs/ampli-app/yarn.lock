@@ -2,36 +2,36 @@
 # yarn lockfile v1
 
 
-"@amplitude/identify@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.9.2.tgz#02ca169a6362da292d2950395806c320097a6446"
-  integrity sha512-6PEOBQZIfUdKaLjx0PNInC53n5gheqfRnM8R3vGF6eHCNYv0zPRp9XP9VgpdtqzwHYDeguw23pendC+uqAzfXg==
+"@amplitude/identify@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/identify/-/identify-1.10.0.tgz#d62b8b6785c29350c368810475a6fc7b04985210"
+  integrity sha512-BshMDcZX9qO4mgGBR45HmiHxfcPCDY/eBOE/MTUZBW+y9+N61aKmNY3YJsAUfRPzieDiyfqs8rNm7quVkaNzJQ==
   dependencies:
-    "@amplitude/types" "^1.9.2"
-    "@amplitude/utils" "^1.9.2"
+    "@amplitude/types" "^1.10.0"
+    "@amplitude/utils" "^1.10.0"
     tslib "^1.9.3"
 
-"@amplitude/node@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.9.2.tgz#49a92b33f6eaecdf9e5f87669a3fdc59d68ed003"
-  integrity sha512-J0zSPF3B64mChYP8jofNDU8tE8mG+E1ydyedt/EcIq3oqqo54AarPyAjFAQjzE2M4rpJJXoKXkkR0sU36i6MiA==
+"@amplitude/node@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/node/-/node-1.10.0.tgz#33f84ddf82b31471fce53e6fa60b688d4bc62ee4"
+  integrity sha512-Jh8w1UpxhonWe0kCALVvqiBE3vo5NYmbNZbZrrI9Lfa/1HbGboZlGdg0I7/WtihbZvEjpfcfTOf8OkmtZh6vsQ==
   dependencies:
-    "@amplitude/identify" "^1.9.2"
-    "@amplitude/types" "^1.9.2"
-    "@amplitude/utils" "^1.9.2"
+    "@amplitude/identify" "^1.10.0"
+    "@amplitude/types" "^1.10.0"
+    "@amplitude/utils" "^1.10.0"
     tslib "^1.9.3"
 
-"@amplitude/types@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.9.2.tgz#d664c70562317b189f4ba9b33681bad2105df101"
-  integrity sha512-s+Q/O8kNfocZiyGvVdtM5T4JGPwLRZ4Q26wtEF5xJhyCtJglGMe0ixe6u/6iW9s4JHIq+LlPlUu5095pVsdtNA==
+"@amplitude/types@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.10.0.tgz#dfaf7cc25f533a1e2b0ef0ad675371b396733c0f"
+  integrity sha512-xN0gnhutztv6kqHaZ2bre18anQV5GDmMXOeipTvI670g2VjNbPfOzMwu1LN4p1NadYq+GqYI223UcZrXR+R4Pw==
 
-"@amplitude/utils@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.9.2.tgz#a9e1a71341f6301096bd71c2df7bcdefec3fdf31"
-  integrity sha512-hGOIoIjmZ0pq/3b2gBrr17TaEarlR+qzFGu5npm76+scd/51F0eNvjd0vgV6WbJT1cxhyH/5Z8kihGWOU3vS3Q==
+"@amplitude/utils@^1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.10.0.tgz#138b0ba4e5755540a9e4abf426b7a25d045418a9"
+  integrity sha512-/R8j8IzFH0GYfA6ehQDm5IEzt71gIeMdiYYFIzZp6grERQlgJcwNJMAiza0o2JwwTDIruzqdB3c/vLVjuakp+w==
   dependencies:
-    "@amplitude/types" "^1.9.2"
+    "@amplitude/types" "^1.10.0"
     tslib "^1.9.3"
 
 "@babel/runtime-corejs3@^7.10.2":
