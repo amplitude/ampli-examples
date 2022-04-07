@@ -1,6 +1,6 @@
 def import_pods
 
-pod 'Amplitude', "~> 8.6.0"
+pod 'Amplitude', "~> 8.10.0"
 
 end
 

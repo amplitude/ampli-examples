@@ -712,7 +712,7 @@ open class Ampli {
 
             try {
                 value?.let {
-                    json.put(key, if (isArray(value)) getJsonArray(value) else value)
+                    json.put(key, if (value.javaClass.isArray) getJsonArray(value) else value)
                 } ?: run {
                     json.put(key, JSONObject.NULL)
                 }
@@ -722,16 +722,6 @@ open class Ampli {
         }
 
         return json
-    }
-
-    private fun isArray(value: Any): Boolean {
-        return when (value) {
-            is Array<*> -> true
-            is BooleanArray -> true
-            is IntArray -> true
-            is FloatArray -> true
-            else -> false
-        }
     }
 
     private fun getJsonArray(value: Any): JSONArray {

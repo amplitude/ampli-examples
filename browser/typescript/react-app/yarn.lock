@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@amplitude/analytics-connector@1.4.1":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-connector/-/analytics-connector-1.4.1.tgz#eb8e693f0fcc5c095a5949c84be9be84af642833"
+  integrity sha512-trahVHrwlAoHI/JmysS+HUK/Ot50zDAHoxeqKZSfaiSeNBW5gvLDQ/mTrhksOTxZmaw7CGdqEcaiPoPRmo96bA==
+  dependencies:
+    "@amplitude/ua-parser-js" "0.7.26"
+
 "@amplitude/types@^1.8.4":
   version "1.8.4"
   resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.8.4.tgz#393e251bd284f501d560fa7de0a97b2c50b647ea"
@@ -1680,10 +1687,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@types/amplitude-js@^8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-8.0.1.tgz#97406436b0ba3b14eba87b01a63b56681364654d"
-  integrity sha512-JrVJ/G8bXEz/b12xKOsSWbQ4C4i4AlPalQprJBCXhUG0loWtPNfV/8Uj53mL0OHa3hfI5javocIsgF33k6cOVQ==
+"@types/amplitude-js@^8.16.0":
+  version "8.16.0"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-8.16.0.tgz#2e201473148ece37667fe52cfce5db2ea2508c84"
+  integrity sha512-ElfQLlWQvtlXw2dwk3qslgs9PIUlX6+6Cf/NEezlNnexJ5B9ykUrNOQk6xbNFKR01MhCld07nWEf5iTYERKS9A==
 
 "@types/anymatch@*":
   version "1.3.1"
@@ -2307,11 +2314,12 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amplitude-js@^8.12.0:
-  version "8.15.1"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.15.1.tgz#1624c14dcedf9c8b5ffa6b6cff7c6b5a5f304a16"
-  integrity sha512-o37/6ZNtRslHC+qfTvOLogkllFPHPTwRe5o1MM4ynn9wxP+QytyVZ/G0sN72bKdPqKJr+QLOVUP7cDqRGgdvkw==
+amplitude-js@^8.18.1:
+  version "8.18.1"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.18.1.tgz#ed3dca868f2dc133273840e22bfcd3626c3a2862"
+  integrity sha512-TwCZFrivkqZH2/iUp2QN/PFir3+hfRdCidDA2J81HR0z5F9NrvG0B+0bqrtY3MTjoeakmAcoj55ehBGd91QEBg==
   dependencies:
+    "@amplitude/analytics-connector" "1.4.1"
     "@amplitude/ua-parser-js" "0.7.26"
     "@amplitude/utils" "^1.0.5"
     "@babel/runtime" "^7.3.4"
