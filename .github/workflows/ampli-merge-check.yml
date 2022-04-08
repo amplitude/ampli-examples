@@ -1,0 +1,61 @@
+name: Ampli Merge Check
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Android Kotlin) Check the Data branch is merged before merging the Git branch
+        working-directory: ./android/kotlin/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Android Java) Check the Data branch is merged before merging the Git branch
+        working-directory: ./android/java/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (JRE Kotlin) Check the Data branch is merged before merging the Git branch
+        working-directory: ./jre/kotlin/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (JRE Java) Check the Data branch is merged before merging the Git branch
+        working-directory: ./jre/java/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (iOS Swift) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (iOS Objective-C) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Node JS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./node/javascript
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Browser JS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./browser/javascript/react-app
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Node TS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./node/typescript
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Browser TS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./browser/typescript/react-app
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (ReactNative JS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./react-native/javascript/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (ReactNative TS) Check the Data branch is merged before merging the Git branch
+        working-directory: react-native/typescript/AmpliApp
+        run: ampli status --is-merged --is-latest-if-not-default-branch -t ${{secrets.AMPLI_TOKEN}}
