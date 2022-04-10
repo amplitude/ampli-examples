@@ -644,7 +644,7 @@ export class Ampli {
   /**
    * EventMaxIntForTest
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
    *
    * Event to test schema validation
    *
@@ -665,7 +665,7 @@ export class Ampli {
   /**
    * Event No Properties
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
    *
    * Event w no properties description
    *
@@ -684,7 +684,7 @@ export class Ampli {
   /**
    * Event Object Types
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types)
    *
    * Event with Object and Object Array
    *
@@ -705,7 +705,7 @@ export class Ampli {
   /**
    * Event With All Properties
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties)
    *
    * Event w all properties description
    *
@@ -726,7 +726,7 @@ export class Ampli {
   /**
    * Event With Array Types
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types)
    *
    * Description for event with Array Types
    *
@@ -747,7 +747,7 @@ export class Ampli {
   /**
    * Event With Const Types
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types)
    *
    * Description for event with const types
    *
@@ -766,7 +766,7 @@ export class Ampli {
   /**
    * event withDifferent_CasingTypes
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
    *
    * Description for case with space
    *
@@ -787,7 +787,7 @@ export class Ampli {
   /**
    * Event With Enum Types
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
    *
    * Description for event with enum types
    *
@@ -808,7 +808,7 @@ export class Ampli {
   /**
    * Event With Optional Array Types
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types)
    *
    * Description for event with optional array types
    *
@@ -829,7 +829,7 @@ export class Ampli {
   /**
    * Event With Optional Properties
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties)
    *
    * Event w optional properties description
    *
@@ -850,7 +850,7 @@ export class Ampli {
   /**
    * Event With Template Properties
    *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Template%20Properties)
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
    *
    * Event with template properties description
    *
