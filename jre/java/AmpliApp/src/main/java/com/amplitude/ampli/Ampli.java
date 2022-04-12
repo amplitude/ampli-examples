@@ -213,7 +213,7 @@ public class Ampli {
     /**
      * EventMaxIntForTest
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest">View in Tracking Plan</a>
      * <p>
      * Event to test schema validation
      * <p>
@@ -229,7 +229,7 @@ public class Ampli {
     /**
      * EventMaxIntForTest
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest">View in Tracking Plan</a>
      * <p>
      * Event to test schema validation
      * <p>
@@ -246,7 +246,7 @@ public class Ampli {
     /**
      * EventMaxIntForTest
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest">View in Tracking Plan</a>
      * <p>
      * Event to test schema validation
      * <p>
@@ -263,7 +263,7 @@ public class Ampli {
     /**
      * EventMaxIntForTest
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/EventMaxIntForTest">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest">View in Tracking Plan</a>
      * <p>
      * Event to test schema validation
      * <p>
@@ -281,7 +281,7 @@ public class Ampli {
     /**
      * Event No Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w no properties description
      * <p>
@@ -296,7 +296,7 @@ public class Ampli {
     /**
      * Event No Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w no properties description
      * <p>
@@ -312,7 +312,7 @@ public class Ampli {
     /**
      * Event No Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w no properties description
      * <p>
@@ -328,7 +328,7 @@ public class Ampli {
     /**
      * Event No Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20No%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w no properties description
      * <p>
@@ -345,7 +345,7 @@ public class Ampli {
     /**
      * Event Object Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types">View in Tracking Plan</a>
      * <p>
      * Event with Object and Object Array
      * <p>
@@ -361,7 +361,7 @@ public class Ampli {
     /**
      * Event Object Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types">View in Tracking Plan</a>
      * <p>
      * Event with Object and Object Array
      * <p>
@@ -378,7 +378,7 @@ public class Ampli {
     /**
      * Event Object Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types">View in Tracking Plan</a>
      * <p>
      * Event with Object and Object Array
      * <p>
@@ -395,7 +395,7 @@ public class Ampli {
     /**
      * Event Object Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20Object%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types">View in Tracking Plan</a>
      * <p>
      * Event with Object and Object Array
      * <p>
@@ -413,7 +413,7 @@ public class Ampli {
     /**
      * Event With All Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w all properties description
      * <p>
@@ -429,7 +429,7 @@ public class Ampli {
     /**
      * Event With All Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w all properties description
      * <p>
@@ -446,7 +446,7 @@ public class Ampli {
     /**
      * Event With All Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w all properties description
      * <p>
@@ -463,7 +463,7 @@ public class Ampli {
     /**
      * Event With All Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20All%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w all properties description
      * <p>
@@ -481,7 +481,7 @@ public class Ampli {
     /**
      * Event With Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with Array Types
      * <p>
@@ -497,7 +497,7 @@ public class Ampli {
     /**
      * Event With Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with Array Types
      * <p>
@@ -514,7 +514,7 @@ public class Ampli {
     /**
      * Event With Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with Array Types
      * <p>
@@ -531,7 +531,7 @@ public class Ampli {
     /**
      * Event With Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with Array Types
      * <p>
@@ -549,7 +549,7 @@ public class Ampli {
     /**
      * Event With Const Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with const types
      * <p>
@@ -564,7 +564,7 @@ public class Ampli {
     /**
      * Event With Const Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with const types
      * <p>
@@ -580,7 +580,7 @@ public class Ampli {
     /**
      * Event With Const Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with const types
      * <p>
@@ -596,7 +596,7 @@ public class Ampli {
     /**
      * Event With Const Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Const%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with const types
      * <p>
@@ -613,7 +613,7 @@ public class Ampli {
     /**
      * event withDifferent_CasingTypes
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
      * <p>
      * Description for case with space
      * <p>
@@ -629,7 +629,7 @@ public class Ampli {
     /**
      * event withDifferent_CasingTypes
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
      * <p>
      * Description for case with space
      * <p>
@@ -646,7 +646,7 @@ public class Ampli {
     /**
      * event withDifferent_CasingTypes
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
      * <p>
      * Description for case with space
      * <p>
@@ -663,7 +663,7 @@ public class Ampli {
     /**
      * event withDifferent_CasingTypes
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes">View in Tracking Plan</a>
      * <p>
      * Description for case with space
      * <p>
@@ -681,7 +681,7 @@ public class Ampli {
     /**
      * Event With Enum Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with enum types
      * <p>
@@ -697,7 +697,7 @@ public class Ampli {
     /**
      * Event With Enum Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with enum types
      * <p>
@@ -714,7 +714,7 @@ public class Ampli {
     /**
      * Event With Enum Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with enum types
      * <p>
@@ -731,7 +731,7 @@ public class Ampli {
     /**
      * Event With Enum Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Enum%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with enum types
      * <p>
@@ -749,7 +749,7 @@ public class Ampli {
     /**
      * Event With Optional Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with optional array types
      * <p>
@@ -765,7 +765,7 @@ public class Ampli {
     /**
      * Event With Optional Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with optional array types
      * <p>
@@ -782,7 +782,7 @@ public class Ampli {
     /**
      * Event With Optional Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with optional array types
      * <p>
@@ -799,7 +799,7 @@ public class Ampli {
     /**
      * Event With Optional Array Types
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types">View in Tracking Plan</a>
      * <p>
      * Description for event with optional array types
      * <p>
@@ -817,7 +817,7 @@ public class Ampli {
     /**
      * Event With Optional Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w optional properties description
      * <p>
@@ -833,7 +833,7 @@ public class Ampli {
     /**
      * Event With Optional Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w optional properties description
      * <p>
@@ -850,7 +850,7 @@ public class Ampli {
     /**
      * Event With Optional Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w optional properties description
      * <p>
@@ -867,7 +867,7 @@ public class Ampli {
     /**
      * Event With Optional Properties
      * <p>
-     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/0.0.0/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties">View in Tracking Plan</a>
      * <p>
      * Event w optional properties description
      * <p>
