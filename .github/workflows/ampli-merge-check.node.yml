@@ -1,0 +1,24 @@
+name: Ampli Merge Check (Node)
+
+on: pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Node JS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./node/javascript
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Node TS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./node/typescript
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
