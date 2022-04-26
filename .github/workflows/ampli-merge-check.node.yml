@@ -1,6 +1,10 @@
 name: Ampli Merge Check (Node)
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'node/javascript/**'
+      - 'node/typescript/**'
 
 jobs:
   build:
