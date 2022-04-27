@@ -154,6 +154,60 @@ function App() {
             );
           }}
         />
+
+        <Button
+          title="Other Events"
+          onPress={() => {
+            ampli.eventNoProperties();
+
+            ampli.eventWithConstTypes();
+
+            ampli.eventWithOptionalProperties({
+              optionalBoolean: true,
+            });
+
+            ampli.eventMaxIntForTest({
+              intMax10: 5,
+            });
+
+            ampli.eventObjectTypes({
+              requiredObject: {'key-1': 'value-1'},
+              requiredObjectArray: [{'key-1': 'value-1'}, {'key-2': 'value-2'}],
+            });
+
+            ampli.eventWithArrayTypes({
+              requiredBooleanArray: [true, false],
+              requiredNumberArray: [1.2, 3, 4.56],
+              requiredObjectArray: [{'key-1': 'value-1'}, {'key-2': 'value-2'}],
+              requiredStringArray: ['string-1', 'string-2', 'string-3'],
+            });
+
+            ampli.eventWithEnumTypes({
+              'required enum': 'required enum 2',
+            });
+
+            ampli.eventWithOptionalArrayTypes({
+              optionalBooleanArray: [true, false],
+            });
+
+            ampli.eventWithTemplateProperties({
+              required_event_property: 'event property',
+              required_template_property: 'template property',
+              optional_template_property: 1.23,
+            });
+
+            ampli.eventWithDifferentCasingTypes({
+              'enum with space': 'enum with space',
+              enum_snake_case: 'enum_snake_case',
+              enumCamelCase: 'enumCamelCase',
+              EnumPascalCase: 'EnumPascalCase',
+              'property with space': 'property with space',
+              property_with_snake_case: 'property with snake case',
+              propertyWithCamelCase: 'property with camel case',
+              PropertyWithPascalCase: 'property with pascal case',
+            });
+          }}
+        />
       </View>
     </View>
   );

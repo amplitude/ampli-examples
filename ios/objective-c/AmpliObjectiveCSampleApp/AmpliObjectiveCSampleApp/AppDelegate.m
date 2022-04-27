@@ -127,6 +127,35 @@
 //        b.optionalString = @"I'm optional";
 //    }];
 
+    [ampli eventObjectTypes:[EventObjectTypes requiredObject:nil
+                                          requiredObjectArray:nil
+    ]];
+
+    [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:nil
+                                          requiredNumberArray:nil
+                                          requiredObjectArray:nil
+                                          requiredStringArray:nil
+    ]];
+
+    [ampli eventWithEnumTypes:[EventWithEnumTypes requiredEnum:EventWithEnumTypesRequiredEnumRequiredEnum2]];
+
+    [ampli eventWithOptionalArrayTypes:[EventWithOptionalArrayTypes new]];
+
+    [ampli eventWithOptionalProperties:[EventWithOptionalProperties new]];
+
+    [ampli eventWithTemplateProperties:[EventWithTemplateProperties requiredEventProperty:@"event property"
+                                          requiredTemplateProperty:@"template property"
+    ]];
+
+    [ampli eventWithDifferentCasingTypes:[EventWithDifferentCasingTypes enumCamelCase:EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
+                                          enumPascalCase:EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase
+                                          enumSnakeCase:EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase
+                                          enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
+                                          propertyWithCamelCase:@"property with camel case"
+                                          propertyWithPascalCase:@"property with pascal case"
+                                          propertyWithSnakeCase:@"property with snake case"
+                                          propertyWithSpace:@"property with space"
+    ]];
 
     // TODO: Do we want to allow to track using direct params? Seems kinda pointless
 

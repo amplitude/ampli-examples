@@ -79,6 +79,40 @@ struct AmpliSwiftSampleAppApp: App {
         )
         ampli.track(eventWithAllProperties, extra: extraDict)
 
+        ampli.eventObjectTypes(
+            requiredObject: 3,
+            requiredObjectArray: [1, true, "string"]
+        )
+
+        ampli.eventWithEnumTypes(
+            requiredEnum: EventWithEnumTypes.RequiredEnum.requiredEnum2
+        )
+
+        ampli.eventWithOptionalArrayTypes(
+            optionalBooleanArray: [false, true]
+        )
+
+        ampli.eventWithOptionalProperties(
+            optionalString: "optional string"
+        )
+
+        ampli.eventWithDifferentCasingTypes(
+            enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase.enumCamelCase,
+            enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase.enumPascalCase,
+            enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase.enumSnakeCase,
+            enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace.enumWithSpace,
+            propertyWithCamelCase: "property with camel case",
+            propertyWithPascalCase: "property with pascal case",
+            propertyWithSnakeCase: "property with snake case",
+            propertyWithSpace: "property with space"
+        )
+
+        ampli.eventWithTemplateProperties(
+            requiredEventProperty: "event property",
+            requiredTemplateProperty: "template property",
+            optionalEventProperty: 1.23
+        )
+
         return WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)

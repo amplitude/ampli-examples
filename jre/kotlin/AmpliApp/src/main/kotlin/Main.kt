@@ -112,5 +112,35 @@ fun sendEvents() {
         requiredObjectArray = arrayOf(1, "a", true)
     ))
 
+    ampli.eventMaxIntForTest(userId, EventMaxIntForTest(
+        intMax10 = 9
+    ))
+
+    ampli.eventObjectTypes(userId, EventObjectTypes(
+        requiredObject = 3,
+        requiredObjectArray = arrayOf(1, "a", true)
+    ))
+
+    ampli.eventWithEnumTypes(userId, EventWithEnumTypes(
+        requiredEnum = EventWithEnumTypes.RequiredEnum.REQUIRED_ENUM_2
+    ))
+
+    ampli.eventWithOptionalArrayTypes(userId, EventWithOptionalArrayTypes(
+        optionalBooleanArray = arrayOf(false, true)
+    ))
+
+    ampli.eventWithDifferentCasingTypes(userId, EventWithDifferentCasingTypes(
+        enumCamelCase = EventWithDifferentCasingTypes.EnumCamelCase.ENUM_CAMEL_CASE,
+        enumPascalCase = EventWithDifferentCasingTypes.EnumPascalCase.ENUM_PASCAL_CASE,
+        enumSnakeCase = EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE,
+        enumWithSpace = EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE,
+        propertyWithCamelCase = "property with camel case",
+        propertyWithPascalCase = "property with pascal case",
+        propertyWithSnakeCase = "property with snake case",
+        propertyWithSpace = "property with space"
+    ))
+
+    ampli.
+
     ampli.flush()
 }

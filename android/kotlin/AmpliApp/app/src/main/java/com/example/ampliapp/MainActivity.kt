@@ -50,5 +50,53 @@ class MainActivity : AppCompatActivity() {
                 requiredString = "Hi!"
             )
         }
+
+        val btnOtherEvents = findViewById<Button>(R.id.btn_other_events)
+        btnOtherEvents.setOnClickListener {
+            ampli.eventMaxIntForTest(
+                intMax10 = 9
+            )
+
+            ampli.eventNoProperties()
+
+            ampli.eventWithConstTypes()
+
+            ampli.eventWithArrayTypes(
+                requiredBooleanArray = arrayOf(true, false, true),
+                requiredNumberArray = arrayOf(1.1, 2.2, 3.3),
+                requiredStringArray = arrayOf("a", "bc", "def"),
+                requiredObjectArray = arrayOf(1, "a", true)
+            )
+
+            ampli.eventObjectTypes(
+                requiredObject = 3,
+                requiredObjectArray = arrayOf(1, "a", true)
+            )
+
+            ampli.eventWithEnumTypes(
+                requiredEnum = EventWithEnumTypes.RequiredEnum.REQUIRED_ENUM_2
+            )
+
+            ampli.eventWithOptionalArrayTypes(
+                optionalBooleanArray = arrayOf(false, true)
+            )
+
+            ampli.eventWithDifferentCasingTypes(
+                enumCamelCase = EventWithDifferentCasingTypes.EnumCamelCase.ENUM_CAMEL_CASE,
+                enumPascalCase = EventWithDifferentCasingTypes.EnumPascalCase.ENUM_PASCAL_CASE,
+                enumSnakeCase = EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE,
+                enumWithSpace = EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE,
+                propertyWithCamelCase = "property with camel case",
+                propertyWithPascalCase = "property with pascal case",
+                propertyWithSnakeCase = "property with snake case",
+                propertyWithSpace = "property with space"
+            )
+
+            ampli.eventWithTemplateProperties(
+                requiredEventProperty = "event property",
+                requiredTemplateProperty = "template property",
+                optionalEventProperty = 1.23
+            )
+        }
     }
 }
