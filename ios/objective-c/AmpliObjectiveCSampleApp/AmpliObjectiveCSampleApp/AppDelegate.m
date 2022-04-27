@@ -116,25 +116,16 @@
                                              b.optionalString = @"I'm optional";
     }]];
 
-//    // This seems kinda pointless, its just as verbose as the above usage but would greatly increase codegen size
-//    [ampli eventWithAllPropertiesWithRequiredArray:@[@"I'm required"]
-//             requiredBoolean:true
-//             requiredEnum:EventWithAllPropertiesRequiredEnumEnum2
-//             requiredInteger:1
-//             requiredNumber:4.2
-//             requiredString:@"I'm also required"
-//             builderBlock:^(EventWithAllPropertiesBuilder * b) {
-//        b.optionalString = @"I'm optional";
-//    }];
+    NSDictionary *obj = @{ @"key" : @true, @"key2" : @42 };
 
-    [ampli eventObjectTypes:[EventObjectTypes requiredObject:nil
-                                          requiredObjectArray:nil
+    [ampli eventObjectTypes:[EventObjectTypes requiredObject:obj
+                                          requiredObjectArray:obj
     ]];
 
-    [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:nil
-                                          requiredNumberArray:nil
-                                          requiredObjectArray:nil
-                                          requiredStringArray:nil
+    [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:@[@true]
+                                          requiredNumberArray:@[@1.0]
+                                          requiredObjectArray:obj
+                                          requiredStringArray:@[@"required"]
     ]];
 
     [ampli eventWithEnumTypes:[EventWithEnumTypes requiredEnum:EventWithEnumTypesRequiredEnumRequiredEnum2]];
