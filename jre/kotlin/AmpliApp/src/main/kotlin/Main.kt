@@ -140,7 +140,5 @@ fun sendEvents() {
         propertyWithSpace = "property with space"
     ))
 
-    ampli.
-
     ampli.flush()
 }
