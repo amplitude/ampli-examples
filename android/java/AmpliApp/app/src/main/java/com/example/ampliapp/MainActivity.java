@@ -56,5 +56,52 @@ public class MainActivity extends AppCompatActivity {
                     .requiredString("Hi!")
                     .build());
         });
+
+        Button btnOtherEvents = this.findViewById(R.id.btn_other_events);
+        btnOtherEvents.setOnClickListener(v -> {
+            Ampli.getInstance().eventMaxIntForTest(EventMaxIntForTest.builder()
+                    .intMax10(9)
+                    .build());
+
+            Ampli.getInstance().eventNoProperties();
+
+            Ampli.getInstance().eventWithConstTypes();
+
+            Ampli.getInstance().eventWithArrayTypes(EventWithArrayTypes.builder()
+                    .requiredBooleanArray(new Boolean[]{true, false, true})
+                    .requiredNumberArray(new Double[]{1.1, 2.2, 3.3})
+                    .requiredObjectArray(new Object[]{1, "a", true})
+                    .requiredStringArray(new String[]{"a", "bc", "def"})
+                    .build());
+
+            Ampli.getInstance().eventObjectTypes(EventObjectTypes.builder()
+                    .requiredObjectArray(new Object[]{1, "a", true})
+                    .build());
+
+            Ampli.getInstance().eventWithEnumTypes(EventWithEnumTypes.builder()
+                    .requiredEnum(EventWithEnumTypes.RequiredEnum.REQUIRED_ENUM_2)
+                    .build());
+
+            Ampli.getInstance().eventWithOptionalArrayTypes(EventWithOptionalArrayTypes.builder()
+                    .optionalBooleanArray(new Boolean[]{false, true})
+                    .build());
+
+            Ampli.getInstance().eventWithDifferentCasingTypes(EventWithDifferentCasingTypes.builder()
+                    .enumCamelCase(EventWithDifferentCasingTypes.EnumCamelCase.ENUMCAMELCASE)
+                    .enumPascalCase(EventWithDifferentCasingTypes.EnumPascalCase.ENUMPASCALCASE)
+                    .enumSnakeCase(EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE)
+                    .enumWithSpace(EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE)
+                    .propertyWithCamelCase("property with camel case")
+                    .propertyWithPascalCase("property with pascal case")
+                    .propertyWithSnakeCase("property with snake case")
+                    .propertyWithSpace("property with space")
+                    .build());
+
+            Ampli.getInstance().eventWithTemplateProperties(EventWithTemplateProperties.builder()
+                    .requiredEventProperty("event property")
+                    .requiredTemplateProperty("template property")
+                    .optionalEventProperty(1.23)
+                    .build());
+        });
     }
 }

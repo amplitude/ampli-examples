@@ -116,17 +116,37 @@
                                              b.optionalString = @"I'm optional";
     }]];
 
-//    // This seems kinda pointless, its just as verbose as the above usage but would greatly increase codegen size
-//    [ampli eventWithAllPropertiesWithRequiredArray:@[@"I'm required"]
-//             requiredBoolean:true
-//             requiredEnum:EventWithAllPropertiesRequiredEnumEnum2
-//             requiredInteger:1
-//             requiredNumber:4.2
-//             requiredString:@"I'm also required"
-//             builderBlock:^(EventWithAllPropertiesBuilder * b) {
-//        b.optionalString = @"I'm optional";
-//    }];
+    NSDictionary *obj = @{ @"key" : @true, @"key2" : @42 };
 
+    [ampli eventObjectTypes:[EventObjectTypes requiredObject:obj
+                                          requiredObjectArray:obj
+    ]];
+
+    [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:@[@true]
+                                          requiredNumberArray:@[@1.0]
+                                          requiredObjectArray:obj
+                                          requiredStringArray:@[@"required"]
+    ]];
+
+    [ampli eventWithEnumTypes:[EventWithEnumTypes requiredEnum:EventWithEnumTypesRequiredEnumRequiredEnum2]];
+
+    [ampli eventWithOptionalArrayTypes:[EventWithOptionalArrayTypes new]];
+
+    [ampli eventWithOptionalProperties:[EventWithOptionalProperties new]];
+
+    [ampli eventWithTemplateProperties:[EventWithTemplateProperties requiredEventProperty:@"event property"
+                                          requiredTemplateProperty:@"template property"
+    ]];
+
+    [ampli eventWithDifferentCasingTypes:[EventWithDifferentCasingTypes enumCamelCase:EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
+                                          enumPascalCase:EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase
+                                          enumSnakeCase:EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase
+                                          enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
+                                          propertyWithCamelCase:@"property with camel case"
+                                          propertyWithPascalCase:@"property with pascal case"
+                                          propertyWithSnakeCase:@"property with snake case"
+                                          propertyWithSpace:@"property with space"
+    ]];
 
     // TODO: Do we want to allow to track using direct params? Seems kinda pointless
 

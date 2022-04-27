@@ -1,0 +1,28 @@
+name: Ampli Merge Check (Browser)
+
+on:
+  pull_request:
+    paths:
+      - 'browser/javascript/**'
+      - 'browser/typescript/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Browser JS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./browser/javascript/react-app
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (Browser TS) Check the Data branch is merged before merging the Git branch
+        working-directory: ./browser/typescript/react-app
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}

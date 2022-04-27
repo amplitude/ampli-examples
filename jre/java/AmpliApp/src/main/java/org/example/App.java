@@ -127,6 +127,43 @@ public class App {
                 .build()
         );
 
+        Ampli.getInstance().track(userId,
+            EventMaxIntForTest.builder()
+                .intMax10(9)
+                .build()
+        );
+
+        Ampli.getInstance().track(userId,
+            EventObjectTypes.builder()
+                .requiredObjectArray(new Object[]{1, "a", true})
+                .build()
+        );
+
+        Ampli.getInstance().track(userId,
+            EventWithEnumTypes.builder()
+                .requiredEnum(EventWithEnumTypes.RequiredEnum.REQUIRED_ENUM_2)
+                .build()
+        );
+
+        Ampli.getInstance().track(userId,
+            EventWithOptionalArrayTypes.builder()
+                .optionalBooleanArray(new Boolean[]{false, true})
+                .build()
+        );
+
+        Ampli.getInstance().track(userId,
+            EventWithDifferentCasingTypes.builder()
+                .enumCamelCase(EventWithDifferentCasingTypes.EnumCamelCase.ENUMCAMELCASE)
+                .enumPascalCase(EventWithDifferentCasingTypes.EnumPascalCase.ENUMPASCALCASE)
+                .enumSnakeCase(EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE)
+                .enumWithSpace(EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE)
+                .propertyWithCamelCase("property with camel case")
+                .propertyWithPascalCase("property with pascal case")
+                .propertyWithSnakeCase("property with snake case")
+                .propertyWithSpace("property with space")
+                .build()
+        );
+
         Ampli.getInstance().flush();
     }
 }

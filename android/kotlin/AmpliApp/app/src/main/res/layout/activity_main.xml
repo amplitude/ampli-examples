@@ -52,7 +52,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Event w/ All Properties"
-        app:layout_constraintTop_toBottomOf="@+id/btn_optional_properties"
+        app:layout_constraintBottom_toTopOf="@+id/btn_other_events"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_optional_properties" />
+
+    <Button
+        android:id="@+id/btn_other_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other Events"
+        app:layout_constraintTop_toBottomOf="@+id/btn_all_properties"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

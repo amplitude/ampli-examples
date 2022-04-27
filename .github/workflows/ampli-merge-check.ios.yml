@@ -1,0 +1,28 @@
+name: Ampli Merge Check (iOS)
+
+on:
+  pull_request:
+    paths:
+      - 'ios/objective-c/**'
+      - 'ios/swift/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli-swift
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (iOS Swift) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/swift/AmpliSwiftSampleApp
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (iOS Objective-C) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
