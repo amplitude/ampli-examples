@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli
+      image: amplitudeinc/ampli-swift
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
