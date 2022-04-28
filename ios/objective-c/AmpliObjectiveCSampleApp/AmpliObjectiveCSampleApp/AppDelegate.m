@@ -119,12 +119,12 @@
     NSDictionary *obj = @{ @"key" : @true, @"key2" : @42 };
 
     [ampli eventObjectTypes:[EventObjectTypes requiredObject:obj
-                                          requiredObjectArray:obj
+                                          requiredObjectArray:@[obj]
     ]];
 
     [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:@[@true]
                                           requiredNumberArray:@[@1.0]
-                                          requiredObjectArray:obj
+                                          requiredObjectArray:@[obj]
                                           requiredStringArray:@[@"required"]
     ]];
 
