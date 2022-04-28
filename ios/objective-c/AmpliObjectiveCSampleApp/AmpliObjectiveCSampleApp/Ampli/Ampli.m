@@ -659,7 +659,7 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
         return;
     }
     if (_client != nil) {
-        self._isLoaded = YES;
+        _isLoaded = YES;
         AMPPlan *AmpliObservePlan = [[[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"0"] setVersionId:@"79154a50-f057-4db5-9755-775e4e9f05e6"];
         [_client setPlan:AmpliObservePlan];
     }
