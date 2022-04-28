@@ -578,6 +578,12 @@ public class Ampli {
         }
     }
 
+    public var isLoaded: Bool {
+        get {
+            return self.amplitude != nil;
+        }
+    }
+
     public private(set) var disabled: Bool;
 
     public static let instance: Ampli = Ampli()
@@ -588,7 +594,7 @@ public class Ampli {
 
     public func load(_ options: LoadOptions? = nil) -> Void {
         self.disabled = options?.disabled ?? false;
-        if (self.amplitude != nil) {
+        if (self.isLoaded) {
             NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
             return;
         }
@@ -940,7 +946,7 @@ public class Ampli {
         ));
     }
     private func isInitializedAndEnabled() -> Bool {
-        if (self.amplitude == nil) {
+        if (!self.isLoaded) {
             NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
             return false;
         }

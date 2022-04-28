@@ -505,8 +505,12 @@ export class Ampli {
     return this.amplitude!;
   }
 
+  get isLoaded(): boolean {
+    return this.amplitude != null;
+  }
+
   private isInitializedAndEnabled(): boolean {
-    if (!this.amplitude) {
+    if (!this.isLoaded) {
       throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
     }
     return !this.disabled;
@@ -519,8 +523,8 @@ export class Ampli {
   load(options?: LoadOptions): void {
     this.disabled = options?.disabled ?? false;
 
-    if (this.amplitude) {
-      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+    if (this.isLoaded) {
+      console.warn('WARNING: Ampli is already initialized. Ampli.load() should be called once at application startup.');
       return;
     }
 
