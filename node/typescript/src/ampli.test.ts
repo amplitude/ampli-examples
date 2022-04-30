@@ -6,11 +6,11 @@ describe('Ampli Node JS SDK tests', () => {
   let ampli: Ampli;
   let userId = 'test-ampli-user-id';
   let consoleLogMock: jest.SpyInstance;
-  let consoleWarnMock: jest.SpyInstance;
+  let consoleErrorMock: jest.SpyInstance;
 
   beforeEach(() => {
     consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
-    consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
+    consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
 
     ampli = new Ampli();
     // Set API keys for tests
@@ -20,24 +20,24 @@ describe('Ampli Node JS SDK tests', () => {
 
   afterEach(() => {
     consoleLogMock.mockRestore();
-    consoleWarnMock.mockRestore();
+    consoleErrorMock.mockRestore();
   });
 
   test('should load() without any arguments if there are ApiKeys for each environment', () => {
     expect(() => ampli.load()).not.toThrow();
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
-  test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
+  test('should log error if load() without any arguments without ApiKeys for each environment', () => {
     ApiKey.production = '';
     ApiKey.development = '';
     ampli.load();
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(1);
-    expect(consoleWarnMock.mock.calls).toEqual([
-        [`WARNING: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
+    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
+    expect(consoleErrorMock.mock.calls).toEqual([
+        [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
     ]);
   });
 
@@ -60,7 +60,7 @@ describe('Ampli Node JS SDK tests', () => {
     });
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should setGroup()', () => {
@@ -80,7 +80,7 @@ describe('Ampli Node JS SDK tests', () => {
       "user_properties": {"$set": {"Group name": "Group Value"}},
     });
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
 
@@ -101,7 +101,7 @@ describe('Ampli Node JS SDK tests', () => {
       "group_properties": {"$set": {"optionalString": "some-string", "requiredBoolean": true}},
     });
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with no properties', done => {
@@ -114,7 +114,7 @@ describe('Ampli Node JS SDK tests', () => {
     ampli.flush();
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with properties of all types', (done) => {
@@ -143,6 +143,6 @@ describe('Ampli Node JS SDK tests', () => {
     ampli.flush();
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleWarnMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 });
