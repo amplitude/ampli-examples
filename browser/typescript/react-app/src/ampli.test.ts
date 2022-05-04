@@ -4,22 +4,40 @@ import { AmplitudeClient } from 'amplitude-js';
 describe('Ampli Browser TS SDK tests', () => {
   let ampli: Ampli;
   let userId = 'test-browser-ts-ampli-user-id';
+  let consoleLogMock: jest.SpyInstance;
+  let consoleErrorMock: jest.SpyInstance;
 
   beforeEach(() => {
+    consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
+    consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
+
     ampli = new Ampli();
     // Set API keys for tests
     ApiKey.production = 'test-api-key-prod';
     ApiKey.development = 'test-api-key-dev';
   });
 
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
+  afterEach(() => {
+    consoleLogMock.mockRestore();
+    consoleErrorMock.mockRestore();
   });
 
-  test('should error if load() without any arguments without ApiKeys for each environment', () => {
+  test('should load() without any arguments if there are ApiKeys for each environment', () => {
+    expect(() => ampli.load()).not.toThrow();
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
+  });
+
+  test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
     ApiKey.production = '';
     ApiKey.development = '';
-    expect(() => ampli.load()).toThrow();
+    ampli.load();
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
+    expect(consoleErrorMock.mock.calls).toEqual([
+      [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
+    ]);
   });
 
   test('should identify()', done => {
@@ -39,6 +57,9 @@ describe('Ampli Browser TS SDK tests', () => {
       optionalArray: ["A", "ray"],
       requiredNumber: 42,
     });
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should setGroup()', () => {
@@ -51,6 +72,8 @@ describe('Ampli Browser TS SDK tests', () => {
     const setGroupCalls = mockAmp.setGroup.mock.calls;
     expect(setGroupCalls.length).toBe(1);
     expect(setGroupCalls[0]).toEqual(["Group name", "Group Value"]);
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should groupIdentify()', () => {
@@ -79,6 +102,8 @@ describe('Ampli Browser TS SDK tests', () => {
       },
       undefined
     ]);
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with no properties', done => {
@@ -89,6 +114,9 @@ describe('Ampli Browser TS SDK tests', () => {
       done();
     });
     ampli.eventNoProperties();
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with properties of all types', (done) => {
@@ -114,5 +142,8 @@ describe('Ampli Browser TS SDK tests', () => {
       requiredString: "Required string",
       requiredArray: ["Required","string"],
     });
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 });

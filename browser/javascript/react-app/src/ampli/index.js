@@ -260,7 +260,8 @@ export class Ampli {
    */
   isInitializedAndEnabled() {
     if (!this.amplitude) {
-      throw new Error('Ampli is not yet initialized. Have you called ampli.load() on app start?');
+      console.error('ERROR: Ampli is not yet initialized. Have you called ampli.load() on app start?');
+      return false;
     }
     return !this.disabled;
   }
@@ -286,7 +287,7 @@ export class Ampli {
       this.amplitude = amplitude.getInstance();
       this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...(options?.client?.options ?? options?.client?.config) });
     } else {
-      throw new Error("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
+      console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
   }
 
