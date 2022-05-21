@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
  @param requiredObject Property Object Type
  @param requiredObjectArray Property Object Array Type
 */
-+ (instancetype) requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray NS_SWIFT_NAME(build(requiredObject:requiredObjectArray:));
++ (instancetype) requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray NS_SWIFT_NAME(build(requiredObject:requiredObjectArray:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -188,7 +188,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
  @param requiredObjectArray Description for required object array
  @param requiredStringArray description for required string array
 */
-+ (instancetype) requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray NS_SWIFT_NAME(build(requiredBooleanArray:requiredNumberArray:requiredObjectArray:requiredStringArray:));
++ (instancetype) requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray NS_SWIFT_NAME(build(requiredBooleanArray:requiredNumberArray:requiredObjectArray:requiredStringArray:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -286,7 +286,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 @interface EventWithOptionalArrayTypesBuilder: NSObject
 @property (nonatomic) NSArray<NSNumber *> * _Nullable optionalBooleanArray;
-@property (nonatomic) NSDictionary<NSString *, NSObject *> * _Nullable optionalJsonArray;
+@property (nonatomic) NSArray<NSDictionary<NSString *, NSObject *> *> * _Nullable optionalJsonArray;
 @property (nonatomic) NSArray<NSNumber *> * _Nullable optionalNumberArray;
 @property (nonatomic) NSArray<NSString *> * _Nullable optionalStringArray;
 @end

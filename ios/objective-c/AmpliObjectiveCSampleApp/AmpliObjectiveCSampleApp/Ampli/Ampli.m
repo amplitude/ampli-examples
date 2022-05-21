@@ -134,13 +134,13 @@ optionalString:(NSString* _Nullable)optionalString {
 
 @implementation EventObjectTypes: Event
 
-+ (instancetype)requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray {
++ (instancetype)requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray {
     return [[self alloc] initWithRequiredObject_EventObjectTypes: requiredObject
                         requiredObjectArray: requiredObjectArray];
 }
 
 - (instancetype)initWithRequiredObject_EventObjectTypes:(NSDictionary<NSString *, NSObject *> *)requiredObject
-requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray {
+requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray {
     self = [super initWithEventType:@"Event Object Types"
                     withEventProperties:@{
                         @"requiredObject": requiredObject,
@@ -221,7 +221,7 @@ optionalString:(NSString* _Nullable)optionalString {
 
 @implementation EventWithArrayTypes: Event
 
-+ (instancetype)requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
++ (instancetype)requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
     return [[self alloc] initWithRequiredBooleanArray_EventWithArrayTypes: requiredBooleanArray
                         requiredNumberArray: requiredNumberArray
                         requiredObjectArray: requiredObjectArray
@@ -230,7 +230,7 @@ optionalString:(NSString* _Nullable)optionalString {
 
 - (instancetype)initWithRequiredBooleanArray_EventWithArrayTypes:(NSArray<NSNumber *> *)requiredBooleanArray
 requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray
-requiredObjectArray:(NSDictionary<NSString *, NSObject *> *)requiredObjectArray
+requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray
 requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
     self = [super initWithEventType:@"Event With Array Types"
                     withEventProperties:@{
@@ -411,7 +411,7 @@ optionalEnum:(EventWithEnumTypesOptionalEnum)optionalEnum {
 }
 
 - (instancetype)initWithOptionalBooleanArray_EventWithOptionalArrayTypes:(NSArray<NSNumber *> * _Nullable)optionalBooleanArray
-optionalJsonArray:(NSDictionary<NSString *, NSObject *> * _Nullable)optionalJsonArray
+optionalJsonArray:(NSArray<NSDictionary<NSString *, NSObject *> *> * _Nullable)optionalJsonArray
 optionalNumberArray:(NSArray<NSNumber *> * _Nullable)optionalNumberArray
 optionalStringArray:(NSArray<NSString *> * _Nullable)optionalStringArray {
     self = [super initWithEventType:@"Event With Optional Array Types"
