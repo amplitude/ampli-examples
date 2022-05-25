@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/amplitude/ampli-examples/issues"
   },
-  "homepage": "https://github.com/amplitude/ampli-examples#readme"
+  "homepage": "https://github.com/amplitude/ampli-examples#readme",
+  "dependencies": {
+    "@amplitude/ampli": "^1.10.0"
+  }
 }
