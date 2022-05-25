@@ -33,7 +33,6 @@ class AmpliTest {
         this.ampli = Ampli()
     }
 
-
     @Test
     fun load() {
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
@@ -291,4 +290,3 @@ class AmpliTest {
         verify(client, times(1)).flush()
     }
 }
-

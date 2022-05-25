@@ -680,7 +680,7 @@ open class Ampli {
     ) {
         this.track(
             EventWithArrayTypes(
-                requiredBooleanArray = requiredBooleanArray,
+                equiredBooleanArray = requiredBooleanArray,
                 requiredNumberArray = requiredNumberArray,
                 requiredObjectArray = requiredObjectArray,
                 requiredStringArray = requiredStringArray
