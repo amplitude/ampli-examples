@@ -45,19 +45,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'com.amplitude:analytics-android:0.1.0-beta.5'
-    //implementation files('../libs/android-debug.aar')
-
+    implementation 'com.amplitude:analytics-android:0.1.0-beta.6'
     testImplementation "org.mockito:mockito-core:+"
+    testImplementation "org.mockito:mockito-inline:+"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:+"
     androidTestImplementation "org.mockito:mockito-android:+"
 
     testImplementation 'org.json:json:20201115'
-
-    // Import the Firebase BoM
-   // implementation platform('com.google.firebase:firebase-bom:29.2.1')
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    // Declare the dependency for the Firebase SDK for Google Analytics
-    //implementation 'com.google.firebase:firebase-analytics-ktx'
 }
 
 // https://stackoverflow.com/questions/3963708/gradle-how-to-display-test-results-in-the-console-in-real-time
