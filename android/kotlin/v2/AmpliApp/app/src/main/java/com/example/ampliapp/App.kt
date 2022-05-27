@@ -18,10 +18,10 @@ class App : Application() {
 
         /**
          * OR Use an existing Amplitude instance
-         * requires "import com.amplitude.api.Amplitude"
+         * requires "import com.amplitude.android.Amplitude"
+         * requires "import com.amplitude.android.Configuration"
          */
-        // val instance = Amplitude.getInstance()
-        // instance.initialize(this, AMPLITUDE_API_KEY)
+        // val instance = Amplitude(Configuration(apiKey=AMPLITUDE_API_KEY))
         // ampli.load(this, LoadOptions(
         //     client = LoadClientOptions(instance = instance)
         // ))
