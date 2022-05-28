@@ -431,8 +431,8 @@ class EventWithOptionalProperties private constructor() : BaseEvent() {
 open class Ampli {
     companion object {
         val API_KEY: Map<Environment, String> = mapOf(
-            Environment.DEVELOPMENT to "",
-            Environment.PRODUCTION to ""
+            Environment.DEVELOPMENT to "035d1d9df1c72fef7c04ebf26f5a2743336d2a8f",
+            Environment.PRODUCTION to "35666a588f5c97f183aacdf9c540a6bcc05d2753"
         )
     }
 
@@ -680,7 +680,7 @@ open class Ampli {
     ) {
         this.track(
             EventWithArrayTypes(
-                equiredBooleanArray = requiredBooleanArray,
+                requiredBooleanArray = requiredBooleanArray,
                 requiredNumberArray = requiredNumberArray,
                 requiredObjectArray = requiredObjectArray,
                 requiredStringArray = requiredStringArray
