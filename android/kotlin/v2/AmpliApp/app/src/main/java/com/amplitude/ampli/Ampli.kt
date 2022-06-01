@@ -458,20 +458,12 @@ open class Ampli {
         }
         val env = options?.environment ?: Environment.DEVELOPMENT
         val apiKey = options?.client?.apiKey ?: API_KEY[env]
-        val plan = options?.client?.plan ?: observePlan
         when {
             options?.client?.instance != null -> {
                 this.client = options.client.instance
             }
             apiKey != null && apiKey != "" -> {
                 this.client = Amplitude(options?.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
-                this._client = Amplitude(
-                    Configuration(
-                        apiKey = apiKey,
-                        plan = plan,
-                        context = appContext.applicationContext
-                    )
-                )
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
@@ -839,7 +831,7 @@ open class Ampli {
             )
         )
     }
-
+ 
     private fun isInitializedAndEnabled(): Boolean {
         if (this.client == null) {
             System.err.println("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")

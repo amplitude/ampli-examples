@@ -31,7 +31,6 @@ class AmpliTest {
     @Before
     fun setUp() {
         this.ampli = Ampli()
-
     }
 
 
