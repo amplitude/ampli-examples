@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         btnEventWithAllProperties.setOnClickListener {
             ampli.eventWithAllProperties(
                 requiredNumber = 1.23,
-                requiredArray = arrayOf("I'm", "required"),
+                requiredArray = arrayOf("I am", "required"),
                 requiredBoolean = false,
                 requiredEnum = EventWithAllProperties.RequiredEnum.ENUM_1,
                 requiredInteger = 42,

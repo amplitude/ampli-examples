@@ -54,14 +54,14 @@ class Identify private constructor() : BaseEvent() {
         requiredNumber: Double,
         optionalArray: Array<String>? = null
     ) : this() {
-        this.eventType = EventType.GroupIdentify.value
+        this.eventType = EventType.Identify.value
         this.eventProperties =
             mapOf(
                 *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
                 "requiredNumber" to requiredNumber
             ).toMutableMap()
     }
-  }
+}
 
 class Group private constructor() : BaseEvent() {
     /**
@@ -78,14 +78,14 @@ class Group private constructor() : BaseEvent() {
         requiredBoolean: Boolean,
         optionalString: String? = null
     ) : this() {
-        this.eventType = EventType.Identify.value
+        this.eventType = EventType.GroupIdentify.value
         this.eventProperties =
             mapOf(
                 *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
                 "requiredBoolean" to requiredBoolean
             ).toMutableMap()
     }
-  }
+}
 class EventMaxIntForTest private constructor() : BaseEvent() {
     /**
      * EventMaxIntForTest
@@ -107,7 +107,7 @@ class EventMaxIntForTest private constructor() : BaseEvent() {
                 "intMax10" to intMax10
             ).toMutableMap()
     }
-  }
+}
 
 class EventNoProperties : BaseEvent() {
     /**
@@ -122,7 +122,7 @@ class EventNoProperties : BaseEvent() {
     init {
         this.eventType = "EventNoProperties"
     }
-  }
+}
 
 class EventObjectTypes private constructor() : BaseEvent() {
     /**
@@ -148,7 +148,7 @@ class EventObjectTypes private constructor() : BaseEvent() {
                 "requiredObjectArray" to requiredObjectArray
             ).toMutableMap()
     }
-  }
+}
 
 class EventWithAllProperties private constructor() : BaseEvent() {
     /**
@@ -195,7 +195,7 @@ class EventWithAllProperties private constructor() : BaseEvent() {
         ENUM_1("Enum1"),
         ENUM_2("Enum2")
     }
-  }
+}
 
 class EventWithArrayTypes private constructor() : BaseEvent() {
     /**
@@ -227,7 +227,7 @@ class EventWithArrayTypes private constructor() : BaseEvent() {
                 "requiredStringArray" to requiredStringArray
             ).toMutableMap()
     }
-  }
+}
 
 class EventWithConstTypes : BaseEvent() {
     /**
@@ -251,7 +251,7 @@ class EventWithConstTypes : BaseEvent() {
                 "String Int Const" to 0
             ).toMutableMap()
     }
-  }
+}
 
 class EventWithDifferentCasingTypes private constructor() : BaseEvent() {
     /**
@@ -311,7 +311,7 @@ class EventWithDifferentCasingTypes private constructor() : BaseEvent() {
     enum class EnumWithSpace(val value: String) {
         ENUM_WITH_SPACE("enum with space")
     }
-  }
+}
 
 class EventWithEnumTypes private constructor() : BaseEvent() {
     /**
@@ -347,7 +347,7 @@ class EventWithEnumTypes private constructor() : BaseEvent() {
         REQUIRED_ENUM_1("required enum 1"),
         REQUIRED_ENUM_2("required enum 2")
     }
-  }
+}
 
 class EventWithOptionalArrayTypes private constructor() : BaseEvent() {
     /**
@@ -379,7 +379,7 @@ class EventWithOptionalArrayTypes private constructor() : BaseEvent() {
                 *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
             ).toMutableMap()
     }
-  }
+}
 
 class EventWithOptionalProperties private constructor() : BaseEvent() {
     /**
@@ -414,7 +414,7 @@ class EventWithOptionalProperties private constructor() : BaseEvent() {
                 *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
             ).toMutableMap()
     }
-  }
+}
 
 val ampli = Ampli()
 
@@ -425,7 +425,7 @@ open class Ampli {
             Environment.PRODUCTION to ""
         )
 
-		private val observePlan: Plan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
+        private val observePlan: Plan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
     }
 
     enum class Environment {
@@ -468,10 +468,11 @@ open class Ampli {
     }
 
     open fun track(event: BaseEvent, options: EventOptions? = null) {
-		if (!isInitializedAndEnabled()) {
+        if (!isInitializedAndEnabled()) {
             return
         }
-        this._client?.track(event.eventType, this.getEventPropertiesMap(event), options)
+        options ?.let { event.mergeEventOptions(it) }
+        this._client?.track(event)
     }
 
     open fun identify(userId: String?, event: Identify, options: EventOptions? = null) {
@@ -479,7 +480,8 @@ open class Ampli {
             return
         }
         this.handleIdentifyEventOptions(userId, event, options)
-        this._client?.identify(this.getEventPropertiesMap(event), options)
+        options ?.let { event.mergeEventOptions(it) }
+        this._client?.track(event)
     }
 
     open fun setGroup(name: String, value: String, options: EventOptions? = null) {
@@ -500,8 +502,11 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        val groupProperties: Map<String, Any> = this.getEventPropertiesMap(event)
-        this._client?.groupIdentify(groupType, groupName, groupProperties, options)
+        val group = mutableMapOf<String, Any?>()
+        group.put(groupType, groupName)
+        event.groups = group
+        options ?. let { event.mergeEventOptions(it) }
+        this.track(event)
     }
 
     open fun flush() {
@@ -527,8 +532,8 @@ open class Ampli {
     ) {
         this.track(
             EventMaxIntForTest(
-            intMax10 = intMax10
-        )
+                intMax10 = intMax10
+            )
         )
     }
 
@@ -565,9 +570,9 @@ open class Ampli {
     ) {
         this.track(
             EventObjectTypes(
-            requiredObject = requiredObject,
-            requiredObjectArray = requiredObjectArray
-        )
+                requiredObject = requiredObject,
+                requiredObjectArray = requiredObjectArray
+            )
         )
     }
 
@@ -599,14 +604,14 @@ open class Ampli {
     ) {
         this.track(
             EventWithAllProperties(
-            requiredArray = requiredArray,
-            requiredBoolean = requiredBoolean,
-            requiredEnum = requiredEnum,
-            requiredInteger = requiredInteger,
-            requiredNumber = requiredNumber,
-            requiredString = requiredString,
-            optionalString = optionalString
-        )
+                requiredArray = requiredArray,
+                requiredBoolean = requiredBoolean,
+                requiredEnum = requiredEnum,
+                requiredInteger = requiredInteger,
+                requiredNumber = requiredNumber,
+                requiredString = requiredString,
+                optionalString = optionalString
+            )
         )
     }
 
@@ -632,11 +637,11 @@ open class Ampli {
     ) {
         this.track(
             EventWithArrayTypes(
-            requiredBooleanArray = requiredBooleanArray,
-            requiredNumberArray = requiredNumberArray,
-            requiredObjectArray = requiredObjectArray,
-            requiredStringArray = requiredStringArray
-        )
+                requiredBooleanArray = requiredBooleanArray,
+                requiredNumberArray = requiredNumberArray,
+                requiredObjectArray = requiredObjectArray,
+                requiredStringArray = requiredStringArray
+            )
         )
     }
 
@@ -685,15 +690,15 @@ open class Ampli {
     ) {
         this.track(
             EventWithDifferentCasingTypes(
-            enumCamelCase = enumCamelCase,
-            enumPascalCase = enumPascalCase,
-            enumSnakeCase = enumSnakeCase,
-            enumWithSpace = enumWithSpace,
-            propertyWithCamelCase = propertyWithCamelCase,
-            propertyWithPascalCase = propertyWithPascalCase,
-            propertyWithSnakeCase = propertyWithSnakeCase,
-            propertyWithSpace = propertyWithSpace
-        )
+                enumCamelCase = enumCamelCase,
+                enumPascalCase = enumPascalCase,
+                enumSnakeCase = enumSnakeCase,
+                enumWithSpace = enumWithSpace,
+                propertyWithCamelCase = propertyWithCamelCase,
+                propertyWithPascalCase = propertyWithPascalCase,
+                propertyWithSnakeCase = propertyWithSnakeCase,
+                propertyWithSpace = propertyWithSpace
+            )
         )
     }
 
@@ -715,9 +720,9 @@ open class Ampli {
     ) {
         this.track(
             EventWithEnumTypes(
-            requiredEnum = requiredEnum,
-            optionalEnum = optionalEnum
-        )
+                requiredEnum = requiredEnum,
+                optionalEnum = optionalEnum
+            )
         )
     }
 
@@ -743,11 +748,11 @@ open class Ampli {
     ) {
         this.track(
             EventWithOptionalArrayTypes(
-            optionalBooleanArray = optionalBooleanArray,
-            optionalJsonArray = optionalJsonArray,
-            optionalNumberArray = optionalNumberArray,
-            optionalStringArray = optionalStringArray
-        )
+                optionalBooleanArray = optionalBooleanArray,
+                optionalJsonArray = optionalJsonArray,
+                optionalNumberArray = optionalNumberArray,
+                optionalStringArray = optionalStringArray
+            )
         )
     }
 
@@ -775,12 +780,12 @@ open class Ampli {
     ) {
         this.track(
             EventWithOptionalProperties(
-            optionalArrayNumber = optionalArrayNumber,
-            optionalArrayString = optionalArrayString,
-            optionalBoolean = optionalBoolean,
-            optionalNumber = optionalNumber,
-            optionalString = optionalString
-        )
+                optionalArrayNumber = optionalArrayNumber,
+                optionalArrayString = optionalArrayString,
+                optionalBoolean = optionalBoolean,
+                optionalNumber = optionalNumber,
+                optionalString = optionalString
+            )
         )
     }
 
@@ -802,21 +807,5 @@ open class Ampli {
             return false
         }
         return !this.disabled
-    }
-
-    private fun getEventPropertiesMap(event: BaseEvent?): Map<String, Any> {
-      val map = mutableMapOf<String, Any>()
-
-      if (event?.eventProperties != null) {
-          event.eventProperties!!.entries.forEach { eventPropertyEntry ->
-              val key = eventPropertyEntry.key
-              val value = eventPropertyEntry.value
-              value?.let {
-                  map[key] = value
-              }
-          }
-      }
-
-      return map
     }
 }

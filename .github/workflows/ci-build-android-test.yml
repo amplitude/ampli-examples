@@ -3,7 +3,8 @@ name: CI - Android Tests
 on:
   pull_request:
     paths:
-      - 'android/kotlin/**'
+      - 'android/kotlin/v1/**'
+      - 'android/kotlin/v2/**' 
       - 'android/java/**'
 
 jobs:
