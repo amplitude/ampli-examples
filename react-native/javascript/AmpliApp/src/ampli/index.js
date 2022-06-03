@@ -210,11 +210,18 @@ export class Ampli {
   }
 
   /**
+   * @return {boolean}
+   */
+  get isLoaded() {
+    return this.amplitude != null;
+  }
+
+  /**
    * @private
    * @return {boolean}
    */
   isInitializedAndEnabled() {
-    if (!this.amplitude) {
+    if (!this.isLoaded) {
       console.error('ERROR: Ampli is not yet initialized. Have you called ampli.load() on app start?');
       return false;
     }
@@ -228,8 +235,8 @@ export class Ampli {
   load(options) {
     this.disabled = options?.disabled ?? false;
 
-    if (this.amplitude) {
-      console.warn('WARNING: Ampli is already intialized. Ampli.load() should be called once at application startup.');
+    if (this.isLoaded) {
+      console.warn('WARNING: Ampli is already initialized. Ampli.load() should be called once at application startup.');
       return { promise: getPromiseResponse(false) };
     }
 

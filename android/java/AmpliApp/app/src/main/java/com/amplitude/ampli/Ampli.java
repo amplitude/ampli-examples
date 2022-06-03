@@ -57,6 +57,10 @@ public class Ampli {
 
     private boolean disabled = false;
 
+    public boolean isLoaded() {
+        return this.client != null;
+    }
+
     private AmplitudeClient client;
 
     public AmplitudeClient getClient() {
@@ -78,7 +82,7 @@ public class Ampli {
         Boolean disabled = options != null ? options.getDisabled() : null;
         this.disabled = disabled != null ? disabled : false;
 
-        if (this.client != null) {
+        if (this.isLoaded()) {
             System.err.println("Warning: Ampli is already initialized. Ampli.getInstance().load() should be called once at application start up.");
             return;
         }
@@ -943,7 +947,7 @@ public class Ampli {
     }
 
     private boolean isInitializedAndEnabled() {
-        if (this.client == null) {
+        if (!this.isLoaded()) {
             System.err.println("Ampli is not yet initialized. Have you called `Ampli.getInstance().load()` on app start?");
             return false;
         }

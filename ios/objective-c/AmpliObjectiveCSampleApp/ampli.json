@@ -5,5 +5,6 @@
   "Path": "./AmpliObjectiveCSampleApp/Ampli",
   "Branch": "main",
   "Version": "0.0.0",
-  "Runtime": "ios:obj-c-ampli"
+  "Runtime": "ios:obj-c-ampli",
+  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6"
 }

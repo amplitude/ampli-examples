@@ -482,6 +482,11 @@ open class Ampli {
 
     private var disabled: Boolean = false
 
+    val isLoaded: Boolean
+        get() {
+            return this._client != null
+        }
+
     @android.annotation.SuppressLint("StaticFieldLeak")
     private var _client: AmplitudeClient? = null
     val client: AmplitudeClient
@@ -492,7 +497,7 @@ open class Ampli {
 
     open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
         this.disabled = options?.disabled ?: false
-        if (this._client != null) {
+        if (this.isLoaded) {
             System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
@@ -865,7 +870,7 @@ open class Ampli {
     }
 
     private fun isInitializedAndEnabled(): Boolean {
-        if (this._client == null) {
+        if (!this.isLoaded) {
             System.err.println("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")
             return false
         }

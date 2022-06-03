@@ -5,5 +5,6 @@
   "Path": "./app/src/main/java/com/amplitude/ampli",
   "Branch": "main",
   "Version": "0.0.0",
-  "Runtime": "android:java-ampli"
+  "Runtime": "android:java-ampli",
+  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6"
 }

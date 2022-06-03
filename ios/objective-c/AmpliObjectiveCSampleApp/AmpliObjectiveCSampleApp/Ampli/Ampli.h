@@ -370,6 +370,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 @interface Ampli: NSObject
 @property (nonatomic, strong, readonly) Amplitude * _Nullable client;
+@property (nonatomic, assign, readonly) BOOL isLoaded;
 @property (nonatomic, assign, readwrite) BOOL disabled;
 + (instancetype)instance;
 - (instancetype)init;

@@ -642,7 +642,7 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
         @(production): @""
     };
     self.disabled = options != nil ? options.disabled : NO;
-    if (_client != nil) {
+    if (self.isLoaded) {
         NSLog(@"Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
         return;
     }
@@ -659,6 +659,7 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
         return;
     }
     if (_client != nil) {
+        _isLoaded = YES;
         AMPPlan *AmpliObservePlan = [[[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"0"] setVersionId:@"79154a50-f057-4db5-9755-775e4e9f05e6"];
         [_client setPlan:AmpliObservePlan];
     }
@@ -913,7 +914,7 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
 }
 
 - (BOOL)isInitializedAndEnabled {
-    if (self.client == nil) {
+    if (!self.isLoaded) {
         NSLog(@"Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
        return NO;
     }
