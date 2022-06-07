@@ -47,6 +47,7 @@ class AmpliTest {
 
         val eventOptions = EventOptions()
         eventOptions.userId = userId
+        eventOptions.deviceId = deviceId
 
         this.ampli.identify(
             userId,
@@ -63,6 +64,7 @@ class AmpliTest {
             JSONObject(mapCaptor.allValues.first()).toString()
         )
         assertEquals(userId, optionsCaptor.allValues.first().userId)
+        assertEquals(deviceId, optionsCaptor.allValues.first().deviceId)
     }
 
     @Test
@@ -98,12 +100,11 @@ class AmpliTest {
             eventOptions
         )
 
-
         verify(client, times(1)).setGroup(eq("group-1"), arrayCapture.capture(), optionsCaptor.capture())
         assertEquals(arrayOf("value-1", "value-2", "value-3").joinToString(), arrayCapture.allValues.first().joinToString())
         assertEquals(userId, optionsCaptor.allValues.first().userId)
         assertEquals(deviceId, optionsCaptor.allValues.first().deviceId)
-}
+    }
 
     @Test
     fun groupIdentify() {
