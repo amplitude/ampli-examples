@@ -15,9 +15,13 @@ See subproject README's for details on each platform.
 ####  [ios/swift](ios/swift/AmpliSwiftSampleApp)
 ####  [ios/objective-c](ios/objective-c/AmpliObjectiveCSampleApp)
 
-## Android
-#### [android/kotlin](android/kotlin/AmpliApp)
-#### [android/java](android/java/AmpliApp)
+## Android V1
+#### [android/kotlin](android/kotlin/v1/AmpliApp)
+#### [android/java](android/java/v2/AmpliApp)
+
+## Android V2
+#### [android/kotlin](android/kotlin/v1/AmpliApp)
+#### [android/java](android/java/v2/AmpliApp)
 
 ## JRE
 #### [jre/kotlin](jre/kotlin/AmpliApp)

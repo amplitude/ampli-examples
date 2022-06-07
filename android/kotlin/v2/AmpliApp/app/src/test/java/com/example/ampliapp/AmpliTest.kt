@@ -3,6 +3,7 @@ package com.example.ampliapp
 import android.content.Context
 import com.amplitude.ampli.*
 import com.amplitude.android.Amplitude
+import com.amplitude.android.events.BaseEvent
 import com.amplitude.android.events.EventOptions
 import org.json.JSONObject
 import org.junit.Assert.*
@@ -18,9 +19,12 @@ class AmpliTest {
     lateinit var ampli: Ampli
     val client = mock<Amplitude>()
     val appContext = mock<Context>()
+
     val optionsCaptor = argumentCaptor<EventOptions>()
     val mapCaptor = argumentCaptor<Map<String, Any>>()
     val arrayCapture = argumentCaptor<Array<String>>()
+    val eventCaptor = argumentCaptor<BaseEvent>()
+
     private val userId = "test-ampli-user-id"
     private val deviceId = "test-ampli-device-id"
 
@@ -43,6 +47,7 @@ class AmpliTest {
 
         val eventOptions = EventOptions()
         eventOptions.userId = userId
+        eventOptions.deviceId = deviceId
 
         this.ampli.identify(
             userId,
@@ -59,6 +64,7 @@ class AmpliTest {
             JSONObject(mapCaptor.allValues.first()).toString()
         )
         assertEquals(userId, optionsCaptor.allValues.first().userId)
+        assertEquals(deviceId, optionsCaptor.allValues.first().deviceId)
     }
 
     @Test
@@ -94,12 +100,11 @@ class AmpliTest {
             eventOptions
         )
 
-
         verify(client, times(1)).setGroup(eq("group-1"), arrayCapture.capture(), optionsCaptor.capture())
         assertEquals(arrayOf("value-1", "value-2", "value-3").joinToString(), arrayCapture.allValues.first().joinToString())
         assertEquals(userId, optionsCaptor.allValues.first().userId)
         assertEquals(deviceId, optionsCaptor.allValues.first().deviceId)
-}
+    }
 
     @Test
     fun groupIdentify() {
@@ -128,19 +133,15 @@ class AmpliTest {
 
     @Test
     fun trackEventNoProperties() {
-        val client = mock<Amplitude>()
-        val appContext = mock<Context>()
-
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
         this.ampli.eventNoProperties()
 
         verify(client, times(1)).track(
-            eq("EventNoProperties"),
-            mapCaptor.capture(),
-            optionsCaptor.capture()
+            eventCaptor.capture(),
+            eq(null),
+            eq(null)
         )
-        assertEquals("{}", mapCaptor.allValues.first().toString())
-        assertNull(null, optionsCaptor.allValues.first())
+        assertEquals("EventNoProperties", eventCaptor.allValues.first().eventType )
     }
 
     @Test
@@ -162,13 +163,14 @@ class AmpliTest {
             eventOptions,
         )
         verify(client, times(1)).track(
-            eq("EventWithAllProperties"),
-            mapCaptor.capture(),
-            optionsCaptor.capture()
+            eventCaptor.capture(),
+            optionsCaptor.capture(),
+            eq(null)
         )
 
-         assertEquals(
-         """{
+        assertEquals("EventWithAllProperties", eventCaptor.allValues.first().eventType)
+        assertEquals(
+            """{
   "requiredEnum": "Enum2",
   "requiredArray": [
     "Required",
@@ -179,8 +181,7 @@ class AmpliTest {
   "requiredBoolean": true,
   "requiredInteger": 41,
   "requiredString": "Required string"
-}""", JSONObject(mapCaptor.allValues.first()).toString(2)
-        )
+}""", JSONObject(eventCaptor.allValues.first().eventProperties).toString(2))
         assertEquals(userId, optionsCaptor.allValues.first().userId)
         assertEquals(deviceId, optionsCaptor.allValues.first().deviceId)
     }
@@ -192,6 +193,6 @@ class AmpliTest {
         this.ampli.flush()
 
         verify(client, times(1)).flush()
-     }
+    }
 }
 
