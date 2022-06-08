@@ -26,8 +26,8 @@ import {
 
 /**
  * @typedef {Object} BaseEvent
- * @property {string} event_type
- * @property {Object.<string, *>} [event_properties]
+ * @property {string} eventType
+ * @property {Object.<string, *>} [eventProperties]
  */
 
 /**
