@@ -1,9 +1,9 @@
-name: Ampli Merge Check (Android)
+name: Ampli Merge Check (Android V1)
 
 on:
   pull_request:
     paths:
-      - 'android/kotlin/**'
+      - 'android/kotlin/v1'
       - 'android/java/**'
 
 jobs:
@@ -22,11 +22,6 @@ jobs:
       - name: (Android Kotlin V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./android/kotlin/v1/AmpliApp
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
-
-      - name: (Android Kotlin V1) Check the Data branch is merged before merging the Git branch
-        working-directory: ./android/kotlin/v2/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
-
 
       - name: (Android Java) Check the Data branch is merged before merging the Git branch
         working-directory: ./android/java/AmpliApp

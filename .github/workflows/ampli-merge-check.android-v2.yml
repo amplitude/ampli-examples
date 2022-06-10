@@ -1,0 +1,23 @@
+name: Ampli Merge Check (Android V2)
+
+on:
+  pull_request:
+    paths:
+      - 'android/kotlin/v2'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Android Kotlin V2) Check the Data branch is merged before merging the Git branch
+        working-directory: ./android/kotlin/v2/AmpliApp
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
