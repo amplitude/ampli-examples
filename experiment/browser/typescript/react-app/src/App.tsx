@@ -39,9 +39,9 @@ function App() {
 
     // Each variant has a named, strongly typed property on the Experiment
     if (xpmt.codegenStringExperiment().control) {
-      // Handle treatment case
-    } else if (xpmt.codegenStringExperiment().treatment) {
       // Handle control case
+    } else if (xpmt.codegenStringExperiment().treatment) {
+      // Handle treatment case
     }
 
     const words = xpmt.codegenArrayExperiment();
