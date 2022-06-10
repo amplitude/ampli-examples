@@ -5,7 +5,7 @@ import {
   CodegenArrayExperiment,
   Xpmt
 } from './xpmt';
-import { Experiment, ExperimentUser } from "@amplitude/experiment-js-client";
+import { ExperimentUser } from "@amplitude/experiment-js-client";
 import { CodeBlock, EXPERIMENT_CODE, XPMT_FLAG_CODE } from "./code-snippets";
 
 const {
@@ -14,7 +14,6 @@ const {
 } = process.env;
 
 // (1) Initialize the experiment client
-const experiment = Experiment.initialize(REACT_APP_EXPERIMENT_DEPLOYMENT_KEY);
 const xpmt = Xpmt.initialize(REACT_APP_EXPERIMENT_DEPLOYMENT_KEY);
 
 // (2) Fetch variants for a user
@@ -30,8 +29,6 @@ const genericUser = {
   user_id: 'user@company.com',
   device_id: 'experiment-codegen-device-id-generic',
 };
-
-const jsons = (obj: any) => JSON.stringify(obj, null, 2);
 
 function App() {
   const [userType, setUserType] = useState<string>();

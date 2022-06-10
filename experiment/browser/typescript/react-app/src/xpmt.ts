@@ -19,13 +19,12 @@ export type BaseExperiment = {
   name: string;
 }
 
-export namespace CodegenArrayExperimentVariants
-{
+/* Codegen Array Experiment */
+export namespace CodegenArrayExperimentVariants {
   export type Generic = { key: 'generic', payload: string[] };
   export type Ampli = { key: 'ampli', payload: string[] };
 
-  export enum Keys
-  {
+  export enum Keys {
     Generic = 'generic',
     Ampli = 'ampli'
   }
@@ -37,68 +36,118 @@ export type CodegenArrayExperimentType = BaseExperiment & {
 export class CodegenArrayExperiment implements CodegenArrayExperimentType {
   key = 'codegen-array-experiment';
   name = "Codegen Array Experiment";
-  variant: CodegenArrayExperimentVariants.Ampli | CodegenArrayExperimentVariants.Generic | undefined;
+  variant: CodegenArrayExperimentVariants.Generic |CodegenArrayExperimentVariants.Ampli | undefined;
 
   constructor(
     public generic?: CodegenArrayExperimentVariants.Generic,
     public ampli?: CodegenArrayExperimentVariants.Ampli,
   ) {}
 }
-export namespace CodegenArrayExperiment
-{
+export namespace CodegenArrayExperiment {
   export const Key = 'codegen-array-experiment';
   export const Name = "Codegen Array Experiment";
 
-  export enum Variants
-  {
+  export enum Variants {
     Generic = 'generic',
     Ampli = 'ampli'
   }
 }
 
-export type CodegenBooleanExperimentOn = { key: 'on', payload: boolean };
-export type CodegenBooleanExperimentVariants = BaseExperiment & {
-  on?: CodegenBooleanExperimentOn;
+/* Codegen Boolean Experiment */
+export namespace CodegenBooleanExperimentVariants {
+  export type On = { key: 'on', payload: boolean };
+
+  export enum Keys {
+    On = 'on'
+  }
 }
-export class CodegenBooleanExperiment implements CodegenBooleanExperimentVariants {
+export type CodegenBooleanExperimentType = BaseExperiment & {
+  on?: CodegenBooleanExperimentVariants.On;
+}
+export class CodegenBooleanExperiment implements CodegenBooleanExperimentType {
   key = 'codegen-boolean-experiment';
   name = "Codegen Boolean Experiment";
+  variant: CodegenBooleanExperimentVariants.On | undefined;
 
   constructor(
-    public on?: CodegenBooleanExperimentOn,
+    public on?: CodegenBooleanExperimentVariants.On,
   ) {}
 }
+export namespace CodegenBooleanExperiment {
+  export const Key = 'codegen-boolean-experiment';
+  export const Name = "Codegen Boolean Experiment";
 
-export type CodegenStringExperimentControl = { key: 'control', payload: string };
-export type CodegenStringExperimentTreatment = { key: 'treatment', payload: string };
-export type CodegenStringExperimentVariants = BaseExperiment & {
-  control?: CodegenStringExperimentControl;
-  treatment?: CodegenStringExperimentTreatment;
+  export enum Variants {
+    On = 'on'
+  }
 }
-export class CodegenStringExperiment implements CodegenStringExperimentVariants {
+
+/* Codegen String Experiment */
+export namespace CodegenStringExperimentVariants {
+  export type Control = { key: 'control', payload: string };
+  export type Treatment = { key: 'treatment', payload: string };
+
+  export enum Keys {
+    Control = 'control',
+    Treatment = 'treatment'
+  }
+}
+export type CodegenStringExperimentType = BaseExperiment & {
+  control?: CodegenStringExperimentVariants.Control;
+  treatment?: CodegenStringExperimentVariants.Treatment;
+}
+export class CodegenStringExperiment implements CodegenStringExperimentType {
   key = 'codegen-string-experiment';
   name = "Codegen String Experiment";
+  variant: CodegenStringExperimentVariants.Control |CodegenStringExperimentVariants.Treatment | undefined;
 
   constructor(
-    public control?: CodegenStringExperimentControl,
-    public treatment?: CodegenStringExperimentTreatment,
+    public control?: CodegenStringExperimentVariants.Control,
+    public treatment?: CodegenStringExperimentVariants.Treatment,
   ) {}
 }
+export namespace CodegenStringExperiment {
+  export const Key = 'codegen-string-experiment';
+  export const Name = "Codegen String Experiment";
 
-export type CodegenExperimentControl = { key: 'control', payload: any };
-export type CodegenExperimentTreatment = { key: 'treatment', payload: any };
-export type CodegenExperimentVariants = BaseExperiment & {
-  control?: CodegenExperimentControl;
-  treatment?: CodegenExperimentTreatment;
+  export enum Variants {
+    Control = 'control',
+    Treatment = 'treatment'
+  }
 }
-export class CodegenExperiment implements CodegenExperimentVariants {
+
+/* Codegen Experiment */
+export namespace CodegenExperimentVariants {
+  export type Control = { key: 'control', payload: any };
+  export type Treatment = { key: 'treatment', payload: any };
+
+  export enum Keys {
+    Control = 'control',
+    Treatment = 'treatment'
+  }
+}
+export type CodegenExperimentType = BaseExperiment & {
+  control?: CodegenExperimentVariants.Control;
+  treatment?: CodegenExperimentVariants.Treatment;
+}
+export class CodegenExperiment implements CodegenExperimentType {
   key = 'codegen-experiment';
   name = "Codegen Experiment";
+  variant: CodegenExperimentVariants.Control |CodegenExperimentVariants.Treatment | undefined;
 
   constructor(
-    public control?: CodegenExperimentControl,
-    public treatment?: CodegenExperimentTreatment,
+    public control?: CodegenExperimentVariants.Control,
+    public treatment?: CodegenExperimentVariants.Treatment,
   ) {}
+}
+export namespace CodegenExperiment {
+  export const Key = 'codegen-experiment';
+  export const Name = "Codegen Experiment";
+
+  export enum Variants {
+    Control = 'control',
+    Treatment = 'treatment'
+  }
 }
 
 export class Xpmt {
@@ -129,8 +178,6 @@ export class Xpmt {
     await this.client.fetch(user)
     return this;
   }
-
-  /* Private */
 
   private constructor(client: ExperimentClient) {
     this.client = client;
