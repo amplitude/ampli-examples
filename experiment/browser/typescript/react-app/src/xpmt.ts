@@ -19,6 +19,56 @@ export type BaseExperiment = {
   name: string;
 }
 
+export namespace CodegenArrayExperimentVariants
+{
+  export type Generic = { key: 'generic', payload: string[] };
+  export type Ampli = { key: 'ampli', payload: string[] };
+
+  export enum Keys
+  {
+    Generic = 'generic',
+    Ampli = 'ampli'
+  }
+}
+export type CodegenArrayExperimentType = BaseExperiment & {
+  generic?: CodegenArrayExperimentVariants.Generic;
+  ampli?: CodegenArrayExperimentVariants.Ampli;
+}
+export class CodegenArrayExperiment implements CodegenArrayExperimentType {
+  key = 'codegen-array-experiment';
+  name = "Codegen Array Experiment";
+  variant: CodegenArrayExperimentVariants.Ampli | CodegenArrayExperimentVariants.Generic | undefined;
+
+  constructor(
+    public generic?: CodegenArrayExperimentVariants.Generic,
+    public ampli?: CodegenArrayExperimentVariants.Ampli,
+  ) {}
+}
+export namespace CodegenArrayExperiment
+{
+  export const Key = 'codegen-array-experiment';
+  export const Name = "Codegen Array Experiment";
+
+  export enum Variants
+  {
+    Generic = 'generic',
+    Ampli = 'ampli'
+  }
+}
+
+export type CodegenBooleanExperimentOn = { key: 'on', payload: boolean };
+export type CodegenBooleanExperimentVariants = BaseExperiment & {
+  on?: CodegenBooleanExperimentOn;
+}
+export class CodegenBooleanExperiment implements CodegenBooleanExperimentVariants {
+  key = 'codegen-boolean-experiment';
+  name = "Codegen Boolean Experiment";
+
+  constructor(
+    public on?: CodegenBooleanExperimentOn,
+  ) {}
+}
+
 export type CodegenStringExperimentControl = { key: 'control', payload: string };
 export type CodegenStringExperimentTreatment = { key: 'treatment', payload: string };
 export type CodegenStringExperimentVariants = BaseExperiment & {
@@ -90,9 +140,18 @@ export class Xpmt {
     const variant = this.client.variant(exp.key);
     if (variant.value) {
       (exp as any)[variant.value] = { payload: variant.payload };
+      (exp as any)['variant'] = { key: variant.value, payload: variant.payload };
     }
 
     return exp;
+  }
+
+  public codegenArrayExperiment(): CodegenArrayExperiment {
+    return this.getTypedVariant(new CodegenArrayExperiment());
+  }
+
+  public codegenBooleanExperiment(): CodegenBooleanExperiment {
+    return this.getTypedVariant(new CodegenBooleanExperiment());
   }
 
   public codegenStringExperiment(): CodegenStringExperiment {

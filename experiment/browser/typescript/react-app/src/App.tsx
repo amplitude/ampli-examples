@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Xpmt } from './xpmt';
+import {
+  CodegenArrayExperiment,
+  Xpmt
+} from './xpmt';
+import { Experiment, ExperimentUser } from "@amplitude/experiment-js-client";
+import { CodeBlock, EXPERIMENT_CODE, XPMT_FLAG_CODE } from "./code-snippets";
 
 const {
   REACT_APP_EXPERIMENT_DEPLOYMENT_KEY = '',
@@ -9,81 +14,80 @@ const {
 } = process.env;
 
 // (1) Initialize the experiment client
-// const experiment = Experiment.initialize(REACT_APP_EXPERIMENT_DEPLOYMENT_KEY);
+const experiment = Experiment.initialize(REACT_APP_EXPERIMENT_DEPLOYMENT_KEY);
 const xpmt = Xpmt.initialize(REACT_APP_EXPERIMENT_DEPLOYMENT_KEY);
 
 // (2) Fetch variants for a user
-const user = {
-  user_id: 'user@company.com',
-  device_id: 'abcdefg',
+const ampliUser: ExperimentUser = {
+  user_id: 'justin.fiedler@amplitude.com',
+  device_id: 'experiment-codegen-device-id',
   user_properties: {
     'premium': true,
   },
 };
 
-// const variants = Object.keys(experiment.all()).map(variant => {
-//   console.log(`${variant}`);
-// });
-
-// (3) Lookup a flag's variant
-// const variant = experiment.variant('<FLAG_KEY>');
-// if (variant.value === 'on') {
-//   // Flag is on
-// } else {
-//   // Flag is off
-// }
+const genericUser = {
+  user_id: 'user@company.com',
+  device_id: 'experiment-codegen-device-id-generic',
+};
 
 const jsons = (obj: any) => JSON.stringify(obj, null, 2);
 
 function App() {
+  const [userType, setUserType] = useState<string>();
+  const [words, setWords] = useState<string[]>([]);
+
+  const switchUser = async (user: ExperimentUser) => {
+    await xpmt.fetch(user);
+
+    // Each variant has a named, strongly typed property on the Experiment
+    if (xpmt.codegenStringExperiment().control) {
+      // Handle treatment case
+    } else if (xpmt.codegenStringExperiment().treatment) {
+      // Handle control case
+    }
+
+    const words = xpmt.codegenArrayExperiment();
+    // You can also access the current variant (semi-typed)
+    if (words.variant) {
+      setWords([...words.variant?.payload]);
+
+      switch (words.variant.key) {
+        // Variant keys can be accessed easily without typos
+        case CodegenArrayExperiment.Variants.Ampli:
+          setUserType('ampli');
+          break;
+        case CodegenArrayExperiment.Variants.Generic:
+          setUserType('generic');
+          break;
+      }
+    } else {
+      setWords([]);
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          Experiment Code Generation with Ampli.
         </p>
-        <button onClick={async () => {
-          await xpmt.fetch(user);
-        }}>
-          Fetch user
-        </button>
-        <button onClick={() => {
-          console.log(`Listing variants`); // eslint-disable-line no-console
-          Object.keys(xpmt.client.all()).forEach(variant => {
-            console.log(`${variant}`);
-          });
-        }}>
-          List variants
-        </button>
-        <button onClick={() => {
-          const codegenExperiment = xpmt.codegenExperiment();
-          console.log(`${codegenExperiment.name}: ${jsons(codegenExperiment)}`);
 
-          if (codegenExperiment.treatment) {
-            // Access the payload (optional)
-            // payload = codegenExperiment.treatment.payload;
-          } else if (codegenExperiment.control) {
-            // Access the payload (optional)
-            // payload = codegenExperiment.control.payload;
-          }
-        }}>
-          Show "Codegen Experiment"
-        </button>
-        <button onClick={() => {
-          const codegenStringExperiment = xpmt.codegenStringExperiment();
-          console.log(`${codegenStringExperiment.name}: ${jsons(codegenStringExperiment)}`);
+        <div>
+          <button onClick={() => switchUser(genericUser)} className={userType === 'generic' ? 'highlighted' : ''}>
+            Generic User
+          </button>
+          <button onClick={() => switchUser(ampliUser)} className={userType === 'ampli' ? 'highlighted' : ''}>
+            Ampli User
+          </button>
+        </div>
 
-          if (codegenStringExperiment.treatment) {
-            // Access the payload (optional)
-            // payload = codegenStringExperiment.treatment.payload;
-          } else if (codegenStringExperiment.control) {
-            // Access the payload (optional)
-            // payload = codegenStringExperiment.control.payload;
-          }
-        }}>
-          Show "Codegen String Experiment"
-        </button>
+        <div>
+          {words.map(str => <button key={str} className={`word ${str}`}>{str}</button>)}
+        </div>
+
+        <CodeBlock code={userType === 'ampli' ? XPMT_FLAG_CODE : EXPERIMENT_CODE}/>
       </header>
     </div>
   );

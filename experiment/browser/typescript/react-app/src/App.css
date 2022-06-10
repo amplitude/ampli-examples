@@ -2,8 +2,13 @@
   text-align: center;
 }
 
+pre {
+  text-align: left;
+  font-size: 14px;
+}
+
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
@@ -35,4 +40,39 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+button {
+  padding: 10px 60px;
+  border-radius: 5px;
+  font-size: large;
+}
+
+.highlighted {
+  background-color: #639cce;
+}
+
+button.word {
+  padding: 5px 10px;
+  border-radius: 10px;
+}
+
+.hi {
+  background-color: #f89d62;
+}
+
+.from {
+  background-color: #f1db84;
+}
+
+.ampli {
+  background-color: #89c2f6;
+}
+
+.codegen {
+  background-color: #58ea4b;
+}
+
+.experiment {
+  background-color: #904fde;
 }
