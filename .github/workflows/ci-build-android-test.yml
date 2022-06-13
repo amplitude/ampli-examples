@@ -22,13 +22,23 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Run Kotlin Tests
-        working-directory: ./android/kotlin/AmpliApp
+      - name: Run Kotlin V1 Tests
+        working-directory: ./android/kotlin/v1/AmpliApp
         run: |
           ./gradlew build
 
-      - name: Stop gradlew daemon
-        working-directory: ./android/kotlin/AmpliApp
+      - name: Stop gradlew daemon for Kotlin V1
+        working-directory: ./android/kotlin/v1/AmpliApp
+        run: |
+          ./gradlew --stop
+
+      - name: Run Kotlin V2 Tests
+        working-directory: ./android/kotlin/v2/AmpliApp
+        run: |
+          ./gradlew build
+
+      - name: Stop gradlew daemon for Kotlin V2
+        working-directory: ./android/kotlin/v2/AmpliApp
         run: |
           ./gradlew --stop
 

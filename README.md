@@ -17,11 +17,10 @@ See subproject README's for details on each platform.
 
 ## Android V1
 #### [android/kotlin](android/kotlin/v1/AmpliApp)
-#### [android/java](android/java/v2/AmpliApp)
+#### [android/java](android/java/AmpliApp)
 
 ## Android V2
-#### [android/kotlin](android/kotlin/v1/AmpliApp)
-#### [android/java](android/java/v2/AmpliApp)
+#### [android/kotlin](android/kotlin/v2/AmpliApp)
 
 ## JRE
 #### [jre/kotlin](jre/kotlin/AmpliApp)
