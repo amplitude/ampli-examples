@@ -16,7 +16,7 @@
 package com.amplitude.ampli;
 
 import com.amplitude.android.Amplitude;
-import com.amplitude.android.events.Plan;
+import com.amplitude.android.Configuration;
 
 public class LoadClientOptions {
     private String apiKey;

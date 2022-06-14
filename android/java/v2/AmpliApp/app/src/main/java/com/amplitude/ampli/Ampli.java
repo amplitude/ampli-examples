@@ -53,6 +53,10 @@ public class Ampli {
 
     private boolean disabled = false;
 
+    public boolean isLoaded() {
+        return this.client != null;
+    }
+
     private Amplitude client;
 
     public Amplitude getClient() {
