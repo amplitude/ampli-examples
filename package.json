@@ -5,8 +5,8 @@
   "main": "README.md",
   "scripts": {
     "pull:all": "yarn pull:browser-js && yarn pull:browser-ts && yarn pull:node-js && yarn pull:node-ts",
-    "pull:browser-js": "cd ./browser/javascript/react-app && ampll pull",
-    "pull:browser-ts": "cd ./browser/typescript/react-app && ampll pull",
+    "pull:browser-js": "cd ./browser/javascript/v1/react-app && ampll pull",
+    "pull:browser-ts": "cd ./browser/typescript/v1/react-app && ampll pull",
     "pull:node-js": "cd ./node/javascript && ampll pull",
     "pull:node-ts": "cd ./node/typescript && ampll pull",
     "test": "echo \"Error: no test specified\" && exit 1"
