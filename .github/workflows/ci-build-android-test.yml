@@ -5,7 +5,8 @@ on:
     paths:
       - 'android/kotlin/v1/**'
       - 'android/kotlin/v2/**' 
-      - 'android/java/**'
+      - 'android/java/v2/**'
+      - 'android/java/v2/**'
 
 jobs:
   test:
@@ -42,23 +43,13 @@ jobs:
         run: |
           ./gradlew --stop
 
-      - name: Run Java Tests
-        working-directory: ./android/java/AmpliApp
-        run: |
-          ./gradlew build
-
-      - name: Stop gradlew daemon
-        working-directory: ./android/java/AmpliApp
-        run: |
-          ./gradlew --stop
-
       - name: Run Java V1 Tests
         working-directory: ./android/java/v1/AmpliApp
         run: |
           ./gradlew build
 
       - name: Stop gradlew daemon for Java V1
-        working-directory: ./android/java/v2/AmpliApp
+        working-directory: ./android/java/v1/AmpliApp
         run: |
           ./gradlew --stop
 
