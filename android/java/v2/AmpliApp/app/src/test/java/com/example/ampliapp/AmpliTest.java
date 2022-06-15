@@ -1,15 +1,12 @@
 package com.example.ampliapp;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import android.content.Context;
-import android.media.metrics.Event;
 
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventWithAllProperties;
@@ -20,7 +17,6 @@ import com.amplitude.ampli.LoadOptions;
 import com.amplitude.android.Amplitude;
 import com.amplitude.android.events.BaseEvent;
 import com.amplitude.android.events.EventOptions;
-import com.amplitude.android.events.Plan;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,11 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.kotlin.KArgumentCaptor;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,9 +36,12 @@ public class AmpliTest {
     private final String userId = "test-ampli-user-id";
     private final String deviceId = "test-ampli-device-id";
 
+    Amplitude client = mock(Amplitude.class);
+    Context appContext = mock(Context.class);
     ArgumentCaptor<BaseEvent> eventCaptor = ArgumentCaptor.forClass(BaseEvent.class);
     ArgumentCaptor<EventOptions> optionsCaptor = ArgumentCaptor.forClass(EventOptions.class);
     ArgumentCaptor<String[]> stringArrayCaptor = ArgumentCaptor.forClass(String[].class);
+    ArgumentCaptor<Map<String, Object>> mapCaptor = ArgumentCaptor.forClass(Map.class);
 
     @Before
     public void setUp() {
@@ -54,20 +50,13 @@ public class AmpliTest {
 
     @Test
     public void load() {
-        Amplitude client = mock(Amplitude.class);
-        Context appContext = mock(Context.class);
-
-
-        Plan plan = new Plan("branch-1", "source-1", "version-1", "version-1-id");
-        this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client).setPlan(plan)));
+        this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         verify(client, times(0)).build();
     }
 
     @Test
     public void identify() {
-        Amplitude client = mock(Amplitude.class);
-        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
         EventOptions eventOptions = new EventOptions();
         eventOptions.setDeviceId(deviceId);
@@ -78,20 +67,23 @@ public class AmpliTest {
                 eventOptions
         );
 
-        verify(client, times(1)).setUserId(userId);
-        verify(client, times(1)).setDeviceId(deviceId);
-
-        verify(client, times(1)).track(eventCaptor.capture(), any());
+        verify(client, times(1)).identify(mapCaptor.capture(), optionsCaptor.capture());
         assertEquals(
                 "{\"requiredNumber\":42,\"optionalArray\":[\"A\",\"ray\"]}",
-                new JSONObject(eventCaptor.getValue().getUserProperties()).toString()
+                new JSONObject(mapCaptor.getValue()).toString()
+        );
+        assertEquals(
+                userId,
+                optionsCaptor.getValue().getUserId()
+        );
+        assertEquals(
+                deviceId,
+                optionsCaptor.getValue().getDeviceId()
         );
     }
 
     @Test
     public void setGroupSingleValue() {
-        Amplitude client = mock(Amplitude.class);
-        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         EventOptions eventOptions = new EventOptions();
@@ -165,15 +157,19 @@ public class AmpliTest {
                 eventOptions
         );
 
-       verify(client, times(1)).track(eventCaptor.capture(), any());
+       verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), mapCaptor.capture(), optionsCaptor.capture());
 
         assertEquals(
                 "{\"requiredBoolean\":false,\"optionalString\":\"test-string\"}",
-                new JSONObject(eventCaptor.getValue().getUserProperties()).toString()
+                new JSONObject(mapCaptor.getValue()).toString()
         );
         assertEquals(
-                "{\"group-type-1\":\"group-name-1\"}",
-                new JSONObject(eventCaptor.getValue().getGroups()).toString()
+                userId,
+                optionsCaptor.getValue().getUserId()
+        );
+        assertEquals(
+                deviceId,
+                optionsCaptor.getValue().getDeviceId()
         );
     }
 

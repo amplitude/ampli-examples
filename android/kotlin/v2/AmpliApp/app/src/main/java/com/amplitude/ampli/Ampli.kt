@@ -831,7 +831,7 @@ open class Ampli {
             )
         )
     }
- 
+
     private fun isInitializedAndEnabled(): Boolean {
         if (this.client == null) {
             System.err.println("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")

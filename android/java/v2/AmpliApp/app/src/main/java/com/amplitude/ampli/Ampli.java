@@ -93,6 +93,7 @@ public class Ampli {
             }
 
             client = clientOptions.getInstance();
+
         }
 
         if (client != null) {
@@ -137,7 +138,6 @@ public class Ampli {
         overridenOptions.setUserId(overridenUserId);
 
         this.client.identify(event.getEventProperties(), overridenOptions);
-        //this.client.setUserProperties(this.getEventPropertiesJson(event), extra);
     }
 
     public void setGroup(String name, String value) {
@@ -174,7 +174,6 @@ public class Ampli {
         }
 
         this.client.groupIdentify(groupType, groupName, event.getEventProperties(), options);
-        //JSONObject groupProperties = this.getEventPropertiesJson(event);
     }
 
     public void flush() {
