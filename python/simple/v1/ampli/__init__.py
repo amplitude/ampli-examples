@@ -33,4 +33,3 @@ from .ampli import Ampli, LoadOptions, LoadClientOptions, Environment, \
     EventWithOptionalProperties, \
     IdentifyProperties, \
     GroupProperties
-

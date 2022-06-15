@@ -1,5 +1,5 @@
 # Ampli Python Wrapper
-An example app using the Ampli Python Wrapper
+An example app using the Ampli Python Wrapper using basic Python
 
 # Usage
 

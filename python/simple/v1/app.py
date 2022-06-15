@@ -51,10 +51,10 @@ ampli.event_with_enum_types("user_id", required_enum=EventWithEnumTypes.Required
 
 # add plugin
 my_plugin = MyEventIDPlugin()
-ampli.add(my_plugin)
+ampli.client.add(my_plugin)
 
 # remove plugin
-ampli.revenue(my_plugin)
+ampli.client.remove(my_plugin)
 
 # flush events
 ampli.flush()

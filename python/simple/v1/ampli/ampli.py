@@ -35,12 +35,10 @@ class LoadClientOptions:
     
     def __init__(self, api_key: Optional[str] = None,
                  instance: Optional[Amplitude] = None,
-                 plan: Optional[Plan] = None,
-                 zone: Optional[str] = None):
+                 configuration: Optional[Config] = None):
         self.api_key = api_key
         self.instance = instance
-        self.plan = plan
-        self.zone = zone
+        self.configuration = configuration
 
 
 class LoadOptions:
@@ -56,9 +54,7 @@ class LoadOptions:
 class IdentifyProperties:
     """Identify
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Identify)
-
 
     Identify properties.
 
@@ -80,9 +76,7 @@ class IdentifyProperties:
 class GroupProperties:
     """Group
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group)
-
 
     Group properties.
 
@@ -102,28 +96,28 @@ class GroupProperties:
 
 
 API_KEY: Dict[Environment, str] = {
-    Environment("development"): "035d1d9df1c72fef7c04ebf26f5a2743336d2a8f",
-    Environment("production"): "35666a588f5c97f183aacdf9c540a6bcc05d2753"
+    Environment("development"): "",
+    Environment("production"): ""
 }
-AMPLI_OBSERVE_PLAN = Plan(
-  branch="main",
-  source="python-ampli",
-  version="0",
-  version_id="79154a50-f057-4db5-9755-775e4e9f05e6",
+DEFAULT_CONFIGURATION = Config(
+    server_zone='US',
+    plan=Plan(
+        branch="main",
+        source="python-ampli",
+        version="0",
+        version_id="79154a50-f057-4db5-9755-775e4e9f05e6"
+    )
 )
-SERVER_ZONE = 'US'
 
 
 class EventMaxIntForTest(BaseEvent):
     """EventMaxIntForTest
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-
 
     Event to test schema validation
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param int_max_10: property to test schema validation
     """
@@ -141,13 +135,11 @@ class EventMaxIntForTest(BaseEvent):
 class EventNoProperties(BaseEvent):
     """Event No Properties
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
-
 
     Event w no properties description
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
     """
 
     def __init__(
@@ -159,13 +151,11 @@ class EventNoProperties(BaseEvent):
 class EventObjectTypes(BaseEvent):
     """Event Object Types
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types)
-
 
     Event with Object and Object Array
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param required_object: Property Object Type
     :param required_object_array: Property Object Array Type
@@ -174,7 +164,7 @@ class EventObjectTypes(BaseEvent):
     def __init__(
         self,
         required_object: Any,
-        required_object_array: List[Dict[str, Any]]
+        required_object_array: List[Any]
     ):
         super().__init__(event_type="Event Object Types")
         self.event_properties = {
@@ -186,13 +176,11 @@ class EventObjectTypes(BaseEvent):
 class EventWithAllProperties(BaseEvent):
     """Event With All Properties
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties)
-
 
     Event w all properties description
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param required_array: Event 2 Property - Array
     :param required_boolean: Event 2 Property - Boolean
@@ -233,13 +221,11 @@ class EventWithAllProperties(BaseEvent):
 class EventWithArrayTypes(BaseEvent):
     """Event With Array Types
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types)
-
 
     Description for event with Array Types
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param required_boolean_array: description for required boolean array
     :param required_number_array: Description for required number array
@@ -251,7 +237,7 @@ class EventWithArrayTypes(BaseEvent):
         self,
         required_boolean_array: List[bool],
         required_number_array: List[float],
-        required_object_array: List[Dict[str, Any]],
+        required_object_array: List[Any],
         required_string_array: List[str]
     ):
         super().__init__(event_type="Event With Array Types")
@@ -266,13 +252,11 @@ class EventWithArrayTypes(BaseEvent):
 class EventWithConstTypes(BaseEvent):
     """Event With Const Types
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types)
-
 
     Description for event with const types
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
     """
 
     def __init__(
@@ -292,13 +276,11 @@ class EventWithConstTypes(BaseEvent):
 class EventWithDifferentCasingTypes(BaseEvent):
     """event withDifferent_CasingTypes
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-
 
     Description for case with space
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param enum_camel_case: descriptionForEnumCamelCase
     :param enum_pascal_case: DescirptionForEnumPascalCase
@@ -349,13 +331,11 @@ class EventWithDifferentCasingTypes(BaseEvent):
 class EventWithEnumTypes(BaseEvent):
     """Event With Enum Types
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
-
 
     Description for event with enum types
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param required_enum: Description for optional enum
     :param optional_enum: Description for required enum
@@ -384,13 +364,11 @@ class EventWithEnumTypes(BaseEvent):
 class EventWithOptionalArrayTypes(BaseEvent):
     """Event With Optional Array Types
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types)
-
 
     Description for event with optional array types
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param optional_boolean_array: Description for optional boolean array
     :param optional_json_array: Description for optional object array
@@ -401,7 +379,7 @@ class EventWithOptionalArrayTypes(BaseEvent):
     def __init__(
         self,
         optional_boolean_array: Optional[List[bool]] = None,
-        optional_json_array: Optional[List[Dict[str, Any]]] = None,
+        optional_json_array: Optional[List[Any]] = None,
         optional_number_array: Optional[List[float]] = None,
         optional_string_array: Optional[List[str]] = None
     ):
@@ -417,13 +395,11 @@ class EventWithOptionalArrayTypes(BaseEvent):
 class EventWithOptionalProperties(BaseEvent):
     """Event With Optional Properties
 
-
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties)
-
 
     Event w optional properties description
 
-    Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+    Owner: Test codegen
 
     :param optional_array_number: Property has no description provided in tracking plan.
     :param optional_array_string: Property has no description provided in tracking plan.
@@ -450,51 +426,45 @@ class EventWithOptionalProperties(BaseEvent):
         }
 
 
-
 class Ampli:
     
     def __init__(self):
-        self._client: Amplitude = None
+        self.client: Amplitude = None
         self.disabled: bool = False
-        self.plan: Plan = None
-        self.configuration = None
 
     def load(self, options: Optional[LoadOptions] = None):
         if options:
             self.disabled = options.disabled
-        if self._client:
+        if self.client:
             logging.getLogger(__name__).warning('Warning: Ampli is already initialized. ampli.load() should be called once at application start up.')
             return
         if not options:
-            self.plan = AMPLI_OBSERVE_PLAN
-            self._client = Amplitude(api_key=API_KEY[Environment.DEVELOPMENT])
-            self._client.configuration.server_zone = SERVER_ZONE
+            self.client = Amplitude(api_key=API_KEY[Environment.DEVELOPMENT], configuration=DEFAULT_CONFIGURATION)
         else:
             env = options.environment or Environment.DEVELOPMENT
             if options.client:
                 api_key = options.client.api_key or API_KEY[env]
-                self._client = options.client.instance or Amplitude(api_key=api_key)
-                self._client.configuration.api_key = api_key
-                self._client.configuration.server_zone = options.client.zone or SERVER_ZONE
-                self.plan = options.client.plan or AMPLI_OBSERVE_PLAN
+                configuration = options.client.configuration or DEFAULT_CONFIGURATION
+                self.client = options.client.instance or Amplitude(api_key=api_key, configuration=configuration)
+                self.client.configuration.api_key = api_key
             else:
-                self._client = Amplitude(api_key=API_KEY[env])
-                self.plan = AMPLI_OBSERVE_PLAN
-                self._client.configuration.server_zone = SERVER_ZONE
-        self.configuration = self._client.configuration
-        self.configuration.plan = self.plan
+                self.client = Amplitude(api_key=API_KEY[env], configuration=DEFAULT_CONFIGURATION)
     
     def initialized_and_enabled(self) -> bool:
-        if not self._client:
+        if not self.client:
             logging.getLogger(__name__).error("Ampli is not yet initialized. Called `ampli.load()` on app start.")
             return False
         return not self.disabled
     
-    def track(self, event: BaseEvent, event_options: Optional[EventOptions] = None):
+    def track(self, user_id: str, event: BaseEvent, event_options: Optional[EventOptions] = None):
         if not self.initialized_and_enabled():
             return
+        if not event_options:
+            event_options = EventOptions()
+        if user_id:
+            event_options["user_id"] = user_id
         event.load_event_options(event_options)
-        self._client.track(event)
+        self.client.track(event)
         
     def identify(self, user_id: str,
                  identify_properties: IdentifyProperties,
@@ -509,7 +479,7 @@ class Ampli:
         if identify_properties:
             for k, v in identify_properties.properties.items():
                 identify_obj.set(k, v)
-        self._client.identify(identify_obj, event_options)
+        self.client.identify(identify_obj, event_options)
 
     def group_identify(self, group_type: str,
                        group_name: str,
@@ -521,7 +491,7 @@ class Ampli:
         if group_properties:
             for k, v in group_properties.properties.items():
                 identify_obj.set(k, v)
-        self._client.group_identify(group_type, group_name, identify_obj, event_options)
+        self.client.group_identify(group_type, group_name, identify_obj, event_options)
 
     def set_group(self, user_id: str,
                   group_type: str,
@@ -533,38 +503,17 @@ class Ampli:
             event_options = EventOptions()
         if user_id:
             event_options["user_id"] = user_id
-        self._client.set_group(group_type, group_name, event_options)
-
-    def revenue(self, user_id: str,
-                revenue_obj: Revenue,
-                event_options: Optional[EventOptions] = None):
-        if not self.initialized_and_enabled():
-            return
-        if not event_options:
-            event_options = EventOptions()
-        if user_id:
-            event_options["user_id"] = user_id
-        self._client.revenue(revenue_obj, event_options)
-        
-    def add(self, amp_plugin: Union[EventPlugin, DestinationPlugin]):
-        if not self.initialized_and_enabled():
-            return
-        self._client.add(amp_plugin)
-        
-    def remove(self, amp_plugin: Union[EventPlugin, DestinationPlugin]):
-        if not self.initialized_and_enabled():
-            return
-        self._client.remove(amp_plugin)
+        self.client.set_group(group_type, group_name, event_options)
         
     def flush(self):
         if not self.initialized_and_enabled():
             return
-        self._client.flush()
+        self.client.flush()
         
     def shutdown(self):
         if not self.initialized_and_enabled():
             return
-        self._client.shutdown()
+        self.client.shutdown()
         self.disabled = True
         
     def event_max_int_for_test(
@@ -575,13 +524,11 @@ class Ampli:
     ):
         """Track event 'EventMaxIntForTest'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'EventMaxIntForTest')
-
 
         Event to test schema validation
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param int_max_10: property to test schema validation
@@ -599,13 +546,11 @@ class Ampli:
     ):
         """Track event 'Event No Properties'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20No%20Properties')
-
 
         Event w no properties description
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         """
@@ -619,18 +564,16 @@ class Ampli:
         self,
         user_id: str,
         required_object: Any,
-        required_object_array: List[Dict[str, Any]],
+        required_object_array: List[Any],
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event Object Types'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20Object%20Types')
-
 
         Event with Object and Object Array
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param required_object: Property Object Type
@@ -657,13 +600,11 @@ class Ampli:
     ):
         """Track event 'Event With All Properties'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20All%20Properties')
-
 
         Event w all properties description
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param required_array: Event 2 Property - Array
@@ -691,19 +632,17 @@ class Ampli:
         user_id: str,
         required_boolean_array: List[bool],
         required_number_array: List[float],
-        required_object_array: List[Dict[str, Any]],
+        required_object_array: List[Any],
         required_string_array: List[str],
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Array Types'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Array%20Types')
-
 
         Description for event with Array Types
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param required_boolean_array: description for required boolean array
@@ -727,13 +666,11 @@ class Ampli:
     ):
         """Track event 'Event With Const Types'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Const%20Types')
-
 
         Description for event with const types
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         """
@@ -758,13 +695,11 @@ class Ampli:
     ):
         """Track event 'event withDifferent_CasingTypes'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'event%20withDifferent_CasingTypes')
-
 
         Description for case with space
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param enum_camel_case: descriptionForEnumCamelCase
@@ -798,13 +733,11 @@ class Ampli:
     ):
         """Track event 'Event With Enum Types'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Enum%20Types')
-
 
         Description for event with enum types
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param required_enum: Description for optional enum
@@ -821,20 +754,18 @@ class Ampli:
         self,
         user_id: str,
         optional_boolean_array: Optional[List[bool]] = None,
-        optional_json_array: Optional[List[Dict[str, Any]]] = None,
+        optional_json_array: Optional[List[Any]] = None,
         optional_number_array: Optional[List[float]] = None,
         optional_string_array: Optional[List[str]] = None,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Optional Array Types'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Optional%20Array%20Types')
-
 
         Description for event with optional array types
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param optional_boolean_array: Description for optional boolean array
@@ -863,13 +794,11 @@ class Ampli:
     ):
         """Track event 'Event With Optional Properties'
 
-
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Optional%20Properties')
-
 
         Event w optional properties description
 
-        Owner: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3 06b69c130b0036944180e653185c74f600c6fe43
+        Owner: Test codegen
 
         :param user_id: The user's ID.
         :param optional_array_number: Property has no description provided in tracking plan.
