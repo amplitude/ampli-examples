@@ -20,9 +20,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: (Browser JS) Check the Data branch is merged before merging the Git branch
-        working-directory: ./browser/javascript/react-app
+        working-directory: ./browser/javascript/v1/react-app
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
 
       - name: (Browser TS) Check the Data branch is merged before merging the Git branch
-        working-directory: ./browser/typescript/react-app
+        working-directory: ./browser/typescript/v1/react-app
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}

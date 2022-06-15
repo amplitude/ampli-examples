@@ -1,10 +1,10 @@
 # ampli-examples
-Example applications using the Ampli SDK. 
+Example applications using the Ampli SDK.
 See subproject README's for details on each platform.
 
 ## Browser
-#### [browser/javascript](browser/javascript/react-app)
-#### [browser/typescript](browser/typescript/react-app)
+#### [browser/javascript](browser/javascript/v1/react-app)
+#### [browser/typescript](browser/typescript/v1/react-app)
 
 ## Node
 #### [node/javascript](node/javascript)
