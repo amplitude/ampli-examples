@@ -44,6 +44,11 @@ public class App extends Application {
         );
 
         /*
+         * Add Segement as a destination
+         */
+        // Ampli.getInstance().add(new SegmentDestinationPlugin(this));
+
+        /*
          * OR Use an existing Amplitude instance
          * requires "import com.amplitude.api.*;"
          */

@@ -109,8 +109,6 @@ public class AmpliTest {
 
  @Test
     public void setGroupMultipleValue() throws JSONException {
-        Amplitude client = mock(Amplitude.class);
-        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         EventOptions eventOptions = new EventOptions();
@@ -143,8 +141,6 @@ public class AmpliTest {
 
     @Test
     public void groupIdentify() {
-        Amplitude client = mock(Amplitude.class);
-        Context appContext = mock(Context.class);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
         EventOptions eventOptions = new EventOptions();

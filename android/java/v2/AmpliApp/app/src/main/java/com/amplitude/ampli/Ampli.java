@@ -22,6 +22,7 @@ import com.amplitude.android.Amplitude;
 import com.amplitude.android.events.BaseEvent;
 import com.amplitude.android.events.EventOptions;
 import com.amplitude.android.Configuration;
+import com.amplitude.core.platform.Plugin;
 
 public class Ampli {
     private static volatile Ampli singleton = null;
@@ -93,7 +94,6 @@ public class Ampli {
             }
 
             client = clientOptions.getInstance();
-
         }
 
         if (client != null) {
@@ -174,6 +174,28 @@ public class Ampli {
         }
 
         this.client.groupIdentify(groupType, groupName, event.getEventProperties(), options);
+    }
+
+    /**
+     * Add Plugin
+     */
+    public void add(Plugin plugin) {
+        if (!this.isInitializedAndEnabled()) {
+            return;
+        }
+
+        this.client.add(plugin);
+    }
+
+    /**
+     * Remove Plugin
+     */
+    public void remove(Plugin plugin) {
+        if (!this.isInitializedAndEnabled()) {
+            return;
+        }
+
+        this.client.remove(plugin);
     }
 
     public void flush() {

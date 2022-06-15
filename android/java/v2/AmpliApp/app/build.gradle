@@ -40,9 +40,10 @@ dependencies {
     testImplementation "org.mockito:mockito-inline:+"
     testImplementation "org.mockito.kotlin:mockito-kotlin:+"
     androidTestImplementation "org.mockito:mockito-android:+"
-
-
     testImplementation 'org.json:json:20201115'
+
+    //For Segment
+    implementation 'com.segment.analytics.android:analytics:4.+'
 }
 
 // https://stackoverflow.com/questions/3963708/gradle-how-to-display-test-results-in-the-console-in-real-time
