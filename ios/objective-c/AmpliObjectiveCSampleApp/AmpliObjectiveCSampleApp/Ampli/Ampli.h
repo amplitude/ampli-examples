@@ -309,8 +309,8 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 @interface EventWithOptionalPropertiesBuilder: NSObject
 @property (nonatomic) NSArray<NSNumber *> * _Nullable optionalArrayNumber;
 @property (nonatomic) NSArray<NSString *> * _Nullable optionalArrayString;
-@property (nonatomic) NSNumber * optionalBoolean;
-@property (nonatomic) NSNumber * optionalNumber;
+@property (nonatomic) NSNumber* _Nullable optionalBoolean;
+@property (nonatomic) NSNumber* _Nullable optionalNumber;
 @property (nonatomic) NSString* _Nullable optionalString;
 @end
 
@@ -330,8 +330,8 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 #pragma mark - EventWithTemplatePropertiesBuilder
 
 @interface EventWithTemplatePropertiesBuilder: NSObject
-@property (nonatomic) NSNumber * optionalEventProperty;
-@property (nonatomic) NSNumber * optionalTemplateProperty;
+@property (nonatomic) NSNumber* _Nullable optionalEventProperty;
+@property (nonatomic) NSNumber* _Nullable optionalTemplateProperty;
 @end
 
 #pragma mark - EventWithTemplateProperties
