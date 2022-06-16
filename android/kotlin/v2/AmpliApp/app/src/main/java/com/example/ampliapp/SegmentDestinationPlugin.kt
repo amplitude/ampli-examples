@@ -16,35 +16,35 @@ class SegmentDestinationPlugin(appContext: Context, segmentApiKey: String) : Des
         analytics = Analytics.Builder(context, SEGMENT_API_KEY).build()
     }
 
-    override fun track(payload: com.amplitude.core.events.BaseEvent): com.amplitude.core.events.BaseEvent {
+    override fun track(event: com.amplitude.core.events.BaseEvent): com.amplitude.core.events.BaseEvent {
         val eventProperties : Properties =  Properties();
-        payload.eventProperties?.forEach { entry -> entry.value?.let {
+        event.eventProperties?.forEach { entry -> entry.value?.let {
             eventProperties.put(entry.key,
                 it
             )
         } }
 
-        analytics?.track(payload.eventType, eventProperties);
-        return payload
+        analytics?.track(event.eventType, eventProperties);
+        return event
     }
 
-    override fun identify(payload: com.amplitude.core.events.IdentifyEvent): com.amplitude.core.events.IdentifyEvent {
+    override fun identify(identifyEvent: com.amplitude.core.events.IdentifyEvent): com.amplitude.core.events.IdentifyEvent {
         val traits = Traits()
-        payload.userProperties?.forEach { entry -> entry.value?.let {
+        identifyEvent.userProperties?.forEach { entry -> entry.value?.let {
             traits.put(entry.key,
                 it
             )
         } }
 
         Analytics.with(context).identify(traits)
-        return payload
+        return identifyEvent
     }
 
-    override fun groupIdentify(payload: com.amplitude.core.events.GroupIdentifyEvent): com.amplitude.core.events.GroupIdentifyEvent {
+    override fun groupIdentify(groupIdentifyEvent: com.amplitude.core.events.GroupIdentifyEvent): com.amplitude.core.events.GroupIdentifyEvent {
         val traits = Traits()
-        val groupId: String? = payload.groups?.keys?.first()
+        val groupId: String? = groupIdentifyEvent.groups?.keys?.first()
 
-        payload.groupProperties?.forEach { entry -> entry.value?.let {
+        groupIdentifyEvent.groupProperties?.forEach { entry -> entry.value?.let {
             traits.put(entry.key,
                 it
             )
@@ -54,7 +54,7 @@ class SegmentDestinationPlugin(appContext: Context, segmentApiKey: String) : Des
             Analytics.with(context).group(groupId, traits)
         }
 
-        return payload
+        return groupIdentifyEvent
     }
 
 

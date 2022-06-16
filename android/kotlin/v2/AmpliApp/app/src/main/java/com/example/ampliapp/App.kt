@@ -20,7 +20,7 @@ class App : Application() {
          * For Segment
          */
         // val SEGMENT_API_KEY = this.resources.getString(R.string.SEGMENT_API_KEY)
-        // ampli._client?.add(SegmentDestinationPlugin(this, SEGMENT_API_KEY))
+        // ampli.client?.add(SegmentDestinationPlugin(this, SEGMENT_API_KEY))
 
         /**
          * OR Use an existing Amplitude instance
