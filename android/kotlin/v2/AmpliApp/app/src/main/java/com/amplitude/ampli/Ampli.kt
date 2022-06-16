@@ -97,6 +97,7 @@ class Group private constructor() : BaseEvent() {
             ).toMutableMap()
     }
 }
+
 class EventMaxIntForTest private constructor() : BaseEvent() {
     /**
      * EventMaxIntForTest
@@ -443,7 +444,7 @@ open class Ampli {
     private var disabled: Boolean = false
 
     @android.annotation.SuppressLint("StaticFieldLeak")
-    private var _client: Amplitude? = null
+    var _client: Amplitude? = null
 
     /**
      * Load the amplitude core SDK
@@ -545,7 +546,6 @@ open class Ampli {
             return
         }
         this._client?.groupIdentify(groupType, groupName, event.eventProperties?.toMap(), options)
-
     }
 
     /**
