@@ -18,7 +18,8 @@ You will need to do the following before running the app.
         <string name="AMPLITUDE_API_KEY">your-amplitide-api-key</string>
     </resources>
     ```
-
+    If you want to try the segment plugin, please also update your segment API key in the same file.
+    
 ### Run the App
 Run the application using Android Studio or your favorite IDE.
 

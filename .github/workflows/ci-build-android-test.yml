@@ -4,8 +4,8 @@ on:
   pull_request:
     paths:
       - 'android/kotlin/v1/**'
-      - 'android/kotlin/v2/**' 
-      - 'android/java/v2/**'
+      - 'android/kotlin/v2/**'
+      - 'android/java/v1/**'
       - 'android/java/v2/**'
 
 jobs:
@@ -53,7 +53,7 @@ jobs:
         run: |
           ./gradlew --stop
 
-      - name: Run Java V1 Tests
+      - name: Run Java V2 Tests
         working-directory: ./android/java/v2/AmpliApp
         run: |
           ./gradlew build
