@@ -6,7 +6,7 @@ An example app using the Ampli Python Wrapper in Django project
 ### Setup the project
 You will need to do the following before running the app.
 
-`pip install amplitude-analytics django`
+`pip install amplitude-analytics django segment-analytics-python`
 
 ### Run the app
 You can run the app using the events from our sample tracking plan.
@@ -41,6 +41,4 @@ If you want to use your own tracking plan and Ampli Wrapper
   * [views.py](ampli_app/views.py) - Views of ampli app contains examples using Ampli SDK. A good place to start.
   * [urls.py](ampli_app/urls.py) - Url mappings for views of app
   * [util.py](ampli_app/util.py) - function to read api_key from .env file
-* [app.py](app.py) - Example user app using Ampli SDK. A good place to start.
-* [plugins.py](plugins.py) - Example plugin for Event enrichment
-Generated SDK, don't modify by hand. Update with `ampli pull`
+  * [plugins.py](plugins.py) - Example plugin for Event enrichment

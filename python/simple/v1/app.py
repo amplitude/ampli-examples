@@ -1,8 +1,9 @@
 from ampli import *
-from plugins import MyEventIDPlugin
+from plugins import MyEventIDPlugin, SegmentPlugin
 from util import get_api_key
 
-api_key = get_api_key('.env')
+api_key = get_api_key('.env', 'API_KEY')
+write_key = get_api_key('.env', 'WRITE_KEY')
 
 # Initialize the Ampli instance with LoadOptions and LoadClientOptions
 ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
@@ -54,10 +55,13 @@ ampli.event_with_enum_types("user_id", required_enum=EventWithEnumTypes.Required
 
 # add plugin
 my_plugin = MyEventIDPlugin()
+segment_plugin = SegmentPlugin(write_key)
 ampli.client.add(my_plugin)
+ampli.client.add(segment_plugin)
 
 # remove plugin
 ampli.client.remove(my_plugin)
+ampli.client.remove(segment_plugin)
 
 # flush events
 ampli.flush()

@@ -3,6 +3,7 @@ from typing import Optional
 
 from amplitude import EventPlugin, DestinationPlugin, PluginType, BaseEvent, \
     IdentifyEvent
+import analytics
 from analytics import Client as SegmentClient
 
 
