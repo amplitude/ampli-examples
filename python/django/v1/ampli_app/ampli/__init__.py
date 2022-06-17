@@ -20,7 +20,8 @@
 # flake8: noqa
 
 
-from amplitude import *
+from amplitude import Amplitude, BaseEvent, EventOptions, Revenue, IdentifyEvent, \
+    GroupIdentifyEvent, RevenueEvent, Plan, Config, PluginType, EventPlugin, DestinationPlugin
 from .ampli import Ampli, LoadOptions, LoadClientOptions, Environment, ampli, \
     EventMaxIntForTest, \
     EventNoProperties, \
@@ -32,5 +33,5 @@ from .ampli import Ampli, LoadOptions, LoadClientOptions, Environment, ampli, \
     EventWithEnumTypes, \
     EventWithOptionalArrayTypes, \
     EventWithOptionalProperties, \
-    IdentifyProperties, \
-    GroupProperties
+    Identify, \
+    Group

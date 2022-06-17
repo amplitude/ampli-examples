@@ -29,9 +29,9 @@ def set_user_property(request):
         optional_array = request.GET.get('optional_array', '')
         if (user_id is None) or (required_number is None):
             return HttpResponse('user_id and required_number are required')
-        identify_prop = IdentifyProperties(float(required_number), optional_array.split(',') or None)
+        event = Identify(float(required_number), optional_array.split(',') or None)
         ampli.identify(user_id=user_id,
-                              identify_properties=identify_prop)
+                       event=event)
         return HttpResponse('Success')
     except Exception:
         logging.exception('Error parsing user properties input')
@@ -46,8 +46,8 @@ def set_group_property(request):
         if (group_type is None) or (group_name is None) or (required_boolean is None):
             return HttpResponse('group_type, group_name and required_boolean is required')
         optional_string = request.GET.get('optional_string', None)
-        group_prop = GroupProperties(bool(required_boolean), optional_string)
-        ampli.group_identify(group_type, group_name, group_prop)
+        event = Group(bool(required_boolean), optional_string)
+        ampli.group_identify(group_type, group_name, event)
         return HttpResponse('Success')
     except Exception:
         logging.exception('Error parsing group properties input')

@@ -24,7 +24,7 @@ import logging
 import enum
 from typing import Dict, Optional, List, Any, Union
 
-from amplitude import *
+from amplitude import Amplitude, Config, Plan, BaseEvent, EventOptions, IdentifyEvent, GroupIdentifyEvent
 
 
 class Environment(enum.Enum):
@@ -65,9 +65,9 @@ class LoadOptions:
         self.environment = environment
         self.disabled = disabled
         self.client = client
-        
-        
-class IdentifyProperties:
+
+
+class Identify(IdentifyEvent):
     """Identify
 
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Identify)
@@ -83,13 +83,14 @@ class IdentifyProperties:
         required_number: float,
         optional_array: Optional[List[str]] = None
     ):
-        self.properties = {
+        super().__init__()
+        self.event_properties = {
             "optionalArray": optional_array,
             "requiredNumber": required_number
         }
 
 
-class GroupProperties:
+class Group(GroupIdentifyEvent):
     """Group
 
     [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group)
@@ -105,7 +106,8 @@ class GroupProperties:
         required_boolean: bool,
         optional_string: Optional[str] = None
     ):
-        self.properties = {
+        super().__init__()
+        self.group_properties = {
             "optionalString": optional_string,
             "requiredBoolean": required_boolean
         }
@@ -469,32 +471,15 @@ class Ampli:
         event.load_event_options(event_options)
         self.client.track(event)
         
-    def identify(self, user_id: Optional[str],
-                 identify_properties: IdentifyProperties,
-                 event_options: Optional[EventOptions] = None):
-        if not self.initialized_and_enabled():
-            return
-        if not event_options:
-            event_options = EventOptions()
-        if user_id:
-            event_options["user_id"] = user_id
-        identify_obj = Identify()
-        if identify_properties:
-            for k, v in identify_properties.properties.items():
-                identify_obj.set(k, v)
-        self.client.identify(identify_obj, event_options)
+    def identify(self, user_id: Optional[str], event: Identify, event_options: Optional[EventOptions] = None):
+        self.track(user_id, event, event_options)
 
     def group_identify(self, group_type: str,
                        group_name: str,
-                       group_properties: GroupProperties,
+                       event: Group, 
                        event_options: Optional[EventOptions] = None):
-        if not self.initialized_and_enabled():
-            return
-        identify_obj = Identify()
-        if group_properties:
-            for k, v in group_properties.properties.items():
-                identify_obj.set(k, v)
-        self.client.group_identify(group_type, group_name, identify_obj, event_options)
+        event.groups = {group_type: group_name}
+        self.track(None, event, event_options)
 
     def set_group(self, user_id: Optional[str],
                   group_type: str,

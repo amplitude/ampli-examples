@@ -10,10 +10,10 @@ ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
                        client=LoadClientOptions(api_key=api_key, configuration=Config(server_zone='EU'))))
 
 # Identify using IdentifyProperties in tracking plan
-ampli.identify("user_id", IdentifyProperties(required_number=16.6, optional_array=['abc', 'test']))
+ampli.identify("user_id", Identify(required_number=16.6, optional_array=['abc', 'test']))
 
 # Group Identify using GroupProperties in tracking plan
-ampli.group_identify("Org", "Engineer", GroupProperties(required_boolean=True, optional_string=None))
+ampli.group_identify("Org", "Engineer", Group(required_boolean=True, optional_string=None))
 
 # Set groups for user
 ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
