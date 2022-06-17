@@ -1,9 +1,12 @@
 from ampli import *
 from plugins import MyEventIDPlugin
+from util import get_api_key
+
+api_key = get_api_key('.env')
 
 # Initialize the Ampli instance with LoadOptions and LoadClientOptions
-ampli = Ampli()
-ampli.load(LoadOptions(Environment.DEVELOPMENT, False, client=LoadClientOptions(api_key="key", zone="EU")))
+ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
+                       client=LoadClientOptions(api_key=api_key, configuration=Config(server_zone='EU'))))
 
 # Identify using IdentifyProperties in tracking plan
 ampli.identify("user_id", IdentifyProperties(required_number=16.6, optional_array=['abc', 'test']))
@@ -28,16 +31,16 @@ ampli.event_with_all_properties(user_id="user_id",
                                 required_number=16.4,
                                 required_integer=3,
                                 required_string="str")
-ampli.track(EventWithAllProperties(required_array=["a", "b"],
-                                   required_boolean=False,
-                                   required_enum=EventWithAllProperties.RequiredEnum.ENUM_1,
-                                   required_number=16.4,
-                                   required_integer=3,
-                                   required_string="str"), event_options=EventOptions(user_id="user_id"))
+ampli.track("user_id", EventWithAllProperties(required_array=["a", "b"],
+                                              required_boolean=False,
+                                              required_enum=EventWithAllProperties.RequiredEnum.ENUM_1,
+                                              required_number=16.4,
+                                              required_integer=3,
+                                              required_string="str"))
 
 # track event with const properties
 ampli.event_with_const_types(user_id="user_id")
-ampli.track(EventWithConstTypes(), event_options=EventOptions(user_id="user_id"))
+ampli.track("user_id", EventWithConstTypes())
 
 # track event with strongly typed method
 ampli.event_max_int_for_test(user_id="user_id", int_max_10=6)

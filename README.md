@@ -28,5 +28,5 @@ See subproject README's for details on each platform.
 #### [react-native/typescript](react-native/typescript/AmpliApp)
 
 ## Python
-#### [python/smiple](python/simple/v1)
-#### [python/smiple](python/django/v1)
+#### [python/simple](python/simple/v1)
+#### [python/django](python/django/v1)
