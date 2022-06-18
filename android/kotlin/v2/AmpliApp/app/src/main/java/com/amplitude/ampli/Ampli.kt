@@ -444,7 +444,8 @@ open class Ampli {
     private var disabled: Boolean = false
 
     @android.annotation.SuppressLint("StaticFieldLeak")
-    var client: Amplitude? = null
+    var client: Amplitude? = null // Initializer required, not a nullable type
+        private set // the setter is private and has the default implementation
 
     /**
      * Load the amplitude core SDK
