@@ -84,7 +84,7 @@ class Identify(IdentifyEvent):
         optional_array: Optional[List[str]] = None
     ):
         super().__init__()
-        self.event_properties = {
+        self.user_properties = {
             "optionalArray": optional_array,
             "requiredNumber": required_number
         }
