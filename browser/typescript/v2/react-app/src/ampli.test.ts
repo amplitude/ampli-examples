@@ -7,12 +7,6 @@ describe('Ampli Browser TS SDK V2 tests', () => {
   let consoleLogMock: jest.SpyInstance;
   let consoleErrorMock: jest.SpyInstance;
 
-  beforeAll(() => {
-    global.fetch = jest
-      .spyOn(global, 'fetch')
-      .mockImplementation(() => Promise.resolve<any>({ json: () => Promise.resolve() }));
-  });
-
   beforeEach(() => {
     consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
     consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
@@ -21,10 +15,6 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     // Set API keys for tests
     ApiKey.production = 'test-api-key-prod';
     ApiKey.development = 'test-api-key-dev';
-  });
-
-  afterAll(() => {
-    (global.fetch as jest.Mock<any, any>).mockClear();
   });
 
   afterEach(() => {
@@ -49,20 +39,39 @@ describe('Ampli Browser TS SDK V2 tests', () => {
   });
 
   test('should identify()', async () => {
-    await ampli.load()?.promise;
-
+    const send = jest.fn().mockReturnValueOnce({
+      status: 'success',
+      statusCode: 200,
+      body: {
+        eventsIngested: 1,
+        payloadSizeBytes: 1,
+        serverUploadTime: 1,
+      },
+    });
+    await ampli.load({
+      client: {
+        options: {
+          transportProvider: {
+            send,
+          },
+        },
+      },
+    })?.promise;
     const response = (await ampli.identify(userId, {
       optionalArray: ['A', 'ray'],
       requiredNumber: 42,
     })?.promise) as amplitude.Types.Result;
 
     expect(response.event.event_type).toBe('$identify');
+    expect(response.event.user_id).toBe(userId);
     expect(response.event.user_properties).toEqual({
       $set: {
         optionalArray: ['A', 'ray'],
         requiredNumber: 42,
       },
     });
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should setGroup()', async () => {
@@ -75,12 +84,32 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     const setGroupCalls = mockAmp.setGroup.mock.calls;
     expect(setGroupCalls.length).toBe(1);
     expect(setGroupCalls[0]).toEqual(['Group name', 'Group Value']);
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should groupIdentify()', async () => {
     const mockAmp = { groupIdentify: jest.fn() };
-
-    await ampli.load({ client: { instance: mockAmp as unknown as typeof amplitude } })?.promise;
+    const send = jest.fn().mockReturnValueOnce({
+      status: 'success',
+      statusCode: 200,
+      body: {
+        eventsIngested: 1,
+        payloadSizeBytes: 1,
+        serverUploadTime: 1,
+      },
+    });
+    await ampli.load({
+      client: {
+        instance: mockAmp as unknown as typeof amplitude,
+        options: {
+          transportProvider: {
+            send,
+          },
+        },
+      },
+    })?.promise;
 
     await ampli.groupIdentify('Group name', 'Group Value', {
       requiredBoolean: true,
@@ -103,19 +132,59 @@ describe('Ampli Browser TS SDK V2 tests', () => {
       },
       undefined,
     ]);
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with no properties', async () => {
-    await ampli.load()?.promise;
+    const send = jest.fn().mockReturnValueOnce({
+      status: 'success',
+      statusCode: 200,
+      body: {
+        eventsIngested: 1,
+        payloadSizeBytes: 1,
+        serverUploadTime: 1,
+      },
+    });
+    await ampli.load({
+      client: {
+        options: {
+          transportProvider: {
+            send,
+          },
+        },
+      },
+    } as any)?.promise;
 
-    const response = await ampli.eventNoProperties()?.promise;
+    const response: amplitude.Types.Result = (await ampli.eventNoProperties()?.promise) as amplitude.Types.Result;
 
-    expect((response as amplitude.Types.Result).event.event_type).toBe('Event No Properties');
-    expect((response as amplitude.Types.Result).event.event_properties).toBe(undefined);
+    expect(response.event.event_type).toBe('Event No Properties');
+    expect(response.event.event_properties).toBe(undefined);
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should track an event with properties of all types', async () => {
-    await ampli.load()?.promise;
+    const send = jest.fn().mockReturnValueOnce({
+      status: 'success',
+      statusCode: 200,
+      body: {
+        eventsIngested: 1,
+        payloadSizeBytes: 1,
+        serverUploadTime: 1,
+      },
+    });
+    await ampli.load({
+      client: {
+        options: {
+          transportProvider: {
+            send,
+          },
+        },
+      },
+    } as any)?.promise;
 
     const response = await ampli.eventWithAllProperties({
       requiredBoolean: false,
@@ -136,5 +205,8 @@ describe('Ampli Browser TS SDK V2 tests', () => {
       requiredString: 'Required string',
       requiredArray: ['Required', 'string'],
     });
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 });

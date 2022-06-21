@@ -528,10 +528,7 @@ export class Ampli {
       device_id: options?.device_id
     };
     if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
+      options = Object.assign({}, options, { user_id: event.user_id });
     }
     const amplitudeIdentify = new amplitude.Identify();
     if (properties != null) {
@@ -578,10 +575,7 @@ export class Ampli {
       device_id: options?.device_id
     };
     if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
+      options = Object.assign({}, options, { user_id: event.user_id });
     }
     const amplitudeIdentify = new amplitude.Identify();
     if (event.event_properties != null) {
