@@ -97,6 +97,7 @@ class Group private constructor() : BaseEvent() {
             ).toMutableMap()
     }
 }
+
 class EventMaxIntForTest private constructor() : BaseEvent() {
     /**
      * EventMaxIntForTest
@@ -443,14 +444,15 @@ open class Ampli {
     private var disabled: Boolean = false
 
     @android.annotation.SuppressLint("StaticFieldLeak")
-    private var _client: Amplitude? = null
+    var client: Amplitude? = null // Initializer required, not a nullable type
+        private set // the setter is private and has the default implementation
 
     /**
      * Load the amplitude core SDK
      */
     open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
         this.disabled = options?.disabled ?: false
-        if (this._client != null) {
+        if (this.client != null) {
             System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
@@ -458,10 +460,10 @@ open class Ampli {
         val apiKey = options?.client?.apiKey ?: API_KEY[env]
         when {
             options?.client?.instance != null -> {
-                this._client = options.client.instance
+                this.client = options.client.instance
             }
             apiKey != null && apiKey != "" -> {
-                this._client = Amplitude(options?.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
+                this.client = Amplitude(options?.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
@@ -481,7 +483,7 @@ open class Ampli {
             return
         }
 
-        this._client?.track(event, options)
+        this.client?.track(event, options)
     }
 
     /**
@@ -501,7 +503,7 @@ open class Ampli {
         userId?.let {
             overridenOptions.userId = it
         }
-        this._client?.identify(event.eventProperties?.toMap(), overridenOptions)
+        this.client?.identify(event.eventProperties?.toMap(), overridenOptions)
     }
 
     /**
@@ -515,7 +517,7 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this._client?.setGroup(groupType, groupName, options)
+        this.client?.setGroup(groupType, groupName, options)
     }
 
     /**
@@ -529,7 +531,7 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this._client?.setGroup(groupType, groupName, options)
+        this.client?.setGroup(groupType, groupName, options)
     }
 
     /**
@@ -544,8 +546,7 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this._client?.groupIdentify(groupType, groupName, event.eventProperties?.toMap(), options)
-
+        this.client?.groupIdentify(groupType, groupName, event.eventProperties?.toMap(), options)
     }
 
     /**
@@ -555,7 +556,7 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this._client?.flush()
+        this.client?.flush()
     }
 
     /**
@@ -832,7 +833,7 @@ open class Ampli {
     }
 
     private fun isInitializedAndEnabled(): Boolean {
-        if (this._client == null) {
+        if (this.client == null) {
             System.err.println("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")
             return false
         }
