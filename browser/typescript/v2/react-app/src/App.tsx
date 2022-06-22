@@ -33,16 +33,15 @@ const userId = 'ampli-browser-ts-user-id';
 
 /**
  * OR Use an existing Amplitude instance
- * requires "import amplitude from 'amplitude-js';"
+ * requires "import amplitude from '@amplitude/analytics-browser';"
  */
-// const instance = amplitude.getInstance();
-// instance.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
+// amplitude.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
 // ampli.load({ client: { instance } });
 
 /**
  * OR Use an existing window.amplitude instance from code snippet (not recommended)
  */
-// const instance = window.amplitude.getInstance().init(REACT_APP_AMPLITUDE_API_KEY);
+// const instance = window.amplitude.init(REACT_APP_AMPLITUDE_API_KEY);
 // ampli.load({ client: { instance: instance as any } });
 
 /**
@@ -67,27 +66,6 @@ ampli.load({
  */
 // const ampli2 = new Ampli();
 // ampli2.load({ client: { apiKey: 'api-key-2' } });
-
-/**
- * 3rd party destination support
- */
-// const segmentMiddleware = getSegmentMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
-// ampli.addEventMiddleware(segmentMiddleware);
-
-/**
- * Legacy Itly Plugins can also be adapted to middleware
- * WARNING: This is not recommended, but is shown for legacy Itly customers as an example.
- * WARNING: Instead, we recommend directly integrating with 3rd party destinations
- * WARNING: in Middleware like in the getSegmentMiddleware above.
- */
-// const segmentItlyPluginMiddleware = getSegmentItlyPluginMiddleware(REACT_APP_SEGMENT_WRITE_KEY);
-// ampli.addEventMiddleware(segmentItlyPluginMiddleware);
-
-/**
- * Middleware can also modify the event stream
- * Adding stop middleware will prevent events from going to Amplitude
- */
-// ampli.addEventMiddleware(stopMiddleware);
 
 function App() {
   return (

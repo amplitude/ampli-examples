@@ -30,7 +30,7 @@ export const ApiKey: Record<Environment, string> = {
 /**
  * Default Amplitude configuration options. Contains tracking plan information.
  */
-export const DefaultOptions: ConfigExt = {
+export const DefaultOptions: BrowserOptions = {
   plan: {
     version: '0',
     branch: 'main',
@@ -44,7 +44,7 @@ export interface LoadOptions {
   disabled?: boolean;
   client?: {
     apiKey?: string;
-    options?: Partial<ConfigExt>;
+    options?: BrowserOptions;
     instance?: AmplitudeClient;
   };
 }
@@ -523,13 +523,18 @@ export class Ampli {
 
     const event: IdentifyEvent = {
       event_type: SpecialEventType.IDENTIFY,
-      event_properties: properties,
+      user_properties: properties,
       user_id: userId || options?.user_id,
       device_id: options?.device_id
     };
+
     if (event.user_id) {
-      options = Object.assign({}, options, { user_id: event.user_id });
+      this.amplitude?.setUserId(event.user_id);
     }
+    if (event.device_id) {
+      this.amplitude?.setDeviceId(event.device_id);
+    }
+
     const amplitudeIdentify = new amplitude.Identify();
     if (properties != null) {
       for (const [key, value] of Object.entries(properties)) {
@@ -570,16 +575,21 @@ export class Ampli {
 
     const event: GroupEvent = {
       event_type: SpecialEventType.GROUP_IDENTIFY,
-      event_properties: properties,
+      group_properties: properties,
       user_id: options?.user_id,
       device_id: options?.device_id
     };
+
     if (event.user_id) {
-      options = Object.assign({}, options, { user_id: event.user_id });
+      this.amplitude?.setUserId(event.user_id);
     }
+    if (event.device_id) {
+      this.amplitude?.setDeviceId(event.device_id);
+    }
+
     const amplitudeIdentify = new amplitude.Identify();
-    if (event.event_properties != null) {
-      for (const [key, value] of Object.entries(event.event_properties)) {
+    if (properties != null) {
+      for (const [key, value] of Object.entries(properties)) {
         amplitudeIdentify.set(key, value);
       }
     }
@@ -813,17 +823,17 @@ export class Ampli {
 export const ampli = new Ampli();
 
 // BASE TYPES
-type ConfigExt = Partial<amplitude.Types.BrowserOptions>;
+type BrowserOptions = amplitude.Types.BrowserOptions;
 
 export const SpecialEventType = amplitude.Types.SpecialEventType;
 
 export type BaseEvent = amplitude.Types.BaseEvent;
 
-export type IdentifyEvent = BaseEvent & { event_type: amplitude.Types.SpecialEventType.IDENTIFY };
-export type GroupEvent = BaseEvent & { event_type: amplitude.Types.SpecialEventType.GROUP_IDENTIFY };
+export type IdentifyEvent = amplitude.Types.IdentifyEvent;
+export type GroupEvent = amplitude.Types.GroupIdentifyEvent;
 export type Event = amplitude.Types.Event;
 
-type BaseEventOptions = amplitude.Types.BaseEvent;
+type BaseEventOptions = amplitude.Types.EventOptions;
 export type EventOptions = BaseEventOptions;
 export type IdentifyOptions = BaseEventOptions;
 export type GroupOptions = BaseEventOptions;
