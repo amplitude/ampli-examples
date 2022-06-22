@@ -103,19 +103,6 @@ function App() {
 
         <button
           onClick={() => {
-            ampli.track(
-              new EventWithOptionalProperties({
-                optionalString: 'Event with segment middleware extras',
-              }),
-              undefined,
-            );
-          }}
-        >
-          Event w/ Segment
-        </button>
-
-        <button
-          onClick={() => {
             ampli.eventNoProperties();
 
             ampli.eventWithConstTypes();
