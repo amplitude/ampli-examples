@@ -24,6 +24,9 @@ describe('Ampli Browser TS SDK V2 tests', () => {
 
   test('should load() without any arguments if there are ApiKeys for each environment', () => {
     expect(() => ampli.load()).not.toThrow();
+
+    expect(consoleLogMock).toHaveBeenCalledTimes(0);
+    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
   });
 
   test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
