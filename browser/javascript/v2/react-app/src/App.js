@@ -35,7 +35,7 @@ const userId = "ampli-browser-js-user-id";
  * OR Use an existing Amplitude instance
  * requires "import amplitude from '@amplitude/analytics-browser';"
  */
-// amplitude.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
+// const instance = amplitude.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
 // ampli.load({ client: { instance } });
 
 /**
