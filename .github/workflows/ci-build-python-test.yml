@@ -20,14 +20,14 @@ jobs:
           python-version: "3.6"
 
       - name: Run Python Simple Tests
-        working-directory: ./pythion/simple/v1
+        working-directory: python/simple/v1
         run: |
           pip install -r requirements.txt
           cp .env.example .env
           python -m unittest test_ampli.py
 
       - name: Run Python Django Tests
-        working-directory: ./pythion/django/v1
+        working-directory: python/django/v1
         run: |
           pip install django
           cp ampli_app/.env.example ampli_app/.env
