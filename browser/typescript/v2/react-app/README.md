@@ -32,7 +32,7 @@ If you want to use your own tracking plan and Ampli SDK
 
 - README.md - you are here \*
 - - src/
-- [App.tsx](src/App.tsx) - Example user app using Amply SDK. A good place to start.
+- [App.tsx](src/App.tsx) - Example user app using Ampli SDK. A good place to start.
 - ampli/
   - [index.ts](src/ampli/index.ts) - Generated SDK, don't modify by hand. Update with `ampli pull`
   - [schema.json](src/ampli/schema.json) - The full event schema for the tracking planfiltering
