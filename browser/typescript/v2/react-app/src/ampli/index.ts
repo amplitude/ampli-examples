@@ -607,8 +607,8 @@ export class Ampli {
       return;
     }
 
-    return this.amplitude?.logEvent(
-      event.event_type,
+    return this.amplitude?.track(
+      event,
       event.event_properties,
       options,
     );
