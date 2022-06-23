@@ -547,7 +547,7 @@ export class Ampli {
     );
   }
 
-  setGroup(name: string, value: string | string[], options?: GroupOptions) {
+  setGroup(name: string, value: string | string[]) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
