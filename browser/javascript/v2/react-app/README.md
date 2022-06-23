@@ -24,7 +24,7 @@ You can run the app using the events from our sample tracking plan. This will lo
 
 If you want to use your own tracking plan and Ampli SDK
 
-1. `npm i -g @amplitude/ampli-v2`
+1. `npm i -g @amplitude/ampli`
 2. `ampli pull`
 3. Update `app.js` to use the events from your tracking plan
 
