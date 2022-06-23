@@ -7,7 +7,7 @@ import { DefaultOptions, EventWithOptionalProperties, ampli } from './ampli';
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
-const userId = 'ampli-browser-ts-user-id';
+const userId = 'ampli-v2-browser-ts-user-id';
 
 /**
  * Start by calling ampli.load()
