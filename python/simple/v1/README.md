@@ -8,6 +8,8 @@ You will need to do the following before running the app.
 
 `pip install -r requirements.txt`
 
+`cp .env.example .env`
+
 ### Run the app
 You can run the app using the events from our sample tracking plan.
 This will log events to your Amplitude project.
@@ -17,7 +19,8 @@ This will log events to your Amplitude project.
 If you want to use your own tracking plan and Ampli Wrapper
 1. `npm i -g @amplitude/ampli`
 2. `ampli pull`
-3. Update `app.py` to use the events from your tracking plan
+3. Edit .env file add your API key
+4. Update `app.py` to use the events from your tracking plan
 
 # Project structure
 * README.md - you are here *

@@ -1,12 +1,12 @@
+import unittest
 from collections import defaultdict
 from unittest.mock import MagicMock
 
-from django.test import TestCase
-from .ampli import *
+from ampli import *
 from amplitude import http_client
 
 
-class AmpliDjangoTestCase(TestCase):
+class AmpliPythonTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.post = http_client.HttpClient.post
@@ -26,11 +26,15 @@ class AmpliDjangoTestCase(TestCase):
         self.events[code].append(event)
 
     def test_ampli_default_instance_load_default_config_success(self):
+        with self.assertLogs(None, 'ERROR') as cm:
+            self.assertFalse(ampli.initialized_and_enabled())
+            self.assertEqual(['ERROR:ampli.ampli:Ampli is not yet initialized. Called `ampli.load()` on app start.'],
+                             cm.output)
         ampli.load()
         self.assertTrue(ampli.initialized_and_enabled())
         with self.assertLogs(None, 'WARN') as cm:
             ampli.load()
-            self.assertEqual(['WARNING:ampli_app.ampli.ampli:Warning: Ampli is already initialized. ampli.load() should be called once at application start up.'],
+            self.assertEqual(['WARNING:ampli.ampli:Warning: Ampli is already initialized. ampli.load() should be called once at application start up.'],
                              cm.output)
 
     def test_ampli_track_identify_event_success(self):
@@ -136,3 +140,7 @@ class AmpliDjangoTestCase(TestCase):
         self.assertTrue(isinstance(event_2, EventWithAllProperties))
         self.assertEqual(event.event_properties, event_2.event_properties)
         self.assertEqual(event.user_id, event_2.user_id)
+
+
+if __name__ == '__main__':
+    unittest.main()

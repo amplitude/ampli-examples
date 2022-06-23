@@ -11,6 +11,8 @@ You will need to do the following before running the app.
 ### Run the app
 You can run the app using the events from our sample tracking plan.
 This will start a test server http://127.0.0.1:8000/.
+
+* `cp .env.example .env`
 * `python manage.py runserver`
 
 In your browser
@@ -27,7 +29,8 @@ In your browser
 If you want to use your own tracking plan and Ampli Wrapper
 1. `npm i -g @amplitude/ampli`
 2. In ampli_app folder run `ampli pull`
-3. Update `ampli_app/views.py` and `ampli_app/urls.py` to use the events from your tracking plan
+3. Edit .env file add your API key
+4. Update `ampli_app/views.py` and `ampli_app/urls.py` to use the events from your tracking plan
 
 # Project structure
 * README.md - you are here *

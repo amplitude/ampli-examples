@@ -25,8 +25,7 @@ class SegmentPlugin(DestinationPlugin):
     def __init__(self, write_key):
         self.plugin_type = PluginType.DESTINATION
         self.configuration = None
-        self.segment = SegmentClient()
-        self.segment.write_key = write_key
+        self.segment = SegmentClient(write_key)
 
     def setup(self, client):
         self.configuration = client.configuration

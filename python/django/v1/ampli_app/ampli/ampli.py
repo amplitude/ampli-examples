@@ -451,6 +451,8 @@ class Ampli:
                 configuration = options.client.configuration or DEFAULT_CONFIGURATION
                 self.client = options.client.instance or Amplitude(api_key=api_key, configuration=configuration)
                 self.client.configuration.api_key = api_key
+                if not self.client.configuration.plan:
+                    self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
             else:
                 self.client = Amplitude(api_key=API_KEY[env] or API_KEY[Environment.PRODUCTION],
                                         configuration=DEFAULT_CONFIGURATION)
@@ -495,8 +497,8 @@ class Ampli:
         
     def flush(self):
         if not self.initialized_and_enabled():
-            return
-        self.client.flush()
+            return []
+        return self.client.flush()
         
     def shutdown(self):
         if not self.initialized_and_enabled():
