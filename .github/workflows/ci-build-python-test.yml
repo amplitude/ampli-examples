@@ -3,40 +3,32 @@ name: CI - Android Tests
 on:
   pull_request:
     paths:
-      - 'android/kotlin/**'
-      - 'android/java/**'
+      - 'python/**'
 
 jobs:
   test:
-    name: Test Android Kotlin/Java
+    name: Test Python Ampli
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set Java SDK
-        uses: actions/setup-java@v2
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v3
         with:
-          distribution: 'zulu'
-          java-version: '11'
+          python-version: "3.6"
 
-      - name: Run Kotlin Tests
-        working-directory: ./android/kotlin/AmpliApp
+      - name: Run Python Simple Tests
+        working-directory: ./pythion/simple/v1
         run: |
-          ./gradlew build
+          pip install -r requirements.txt
+          cp .env.example .env
+          python -m unittest test_ampli.py
 
-      - name: Stop gradlew daemon
-        working-directory: ./android/kotlin/AmpliApp
+      - name: Run Python Django Tests
+        working-directory: ./pythion/django/v1
         run: |
-          ./gradlew --stop
-
-      - name: Run Java Tests
-        working-directory: ./android/java/AmpliApp
-        run: |
-          ./gradlew build
-
-      - name: Stop gradlew daemon
-        working-directory: ./android/java/AmpliApp
-        run: |
-          ./gradlew --stop
+          pip install django
+          cp ampli_app/.env.example ampli_app/.env
+          python manage.py test
