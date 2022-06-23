@@ -30,3 +30,7 @@ See subproject README's for details on each platform.
 ## React Native
 #### [react-native/javascript](react-native/javascript/AmpliApp)
 #### [react-native/typescript](react-native/typescript/AmpliApp)
+
+## Python
+#### [python/simple](python/simple/v1)
+#### [python/django](python/django/v1)
