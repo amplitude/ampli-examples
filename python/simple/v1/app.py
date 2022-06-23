@@ -19,7 +19,7 @@ ampli.group_identify("Org", "Engineer", Group(required_boolean=True, optional_st
 ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
 
 # track strongly typed event class with ampli.track
-ampli.track(EventNoProperties(), event_options=EventOptions(user_id="user_id", device_id="device_id"))
+ampli.track("user_id", EventNoProperties(), event_options=EventOptions(user_id="user_id", device_id="device_id"))
 
 # track event with strongly typed method
 ampli.event_no_properties("user_id", event_options=EventOptions(device_id="device_id"))
@@ -52,6 +52,16 @@ ampli.event_with_array_types("user_id", required_boolean_array=[True, False],
                              required_string_array=["a", "b"])
 ampli.event_with_enum_types("user_id", required_enum=EventWithEnumTypes.RequiredEnum.REQUIRED_ENUM_1,
                             optional_enum=EventWithEnumTypes.OptionalEnum.OPTIONAL_ENUM_2)
+ampli.event_with_optional_array_types("user_id",
+                                      optional_boolean_array=[False, True],
+                                      optional_number_array=[1, 2, 15.0],
+                                      optional_string_array=['test'])
+ampli.event_with_optional_properties("user_id", optional_boolean=False)
+ampli.event_with_different_casing_types(user_id="user_id",
+                                        enum_camel_case=EventWithDifferentCasingTypes.EnumCamelCase.ENUM_CAMEL_CASE,
+                                        enum_pascal_case=EventWithDifferentCasingTypes.EnumPascalCase.ENUM_PASCAL_CASE,
+                                        enum_with_space=EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE,
+                                        enum_snake_case=EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE)
 
 # add plugin
 my_plugin = MyEventIDPlugin()
