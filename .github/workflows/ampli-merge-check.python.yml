@@ -18,10 +18,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: (Python Simple) Check the Data branch is merged before merging the Git branch
+      - name: (Python) Check the Data branch is merged before merging the Git branch
         working-directory: python/simple/v1
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
-
-      - name: (Python Django) Check the Data branch is merged before merging the Git branch
-        working-directory: python/django/v1/ampli_app
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        
