@@ -515,24 +515,14 @@ export class Ampli {
   identify(
     userId: string | undefined,
     properties: IdentifyProperties,
-    options?: IdentifyOptions,
+    options?: EventOptions,
   ) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    const event: IdentifyEvent = {
-      event_type: SpecialEventType.IDENTIFY,
-      user_properties: properties,
-      user_id: userId || options?.user_id,
-      device_id: options?.device_id
-    };
-
-    if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
+    if (userId) {
+      options = Object.assign({}, options, { user_id: userId });
     }
 
     const amplitudeIdentify = new amplitude.Identify();
@@ -567,24 +557,10 @@ export class Ampli {
     groupType: string,
     groupName: string | string[],
     properties: GroupProperties,
-    options?: GroupOptions,
+    options?: EventOptions,
   ) {
     if (!this.isInitializedAndEnabled()) {
       return;
-    }
-
-    const event: GroupEvent = {
-      event_type: SpecialEventType.GROUP_IDENTIFY,
-      group_properties: properties,
-      user_id: options?.user_id,
-      device_id: options?.device_id
-    };
-
-    if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
     }
 
     const amplitudeIdentify = new amplitude.Identify();
@@ -835,5 +811,3 @@ export type Event = amplitude.Types.Event;
 
 type BaseEventOptions = amplitude.Types.EventOptions;
 export type EventOptions = BaseEventOptions;
-export type IdentifyOptions = BaseEventOptions;
-export type GroupOptions = BaseEventOptions;
