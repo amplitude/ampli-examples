@@ -6,8 +6,8 @@ from .util import get_api_key
 from .plugins import SegmentPlugin, MyEventIDPlugin
 
 
-api_key = get_api_key('.env', 'API_KEY')
-write_key = get_api_key('.env', 'WRITE_KEY')
+api_key = get_api_key('.env', 'AMPLITUDE_API_KEY')
+write_key = get_api_key('.env', 'SEGMENT_WRITE_KEY')
 ampli.load(LoadOptions(client=LoadClientOptions(api_key)))
 
 # add plugin

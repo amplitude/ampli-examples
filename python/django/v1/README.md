@@ -8,11 +8,14 @@ You will need to do the following before running the app.
 
 `pip install amplitude-analytics django segment-analytics-python`
 
+`cp .env.example .env`
+
+`cp ../../plugins/v1/plugins.py ampli_app/plugins.py`
+
 ### Run the app
 You can run the app using the events from our sample tracking plan.
 This will start a test server http://127.0.0.1:8000/.
 
-* `cp .env.example .env`
 * `python manage.py runserver`
 
 In your browser

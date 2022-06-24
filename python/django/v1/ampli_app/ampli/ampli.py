@@ -36,6 +36,7 @@ API_KEY: Dict[Environment, str] = {
     Environment("development"): "",
     Environment("production"): ""
 }
+
 DEFAULT_CONFIGURATION = Config(
     server_zone='US',
     plan=Plan(

@@ -2,8 +2,9 @@ from ampli import *
 from plugins import MyEventIDPlugin, SegmentPlugin
 from util import get_api_key
 
-api_key = get_api_key('.env', 'API_KEY')
-write_key = get_api_key('.env', 'WRITE_KEY')
+
+api_key = get_api_key('.env', 'AMPLITUDE_API_KEY')
+write_key = get_api_key('.env', 'SEGMENT_WRITE_KEY')
 
 # Initialize the Ampli instance with LoadOptions and LoadClientOptions
 ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
@@ -19,7 +20,7 @@ ampli.group_identify("Org", "Engineer", Group(required_boolean=True, optional_st
 ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
 
 # track strongly typed event class with ampli.track
-ampli.track("user_id", EventNoProperties(), event_options=EventOptions(user_id="user_id", device_id="device_id"))
+ampli.track(None, EventNoProperties(), event_options=EventOptions(user_id="user_id", device_id="device_id"))
 
 # track event with strongly typed method
 ampli.event_no_properties("user_id", event_options=EventOptions(device_id="device_id"))
@@ -61,7 +62,11 @@ ampli.event_with_different_casing_types(user_id="user_id",
                                         enum_camel_case=EventWithDifferentCasingTypes.EnumCamelCase.ENUM_CAMEL_CASE,
                                         enum_pascal_case=EventWithDifferentCasingTypes.EnumPascalCase.ENUM_PASCAL_CASE,
                                         enum_with_space=EventWithDifferentCasingTypes.EnumWithSpace.ENUM_WITH_SPACE,
-                                        enum_snake_case=EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE)
+                                        enum_snake_case=EventWithDifferentCasingTypes.EnumSnakeCase.ENUM_SNAKE_CASE,
+                                        property_with_space="property with space",
+                                        property_with_camel_case="propertyWithCamelCase",
+                                        property_with_snake_case="property_with_snake_case",
+                                        property_with_pascal_case="PropertyWithPascalCase")
 
 # add plugin
 my_plugin = MyEventIDPlugin()
