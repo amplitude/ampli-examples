@@ -279,18 +279,8 @@ export class Ampli {
       return;
     }
 
-    const event = {
-      event_type: SpecialEventType.IDENTIFY,
-      event_properties: properties,
-      user_id: userId || options?.user_id,
-      device_id: options?.device_id
-    };
-
-    if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
+    if (userId) {
+      options = Object.assign({}, options, { user_id: userId });
     }
 
     const ampIdentify = new amplitude.Identify();
@@ -332,20 +322,6 @@ export class Ampli {
   groupIdentify(groupType, groupName, properties, options) {
     if (!this.isInitializedAndEnabled()) {
       return;
-    }
-
-    const event = {
-      event_type: SpecialEventType.GROUP_IDENTIFY,
-      event_properties: properties,
-      user_id: options?.user_id,
-      device_id: options?.device_id
-    };
-
-    if (event.user_id) {
-      this.amplitude?.setUserId(event.user_id);
-    }
-    if (event.device_id) {
-      this.amplitude?.setDeviceId(event.device_id);
     }
 
     const amplitudeIdentify = new amplitude.Identify();
