@@ -89,6 +89,12 @@ class MainActivity : AppCompatActivity() {
                 propertyWithSnakeCase = "property with snake case",
                 propertyWithSpace = "property with space"
             )
+
+            ampli.eventWithTemplateProperties(
+                requiredEventProperty = "event property",
+                requiredTemplateProperty = "template property",
+                optionalEventProperty = 1.23
+            )
         }
     }
 }

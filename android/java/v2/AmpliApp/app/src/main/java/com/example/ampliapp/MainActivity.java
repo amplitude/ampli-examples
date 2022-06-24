@@ -92,6 +92,12 @@ public class MainActivity extends AppCompatActivity {
                     .propertyWithSnakeCase("property with snake case")
                     .propertyWithSpace("property with space")
                     .build());
+
+            Ampli.getInstance().eventWithTemplateProperties(EventWithTemplateProperties.builder()
+                    .requiredEventProperty("event property")
+                    .requiredTemplateProperty("template property")
+                    .optionalEventProperty(1.23)
+                    .build());
         });
     }
 }

@@ -164,6 +164,14 @@ public class App {
                 .build()
         );
 
+        Ampli.getInstance().eventWithTemplateProperties(userId,
+            EventWithTemplateProperties.builder()
+                .requiredEventProperty("event property")
+                .requiredTemplateProperty("template property")
+                .optionalEventProperty(1.23)
+                .build()
+        );
+
         Ampli.getInstance().flush();
     }
 }

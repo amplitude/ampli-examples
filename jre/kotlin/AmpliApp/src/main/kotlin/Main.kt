@@ -140,5 +140,11 @@ fun sendEvents() {
         propertyWithSpace = "property with space"
     ))
 
+    ampli.eventWithTemplateProperties(userId, EventWithTemplateProperties(
+        requiredEventProperty = "event property",
+        requiredTemplateProperty = "template property",
+        optionalEventProperty = 1.23
+    ))
+
     ampli.flush()
 }

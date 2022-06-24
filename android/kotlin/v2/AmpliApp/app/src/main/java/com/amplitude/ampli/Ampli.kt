@@ -428,6 +428,38 @@ class EventWithOptionalProperties private constructor() : BaseEvent() {
     }
 }
 
+class EventWithTemplateProperties private constructor() : BaseEvent() {
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEventProperty required_event_property description
+     * @param requiredTemplateProperty required_template_property description
+     * @param optionalEventProperty optional_event_property description
+     * @param optionalTemplateProperty optional_template_property description
+     */
+    constructor(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = null,
+        optionalTemplateProperty: Double? = null
+    ) : this() {
+        this.eventType = "EventWithTemplateProperties"
+        this.eventProperties =
+            mapOf(
+                *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
+                *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
+                "required_event_property" to requiredEventProperty,
+                "required_template_property" to requiredTemplateProperty
+            ).toMutableMap()
+    }
+}
+
 open class Ampli {
     companion object {
         val API_KEY: Map<Environment, String> = mapOf(
@@ -445,7 +477,7 @@ open class Ampli {
 
     @android.annotation.SuppressLint("StaticFieldLeak")
     var client: Amplitude? = null // Initializer required, not a nullable type
-        private set // the setter is private and has the default implementation
+    private set // the setter is private and has the default implementation
 
     /**
      * Load the amplitude core SDK
@@ -828,6 +860,36 @@ open class Ampli {
                 optionalBoolean = optionalBoolean,
                 optionalNumber = optionalNumber,
                 optionalString = optionalString
+            )
+        )
+    }
+
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEventProperty required_event_property description
+     * @param requiredTemplateProperty required_template_property description
+     * @param optionalEventProperty optional_event_property description
+     * @param optionalTemplateProperty optional_template_property description
+     */
+    fun eventWithTemplateProperties(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = null,
+        optionalTemplateProperty: Double? = null
+    ) {
+        this.track(
+            EventWithTemplateProperties(
+                requiredEventProperty = requiredEventProperty,
+                requiredTemplateProperty = requiredTemplateProperty,
+                optionalEventProperty = optionalEventProperty,
+                optionalTemplateProperty = optionalTemplateProperty
             )
         )
     }
