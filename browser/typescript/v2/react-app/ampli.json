@@ -1,10 +1,11 @@
 {
+  "Zone": "us",
   "OrgId": "132559",
   "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
-  "SourceId": "93b6a56c-919c-4f3c-a06a-3bb2297599c3",
-  "Path": "./src/ampli",
+  "SourceId": "f8a922b9-2725-41c8-a1e0-8dc0d31cd386",
+  "Runtime": "browser:typescript-ampli-v2",
   "Branch": "main",
   "Version": "0.0.0",
-  "Runtime": "browser:typescript-ampli",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6"
+  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
+  "Path": "./src/ampli"
 }
