@@ -38,7 +38,7 @@ import * as amplitude from '@amplitude/analytics-browser';
  * @typedef LoadClientOptions
  * @type {object}
  * @property {string} [apiKey]
- * @property {Object} [options]
+ * @property {Object} [configuration]
  * @property {AmplitudeClient} [instance]
  */
 
@@ -235,7 +235,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude;
-      return this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.options });
+      return this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.configuration });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
