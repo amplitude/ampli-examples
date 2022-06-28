@@ -44,7 +44,7 @@ export interface LoadOptions {
   disabled?: boolean;
   client?: {
     apiKey?: string;
-    options?: BrowserOptions;
+    configuration?: BrowserOptions;
     instance?: AmplitudeClient;
   }
 }
@@ -452,7 +452,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude;
-      return this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.options });
+      return this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.configuration });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
