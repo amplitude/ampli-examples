@@ -1,0 +1,24 @@
+name: Ampli Merge Check (Python)
+
+on:
+  pull_request:
+    paths:
+      - 'python/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Python) Check the Data branch is merged before merging the Git branch
+        working-directory: python/simple/v1
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        
