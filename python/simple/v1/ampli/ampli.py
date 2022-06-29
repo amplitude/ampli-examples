@@ -436,6 +436,10 @@ class Ampli:
         self.disabled: bool = False
 
     def load(self, options: Optional[LoadOptions] = None):
+        """Initialize the Ampli SDK. Call once when your application starts.
+
+        :param options: Configuration options to initialize the Ampli SDK with.
+        """
         if not options:
             options = LoadOptions()
         self.disabled = options.disabled
@@ -462,12 +466,22 @@ class Ampli:
             self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
     
     def initialized_and_enabled(self) -> bool:
+        """ Check if Ampli is initialized and enabled
+
+        :returns: True if Ampli is initialized and not disabled, False otherwise.
+        """
         if not self.client:
             logging.getLogger(__name__).error("Ampli is not yet initialized. Called `ampli.load()` on app start.")
             return False
         return not self.disabled
     
     def track(self, user_id: Optional[str], event: BaseEvent, event_options: Optional[EventOptions] = None):
+        """Track event
+
+        :param user_id: The user's ID.
+        :param event: The event to be tracked.
+        :param event_options: Optional event options.
+        """
         if not self.initialized_and_enabled():
             return
         if not event_options:
@@ -478,12 +492,29 @@ class Ampli:
         self.client.track(event)
         
     def identify(self, user_id: Optional[str], event: Identify, event_options: Optional[EventOptions] = None):
+        """Identify a user and set user properties.
+
+        :param user_id: The user's ID.
+        :param event: The Identify event instance.
+        :param event_options: Optional event options.
+        """
+        if not self.initialized_and_enabled():
+            return
         self.track(user_id, event, event_options)
 
     def group_identify(self, group_type: str,
                        group_name: str,
                        event: Group, 
                        event_options: Optional[EventOptions] = None):
+        """Identify a group and set group properties.
+
+        :param group_type: The group type.
+        :param group_name: The group name.
+        :param event: The Group event instance.
+        :param event_options: Optional event options.
+        """
+        if not self.initialized_and_enabled():
+            return
         event.groups = {group_type: group_name}
         self.track(None, event, event_options)
 
@@ -491,6 +522,13 @@ class Ampli:
                   group_type: str,
                   group_name: Union[str, List[str]],
                   event_options: Optional[EventOptions] = None):
+        """Set Group for the current user
+
+        :param user_id: The user's ID.
+        :param group_type: The group type.
+        :param group_name: The group name.
+        :param event_options: Optional event options.
+        """
         if not self.initialized_and_enabled():
             return
         if not event_options:
@@ -500,11 +538,13 @@ class Ampli:
         self.client.set_group(group_type, group_name, event_options)
         
     def flush(self):
+        """Flush events waiting in buffer"""
         if not self.initialized_and_enabled():
             return []
         return self.client.flush()
         
     def shutdown(self):
+        """Disable and shutdown the Ampli client"""
         if not self.initialized_and_enabled():
             return
         self.client.shutdown()
