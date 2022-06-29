@@ -53,7 +53,7 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     });
     await ampli.load({
       client: {
-        options: {
+        configuration: {
           transportProvider: {
             send,
           },
@@ -106,7 +106,7 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     await ampli.load({
       client: {
         instance: mockAmp as unknown as typeof amplitude,
-        options: {
+        configuration: {
           transportProvider: {
             send,
           },
@@ -152,7 +152,7 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     });
     await ampli.load({
       client: {
-        options: {
+        configuration: {
           transportProvider: {
             send,
           },
@@ -181,7 +181,7 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     });
     await ampli.load({
       client: {
-        options: {
+        configuration: {
           transportProvider: {
             send,
           },
