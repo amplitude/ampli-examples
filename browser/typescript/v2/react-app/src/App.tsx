@@ -3,7 +3,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import { DefaultOptions, EventWithOptionalProperties, ampli } from './ampli';
+import { DefaultConfiguration, EventWithOptionalProperties, ampli } from './ampli';
 
 const { REACT_APP_AMPLITUDE_API_KEY = '', REACT_APP_SEGMENT_WRITE_KEY = '' } = process.env;
 
@@ -50,7 +50,7 @@ const userId = 'ampli-v2-browser-ts-user-id';
 ampli.load({
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
-    options: { ...DefaultOptions, logLevel: 3 },
+    configuration: { ...DefaultConfiguration, logLevel: 3 },
   },
 });
 
@@ -133,12 +133,6 @@ function App() {
 
             ampli.eventWithOptionalArrayTypes({
               optionalBooleanArray: [true, false],
-            });
-
-            ampli.eventWithTemplateProperties({
-              required_event_property: 'event property',
-              required_template_property: 'template property',
-              optional_template_property: 1.23,
             });
 
             ampli.eventWithDifferentCasingTypes({
