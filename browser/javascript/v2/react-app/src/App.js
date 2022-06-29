@@ -50,7 +50,7 @@ const userId = "ampli-browser-js-user-id";
 ampli.load({
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
-    options: { ...DefaultConfiguration, logLevel: 3 },
+    configuration: { ...DefaultConfiguration, logLevel: 3 },
   },
 });
 
@@ -157,12 +157,6 @@ function App() {
 
             ampli.eventWithOptionalArrayTypes({
               optionalBooleanArray: [true, false],
-            });
-
-            ampli.eventWithTemplateProperties({
-              required_event_property: "event property",
-              required_template_property: "template property",
-              optional_template_property: 1.23,
             });
 
             ampli.eventWithDifferentCasingTypes({
