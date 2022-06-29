@@ -6,11 +6,9 @@ An example app using the Ampli Python Wrapper in Django project
 ### Setup the project
 You will need to do the following before running the app.
 
-`pip install amplitude-analytics django segment-analytics-python`
+`pip install -r requirements.txt`
 
-`cp .env.example .env`
-
-`cp ../../plugins/v1/plugins.py ampli_app/plugins.py`
+`cp ampli_app/.env.example ampli_app/.env`
 
 ### Run the app
 You can run the app using the events from our sample tracking plan.

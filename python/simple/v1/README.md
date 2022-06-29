@@ -10,8 +10,6 @@ You will need to do the following before running the app.
 
 `cp .env.example .env`
 
-`cp ../../plugins/v1/plugins.py plugins.py`
-
 ### Run the app
 You can run the app using the events from our sample tracking plan.
 This will log events to your Amplitude project.

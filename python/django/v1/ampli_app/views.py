@@ -1,24 +1,24 @@
 import logging
+from dotenv import dotenv_values
 
 from django.http import HttpResponse
 from .ampli import *
-from .util import get_api_key
 from .plugins import SegmentPlugin, MyEventIDPlugin
 
-
-api_key = get_api_key('.env', 'AMPLITUDE_API_KEY')
-write_key = get_api_key('.env', 'SEGMENT_WRITE_KEY')
+envs = dotenv_values("ampli_app/.env")
+api_key = envs['AMPLITUDE_API_KEY']
+write_key = envs['SEGMENT_WRITE_KEY']
 ampli.load(LoadOptions(client=LoadClientOptions(api_key)))
 
 # add plugin
 my_plugin = MyEventIDPlugin()
-segment_plugin = SegmentPlugin(write_key)
+#segment_plugin = SegmentPlugin(write_key)
 ampli.client.add(my_plugin)
-ampli.client.add(segment_plugin)
+#ampli.client.add(segment_plugin)
 
 # remove plugin
 ampli.client.remove(my_plugin)
-ampli.client.remove(segment_plugin)
+#ampli.client.remove(segment_plugin)
 
 
 # Create your views here.

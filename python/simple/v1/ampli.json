@@ -3,7 +3,7 @@
   "OrgId": "132559",
   "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
   "SourceId": "e7eb7d27-8ab4-4e8c-8595-f580be2fb69a",
-  "Runtime": "*:python-ampli",
+  "Runtime": "python:python-ampli",
   "Branch": "main",
   "Version": "0.0.0",
   "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",

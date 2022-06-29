@@ -1,10 +1,11 @@
 from ampli import *
 from plugins import MyEventIDPlugin, SegmentPlugin
-from util import get_api_key
+from dotenv import dotenv_values
 
-
-api_key = get_api_key('.env', 'AMPLITUDE_API_KEY')
-write_key = get_api_key('.env', 'SEGMENT_WRITE_KEY')
+envs = dotenv_values(".env")
+print(envs['AMPLITUDE_API_KEY'])
+api_key = envs['AMPLITUDE_API_KEY']
+write_key = envs['SEGMENT_WRITE_KEY']
 
 # Initialize the Ampli instance with LoadOptions and LoadClientOptions
 ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
@@ -70,13 +71,13 @@ ampli.event_with_different_casing_types(user_id="user_id",
 
 # add plugin
 my_plugin = MyEventIDPlugin()
-segment_plugin = SegmentPlugin(write_key)
+# segment_plugin = SegmentPlugin(write_key)
 ampli.client.add(my_plugin)
-ampli.client.add(segment_plugin)
+#ampli.client.add(segment_plugin)
 
 # remove plugin
 ampli.client.remove(my_plugin)
-ampli.client.remove(segment_plugin)
+#ampli.client.remove(segment_plugin)
 
 # flush events
 ampli.flush()

@@ -26,7 +26,7 @@ class AmpliDjangoTestCase(TestCase):
         self.events[code].append(event)
 
     def test_ampli_default_instance_load_default_config_success(self):
-        ampli.load()
+        ampli.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         self.assertTrue(ampli.initialized_and_enabled())
         with self.assertLogs(None, 'WARN') as cm:
             ampli.load()
@@ -34,7 +34,7 @@ class AmpliDjangoTestCase(TestCase):
                              cm.output)
 
     def test_ampli_track_identify_event_success(self):
-        amplitude_client = Amplitude('test api key')
+        amplitude_client = Amplitude('TEST_API_KEY')
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(instance=amplitude_client)))
         self.assertEqual(amplitude_client, ampli_client.client)
@@ -53,7 +53,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_track_group_identify_event_success(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         event = Group(required_boolean=False)
         self.assertTrue(isinstance(event, GroupIdentifyEvent))
@@ -67,7 +67,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_set_group_success(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.set_group('test_user', 'sport', 'football')
         ampli_client.set_group('test_user_2', 'team', ['10', '11'])
@@ -80,7 +80,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_track_event_max_int_for_test_with_event_class(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.track('test_user', EventMaxIntForTest(int_max_10=9))
         [future.result() for future in ampli_client.flush()]
@@ -91,7 +91,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_track_event_max_int_for_test_with_track_method(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.event_max_int_for_test('test_user', 9)
         [future.result() for future in ampli_client.flush()]
@@ -102,7 +102,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_track_event_no_properties_success(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.track('test_user', EventNoProperties())
         ampli_client.event_no_properties('test_user')
@@ -115,7 +115,7 @@ class AmpliDjangoTestCase(TestCase):
 
     def test_ampli_track_event_with_all_properties_success(self):
         ampli_client = Ampli()
-        ampli_client.load()
+        ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.track('test_user', EventWithAllProperties(required_array=['test'],
                                                                required_boolean=True,

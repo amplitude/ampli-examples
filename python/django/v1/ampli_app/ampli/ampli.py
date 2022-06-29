@@ -1,5 +1,3 @@
-# WARNING: We do our best to remove lint warning from this file but if you would like to disable linting completely you will need to take some extra steps. See more details here: https://stackoverflow.com/questions/18444840/how-to-disable-a-pep8-error-in-a-specific-file/48772387
-# 
 # ampli.py
 # 
 # Ampli - A strong typed wrapper for your Analytics
@@ -18,6 +16,8 @@
 # 
 # pylint: skip-file
 # flake8: noqa
+# 
+# WARNING: We do our best to remove lint warning from this file but if you would like to disable linting completely you will need to take some extra steps. See more details here: https://stackoverflow.com/questions/18444840/how-to-disable-a-pep8-error-in-a-specific-file/48772387
 
 
 import logging
@@ -28,8 +28,8 @@ from amplitude import Amplitude, Config, Plan, BaseEvent, EventOptions, Identify
 
 
 class Environment(enum.Enum):
-    PRODUCTION = 'production'
     DEVELOPMENT = 'development'
+    PRODUCTION = 'production'
 
 
 API_KEY: Dict[Environment, str] = {
@@ -38,7 +38,6 @@ API_KEY: Dict[Environment, str] = {
 }
 
 DEFAULT_CONFIGURATION = Config(
-    server_zone='US',
     plan=Plan(
         branch="main",
         source="python-ampli",
@@ -437,26 +436,30 @@ class Ampli:
         self.disabled: bool = False
 
     def load(self, options: Optional[LoadOptions] = None):
-        if options:
-            self.disabled = options.disabled
+        if not options:
+            options = LoadOptions()
+        self.disabled = options.disabled
         if self.client:
             logging.getLogger(__name__).warning('Warning: Ampli is already initialized. ampli.load() should be called once at application start up.')
             return
-        if not options:
-            self.client = Amplitude(api_key=API_KEY[Environment.DEVELOPMENT] or API_KEY[Environment.PRODUCTION],
-                                    configuration=DEFAULT_CONFIGURATION)
+        if not options.client:
+            options.client = LoadClientOptions(configuration=DEFAULT_CONFIGURATION)
+        api_key = None
+        if options.client.api_key:
+            api_key = options.client.api_key
+        elif options.client.instance:
+            api_key = options.client.instance.configuration.api_key
+        elif options.environment:
+            api_key = API_KEY[options.environment]
         else:
-            env = options.environment or Environment.DEVELOPMENT
-            if options.client:
-                api_key = options.client.api_key or API_KEY[env] or API_KEY[Environment.PRODUCTION]
-                configuration = options.client.configuration or DEFAULT_CONFIGURATION
-                self.client = options.client.instance or Amplitude(api_key=api_key, configuration=configuration)
-                self.client.configuration.api_key = api_key
-                if not self.client.configuration.plan:
-                    self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
-            else:
-                self.client = Amplitude(api_key=API_KEY[env] or API_KEY[Environment.PRODUCTION],
-                                        configuration=DEFAULT_CONFIGURATION)
+            api_key = API_KEY[Environment.DEVELOPMENT] or API_KEY[Environment.PRODUCTION]
+        if not api_key:
+            logging.getLogger(__name__).error("ampli.load() requires 'environment', 'client.api_key', or 'client.instance'")
+            return
+        configuration = options.client.configuration or DEFAULT_CONFIGURATION
+        self.client = options.client.instance or Amplitude(api_key=api_key, configuration=configuration)
+        if not self.client.configuration.plan:
+            self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
     
     def initialized_and_enabled(self) -> bool:
         if not self.client:
