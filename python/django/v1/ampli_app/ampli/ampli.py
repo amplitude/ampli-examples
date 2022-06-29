@@ -448,9 +448,9 @@ class Ampli:
         self.disabled: bool = False
 
     def load(self, options: Optional[LoadOptions] = None):
-        """Initialize the Ampli SDK. Call once when your application starts.
+        """Initialize the Ampli wrapper. Call once when your application starts.
 
-        :param options: Configuration options to initialize the Ampli SDK with.
+        :param options: Configuration options to initialize the Ampli wrapper with.
         """
         if not options:
             options = LoadOptions()

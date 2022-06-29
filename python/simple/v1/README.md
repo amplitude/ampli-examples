@@ -27,5 +27,5 @@ If you want to use your own tracking plan and Ampli Wrapper
 * ampli/ 
   * [ampli.py](ampli/ampli.py) - Generated SDK, don't modify by hand. Update with `ampli pull`
   * [requirements.txt](ampli/requirements.txt) - Dependencies of ampli wrapper
-* [app.py](app.py) - Example user app using Ampli SDK. A good place to start.
+* [app.py](app.py) - Example user app using Ampli wrapper. A good place to start.
 * [plugins.py](plugins.py) - Example plugin for Event enrichment
