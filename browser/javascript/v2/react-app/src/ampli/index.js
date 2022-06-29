@@ -79,7 +79,7 @@ export const ApiKey = {
 /**
  * Default Amplitude configuration options. Contains tracking plan information.
  */
-export const DefaultOptions = {
+export const DefaultConfiguration = {
   plan: {
     version: '0',
     branch: 'main',
@@ -235,7 +235,7 @@ export class Ampli {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
       this.amplitude = amplitude;
-      return this.amplitude?.init(apiKey, undefined, { ...DefaultOptions, ...options?.client?.configuration });
+      return this.amplitude?.init(apiKey, undefined, { ...DefaultConfiguration, ...options?.client?.configuration });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
@@ -271,15 +271,15 @@ export class Ampli {
   /**
    * Set Group for the current user
    *
-   * @param {String} name
-   * @param {String|String[]} value
+   * @param {string} groupType The group type.
+   * @param {string|string[]} groupName The group name.
    */
-  setGroup(name, value) {
+  setGroup(groupType, groupName) {
     if (!this.isInitializedAndEnabled()) {
       return;
     }
 
-    this.amplitude?.setGroup(name, value);
+    this.amplitude?.setGroup(groupType, groupName);
   }
 
   /**

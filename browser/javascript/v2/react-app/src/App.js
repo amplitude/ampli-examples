@@ -2,7 +2,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 
-import { ampli, DefaultOptions, EventWithOptionalProperties } from "./ampli";
+import { ampli, DefaultConfiguration, EventWithOptionalProperties } from "./ampli";
 
 const { REACT_APP_AMPLITUDE_API_KEY = "", REACT_APP_SEGMENT_WRITE_KEY = "" } =
   process.env;
@@ -35,14 +35,14 @@ const userId = "ampli-browser-js-user-id";
  * OR Use an existing Amplitude instance
  * requires "import amplitude from '@amplitude/analytics-browser';"
  */
-// const instance = amplitude.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultOptions, logLevel: "INFO" });
-// ampli.load({ client: { instance } });
+// amplitude.init(REACT_APP_AMPLITUDE_API_KEY, undefined, { ...DefaultConfiguration, logLevel: 3 });
+// ampli.load({ client: { instance: amplitude } });
 
 /**
  * OR Use an existing window.amplitude instance from code snippet (not recommended)
  */
-// const instance = window.amplitude.init(REACT_APP_AMPLITUDE_API_KEY);
-// ampli.load({ client: { instance } });
+// window.amplitude.init(REACT_APP_AMPLITUDE_API_KEY);
+// ampli.load({ client: { instance: window.amplitude } });
 
 /**
  * OR Specify AmplitudeClient 'options'
@@ -50,7 +50,7 @@ const userId = "ampli-browser-js-user-id";
 ampli.load({
   client: {
     apiKey: REACT_APP_AMPLITUDE_API_KEY,
-    options: { ...DefaultOptions, logLevel: 3 },
+    options: { ...DefaultConfiguration, logLevel: 3 },
   },
 });
 
