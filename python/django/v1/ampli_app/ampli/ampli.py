@@ -451,13 +451,9 @@ class Ampli:
         api_key = None
         if options.client.api_key:
             api_key = options.client.api_key
-        elif options.client.instance:
-            api_key = options.client.instance.configuration.api_key
         elif options.environment:
             api_key = API_KEY[options.environment]
-        else:
-            api_key = API_KEY[Environment.DEVELOPMENT] or API_KEY[Environment.PRODUCTION]
-        if not api_key:
+        if not (api_key or options.client.instance):
             logging.getLogger(__name__).error("ampli.load() requires 'environment', 'client.api_key', or 'client.instance'")
             return
         configuration = options.client.configuration or DEFAULT_CONFIGURATION
