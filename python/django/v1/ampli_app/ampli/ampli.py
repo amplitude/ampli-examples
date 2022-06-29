@@ -48,32 +48,32 @@ DEFAULT_CONFIGURATION = Config(
 
 
 class LoadClientOptions:
+    """Client options setting to initialize Ampli client
+
+    :param api_key: The API key of of Amplitude project. Default to None.
+    :param instance: The core SDK instance used by Ampli client. Default to None
+    :param configuration: The core SDK client configuration instance. Default to None
+    """
     
     def __init__(self, api_key: Optional[str] = None,
                  instance: Optional[Amplitude] = None,
                  configuration: Optional[Config] = None):
-        """Client options setting to initialize Ampli client
-        
-        :param api_key: The API key of of Amplitude project. Default to None.
-        :param instance: The core SDK instance used by Ampli client. Default to None
-        :param configuration: The core SDK client configuration instance. Default to None
-        """
         self.api_key = api_key
         self.instance = instance
         self.configuration = configuration
 
 
 class LoadOptions:
+    """Options setting to initialize Ampli client
+
+    :param environment: The environment of Amplitude Data project. Default to None.
+    :param disabled: The flag of disabled Ampli client. Default to False
+    :param client: The LoadClientOptions instance. Default to None
+    """
 
     def __init__(self, environment: Environment = None,
                  disabled: bool = False,
                  client: LoadClientOptions = None):
-        """Options setting to initialize Ampli client
-        
-        :param environment: The environment of Amplitude Data project. Default to None.
-        :param disabled: The flag of disabled Ampli client. Default to False
-        :param client: The LoadClientOptions instance. Default to None
-        """
         self.environment = environment
         self.disabled = disabled
         self.client = client
