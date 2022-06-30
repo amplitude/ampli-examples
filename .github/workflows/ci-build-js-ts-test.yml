@@ -3,10 +3,10 @@ name: CI - JS/TS Tests
 on:
   pull_request:
     paths:
-      - 'browser/javascript/v1'
-      - 'browser/typescript/v1'
-      - 'browser/javascript/v2'
-      - 'browser/typescript/v2'
+      - 'browser/javascript/v1/**'
+      - 'browser/typescript/v1/**'
+      - 'browser/javascript/v2/**'
+      - 'browser/typescript/v2/**'
       - 'node/javascript/**'
       - 'node/typescript/**'
 

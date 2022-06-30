@@ -3,8 +3,8 @@ name: Ampli Merge Check (Browser V1)
 on:
   pull_request:
     paths:
-      - 'browser/javascript/v1'
-      - 'browser/typescript/v1'
+      - 'browser/javascript/v1/**'
+      - 'browser/typescript/v1/**'
 
 jobs:
   build:
