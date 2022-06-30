@@ -3,6 +3,7 @@ name: Ampli Merge Check (Browser V2)
 on:
   pull_request:
     paths:
+      - 'browser/javascript/v2/**'
       - 'browser/typescript/v2/**'
 
 jobs:
@@ -17,6 +18,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+
+      - name: (Browser JS V2) Check the Data branch is merged before merging the Git branch
+        working-directory: ./browser/javascript/v2/react-app
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
 
       - name: (Browser TS V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./browser/typescript/v2/react-app
