@@ -435,6 +435,7 @@ export class Ampli {
 
   /**
    * Initialize the Ampli SDK. Call once when your application starts.
+   *
    * @param options Configuration options to initialize the Ampli SDK with.
    */
   load(options?: LoadOptions) {
