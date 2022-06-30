@@ -12,13 +12,13 @@ ampli.load(LoadOptions(client=LoadClientOptions(api_key)))
 
 # add plugin
 my_plugin = MyEventIDPlugin()
-#segment_plugin = SegmentPlugin(write_key)
+# segment_plugin = SegmentPlugin(write_key)
 ampli.client.add(my_plugin)
-#ampli.client.add(segment_plugin)
+# ampli.client.add(segment_plugin)
 
 # remove plugin
 ampli.client.remove(my_plugin)
-#ampli.client.remove(segment_plugin)
+# ampli.client.remove(segment_plugin)
 
 
 # Create your views here.
@@ -85,7 +85,7 @@ def track_event_with_const_types(request):
         user_id = request.GET.get('user_id')
         if not user_id:
             return HttpResponse('user_id is required')
-        ampli.event_with_const_types(user_id)
+        ampli.event_with_const_types(user_id, EventWithConstTypes())
         return HttpResponse('Success')
     except Exception:
         logging.exception('Error parsing input')

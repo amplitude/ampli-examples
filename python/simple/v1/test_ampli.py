@@ -34,8 +34,9 @@ class AmpliPythonTestCase(unittest.TestCase):
         self.assertTrue(ampli.initialized_and_enabled())
         with self.assertLogs(None, 'WARN') as cm:
             ampli.load()
-            self.assertEqual(['WARNING:ampli.ampli:Warning: Ampli is already initialized. ampli.load() should be called once at application start up.'],
-                             cm.output)
+            self.assertEqual([
+                'WARNING:ampli.ampli:Warning: Ampli is already initialized. ampli.load() should be called once at application start up.'],
+                cm.output)
 
     def test_ampli_track_identify_event_success(self):
         amplitude_client = Amplitude('TEST_API_KEY')
@@ -97,7 +98,7 @@ class AmpliPythonTestCase(unittest.TestCase):
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
-        ampli_client.event_max_int_for_test('test_user', 9)
+        ampli_client.event_max_int_for_test('test_user', EventMaxIntForTest(9))
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         event = self.events[200][0]
@@ -109,7 +110,7 @@ class AmpliPythonTestCase(unittest.TestCase):
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.track('test_user', EventNoProperties())
-        ampli_client.event_no_properties('test_user')
+        ampli_client.event_no_properties('test_user', EventNoProperties())
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         event, event_2 = self.events[200]
@@ -121,18 +122,24 @@ class AmpliPythonTestCase(unittest.TestCase):
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
-        ampli_client.track('test_user', EventWithAllProperties(required_array=['test'],
-                                                               required_boolean=True,
-                                                               required_enum=EventWithAllProperties.RequiredEnum.ENUM_2,
-                                                               required_integer=20,
-                                                               required_number=9.5,
-                                                               required_string='test'))
-        ampli_client.event_with_all_properties('test_user', required_array=['test'],
-                                               required_boolean=True,
-                                               required_enum=EventWithAllProperties.RequiredEnum.ENUM_2,
-                                               required_integer=20,
-                                               required_number=9.5,
-                                               required_string='test')
+        ampli_client.track(
+            'test_user',
+            EventWithAllProperties(
+                required_array=['test'],
+                required_boolean=True,
+                required_enum=EventWithAllProperties.RequiredEnum.ENUM_2,
+                required_integer=20,
+                required_number=9.5,
+                required_string='test'))
+        ampli_client.event_with_all_properties(
+            'test_user',
+            EventWithAllProperties(
+                required_array=['test'],
+                required_boolean=True,
+                required_enum=EventWithAllProperties.RequiredEnum.ENUM_2,
+                required_integer=20,
+                required_number=9.5,
+                required_string='test'))
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         event, event_2 = self.events[200]

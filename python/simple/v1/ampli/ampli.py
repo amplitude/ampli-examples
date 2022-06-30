@@ -493,7 +493,7 @@ class Ampli:
 
         :param user_id: The user's ID.
         :param event: The event to be tracked.
-        :param event_options: Optional event options.
+        :param event_options: Extra optional event attributes options.
         """
         if not self.initialized_and_enabled():
             return
@@ -509,7 +509,7 @@ class Ampli:
 
         :param user_id: The user's ID.
         :param event: The Identify event instance.
-        :param event_options: Optional event options.
+        :param event_options: Extra optional event attributes options.
         """
         if not self.initialized_and_enabled():
             return
@@ -524,7 +524,7 @@ class Ampli:
         :param group_type: The group type.
         :param group_name: The group name.
         :param event: The Group event instance.
-        :param event_options: Optional event options.
+        :param event_options: Extra optional event attributes options.
         """
         if not self.initialized_and_enabled():
             return
@@ -540,7 +540,7 @@ class Ampli:
         :param user_id: The user's ID.
         :param group_type: The group type.
         :param group_name: The group name.
-        :param event_options: Optional event options.
+        :param event_options: Extra optional event attributes options.
         """
         if not self.initialized_and_enabled():
             return
@@ -566,7 +566,7 @@ class Ampli:
     def event_max_int_for_test(
         self,
         user_id: Optional[str],
-        int_max_10: int,
+        event: EventMaxIntForTest,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'EventMaxIntForTest'
@@ -578,17 +578,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param int_max_10: property to test schema validation
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventMaxIntForTest(
-            int_max_10
-        )
         self.track(user_id, event, event_options)
 
     def event_no_properties(
         self,
         user_id: Optional[str],
+        event: EventNoProperties,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event No Properties'
@@ -600,18 +598,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventNoProperties(
-
-        )
         self.track(user_id, event, event_options)
 
     def event_object_types(
         self,
         user_id: Optional[str],
-        required_object: Any,
-        required_object_array: List[Any],
+        event: EventObjectTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event Object Types'
@@ -623,26 +618,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param required_object: Property Object Type
-        :param required_object_array: Property Object Array Type
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventObjectTypes(
-            required_object,
-            required_object_array
-        )
         self.track(user_id, event, event_options)
 
     def event_with_all_properties(
         self,
         user_id: Optional[str],
-        required_array: List[str],
-        required_boolean: bool,
-        required_enum: "EventWithAllProperties.RequiredEnum",
-        required_integer: int,
-        required_number: float,
-        required_string: str,
-        optional_string: Optional[str] = None,
+        event: EventWithAllProperties,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With All Properties'
@@ -654,33 +638,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param required_array: Event 2 Property - Array
-        :param required_boolean: Event 2 Property - Boolean
-        :param required_enum: Event 2 Property - Enum
-        :param required_integer: Event 2 Property - Integer    *     * Examples:    * 5, 4, 3
-        :param required_number: Event 2 Property - Number
-        :param required_string: Event 2 Property - String
-        :param optional_string: Event 2 Property - Optional String    *     * Examples:    * Some string, or another
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithAllProperties(
-            required_array,
-            required_boolean,
-            required_enum,
-            required_integer,
-            required_number,
-            required_string,
-            optional_string
-        )
         self.track(user_id, event, event_options)
 
     def event_with_array_types(
         self,
         user_id: Optional[str],
-        required_boolean_array: List[bool],
-        required_number_array: List[float],
-        required_object_array: List[Any],
-        required_string_array: List[str],
+        event: EventWithArrayTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Array Types'
@@ -692,23 +658,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param required_boolean_array: description for required boolean array
-        :param required_number_array: Description for required number array
-        :param required_object_array: Description for required object array
-        :param required_string_array: description for required string array
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithArrayTypes(
-            required_boolean_array,
-            required_number_array,
-            required_object_array,
-            required_string_array
-        )
         self.track(user_id, event, event_options)
 
     def event_with_const_types(
         self,
         user_id: Optional[str],
+        event: EventWithConstTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Const Types'
@@ -720,24 +678,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithConstTypes(
-
-        )
         self.track(user_id, event, event_options)
 
     def event_with_different_casing_types(
         self,
         user_id: Optional[str],
-        enum_camel_case: "EventWithDifferentCasingTypes.EnumCamelCase",
-        enum_pascal_case: "EventWithDifferentCasingTypes.EnumPascalCase",
-        enum_snake_case: "EventWithDifferentCasingTypes.EnumSnakeCase",
-        enum_with_space: "EventWithDifferentCasingTypes.EnumWithSpace",
-        property_with_camel_case: str,
-        property_with_pascal_case: str,
-        property_with_snake_case: str,
-        property_with_space: str,
+        event: EventWithDifferentCasingTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'event withDifferent_CasingTypes'
@@ -749,33 +698,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param enum_camel_case: descriptionForEnumCamelCase
-        :param enum_pascal_case: DescirptionForEnumPascalCase
-        :param enum_snake_case: description_for_enum_snake_case
-        :param enum_with_space: Description for enum with space
-        :param property_with_camel_case: descriptionForCamelCase
-        :param property_with_pascal_case: DescriptionForPascalCase
-        :param property_with_snake_case: Description_for_snake_case
-        :param property_with_space: Description for case with space
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithDifferentCasingTypes(
-            enum_camel_case,
-            enum_pascal_case,
-            enum_snake_case,
-            enum_with_space,
-            property_with_camel_case,
-            property_with_pascal_case,
-            property_with_snake_case,
-            property_with_space
-        )
         self.track(user_id, event, event_options)
 
     def event_with_enum_types(
         self,
         user_id: Optional[str],
-        required_enum: "EventWithEnumTypes.RequiredEnum",
-        optional_enum: Optional["EventWithEnumTypes.OptionalEnum"] = None,
+        event: EventWithEnumTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Enum Types'
@@ -787,23 +718,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param required_enum: Description for optional enum
-        :param optional_enum: Description for required enum
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithEnumTypes(
-            required_enum,
-            optional_enum
-        )
         self.track(user_id, event, event_options)
 
     def event_with_optional_array_types(
         self,
         user_id: Optional[str],
-        optional_boolean_array: Optional[List[bool]] = None,
-        optional_json_array: Optional[List[Any]] = None,
-        optional_number_array: Optional[List[float]] = None,
-        optional_string_array: Optional[List[str]] = None,
+        event: EventWithOptionalArrayTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Optional Array Types'
@@ -815,28 +738,15 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param optional_boolean_array: Description for optional boolean array
-        :param optional_json_array: Description for optional object array
-        :param optional_number_array: Description for optional number array
-        :param optional_string_array: Description for optional string array
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithOptionalArrayTypes(
-            optional_boolean_array,
-            optional_json_array,
-            optional_number_array,
-            optional_string_array
-        )
         self.track(user_id, event, event_options)
 
     def event_with_optional_properties(
         self,
         user_id: Optional[str],
-        optional_array_number: Optional[List[float]] = None,
-        optional_array_string: Optional[List[str]] = None,
-        optional_boolean: Optional[bool] = None,
-        optional_number: Optional[float] = None,
-        optional_string: Optional[str] = None,
+        event: EventWithOptionalProperties,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Optional Properties'
@@ -848,20 +758,9 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event_options: Extra event attributes options.
-        :param optional_array_number: Property has no description provided in tracking plan.
-        :param optional_array_string: Property has no description provided in tracking plan.
-        :param optional_boolean: Property has no description provided in tracking plan.
-        :param optional_number: Property has no description provided in tracking plan.
-        :param optional_string: Optional String property description
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
         """
-        event = EventWithOptionalProperties(
-            optional_array_number,
-            optional_array_string,
-            optional_boolean,
-            optional_number,
-            optional_string
-        )
         self.track(user_id, event, event_options)
 
 
