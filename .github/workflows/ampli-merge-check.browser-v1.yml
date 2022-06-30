@@ -1,10 +1,10 @@
-name: Ampli Merge Check (Browser)
+name: Ampli Merge Check (Browser V1)
 
 on:
   pull_request:
     paths:
-      - 'browser/javascript/**'
-      - 'browser/typescript/**'
+      - 'browser/javascript/v1'
+      - 'browser/typescript/v1'
 
 jobs:
   build:
@@ -23,6 +23,6 @@ jobs:
         working-directory: ./browser/javascript/v1/react-app
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
 
-      - name: (Browser TS) Check the Data branch is merged before merging the Git branch
+      - name: (Browser TS V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./browser/typescript/v1/react-app
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
