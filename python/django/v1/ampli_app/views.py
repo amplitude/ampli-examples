@@ -12,13 +12,13 @@ ampli.load(LoadOptions(client=LoadClientOptions(api_key)))
 
 # add plugin
 my_plugin = MyEventIDPlugin()
-#segment_plugin = SegmentPlugin(write_key)
+# segment_plugin = SegmentPlugin(write_key)
 ampli.client.add(my_plugin)
-#ampli.client.add(segment_plugin)
+# ampli.client.add(segment_plugin)
 
 # remove plugin
 ampli.client.remove(my_plugin)
-#ampli.client.remove(segment_plugin)
+# ampli.client.remove(segment_plugin)
 
 
 # Create your views here.
@@ -29,9 +29,8 @@ def set_user_property(request):
         optional_array = request.GET.get('optional_array', '')
         if (user_id is None) or (required_number is None):
             return HttpResponse('user_id and required_number are required')
-        event = Identify(float(required_number), optional_array.split(',') or None)
-        ampli.identify(user_id=user_id,
-                       event=event)
+        event = Identify(required_number=float(required_number), optional_array=optional_array.split(',') or None)
+        ampli.identify(user_id, event)
         return HttpResponse('Success')
     except Exception:
         logging.exception('Error parsing user properties input')
@@ -46,7 +45,7 @@ def set_group_property(request):
         if (group_type is None) or (group_name is None) or (required_boolean is None):
             return HttpResponse('group_type, group_name and required_boolean is required')
         optional_string = request.GET.get('optional_string', None)
-        event = Group(bool(required_boolean), optional_string)
+        event = Group(required_boolean=bool(required_boolean), optional_string=optional_string)
         ampli.group_identify(group_type, group_name, event)
         return HttpResponse('Success')
     except Exception:
