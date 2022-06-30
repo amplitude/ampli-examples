@@ -106,7 +106,7 @@ class AmpliDjangoTestCase(TestCase):
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
         ampli_client.track('test_user', EventNoProperties())
-        ampli_client.event_no_properties('test_user', EventNoProperties())
+        ampli_client.event_no_properties('test_user')
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         event, event_2 = self.events[200]

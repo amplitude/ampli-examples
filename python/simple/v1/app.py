@@ -24,7 +24,7 @@ ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
 ampli.track(None, EventNoProperties(), EventOptions(user_id="user_id", device_id="device_id"))
 
 # track event with strongly typed method
-ampli.event_no_properties("user_id", EventNoProperties(), EventOptions(device_id="device_id"))
+ampli.event_no_properties("user_id", EventOptions(device_id="device_id"))
 
 # track EventWithAllProperties
 ampli.event_with_all_properties(
@@ -50,7 +50,7 @@ ampli.track(
     ))
 
 # track event with const properties
-ampli.event_with_const_types("user_id", EventWithConstTypes())
+ampli.event_with_const_types("user_id")
 ampli.track("user_id", EventWithConstTypes())
 
 # track event with strongly typed method

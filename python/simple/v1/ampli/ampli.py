@@ -586,7 +586,6 @@ class Ampli:
     def event_no_properties(
         self,
         user_id: Optional[str],
-        event: EventNoProperties,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event No Properties'
@@ -598,10 +597,9 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event: The event to track.
         :param event_options: Extra optional event attributes options.
         """
-        self.track(user_id, event, event_options)
+        self.track(user_id, EventNoProperties(), event_options)
 
     def event_object_types(
         self,
@@ -666,7 +664,6 @@ class Ampli:
     def event_with_const_types(
         self,
         user_id: Optional[str],
-        event: EventWithConstTypes,
         event_options: Optional[EventOptions] = None
     ):
         """Track event 'Event With Const Types'
@@ -678,10 +675,9 @@ class Ampli:
         Owner: Test codegen
 
         :param user_id: The user's ID.
-        :param event: The event to track.
         :param event_options: Extra optional event attributes options.
         """
-        self.track(user_id, event, event_options)
+        self.track(user_id, EventWithConstTypes(), event_options)
 
     def event_with_different_casing_types(
         self,

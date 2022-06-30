@@ -84,7 +84,7 @@ def track_event_with_const_types(request):
         user_id = request.GET.get('user_id')
         if not user_id:
             return HttpResponse('user_id is required')
-        ampli.event_with_const_types(user_id, EventWithConstTypes())
+        ampli.event_with_const_types(user_id)
         return HttpResponse('Success')
     except Exception:
         logging.exception('Error parsing input')
