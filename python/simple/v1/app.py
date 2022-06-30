@@ -21,10 +21,10 @@ ampli.group_identify("Org", "Engineer", Group(required_boolean=True, optional_st
 ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
 
 # track strongly typed event class with ampli.track
-ampli.track(None, EventNoProperties(), event_options=EventOptions(user_id="user_id", device_id="device_id"))
+ampli.track(None, EventNoProperties(), EventOptions(user_id="user_id", device_id="device_id"))
 
 # track event with strongly typed method
-ampli.event_no_properties("user_id", EventNoProperties(), event_options=EventOptions(device_id="device_id"))
+ampli.event_no_properties("user_id", EventNoProperties(), EventOptions(device_id="device_id"))
 
 # track EventWithAllProperties
 ampli.event_with_all_properties(
@@ -50,14 +50,14 @@ ampli.track(
     ))
 
 # track event with const properties
-ampli.event_with_const_types(user_id="user_id", event=EventWithConstTypes())
+ampli.event_with_const_types("user_id", EventWithConstTypes())
 ampli.track("user_id", EventWithConstTypes())
 
 # track event with strongly typed method
-ampli.event_max_int_for_test(user_id="user_id", event=EventMaxIntForTest(int_max_10=6))
+ampli.event_max_int_for_test("user_id", EventMaxIntForTest(int_max_10=6))
 ampli.event_object_types(
-    user_id="user_id",
-    event=EventObjectTypes(
+    "user_id",
+    EventObjectTypes(
         required_object={"key": "value"},
         required_object_array=[{"k": 15}]
     ))

@@ -98,7 +98,7 @@ class AmpliPythonTestCase(unittest.TestCase):
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
-        ampli_client.event_max_int_for_test('test_user', EventMaxIntForTest(9))
+        ampli_client.event_max_int_for_test('test_user', EventMaxIntForTest(int_max_10=9))
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         event = self.events[200][0]
