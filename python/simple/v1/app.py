@@ -98,6 +98,13 @@ ampli.event_with_different_casing_types(
         property_with_snake_case="property_with_snake_case",
         property_with_pascal_case="PropertyWithPascalCase"
     ))
+ampli.event_with_template_properties(
+    user_id="user_id",
+    event=EventWithTemplateProperties(
+        required_event_property="event property",
+        required_template_property="template property",
+        optional_template_property=1.23
+    ))
 
 # add plugin
 my_plugin = MyEventIDPlugin()

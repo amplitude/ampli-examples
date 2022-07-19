@@ -159,6 +159,12 @@ function App() {
               optionalBooleanArray: [true, false],
             });
 
+            ampli.eventWithTemplateProperties({
+              required_event_property: 'event property',
+              required_template_property: 'template property',
+              optional_template_property: 1.23,
+            });
+
             ampli.eventWithDifferentCasingTypes({
               "enum with space": "enum with space",
               enum_snake_case: "enum_snake_case",

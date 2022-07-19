@@ -77,6 +77,18 @@ export const ApiKey = {
 };
 
 /**
+ * @typedef {Object} EventTemplate
+ * @param {number} [optional_template_property] optional_template_property description
+ * @param {string} required_template_property required_template_property description
+ */
+
+/**
+ * @typedef {Object} SourceTemplate
+ * @param {'Value 1'|'Value 2'} [optionalEnum] description for context optionalEnum
+ * @param {string} requiredString description for context requiredString
+ */
+
+/**
  * Default Amplitude configuration options. Contains tracking plan information.
  */
 export const DefaultConfiguration = {
@@ -177,6 +189,13 @@ export class EventWithOptionalArrayTypes {
 export class EventWithOptionalProperties {
   constructor(properties) {
     this.event_type = 'Event With Optional Properties';
+    this.event_properties = properties;
+  }
+}
+
+export class EventWithTemplateProperties {
+  constructor(properties) {
+    this.event_type = 'Event With Template Properties';
     this.event_properties = properties;
   }
 }
@@ -510,6 +529,26 @@ export class Ampli {
    */
   eventWithOptionalProperties(properties, options) {
     return this.track(new EventWithOptionalProperties(properties), options);
+  }
+
+  /**
+   * Event With Template Properties
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+   *
+   * Event with template properties description
+   *
+   * Owner: Test codegen
+   *
+   * @param {Object} properties The event's properties.
+   * @param {number} [properties.optional_event_property] optional_event_property description
+   * @param {number} [properties.optional_template_property] optional_template_property description
+   * @param {string} properties.required_event_property required_event_property description
+   * @param {string} properties.required_template_property required_template_property description
+   * @param {EventOptions} [options] Options for this track call.
+   */
+  eventWithTemplateProperties(properties, options) {
+    return this.track(new EventWithTemplateProperties(properties), options);
   }
 }
 
