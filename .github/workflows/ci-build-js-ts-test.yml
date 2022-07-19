@@ -3,8 +3,10 @@ name: CI - JS/TS Tests
 on:
   pull_request:
     paths:
-      - 'browser/javascript/**'
-      - 'browser/typescript/**'
+      - 'browser/javascript/v1/**'
+      - 'browser/typescript/v1/**'
+      - 'browser/javascript/v2/**'
+      - 'browser/typescript/v2/**'
       - 'node/javascript/**'
       - 'node/typescript/**'
 
@@ -34,16 +36,28 @@ jobs:
         working-directory: node/javascript
         run: yarn test
 
-      - name: Browser JS - Install
+      - name: Browser JS V1 - Install
         working-directory: browser/javascript/v1/react-app
         run: yarn install --frozen-lockfile
 
-      - name: Browser JS - Build
+      - name: Browser JS V1 - Build
         working-directory: browser/javascript/v1/react-app
         run: yarn build
 
-      - name: Browser JS - Test
+      - name: Browser JS V1 - Test
         working-directory: browser/javascript/v1/react-app
+        run: yarn test
+
+      - name: Browser JS V2 - Install
+        working-directory: browser/javascript/v2/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser JS V2 - Build
+        working-directory: browser/javascript/v2/react-app
+        run: yarn build
+
+      - name: Browser JS V2 - Test
+        working-directory: browser/javascript/v2/react-app
         run: yarn test
 
       - name: Node TS - Install
@@ -56,14 +70,26 @@ jobs:
         env:
           REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
 
-      - name: Browser TS - Install
+      - name: Browser TS V1 - Install
         working-directory: browser/typescript/v1/react-app
         run: yarn install --frozen-lockfile
 
-      - name: Browser TS - Build
+      - name: Browser TS V1 - Build
         working-directory: browser/typescript/v1/react-app
         run: yarn build
 
-      - name: Browser TS - Test
+      - name: Browser TS V1 - Test
         working-directory: browser/typescript/v1/react-app
+        run: yarn test
+
+      - name: Browser TS V2 - Install
+        working-directory: browser/typescript/v2/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser TS V2 - Build
+        working-directory: browser/typescript/v2/react-app
+        run: yarn build
+
+      - name: Browser TS V2 - Test
+        working-directory: browser/typescript/v2/react-app
         run: yarn test

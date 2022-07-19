@@ -46,3 +46,6 @@ build.xcarchive
 # Java
 target/
 .gradle
+
+# Python
+*.pyc

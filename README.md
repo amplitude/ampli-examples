@@ -2,9 +2,13 @@
 Example applications using the Ampli SDK.
 See subproject README's for details on each platform.
 
-## Browser
+## Browser V1
 #### [browser/javascript](browser/javascript/v1/react-app)
 #### [browser/typescript](browser/typescript/v1/react-app)
+
+## Browser V2
+#### [browser/javascript](browser/javascript/v2/react-app)
+#### [browser/typescript](browser/typescript/v2/react-app)
 
 ## Node
 #### [node/javascript](node/javascript)
@@ -30,3 +34,7 @@ See subproject README's for details on each platform.
 ## React Native
 #### [react-native/javascript](react-native/javascript/AmpliApp)
 #### [react-native/typescript](react-native/typescript/AmpliApp)
+
+## Python
+#### [python/simple](python/simple/v1)
+#### [python/django](python/django/v1)

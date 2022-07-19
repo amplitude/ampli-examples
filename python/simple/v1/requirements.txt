@@ -1,0 +1,3 @@
+-r ampli/requirements.txt
+segment-analytics-python
+python-dotenv
