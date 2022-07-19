@@ -903,6 +903,74 @@ public class Ampli {
         this.track(userId, event, options, extra);
     }
 
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param userId The user's ID
+     * @param event The event
+     */
+    public void eventWithTemplateProperties(String userId, EventWithTemplateProperties event) {
+        this.eventWithTemplateProperties(userId, event, null, null);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param userId The user's ID
+     * @param event The event
+     * @param options The event's options
+     */
+    public void eventWithTemplateProperties(String userId, EventWithTemplateProperties event, EventOptions options) {
+        this.eventWithTemplateProperties(userId, event, options, null);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param userId The user's ID
+     * @param event The event
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithTemplateProperties(String userId, EventWithTemplateProperties event, MiddlewareExtra extra) {
+        this.eventWithTemplateProperties(userId, event, null, extra);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param userId The user's ID
+     * @param event The event
+     * @param options The event's options
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    public void eventWithTemplateProperties(String userId, EventWithTemplateProperties event, EventOptions options, MiddlewareExtra extra) {
+        this.track(userId, event, options, extra);
+    }
+
     private com.amplitude.Event createAmplitudeEvent(String eventType, EventOptions options, String userId) {
         return new com.amplitude.Event(
             eventType,

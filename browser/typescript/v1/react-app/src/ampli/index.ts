@@ -115,6 +115,8 @@ export interface EventWithAllPropertiesProperties {
    * |---|---|
    * | Min Items | 0 |
    * | Item Type | string |
+   *
+   * @minItems 0
    */
   requiredArray: string[];
   /**

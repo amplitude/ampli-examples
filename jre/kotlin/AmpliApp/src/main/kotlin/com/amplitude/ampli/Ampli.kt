@@ -404,6 +404,37 @@ class EventWithOptionalProperties private constructor(
     ), null as EventOptions?)
 }
 
+class EventWithTemplateProperties private constructor(
+    eventProperties: Map<String, Any?>?,
+    options: EventOptions? = null
+) : Event<EventWithTemplateProperties>("Event With Template Properties", eventProperties, options, ::EventWithTemplateProperties) {
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param requiredEventProperty required_event_property description
+     * @param requiredTemplateProperty required_template_property description
+     * @param optionalEventProperty optional_event_property description
+     * @param optionalTemplateProperty optional_template_property description
+     */
+    constructor(
+        requiredEventProperty: String,
+        requiredTemplateProperty: String,
+        optionalEventProperty: Double? = null,
+        optionalTemplateProperty: Double? = null
+    ) : this(mapOf(
+        *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
+        *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
+        "required_event_property" to requiredEventProperty,
+        "required_template_property" to requiredTemplateProperty
+    ), null as EventOptions?)
+}
+
 val ampli = Ampli()
 
 open class Ampli {
@@ -696,6 +727,24 @@ open class Ampli {
      */
     fun eventWithOptionalProperties(userId: String?, event: EventWithOptionalProperties? = null, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
         this.track(userId, event ?: EventWithOptionalProperties(), options, extra)
+    }
+
+    /**
+     * Event With Template Properties
+     *
+     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+     *
+     * Event with template properties description
+     *
+     * Owner: Test codegen
+     *
+     * @param userId The user's ID
+     * @param event The event
+     * @param options Amplitude event options
+     * @param extra Extra untyped parameters for use in middleware
+     */
+    fun eventWithTemplateProperties(userId: String?, event: EventWithTemplateProperties, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
+        this.track(userId, event, options, extra)
     }
 
     private fun createAmplitudeEvent(eventType: String, options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String?): com.amplitude.Event {

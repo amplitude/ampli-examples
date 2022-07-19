@@ -495,6 +495,37 @@ public class Ampli {
         this.track(event, options);
     }
 
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event) {
+        this.eventWithTemplateProperties(event, null);
+    }
+
+    /**
+     * Event With Template Properties
+     * <p>
+     * <a href="https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties">View in Tracking Plan</a>
+     * <p>
+     * Event with template properties description
+     * <p>
+     * Owner: Test codegen
+     *
+     * @param event The event
+     * @param options The event's options
+     */
+    public void eventWithTemplateProperties(EventWithTemplateProperties event, EventOptions options) {
+        this.track(event, options);
+    }
+
     private boolean isInitializedAndEnabled() {
         if (this.client == null) {
             System.err.println("Ampli is not yet initialized. Have you called `Ampli.getInstance().load()` on app start?");
