@@ -441,6 +441,37 @@ class EventWithOptionalProperties(BaseEvent):
         }
 
 
+class EventWithTemplateProperties(BaseEvent):
+    """Event With Template Properties
+
+    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
+
+    Event with template properties description
+
+    Owner: Test codegen
+
+    :param required_event_property: required_event_property description
+    :param required_template_property: required_template_property description
+    :param optional_event_property: optional_event_property description
+    :param optional_template_property: optional_template_property description
+    """
+
+    def __init__(
+        self,
+        required_event_property: str,
+        required_template_property: str,
+        optional_event_property: Optional[float] = None,
+        optional_template_property: Optional[float] = None
+    ):
+        super().__init__(event_type="Event With Template Properties")
+        self.event_properties = {
+            "optional_event_property": optional_event_property,
+            "optional_template_property": optional_template_property,
+            "required_event_property": required_event_property,
+            "required_template_property": required_template_property
+        }
+
+
 class Ampli:
     
     def __init__(self):
@@ -750,6 +781,26 @@ class Ampli:
         [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Optional%20Properties')
 
         Event w optional properties description
+
+        Owner: Test codegen
+
+        :param user_id: The user's ID.
+        :param event: The event to track.
+        :param event_options: Extra optional event attributes options.
+        """
+        self.track(user_id, event, event_options)
+
+    def event_with_template_properties(
+        self,
+        user_id: Optional[str],
+        event: EventWithTemplateProperties,
+        event_options: Optional[EventOptions] = None
+    ):
+        """Track event 'Event With Template Properties'
+
+        [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Track%20event%20'Event%20With%20Template%20Properties')
+
+        Event with template properties description
 
         Owner: Test codegen
 
