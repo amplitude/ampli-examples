@@ -17,10 +17,15 @@ class App : Application() {
         )
 
         /**
-         * For Segment
+         * Add Enrichment Plugin
          */
-        // val SEGMENT_API_KEY = this.resources.getString(R.string.SEGMENT_API_KEY)
-        // ampli.client?.add(SegmentDestinationPlugin(this, SEGMENT_API_KEY))
+        //ampli.client?.add(EnrichmentPlugin())
+
+        /**
+         * Add Segement as a destination
+         */
+        // val SEGMENT_WRITE_KEY = this.resources.getString(R.string.SEGMENT_WRITE_KEY)
+        // ampli.client?.add(SegmentDestinationPlugin(this, SEGMENT_WRITE_KEY))
 
         /**
          * OR Use an existing Amplitude instance
