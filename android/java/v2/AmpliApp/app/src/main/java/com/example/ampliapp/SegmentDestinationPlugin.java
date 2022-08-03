@@ -14,10 +14,10 @@ import java.util.Map;
 public class SegmentDestinationPlugin extends DestinationPlugin {
     android.content.Context context;
     Analytics analytics;
-    String SEGMENT_API_KEY;
-    public SegmentDestinationPlugin(android.content.Context appContext, String segmentAPIKey) {
+    String SEGMENT_WRITE_KEY;
+    public SegmentDestinationPlugin(android.content.Context appContext, String segmentWriteKey) {
         this.context = appContext;
-        this.SEGMENT_API_KEY = segmentAPIKey;
+        this.SEGMENT_WRITE_KEY = segmentWriteKey;
     }
     @Override
      public void setup(Amplitude amplitude) {
