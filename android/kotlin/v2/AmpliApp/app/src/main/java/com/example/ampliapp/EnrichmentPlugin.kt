@@ -1,3 +1,7 @@
+//
+// The example of enrichment plugin
+// This enrichment plugin add an extra event property for each event
+//
 package com.example.ampliapp
 
 import com.amplitude.core.events.BaseEvent
