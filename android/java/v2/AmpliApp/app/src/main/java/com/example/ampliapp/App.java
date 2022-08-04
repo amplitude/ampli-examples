@@ -44,10 +44,15 @@ public class App extends Application {
         );
 
         /*
+         * Add Enrichment Plugins
+         */
+        // Ampli.getInstance().getClient().add(new EnrichmentPlugin());
+
+        /*
          * Add Segement as a destination
          */
-        // String SEGMENT_API_KEY = this.getResources().getString(R.string.SEGMENT_API_KEY);
-        // Ampli.getInstance().getClient().add(new SegmentDestinationPlugin(this, SEGMENT_API_KEY));
+        // String SEGMENT_WRITE_KEY = this.getResources().getString(R.string.SEGMENT_WRITE_KEY);
+        // Ampli.getInstance().getClient().add(new SegmentDestinationPlugin(this, SEGMENT_WRITE_KEY));
 
         /*
          * OR Use an existing Amplitude instance

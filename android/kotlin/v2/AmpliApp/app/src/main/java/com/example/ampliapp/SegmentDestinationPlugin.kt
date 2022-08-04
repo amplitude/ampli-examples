@@ -1,3 +1,7 @@
+//
+// The example of destination plugin
+// This destination plugin will also send event to Segment
+//
 package com.example.ampliapp
 
 import android.content.Context
@@ -11,15 +15,15 @@ import com.segment.analytics.Properties
 import com.segment.analytics.Traits
 
 /**
- * The example of how to add the segment destination plugin in order to send event to segment
+ * Segment destination plugin
  * @param appContext the Context
- * @param segmentApiKey the segmentApiKey defined in secrets.xml
+ * @param writeKey the segmentWriteKey defined in secrets.xml
  */
-class SegmentDestinationPlugin(appContext: Context, segmentApiKey: String) : DestinationPlugin() {
+class SegmentDestinationPlugin(appContext: Context, writeKey: String) : DestinationPlugin() {
     var analytics: Analytics? = null;
     val context: Context = appContext;
     init {
-        analytics = Analytics.Builder(appContext, segmentApiKey).build()
+        analytics = Analytics.Builder(appContext, writeKey).build()
     }
 
     override fun track(event: BaseEvent): BaseEvent {

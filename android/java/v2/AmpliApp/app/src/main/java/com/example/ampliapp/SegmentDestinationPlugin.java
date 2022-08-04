@@ -1,3 +1,7 @@
+//
+// The example of destination plugin
+// This destination plugin will also send event to Segment
+//
 package com.example.ampliapp;
 
 import com.amplitude.core.Amplitude;
@@ -14,15 +18,15 @@ import java.util.Map;
 public class SegmentDestinationPlugin extends DestinationPlugin {
     android.content.Context context;
     Analytics analytics;
-    String SEGMENT_API_KEY;
-    public SegmentDestinationPlugin(android.content.Context appContext, String segmentAPIKey) {
+    String writeKey;
+    public SegmentDestinationPlugin(android.content.Context appContext, String writeKey) {
         this.context = appContext;
-        this.SEGMENT_API_KEY = segmentAPIKey;
+        this.writeKey = writeKey;
     }
     @Override
      public void setup(Amplitude amplitude) {
         super.setup(amplitude);
-        analytics = new Analytics.Builder(this.context, SEGMENT_API_KEY)
+        analytics = new Analytics.Builder(this.context, this.writeKey)
                 .build();
 
         Analytics.setSingletonInstance(analytics);
