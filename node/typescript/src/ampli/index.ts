@@ -377,7 +377,9 @@ export class Identify implements BaseEvent {
 
   constructor(
     public event_properties: IdentifyProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class Group implements BaseEvent {
@@ -385,7 +387,9 @@ export class Group implements BaseEvent {
 
   constructor(
     public event_properties: GroupProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventMaxIntForTest implements BaseEvent {
@@ -393,7 +397,9 @@ export class EventMaxIntForTest implements BaseEvent {
 
   constructor(
     public event_properties: EventMaxIntForTestProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventNoProperties implements BaseEvent {
@@ -405,7 +411,9 @@ export class EventObjectTypes implements BaseEvent {
 
   constructor(
     public event_properties: EventObjectTypesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithAllProperties implements BaseEvent {
@@ -429,7 +437,9 @@ export class EventWithArrayTypes implements BaseEvent {
 
   constructor(
     public event_properties: EventWithArrayTypesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithConstTypes implements BaseEvent {
@@ -449,7 +459,9 @@ export class EventWithDifferentCasingTypes implements BaseEvent {
 
   constructor(
     public event_properties: EventWithDifferentCasingTypesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithEnumTypes implements BaseEvent {
@@ -457,7 +469,9 @@ export class EventWithEnumTypes implements BaseEvent {
 
   constructor(
     public event_properties: EventWithEnumTypesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithOptionalArrayTypes implements BaseEvent {
@@ -465,7 +479,9 @@ export class EventWithOptionalArrayTypes implements BaseEvent {
 
   constructor(
     public event_properties?: EventWithOptionalArrayTypesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithOptionalProperties implements BaseEvent {
@@ -473,7 +489,9 @@ export class EventWithOptionalProperties implements BaseEvent {
 
   constructor(
     public event_properties?: EventWithOptionalPropertiesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 export class EventWithTemplateProperties implements BaseEvent {
@@ -481,7 +499,9 @@ export class EventWithTemplateProperties implements BaseEvent {
 
   constructor(
     public event_properties: EventWithTemplatePropertiesProperties,
-  ) {}
+  ) {
+    this.event_properties = event_properties;
+  }
 }
 
 const getDefaultPromiseResponse = () => Promise.resolve<Response>({

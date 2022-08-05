@@ -386,7 +386,9 @@ export class Identify implements Event {
 
   constructor(
     public eventProperties: IdentifyProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class Group implements Event {
@@ -394,7 +396,9 @@ export class Group implements Event {
 
   constructor(
     public eventProperties: GroupProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventMaxIntForTest implements Event {
@@ -402,7 +406,9 @@ export class EventMaxIntForTest implements Event {
 
   constructor(
     public eventProperties: EventMaxIntForTestProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventNoProperties implements Event {
@@ -414,7 +420,9 @@ export class EventObjectTypes implements Event {
 
   constructor(
     public eventProperties: EventObjectTypesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithAllProperties implements Event {
@@ -438,7 +446,9 @@ export class EventWithArrayTypes implements Event {
 
   constructor(
     public eventProperties: EventWithArrayTypesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithConstTypes implements Event {
@@ -458,7 +468,9 @@ export class EventWithDifferentCasingTypes implements Event {
 
   constructor(
     public eventProperties: EventWithDifferentCasingTypesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithEnumTypes implements Event {
@@ -466,7 +478,9 @@ export class EventWithEnumTypes implements Event {
 
   constructor(
     public eventProperties: EventWithEnumTypesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithOptionalArrayTypes implements Event {
@@ -474,7 +488,9 @@ export class EventWithOptionalArrayTypes implements Event {
 
   constructor(
     public eventProperties?: EventWithOptionalArrayTypesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithOptionalProperties implements Event {
@@ -482,7 +498,9 @@ export class EventWithOptionalProperties implements Event {
 
   constructor(
     public eventProperties?: EventWithOptionalPropertiesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 export class EventWithTemplateProperties implements Event {
@@ -490,7 +508,9 @@ export class EventWithTemplateProperties implements Event {
 
   constructor(
     public eventProperties: EventWithTemplatePropertiesProperties,
-  ) {}
+  ) {
+    this.eventProperties = eventProperties;
+  }
 }
 
 const getPromiseResponse = (result: boolean) => Promise.resolve(result);
