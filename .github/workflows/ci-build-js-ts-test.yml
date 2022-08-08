@@ -7,8 +7,10 @@ on:
       - 'browser/typescript/v1/**'
       - 'browser/javascript/v2/**'
       - 'browser/typescript/v2/**'
-      - 'node/javascript/**'
-      - 'node/typescript/**'
+      - 'node/javascript/v1/**'
+      - 'node/typescript/v1/**'
+      - 'node/javascript/v2/**'
+      - 'node/typescript/v2/**'
 
 jobs:
   build:
@@ -28,12 +30,20 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      - name: Node JS - Install
-        working-directory: node/javascript
+      - name: Node JS V1 - Install
+        working-directory: node/javascript/v1/AmpliApp
         run: yarn install --frozen-lockfile
 
-      - name: Node JS - Test
-        working-directory: node/javascript
+      - name: Node JS V1 - Test
+        working-directory: node/javascript/v1/AmpliApp
+        run: yarn test
+
+      - name: Node JS V2 - Install
+        working-directory: node/javascript/v2/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: Node JS V2 - Test
+        working-directory: node/javascript/v2/AmpliApp
         run: yarn test
 
       - name: Browser JS V1 - Install
@@ -60,15 +70,21 @@ jobs:
         working-directory: browser/javascript/v2/react-app
         run: yarn test
 
-      - name: Node TS - Install
-        working-directory: node/typescript
+      - name: Node TS V1 - Install
+        working-directory: node/typescript/v1/AmpliApp
         run: yarn install --frozen-lockfile
 
-      - name: Node TS - Test
-        working-directory: node/typescript
+      - name: Node TS V1 - Test
+        working-directory: node/typescript/v1/AmpliApp
         run: yarn test
-        env:
-          REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
+
+      - name: Node TS V2 - Install
+        working-directory: node/typescript/v2/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: Node TS V2 - Test
+        working-directory: node/typescript/v2/AmpliApp
+        run: yarn test
 
       - name: Browser TS V1 - Install
         working-directory: browser/typescript/v1/react-app
