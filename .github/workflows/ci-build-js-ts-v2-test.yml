@@ -1,0 +1,67 @@
+name: CI - JS/TS V2 Tests
+
+on:
+  pull_request:
+    paths:
+      - 'browser/javascript/v2/**'
+      - 'browser/typescript/v2/**'
+      - 'node/javascript/v2/**'
+      - 'node/typescript/v2/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 12.x ]
+    env:
+      REACT_APP_AMPLITUDE_API_KEY: 'ampli-examples-test-api-key'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Node JS V2 - Install
+        working-directory: node/javascript/v2/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: Node JS V2 - Test
+        working-directory: node/javascript/v2/AmpliApp
+        run: yarn test
+
+      - name: Browser JS V2 - Install
+        working-directory: browser/javascript/v2/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser JS V2 - Build
+        working-directory: browser/javascript/v2/react-app
+        run: yarn build
+
+      - name: Browser JS V2 - Test
+        working-directory: browser/javascript/v2/react-app
+        run: yarn test
+
+      - name: Node TS V2 - Install
+        working-directory: node/typescript/v2/AmpliApp
+        run: yarn install --frozen-lockfile
+
+      - name: Node TS V2 - Test
+        working-directory: node/typescript/v2/AmpliApp
+        run: yarn test
+
+      - name: Browser TS V2 - Install
+        working-directory: browser/typescript/v2/react-app
+        run: yarn install --frozen-lockfile
+
+      - name: Browser TS V2 - Build
+        working-directory: browser/typescript/v2/react-app
+        run: yarn build
+
+      - name: Browser TS V2 - Test
+        working-directory: browser/typescript/v2/react-app
+        run: yarn test
