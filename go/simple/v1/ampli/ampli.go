@@ -23,6 +23,8 @@ import (
 	"github.com/amplitude/analytics-go/amplitude"
 )
 
+var Client = Ampli{}
+
 type Environment string
 
 const (
@@ -35,12 +37,24 @@ var APIKey = map[Environment]string{
 	PRODUCTION:  "",
 }
 
-var DefaultConfiguration = amplitude.Config{Plan: amplitude.Plan{
-	Branch:    "main",
-	Source:    "python-Ampli",
-	Version:   "0",
-	VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
-}}
+var DefaultConfiguration = amplitude.Config{
+	FlushInterval:   amplitude.DefaultFlushInterval,
+	FlushQueueSize:  amplitude.DefaultFlushQueueSize,
+	FlushMaxRetries: amplitude.DefaultFlushMaxRetries,
+	Logger:          amplitude.NewDefaultLogger(),
+	MinIDLength:     amplitude.DefaultMinIDLength,
+	Callback:        nil,
+	ServerZone:      amplitude.ServerZoneUS,
+	UseBatch:        false,
+	Storage:         &amplitude.InMemoryStorage{},
+	OptOut:          false,
+	ServerURL:       amplitude.HTTPV2,
+	Plan: amplitude.Plan{
+		Branch:    "main",
+		Source:    "python-Ampli",
+		Version:   "0",
+		VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
+	}}
 
 // LoadClientOptions is Client options setting to initialize Ampli client.
 //
@@ -98,6 +112,10 @@ type Group struct {
 	OptionalString  string
 }
 
+type StronglyTypedEvent interface {
+	ToEvent() amplitude.Event
+}
+
 // EventMaxIntForTest
 //
 // [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest
@@ -112,6 +130,15 @@ type EventMaxIntForTest struct {
 	IntMax10 int
 }
 
+func (stronglyTypedEvent EventMaxIntForTest) ToEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType: "EventMaxIntForTest",
+		EventProperties: map[string]interface{}{
+			"intMax10": stronglyTypedEvent.IntMax10,
+		},
+	}
+}
+
 // EventNoProperties
 //
 // [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties
@@ -119,7 +146,15 @@ type EventMaxIntForTest struct {
 // Event with no properties description
 //
 // Owner: Test codegen.
-type EventNoProperties struct{}
+type EventNoProperties struct {
+	amplitude.Event
+}
+
+func (stronglyTypedEvent EventNoProperties) ToEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType: "Event No Properties",
+	}
+}
 
 // EventObjectTypes
 //
@@ -135,6 +170,16 @@ type EventNoProperties struct{}
 type EventObjectTypes struct {
 	RequiredObject      interface{}
 	RequiredObjectArray []interface{}
+}
+
+func (stronglyTypedEvent EventObjectTypes) ToEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType: "Event Object Types",
+		EventProperties: map[string]interface{}{
+			"requiredObject":      stronglyTypedEvent.RequiredObject,
+			"requiredObjectArray": stronglyTypedEvent.RequiredObjectArray,
+		},
+	}
 }
 
 type Ampli struct {
@@ -164,8 +209,10 @@ func (a *Ampli) Load(options LoadOptions) {
 		apiKey = options.Client.APIKey
 	} else if options.Environment != "" {
 		apiKey = APIKey[options.Environment]
+	} else if options.Client.Configuration.APIKey != "" {
+		apiKey = options.Client.Configuration.APIKey
 	}
-
+	
 	if !(apiKey != "" || options.Client.Instance != nil) {
 		log.Default().Printf("Error: Ampli.Load() requires option.Environment, " +
 			"and apiKey from either options.Client.APIKey or APIKey[options.Environment], " +
@@ -173,7 +220,7 @@ func (a *Ampli) Load(options LoadOptions) {
 	}
 
 	var configuration amplitude.Config
-	if options.Client.Configuration.IsEmpty() {
+	if !options.Client.Configuration.IsEmpty() {
 		configuration = options.Client.Configuration
 	} else {
 		configuration = DefaultConfiguration
@@ -196,8 +243,23 @@ func (a *Ampli) InitializedAndEnabled() bool {
 	return !a.Disabled
 }
 
-// Track tracks an event.
-func (a *Ampli) Track(userID string, event amplitude.Event, eventOptions amplitude.EventOptions) {
+// Track tracks an StronglyTypedEvent.
+func (a *Ampli) Track(userID string, event StronglyTypedEvent, eventOptions amplitude.EventOptions) {
+	if !a.InitializedAndEnabled() {
+		return
+	}
+
+	if userID != "" {
+		eventOptions.UserID = userID
+	}
+
+	baseEvent := event.ToEvent()
+	baseEvent.EventOptions = eventOptions
+
+	a.Client.Track(baseEvent)
+}
+
+func (a *Ampli) trackBaseEvent(userID string, event amplitude.Event, eventOptions amplitude.EventOptions) {
 	if !a.InitializedAndEnabled() {
 		return
 	}
@@ -226,7 +288,7 @@ func (a *Ampli) Identify(userID string, identify Identify, eventOptions amplitud
 		EventOptions: eventOptions,
 	}
 
-	a.Track(userID, identifyEvent, eventOptions)
+	a.trackBaseEvent(userID, identifyEvent, eventOptions)
 }
 
 // GroupIdentify identifies a group and set group properties.
@@ -245,7 +307,7 @@ func (a *Ampli) GroupIdentify(groupType string, groupName string, group Group, e
 		EventOptions: eventOptions,
 	}
 
-	a.Track("", groupIdentifyEvent, eventOptions)
+	a.trackBaseEvent("", groupIdentifyEvent, eventOptions)
 }
 
 // SetGroup sets group for the current user.
@@ -297,7 +359,7 @@ func (a *Ampli) Shutdown() {
 // 	- event: the event to track
 //	- eventOptions: extra optional event attributes options
 func (a *Ampli) EventMaxIntForTest(userID string, event EventMaxIntForTest, eventOptions amplitude.EventOptions) {
-	a.Track(userID, amplitude.Event{
+	a.trackBaseEvent(userID, amplitude.Event{
 		EventType:       "EventMaxIntForTest",
 		EventProperties: map[string]interface{}{"intMax10": event.IntMax10},
 	}, eventOptions)
@@ -315,7 +377,7 @@ func (a *Ampli) EventMaxIntForTest(userID string, event EventMaxIntForTest, even
 //	- userID: the user's ID
 //	- eventOptions: extra optional event attributes options
 func (a *Ampli) EventNoProperties(userID string, eventOptions amplitude.EventOptions) {
-	a.Track(userID, amplitude.Event{EventType: "Event No Properties"}, eventOptions)
+	a.trackBaseEvent(userID, amplitude.Event{EventType: "Event No Properties"}, eventOptions)
 }
 
 // EventObjectTypes tracks event EventObjectTypes
@@ -331,7 +393,7 @@ func (a *Ampli) EventNoProperties(userID string, eventOptions amplitude.EventOpt
 //	- event: the event to track
 //	- eventOptions: extra optioa
 func (a *Ampli) EventObjectTypes(userID string, event EventObjectTypes, eventOptions amplitude.EventOptions) {
-	a.Track(userID, amplitude.Event{
+	a.trackBaseEvent(userID, amplitude.Event{
 		EventType: "Event Object Types",
 		EventProperties: map[string]interface{}{
 			"RequiredObject":      event.RequiredObject,
