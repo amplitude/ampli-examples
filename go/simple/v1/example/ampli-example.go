@@ -25,6 +25,7 @@ func main() {
 			Configuration: amplitude.NewConfig(apiKey),
 		},
 	})
+	defer ampli.Client.Shutdown()
 
 	// Track event with strongly typed method
 	ampli.Client.EventNoProperties("user_id", amplitude.EventOptions{})
