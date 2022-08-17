@@ -17,10 +17,7 @@ func main() {
 
 	// Initialize the Ampli instance with LoadOptions and LoadClientOptions
 	ampli.Client.Load(ampli.LoadOptions{
-		Disabled: false,
 		Client: ampli.LoadClientOptions{
-			APIKey:        "",
-			Instance:      nil,
 			Configuration: amplitude.NewConfig(apiKey),
 		},
 	})
