@@ -42,7 +42,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
   });
 
   test('should identify()', async () => {
-    const send = jest.fn().mockReturnValueOnce({
+    const send = jest.fn().mockReturnValue({
       status: 'success',
       statusCode: 200,
       body: {
@@ -86,7 +86,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
 
     const setGroupCalls = mockAmp.setGroup.mock.calls;
     expect(setGroupCalls.length).toBe(1);
-    expect(setGroupCalls[0]).toEqual(['Group name', 'Group Value']);
+    expect(setGroupCalls[0]).toEqual(['Group name', 'Group Value', undefined]);
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
     expect(consoleErrorMock).toHaveBeenCalledTimes(0);
@@ -94,7 +94,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
 
   test('should groupIdentify()', async () => {
     const mockAmp = { groupIdentify: jest.fn() };
-    const send = jest.fn().mockReturnValueOnce({
+    const send = jest.fn().mockReturnValue({
       status: 'success',
       statusCode: 200,
       body: {
@@ -141,7 +141,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
   });
 
   test('should track an event with no properties', async () => {
-    const send = jest.fn().mockReturnValueOnce({
+    const send = jest.fn().mockReturnValue({
       status: 'success',
       statusCode: 200,
       body: {
@@ -170,7 +170,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
   });
 
   test('should track an event with properties of all types', async () => {
-    const send = jest.fn().mockReturnValueOnce({
+    const send = jest.fn().mockReturnValue({
       status: 'success',
       statusCode: 200,
       body: {
