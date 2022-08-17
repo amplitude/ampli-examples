@@ -17,7 +17,7 @@
     "typescript": "^3.9.3"
   },
   "dependencies": {
-    "@amplitude/analytics-node": "^0.3.4",
+    "@amplitude/analytics-node": "^0.3.7",
     "@types/analytics-node": "^3.1.6",
     "analytics-node": "^5.0.0",
     "dotenv": "^10.0.0"

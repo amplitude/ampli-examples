@@ -92,7 +92,7 @@ async function sendEvents() {
       { platform: process.platform },
   );
 
-  // ampli.setGroup(userId, 'test group', 'node-ts-ampli');
+  ampli.setGroup(userId, 'test group', 'node-ts-ampli');
 
   /**
    * Track Events via strongly typed methods

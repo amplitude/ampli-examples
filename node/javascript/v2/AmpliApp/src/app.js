@@ -91,7 +91,7 @@ async function sendEvents() {
       { platform: process.platform },
   );
 
-  // ampli.setGroup(userId, 'test group', 'node-js-ampli');
+  ampli.setGroup(userId, 'test group', 'node-js-ampli');
 
   /**
    * Track Events via strongly typed methods
