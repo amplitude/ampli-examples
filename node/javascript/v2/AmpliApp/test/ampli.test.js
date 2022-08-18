@@ -1,4 +1,4 @@
-const { Ampli, ApiKey } = require('../src/ampli');
+const { Ampli } = require('../src/ampli');
 import { Types } from '@amplitude/analytics-node';
 
 class BaseCheckPlugin {
@@ -11,8 +11,6 @@ class BaseCheckPlugin {
 }
 
 describe('Ampli Node JS SDK tests', () => {
-  /** @typedef {Ampli}*/
-  let ampli;
   let userId = 'test-ampli-user-id';
   let consoleLogMock;
   let consoleErrorMock;
@@ -20,11 +18,6 @@ describe('Ampli Node JS SDK tests', () => {
   beforeEach(() => {
     consoleLogMock = jest.spyOn(console, 'log').mockImplementation();
     consoleErrorMock = jest.spyOn(console, 'error').mockImplementation();
-
-    ampli = new Ampli();
-    // Set API keys for tests
-    ApiKey.production = 'test-api-key-prod';
-    ApiKey.development = 'test-api-key-dev';
   });
 
   afterEach(() => {
@@ -32,16 +25,9 @@ describe('Ampli Node JS SDK tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
-  });
-
-  test('should log error if load() without any arguments without ApiKeys for each environment', () => {
-    ApiKey.production = '';
-    ApiKey.development = '';
-    ampli.load();
+  test('should log error if load() without any arguments without ApiKeys for each environment', async () => {
+    const ampli = new Ampli();
+    await ampli.load().promise;
 
     expect(consoleLogMock).toHaveBeenCalledTimes(0);
     expect(consoleErrorMock).toHaveBeenCalledTimes(1);
@@ -66,7 +52,10 @@ describe('Ampli Node JS SDK tests', () => {
       }
     }
 
-    ampli.load().promise.then(() => {
+    const ampli = new Ampli();
+    ampli.load({
+      client: { apiKey: 'test-api-key' },
+    }).promise.then(() => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
@@ -96,7 +85,10 @@ describe('Ampli Node JS SDK tests', () => {
       }
     }
 
-    ampli.load().promise.then(() => {
+    const ampli = new Ampli();
+    ampli.load({
+      client: { apiKey: 'test-api-key' },
+    }).promise.then(() => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
@@ -125,7 +117,10 @@ describe('Ampli Node JS SDK tests', () => {
       }
     }
 
-    ampli.load().promise.then(() => {
+    const ampli = new Ampli();
+    ampli.load({
+      client: { apiKey: 'test-api-key' },
+    }).promise.then(() => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
@@ -146,7 +141,10 @@ describe('Ampli Node JS SDK tests', () => {
       }
     }
 
-    ampli.load().promise.then(() => {
+    const ampli = new Ampli();
+    ampli.load({
+      client: { apiKey: 'test-api-key' },
+    }).promise.then(() => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
@@ -175,7 +173,10 @@ describe('Ampli Node JS SDK tests', () => {
       }
     }
 
-    ampli.load().promise.then(() => {
+    const ampli = new Ampli();
+    ampli.load({
+      client: { apiKey: 'test-api-key' },
+    }).promise.then(() => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
