@@ -28,8 +28,12 @@ export default class SegmentPlugin implements Types.DestinationPlugin {
         case Types.SpecialEventType.IDENTIFY:
           this.segment.identify({
             userId: user_id,
-            traits: user_properties,
+            traits: user_properties?.[Types.IdentifyOperation.SET],
           }, callback);
+          break;
+
+        case Types.SpecialEventType.GROUP_IDENTIFY:
+          // not implemented
           break;
 
         default:
