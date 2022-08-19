@@ -140,85 +140,60 @@ func (stronglyTypedEvent Group) ToEvent() amplitude.Event {
 	}
 }
 
-// EventMaxIntForTest
+// EventWithAllProperties
 //
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest
+// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types
 //
-// Event to test schema validation
-//
-// Owner: Test codegen
-//
-// Params:
-//	- IntMax10: property to test schema validation
-type EventMaxIntForTest struct {
-	IntMax10 int
-}
-
-func NewEventMaxINtForTest(intMax10 int) EventMaxIntForTest {
-	return EventMaxIntForTest{
-		IntMax10: intMax10,
-	}
-}
-
-func (stronglyTypedEvent EventMaxIntForTest) ToEvent() amplitude.Event {
-	return amplitude.Event{
-		EventType: "EventMaxIntForTest",
-		EventProperties: map[string]interface{}{
-			"intMax10": stronglyTypedEvent.IntMax10,
-		},
-	}
-}
-
-// EventNoProperties
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties
-//
-// Event with no properties description
-//
-// Owner: Test codegen.
-type EventNoProperties struct {
-	amplitude.Event
-}
-
-func NewEventNoProperties() EventNoProperties {
-	return EventNoProperties{}
-}
-
-func (stronglyTypedEvent EventNoProperties) ToEvent() amplitude.Event {
-	return amplitude.Event{
-		EventType: "Event No Properties",
-	}
-}
-
-// EventObjectTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types
-//
-// Event with Object and Object Array
+// Event with all properties
 //
 // Owner: Test codegen
 //
-// Params:
-//	- RequiredObject: property object type
-//	- RequiredObjectArray: property object array type
-type EventObjectTypes struct {
-	RequiredObject      interface{}
-	RequiredObjectArray []interface{}
+//	- required_array: Event 2 Property - Array
+//	- required_boolean: Event 2 Property - Boolean
+//	- required_enum: Event 2 Property - Enum
+//	- required_integer: Event 2 Property - Integer
+//	- required_number: Event 2 Property - Number
+//	- required_string: Event 2 Property - String
+//	- optional_string: Event 2 Property - Optional String
+type EventWithAllProperties struct {
+	RequiredArray   []string
+	RequiredBool    bool
+	RequiredEnum    RequiredEnum
+	RequiredInteger int
+	RequiredNumber  float64
+	RequiredString  string
+	OptionalString  string
 }
 
-func NewEventObjectTypes(requiredObject interface{}, requiredObjectArray []interface{}) EventObjectTypes {
-	return EventObjectTypes{
-		RequiredObject:      requiredObject,
-		RequiredObjectArray: requiredObjectArray,
+type RequiredEnum string
+
+const (
+	RequiredEnumEnum1 RequiredEnum = "Enum1"
+	RequiredEnumEnum2 RequiredEnum = "Enum2"
+)
+
+func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum RequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) EventWithAllProperties {
+	return EventWithAllProperties{
+		RequiredArray:   requiredArray,
+		RequiredBool:    requiredBool,
+		RequiredEnum:    requiredEnum,
+		RequiredInteger: requiredInteger,
+		RequiredNumber:  requiredNumber,
+		RequiredString:  requiredString,
 	}
 }
 
-func (stronglyTypedEvent EventObjectTypes) ToEvent() amplitude.Event {
+func (stronglyTypedEvent EventWithAllProperties) ToEvent() amplitude.Event {
 	return amplitude.Event{
-		EventType: "Event Object Types",
+		EventType: "Event With All Properties",
 		EventProperties: map[string]interface{}{
-			"requiredObject":      stronglyTypedEvent.RequiredObject,
-			"requiredObjectArray": stronglyTypedEvent.RequiredObjectArray,
+			"requiredArray":   stronglyTypedEvent.RequiredArray,
+			"requiredBool":    stronglyTypedEvent.RequiredBool,
+			"requiredEnum":    stronglyTypedEvent.RequiredEnum,
+			"requiredInteger": stronglyTypedEvent.RequiredInteger,
+			"requiredNumber":  stronglyTypedEvent.RequiredNumber,
+			"requiredString":  stronglyTypedEvent.RequiredString,
+			"optionalString":  stronglyTypedEvent.OptionalString,
 		},
 	}
 }
@@ -371,4 +346,8 @@ func (a *Ampli) Shutdown() {
 
 	a.Client.Shutdown()
 	a.Disabled = true
+}
+
+func (a *Ampli) EventWithAllProperties(userID string, event EventWithAllProperties, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
 }

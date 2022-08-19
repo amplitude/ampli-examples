@@ -23,24 +23,25 @@ func main() {
 	})
 	defer ampli.Instance.Shutdown()
 
-	//Identify using IdentifyProperties in tracking plan
-	ampli.Instance.Identify("user_id", ampli.Identify{
-		RequiredNumber: 16.6,
-		OptionalArray:  []string{"abc", "test"},
-	}, amplitude.EventOptions{})
+	// Identify using IdentifyProperties in tracking plan
+	identifyObj := ampli.NewIdentify(16.6)
+	identifyObj.OptionalArray = []string{"abc", "test"}
+	ampli.Instance.Identify("user_id", identifyObj, amplitude.EventOptions{})
 
 	// Group Identify using GroupProperties in tracking plan
-	ampli.Instance.GroupIdentify("Org", "Engineer", ampli.Group{
-		RequiredBoolean: true,
-		OptionalString:  "",
-	}, amplitude.EventOptions{})
+	groupIdentifyObj := ampli.NewGroup(true)
+	groupIdentifyObj.OptionalString = ""
+	ampli.Instance.GroupIdentify("Org", "Engineer", groupIdentifyObj, amplitude.EventOptions{})
 
-	//Set groups for user
-	ampli.Instance.SetGroup("user_id", "Org", []string{"Engineer", "DevOp"}, amplitude.EventOptions{})
+	// Set groups for user
+	ampli.Instance.SetGroup("user-id", "Org", []string{"Engineer", "DevOp"}, amplitude.EventOptions{})
 
-	//Track strongly typed event class with ampli.track
-	ampli.Instance.Track("", &ampli.EventMaxIntForTest{}, amplitude.EventOptions{UserID: "user_id", DeviceID: "device_id"})
+	// Create a strongly typed event
+	event := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.RequiredEnumEnum1, 16.4, 3, "str")
+	event.OptionalString = "optional string"
+	// Track the events using strongly typed method and parameters
+	ampli.Instance.EventWithAllProperties("user-id", event, amplitude.EventOptions{})
+	// Track the event with generic track method
+	ampli.Instance.Track("user-id", event, amplitude.EventOptions{})
 
-	// Track event with strongly typed method
-	ampli.Instance.EventNoProperties("user_id", amplitude.EventOptions{})
 }
