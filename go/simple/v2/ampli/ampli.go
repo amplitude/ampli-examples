@@ -307,10 +307,6 @@ func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, ev
 		return
 	}
 
-	if eventOptions == (amplitude.EventOptions{}) {
-		return
-	}
-
 	if userID != "" {
 		eventOptions.UserID = userID
 	}
