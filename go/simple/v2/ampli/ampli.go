@@ -23,7 +23,7 @@ import (
 	"github.com/amplitude/analytics-go/amplitude"
 )
 
-var Client = Ampli{}
+var Instance = Ampli{}
 
 type Environment string
 
@@ -48,7 +48,7 @@ func DefaultConfiguration() amplitude.Config {
 	return config
 }
 
-// LoadClientOptions is Client options setting to initialize Ampli client.
+// LoadClientOptions is Instance options setting to initialize Ampli client.
 //
 // Params:
 // 	- APIKey: the API key of Amplitude project
@@ -69,7 +69,7 @@ func (l LoadClientOptions) isEmpty() bool {
 // Params:
 //	- Environment: the environment of Amplitude Data project
 //	- Disabled: the flag of disabled Ampli client
-//	- Client: the LoadClientOptions struct
+//	- Instance: the LoadClientOptions struct
 type LoadOptions struct {
 	Environment Environment
 	Disabled    bool
@@ -256,8 +256,8 @@ func (a *Ampli) Load(options LoadOptions) {
 
 	if !(apiKey != "" || options.Client.Instance != nil) {
 		log.Default().Printf("Error: Ampli.Load() requires option.Environment, " +
-			"and apiKey from either options.Client.APIKey or APIKey[options.Environment], " +
-			"or options.Client.Instance")
+			"and apiKey from either options.Instance.APIKey or APIKey[options.Environment], " +
+			"or options.Instance.Instance")
 	}
 
 	var configuration amplitude.Config
@@ -363,7 +363,7 @@ func (a *Ampli) Flush() {
 	a.Client.Flush()
 }
 
-// Shutdown disables and shutdowns Ampli Client.
+// Shutdown disables and shutdowns Ampli Instance.
 func (a *Ampli) Shutdown() {
 	if !a.InitializedAndEnabled() {
 		return
