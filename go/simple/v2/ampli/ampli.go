@@ -28,13 +28,13 @@ var Client = Ampli{}
 type Environment string
 
 const (
-	DEVELOPMENT Environment = "development"
-	PRODUCTION  Environment = "production"
+	EnvironmentDevelopment Environment = "development"
+	EnvironmentProduction  Environment = "production"
 )
 
 var APIKey = map[Environment]string{
-	DEVELOPMENT: "",
-	PRODUCTION:  "",
+	EnvironmentDevelopment: "",
+	EnvironmentProduction:  "",
 }
 
 var DefaultConfiguration = amplitude.Config{
