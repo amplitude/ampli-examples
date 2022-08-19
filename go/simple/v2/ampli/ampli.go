@@ -76,6 +76,10 @@ type LoadOptions struct {
 	Client      LoadClientOptions
 }
 
+type StronglyTypedEvent interface {
+	ToEvent() amplitude.Event
+}
+
 // Identify
 //
 // [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Identify
@@ -88,6 +92,22 @@ type LoadOptions struct {
 type Identify struct {
 	RequiredNumber float64
 	OptionalArray  []string
+}
+
+func NewIdentify(requiredNumber float64) Identify {
+	return Identify{
+		RequiredNumber: requiredNumber,
+	}
+}
+
+func (stronglyTypedEvent Identify) ToEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType: amplitude.IdentifyEventType,
+		EventProperties: map[string]interface{}{
+			"requiredNumber": stronglyTypedEvent.RequiredNumber,
+			"optionalArray":  stronglyTypedEvent.OptionalArray,
+		},
+	}
 }
 
 // Group
@@ -104,8 +124,20 @@ type Group struct {
 	OptionalString  string
 }
 
-type StronglyTypedEvent interface {
-	ToEvent() amplitude.Event
+func NewGroup(requiredBoolean bool) Group {
+	return Group{
+		RequiredBoolean: requiredBoolean,
+	}
+}
+
+func (stronglyTypedEvent Group) ToEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType: amplitude.GroupIdentifyEventType,
+		EventProperties: map[string]interface{}{
+			"requiredBoolean": stronglyTypedEvent.RequiredBoolean,
+			"optionalString":  stronglyTypedEvent.OptionalString,
+		},
+	}
 }
 
 // EventMaxIntForTest
@@ -120,6 +152,12 @@ type StronglyTypedEvent interface {
 //	- IntMax10: property to test schema validation
 type EventMaxIntForTest struct {
 	IntMax10 int
+}
+
+func NewEventMaxINtForTest(intMax10 int) EventMaxIntForTest {
+	return EventMaxIntForTest{
+		IntMax10: intMax10,
+	}
 }
 
 func (stronglyTypedEvent EventMaxIntForTest) ToEvent() amplitude.Event {
@@ -142,6 +180,10 @@ type EventNoProperties struct {
 	amplitude.Event
 }
 
+func NewEventNoProperties() EventNoProperties {
+	return EventNoProperties{}
+}
+
 func (stronglyTypedEvent EventNoProperties) ToEvent() amplitude.Event {
 	return amplitude.Event{
 		EventType: "Event No Properties",
@@ -162,6 +204,13 @@ func (stronglyTypedEvent EventNoProperties) ToEvent() amplitude.Event {
 type EventObjectTypes struct {
 	RequiredObject      interface{}
 	RequiredObjectArray []interface{}
+}
+
+func NewEventObjectTypes(requiredObject interface{}, requiredObjectArray []interface{}) EventObjectTypes {
+	return EventObjectTypes{
+		RequiredObject:      requiredObject,
+		RequiredObjectArray: requiredObjectArray,
+	}
 }
 
 func (stronglyTypedEvent EventObjectTypes) ToEvent() amplitude.Event {
