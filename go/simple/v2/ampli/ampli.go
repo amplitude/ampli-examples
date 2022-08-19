@@ -37,24 +37,15 @@ var APIKey = map[Environment]string{
 	EnvironmentProduction:  "",
 }
 
-var DefaultConfiguration = amplitude.Config{
-	FlushInterval:   amplitude.DefaultFlushInterval,
-	FlushQueueSize:  amplitude.DefaultFlushQueueSize,
-	FlushMaxRetries: amplitude.DefaultFlushMaxRetries,
-	Logger:          amplitude.NewDefaultLogger(),
-	MinIDLength:     amplitude.DefaultMinIDLength,
-	Callback:        nil,
-	ServerZone:      amplitude.ServerZoneUS,
-	UseBatch:        false,
-	Storage:         &amplitude.InMemoryStorage{},
-	OptOut:          false,
-	ServerURL:       amplitude.HTTPV2,
-	Plan: amplitude.Plan{
+func DefaultConfiguration() amplitude.Config {
+	config := amplitude.NewConfig("")
+	config.Plan = amplitude.Plan{
 		Branch:    "main",
-		Source:    "python-Ampli",
+		Source:    "go-Ampli",
 		Version:   "0",
 		VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
-	},
+	}
+	return config
 }
 
 // LoadClientOptions is Client options setting to initialize Ampli client.
@@ -201,7 +192,7 @@ func (a *Ampli) Load(options LoadOptions) {
 
 	if options.Client.isEmpty() {
 		options.Client = LoadClientOptions{
-			Configuration: DefaultConfiguration,
+			Configuration: DefaultConfiguration(),
 		}
 	}
 
@@ -224,11 +215,11 @@ func (a *Ampli) Load(options LoadOptions) {
 	if !options.Client.Configuration.IsEmpty() {
 		configuration = options.Client.Configuration
 	} else {
-		configuration = DefaultConfiguration
+		configuration = DefaultConfiguration()
 	}
 
 	if configuration.Plan == (amplitude.Plan{}) {
-		configuration.Plan = DefaultConfiguration.Plan
+		configuration.Plan = DefaultConfiguration().Plan
 	}
 
 	if options.Client.Instance != nil {
