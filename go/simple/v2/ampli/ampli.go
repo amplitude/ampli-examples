@@ -256,7 +256,7 @@ func (a *Ampli) Load(options LoadOptions) {
 
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
 func (a *Ampli) InitializedAndEnabled() bool {
-	return !a.Disabled
+	return !a.Disabled && a.Client != nil
 }
 
 // Track tracks an StronglyTypedEvent.
