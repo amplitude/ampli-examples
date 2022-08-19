@@ -1,4 +1,4 @@
-// ampli.py
+// ampli.go
 //
 // Ampli - A strong typed wrapper for your Analytics
 //
