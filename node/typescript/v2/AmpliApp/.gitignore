@@ -1,0 +1,19 @@
+*-debug.log
+*-error.log
+/.nyc_output
+/coverage
+/dist
+/package-lock.json
+/tmp
+node_modules
+*.tsbuildinfo
+.DS_Store
+
+# Configuration
+.env
+.npmrc
+
+# IDE project files
+*.iml
+.idea
+.vscode

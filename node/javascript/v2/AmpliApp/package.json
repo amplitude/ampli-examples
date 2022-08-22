@@ -1,0 +1,24 @@
+{
+  "name": "ampli-v2-node-javascript-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "start": "node src/app.js",
+    "test": "jest"
+  },
+  "author": "Justin Fiedler (Amplitude)",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.10",
+    "babel-core": "7.0.0-bridge.0",
+    "jest": "^27.3.1"
+  },
+  "dependencies": {
+    "@amplitude/analytics-node": "^0.4.0",
+    "analytics-node": "^5.0.0",
+    "dotenv": "^10.0.0"
+  }
+}
