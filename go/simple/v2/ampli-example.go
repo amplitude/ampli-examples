@@ -37,7 +37,7 @@ func main() {
 	ampli.Instance.SetGroup("user-id", "Org", []string{"Engineer", "DevOp"}, amplitude.EventOptions{})
 
 	// Create a strongly typed event
-	event := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.RequiredEnumEnum1, 16.4, 3, "str")
+	event := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.RequiredEnumEnum1, 3, 16.4, "str")
 	event.OptionalString = "optional string"
 	// Track the events using strongly typed method and parameters
 	ampli.Instance.EventWithAllProperties("user-id", event, amplitude.EventOptions{})
