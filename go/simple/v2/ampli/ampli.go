@@ -259,15 +259,19 @@ func (a *Ampli) InitializedAndEnabled() bool {
 	return !a.Disabled && a.Client != nil
 }
 
+func (a *Ampli) setUserID(userID string, eventOptions *amplitude.EventOptions) {
+	if userID != "" {
+		eventOptions.UserID = userID
+	}
+}
+
 // Track tracks an StronglyTypedEvent.
 func (a *Ampli) Track(userID string, event StronglyTypedEvent, eventOptions amplitude.EventOptions) {
 	if !a.InitializedAndEnabled() {
 		return
 	}
 
-	if userID != "" {
-		eventOptions.UserID = userID
-	}
+	a.setUserID(userID, &eventOptions)
 
 	baseEvent := event.ToEvent()
 	baseEvent.EventOptions = eventOptions
@@ -281,9 +285,7 @@ func (a *Ampli) Identify(userID string, identify Identify, eventOptions amplitud
 		return
 	}
 
-	if userID != "" {
-		eventOptions.UserID = userID
-	}
+	a.setUserID(userID, &eventOptions)
 
 	identifyEvent := amplitude.Event{
 		EventType: amplitude.IdentifyEventType,
@@ -322,9 +324,7 @@ func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, ev
 		return
 	}
 
-	if userID != "" {
-		eventOptions.UserID = userID
-	}
+	a.setUserID(userID, &eventOptions)
 
 	a.Client.SetGroup(groupType, groupName, eventOptions)
 }
