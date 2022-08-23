@@ -45,6 +45,7 @@ func DefaultConfiguration() amplitude.Config {
 		Version:   "0",
 		VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
 	}
+
 	return config
 }
 
@@ -101,12 +102,13 @@ func NewIdentify(requiredNumber float64) Identify {
 }
 
 func (stronglyTypedEvent Identify) ToEvent() amplitude.Event {
+	identify := amplitude.Identify{}
+	identify.Set("requiredNumber", stronglyTypedEvent.RequiredNumber)
+	identify.Set("optionalArray", stronglyTypedEvent.OptionalArray)
+
 	return amplitude.Event{
-		EventType: amplitude.IdentifyEventType,
-		EventProperties: map[string]interface{}{
-			"requiredNumber": stronglyTypedEvent.RequiredNumber,
-			"optionalArray":  stronglyTypedEvent.OptionalArray,
-		},
+		EventType:      amplitude.IdentifyEventType,
+		UserProperties: identify.Properties,
 	}
 }
 
@@ -122,6 +124,7 @@ func (stronglyTypedEvent Identify) ToEvent() amplitude.Event {
 type Group struct {
 	RequiredBoolean bool
 	OptionalString  string
+	groups          map[string][]string
 }
 
 func NewGroup(requiredBoolean bool) Group {
@@ -131,12 +134,14 @@ func NewGroup(requiredBoolean bool) Group {
 }
 
 func (stronglyTypedEvent Group) ToEvent() amplitude.Event {
+	identify := amplitude.Identify{}
+	identify.Set("requiredBoolean", stronglyTypedEvent.RequiredBoolean)
+	identify.Set("optionalString", stronglyTypedEvent.OptionalString)
+
 	return amplitude.Event{
-		EventType: amplitude.GroupIdentifyEventType,
-		EventProperties: map[string]interface{}{
-			"requiredBoolean": stronglyTypedEvent.RequiredBoolean,
-			"optionalString":  stronglyTypedEvent.OptionalString,
-		},
+		EventType:       amplitude.GroupIdentifyEventType,
+		Groups:          stronglyTypedEvent.groups,
+		GroupProperties: identify.Properties,
 	}
 }
 
@@ -281,49 +286,18 @@ func (a *Ampli) Track(userID string, event StronglyTypedEvent, eventOptions ampl
 
 // Identify identifies a user and set user properties.
 func (a *Ampli) Identify(userID string, identify Identify, eventOptions amplitude.EventOptions) {
-	if !a.InitializedAndEnabled() {
-		return
-	}
-
-	a.setUserID(userID, &eventOptions)
-
-	identifyEvent := amplitude.Event{
-		EventType: amplitude.IdentifyEventType,
-		EventProperties: map[string]interface{}{
-			"requiredNumber": identify.RequiredNumber,
-			"optionalArray":  identify.OptionalArray,
-		},
-		EventOptions: eventOptions,
-	}
-
-	a.Client.Track(identifyEvent)
+	a.Track(userID, identify, eventOptions)
 }
 
 // GroupIdentify identifies a group and set group properties.
 func (a *Ampli) GroupIdentify(groupType string, groupName string, group Group, eventOptions amplitude.EventOptions) {
-	if !a.InitializedAndEnabled() {
-		return
-	}
+	group.groups = map[string][]string{groupType: {groupName}}
 
-	groupIdentifyEvent := amplitude.Event{
-		EventType: amplitude.GroupIdentifyEventType,
-		Groups:    map[string][]string{groupType: {groupName}},
-		EventProperties: map[string]interface{}{
-			"requiredBoolean": group.RequiredBoolean,
-			"optionalString":  group.OptionalString,
-		},
-		EventOptions: eventOptions,
-	}
-
-	a.Client.Track(groupIdentifyEvent)
+	a.Track("", group, eventOptions)
 }
 
 // SetGroup sets group for the current user.
 func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, eventOptions amplitude.EventOptions) {
-	if !a.InitializedAndEnabled() {
-		return
-	}
-
 	a.setUserID(userID, &eventOptions)
 
 	a.Client.SetGroup(groupType, groupName, eventOptions)
