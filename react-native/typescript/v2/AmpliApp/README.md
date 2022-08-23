@@ -1,5 +1,5 @@
-# Ampli React Native SDK (TypeScript)
-An example app using the Ampli React Native SDK
+# Ampli React Native SDK 2.0 (TypeScript)
+An example app using the Ampli React Native SDK V2.
 
 # Usage
 
@@ -8,7 +8,7 @@ You will need to do the following before running the app.
 1. Create a `.env` with your API keys
     1. `cp .env.example .env`
     2. Set your Amplitude API key
-    3. (Optional) To use Segment middleware set a Segment write key
+    3. (Optional) To use Segment plugin set a Segment write key
 2. `yarn install`
 3. iOS: `cd ./ios && pod install`
 
@@ -31,4 +31,4 @@ If you want to use your own tracking plan and Ampli SDK
     * [App.tsx](src/App.tsx) - Example user app using Amply SDK. A good place to start.
     * ampli/
         * [index.ts](src/ampli/index.ts) - Generated SDK, don't modify by hand. Update with `ampli pull`
-    * [middleware/*](src/middleware) - Example middlewares for Segment and Event filtering
+    * [plugins/*](src/plugins) - Example plugins for Segment and Event logging
