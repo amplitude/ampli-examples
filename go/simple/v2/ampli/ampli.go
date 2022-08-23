@@ -19,6 +19,7 @@ package ampli
 
 import (
 	"log"
+	"sync"
 
 	"github.com/amplitude/analytics-go/amplitude"
 )
@@ -256,12 +257,15 @@ func (stronglyTypedEvent EventWithAllProperties) ToEvent() amplitude.Event {
 type Ampli struct {
 	Disabled bool
 	Client   amplitude.Client
+	mutex    sync.Mutex
 }
 
 // Load initializes the Ampli wrapper.
 // Call once when your application starts.
 func (a *Ampli) Load(options LoadOptions) {
+	a.mutex.Lock()
 	a.Disabled = options.Disabled
+	a.mutex.Unlock()
 
 	if a.Client != nil {
 		log.Default().Printf("Warn: Ampli is already initialized. Ampli.load() should be called once at application start up.")
@@ -311,6 +315,8 @@ func (a *Ampli) Load(options LoadOptions) {
 
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
 func (a *Ampli) InitializedAndEnabled() bool {
+	a.mutex.Lock()
+	defer a.mutex.Unlock()
 	return !a.Disabled && a.Client != nil
 }
 
@@ -369,7 +375,9 @@ func (a *Ampli) Shutdown() {
 	}
 
 	a.Client.Shutdown()
+	a.mutex.Lock()
 	a.Disabled = true
+	a.mutex.Unlock()
 }
 
 func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions amplitude.EventOptions) {
