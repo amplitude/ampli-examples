@@ -1,10 +1,10 @@
-name: CI - React Native Tests
+name: CI - React Native V1 Tests
 
 on:
   pull_request:
     paths:
-      - 'react-native/typescript/**'
-      - 'react-native/javascript/**'
+      - 'react-native/typescript/v1/**'
+      - 'react-native/javascript/v1/**'
 
 jobs:
   build:
@@ -23,17 +23,17 @@ jobs:
           cache: 'yarn'
 
       - name: TS - Install
-        working-directory: react-native/typescript/AmpliApp
+        working-directory: react-native/typescript/v1/AmpliApp
         run: yarn install --frozen-lockfile
 
       - name: TS - Test
-        working-directory: react-native/typescript/AmpliApp
+        working-directory: react-native/typescript/v1/AmpliApp
         run: yarn test
 
       - name: JS - Install
-        working-directory: react-native/javascript/AmpliApp
+        working-directory: react-native/javascript/v1/AmpliApp
         run: yarn install --frozen-lockfile
 
       - name: JS - Test
-        working-directory: react-native/javascript/AmpliApp
+        working-directory: react-native/javascript/v1/AmpliApp
         run: yarn test
