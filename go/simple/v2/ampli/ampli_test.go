@@ -34,12 +34,12 @@ func TestIdentifyWithOptionalPropertiesChained(t *testing.T) {
 }
 
 func TestEventWithAllProperties(t *testing.T) {
-	event := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.RequiredEnumEnum1, 3, 16.4, "str")
+	event := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.EventWithAllPropertiesRequiredEnumEnum1, 3, 16.4, "str")
 
 	eventProperties := map[string]interface{}{
 		"requiredArray":   []string{"abc", "test"},
 		"requiredBool":    true,
-		"requiredEnum":    ampli.RequiredEnumEnum1,
+		"requiredEnum":    ampli.EventWithAllPropertiesRequiredEnumEnum1,
 		"requiredInteger": 3,
 		"requiredNumber":  16.4,
 		"requiredString":  "str",

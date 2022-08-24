@@ -201,8 +201,8 @@ type EventWithAllProperties struct {
 type EventWithAllPropertiesRequiredEnum string
 
 const (
-	RequiredEnumEnum1 EventWithAllPropertiesRequiredEnum = "Enum1"
-	RequiredEnumEnum2 EventWithAllPropertiesRequiredEnum = "Enum2"
+	EventWithAllPropertiesRequiredEnumEnum1 EventWithAllPropertiesRequiredEnum = "Enum1"
+	EventWithAllPropertiesRequiredEnumEnum2 EventWithAllPropertiesRequiredEnum = "Enum2"
 )
 
 func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum EventWithAllPropertiesRequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
