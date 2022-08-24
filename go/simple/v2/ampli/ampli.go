@@ -178,6 +178,7 @@ func (stronglyTypedEvent *Group) ToEvent() amplitude.Event {
 //
 // Owner: Test codegen
 //
+// Params
 //	- required_array: Event 2 Property - Array
 //	- required_boolean: Event 2 Property - Boolean
 //	- required_enum: Event 2 Property - Enum
