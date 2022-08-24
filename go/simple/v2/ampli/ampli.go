@@ -349,8 +349,10 @@ func (a *Ampli) Identify(userID string, identify *Identify, eventOptions amplitu
 // GroupIdentify identifies a group and set group properties.
 func (a *Ampli) GroupIdentify(groupType string, groupName string, group *Group, eventOptions amplitude.EventOptions) {
 	group.groups = map[string][]string{groupType: {groupName}}
+	event := group.ToEvent()
+	event.EventOptions = eventOptions
 
-	a.Track("", group, eventOptions)
+	a.Client.Track(event)
 }
 
 // SetGroup sets group for the current user.
