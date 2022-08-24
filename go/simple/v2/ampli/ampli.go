@@ -264,10 +264,6 @@ type Ampli struct {
 // Load initializes the Ampli wrapper.
 // Call once when your application starts.
 func (a *Ampli) Load(options LoadOptions) {
-	a.mutex.Lock()
-	a.Disabled = options.Disabled
-	a.mutex.Unlock()
-
 	if a.Client != nil {
 		log.Default().Printf("Warn: Ampli is already initialized. Ampli.load() should be called once at application start up.")
 
@@ -312,6 +308,10 @@ func (a *Ampli) Load(options LoadOptions) {
 		configuration.APIKey = apiKey
 		a.Client = amplitude.NewClient(configuration)
 	}
+
+	a.mutex.Lock()
+	a.Disabled = options.Disabled
+	a.mutex.Unlock()
 }
 
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
@@ -377,10 +377,11 @@ func (a *Ampli) Shutdown() {
 		return
 	}
 
-	a.Client.Shutdown()
 	a.mutex.Lock()
 	a.Disabled = true
 	a.mutex.Unlock()
+
+	a.Client.Shutdown()
 }
 
 func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions amplitude.EventOptions) {
