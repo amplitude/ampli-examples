@@ -258,7 +258,7 @@ func (stronglyTypedEvent EventWithAllProperties) ToEvent() amplitude.Event {
 type Ampli struct {
 	Disabled bool
 	Client   amplitude.Client
-	mutex    sync.Mutex
+	mutex    sync.RWMutex
 }
 
 // Load initializes the Ampli wrapper.
@@ -316,8 +316,8 @@ func (a *Ampli) Load(options LoadOptions) {
 
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
 func (a *Ampli) InitializedAndEnabled() bool {
-	a.mutex.Lock()
-	defer a.mutex.Unlock()
+	a.mutex.RLock()
+	defer a.mutex.RUnlock()
 	return !a.Disabled && a.Client != nil
 }
 
