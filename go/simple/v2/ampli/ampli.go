@@ -189,7 +189,7 @@ func (stronglyTypedEvent *Group) ToEvent() amplitude.Event {
 type EventWithAllProperties struct {
 	RequiredArray   []string
 	RequiredBool    bool
-	RequiredEnum    RequiredEnum
+	RequiredEnum    EventWithAllPropertiesRequiredEnum
 	RequiredInteger int
 	RequiredNumber  float64
 	RequiredString  string
@@ -198,14 +198,14 @@ type EventWithAllProperties struct {
 	optionals       map[string]bool
 }
 
-type RequiredEnum string
+type EventWithAllPropertiesRequiredEnum string
 
 const (
-	RequiredEnumEnum1 RequiredEnum = "Enum1"
-	RequiredEnumEnum2 RequiredEnum = "Enum2"
+	RequiredEnumEnum1 EventWithAllPropertiesRequiredEnum = "Enum1"
+	RequiredEnumEnum2 EventWithAllPropertiesRequiredEnum = "Enum2"
 )
 
-func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum RequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
+func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum EventWithAllPropertiesRequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
 	return &EventWithAllProperties{
 		RequiredArray:   requiredArray,
 		RequiredBool:    requiredBool,
