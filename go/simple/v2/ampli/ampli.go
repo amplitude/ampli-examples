@@ -297,6 +297,7 @@ func (a *Ampli) Load(options LoadOptions) {
 func (a *Ampli) InitializedAndEnabled() bool {
 	a.mutex.RLock()
 	defer a.mutex.RUnlock()
+
 	return !a.Disabled && a.Client != nil
 }
 

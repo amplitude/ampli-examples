@@ -43,7 +43,6 @@ func TestGroup_NewGroup(t *testing.T) {
 	}
 
 	assert.Equal(t, expectEvent, group.toAmplitudeEvent())
-
 }
 
 func TestGroup_SetOptionalString(t *testing.T) {
