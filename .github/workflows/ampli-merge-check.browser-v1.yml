@@ -21,8 +21,8 @@ jobs:
 
       - name: (Browser JS V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./browser/javascript/v1/react-app
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
 
       - name: (Browser TS V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./browser/typescript/v1/react-app
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}

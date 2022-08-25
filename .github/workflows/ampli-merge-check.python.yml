@@ -20,5 +20,5 @@ jobs:
 
       - name: (Python) Check the Data branch is merged before merging the Git branch
         working-directory: python/simple/v1
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
         

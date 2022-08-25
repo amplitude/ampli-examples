@@ -21,8 +21,8 @@ jobs:
 
       - name: (ReactNative JS V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./react-native/javascript/v1/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
 
       - name: (ReactNative TS V1) Check the Data branch is merged before merging the Git branch
         working-directory: react-native/typescript/v1/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}

@@ -20,8 +20,8 @@ jobs:
 
       - name: (Android Kotlin V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./android/kotlin/v2/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
 
       - name: (Android Java V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./android/java/v2/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}

@@ -21,8 +21,8 @@ jobs:
 
       - name: (Node JS V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./node/javascript/v2/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
 
       - name: (Node TS V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./node/typescript/v2/AmpliApp
-        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        run: ampli status --is-merged -t ${{ secrets.AMPLI_TOKEN }}
