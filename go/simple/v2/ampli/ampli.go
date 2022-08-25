@@ -295,10 +295,15 @@ func (a *Ampli) Load(options LoadOptions) {
 
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
 func (a *Ampli) InitializedAndEnabled() bool {
+	if a.Client == nil {
+		log.Default().Print("Error: Ampli is not yet initialized. Have you called Ampli.Load() on app start?")
+
+		return false
+	}
 	a.mutex.RLock()
 	defer a.mutex.RUnlock()
 
-	return !a.Disabled && a.Client != nil
+	return !a.Disabled
 }
 
 func (a *Ampli) setUserID(userID string, eventOptions *amplitude.EventOptions) {
