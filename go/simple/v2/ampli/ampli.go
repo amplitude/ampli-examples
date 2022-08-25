@@ -78,8 +78,27 @@ type LoadOptions struct {
 	Client      LoadClientOptions
 }
 
-type StronglyTypedEvent interface {
-	ToEvent() amplitude.Event
+type baseEvent struct {
+	eventType  string
+	properties map[string]interface{}
+}
+
+type amplitudeEvent interface {
+	toAmplitudeEvent() amplitude.Event
+}
+
+func newBaseEvent(eventType string, properties map[string]interface{}) *baseEvent {
+	return &baseEvent{
+		eventType:  eventType,
+		properties: properties,
+	}
+}
+
+func (event *baseEvent) toAmplitudeEvent() amplitude.Event {
+	return amplitude.Event{
+		EventType:       event.eventType,
+		EventProperties: event.properties,
+	}
 }
 
 // Identify
@@ -92,35 +111,32 @@ type StronglyTypedEvent interface {
 //	- RequiredNumber: description for Ampli.Identify RequiredNumber
 //	- OptionalArray: description for Ampli.Identify OptionalArray
 type Identify struct {
-	RequiredNumber float64
-	OptionalArray  []string
-	optionals      map[string]bool
+	*baseEvent
 }
 
 func NewIdentify(requiredNumber float64) *Identify {
 	return &Identify{
-		RequiredNumber: requiredNumber,
-		optionals:      map[string]bool{},
+		newBaseEvent(amplitude.IdentifyEventType, map[string]interface{}{
+			"requiredNumber": requiredNumber,
+		}),
 	}
 }
 
-func (stronglyTypedEvent *Identify) SetOptionalArray(optionalArray []string) *Identify {
-	stronglyTypedEvent.OptionalArray = optionalArray
-	stronglyTypedEvent.optionals["OptionalArray"] = true
+func (event *Identify) SetOptionalArray(optionalArray []string) *Identify {
+	event.properties["optionalArray"] = optionalArray
 
-	return stronglyTypedEvent
+	return event
 }
 
-func (stronglyTypedEvent *Identify) ToEvent() amplitude.Event {
+func (event *Identify) toAmplitudeEvent() amplitude.Event {
 	identify := amplitude.Identify{}
-	identify.Set("requiredNumber", stronglyTypedEvent.RequiredNumber)
 
-	if _, present := stronglyTypedEvent.optionals["OptionalArray"]; present {
-		identify.Set("optionalArray", stronglyTypedEvent.OptionalArray)
+	for name, value := range event.properties {
+		identify.Set(name, value)
 	}
 
 	return amplitude.Event{
-		EventType:      amplitude.IdentifyEventType,
+		EventType:      event.eventType,
 		UserProperties: identify.Properties,
 	}
 }
@@ -135,38 +151,34 @@ func (stronglyTypedEvent *Identify) ToEvent() amplitude.Event {
 //	- RequiredBool: description for group RequiredBool
 //	- OptionalString: description for group OptionalString
 type Group struct {
-	RequiredBoolean bool
-	OptionalString  string
-	groups          map[string][]string
-	optionals       map[string]bool
+	*baseEvent
+	groups map[string][]string
 }
 
 func NewGroup(requiredBoolean bool) *Group {
 	return &Group{
-		RequiredBoolean: requiredBoolean,
-		optionals:       map[string]bool{},
+		baseEvent: newBaseEvent(amplitude.GroupIdentifyEventType, map[string]interface{}{
+			"requiredBoolean": requiredBoolean,
+		}),
 	}
 }
 
-func (stronglyTypedEvent *Group) SetOptionalString(optionString string) *Group {
-	stronglyTypedEvent.OptionalString = optionString
-	stronglyTypedEvent.optionals["OptionalString"] = true
+func (event *Group) SetOptionalString(optionString string) *Group {
+	event.properties["optionalString"] = optionString
 
-	return stronglyTypedEvent
+	return event
 }
 
-func (stronglyTypedEvent *Group) ToEvent() amplitude.Event {
+func (event *Group) toAmplitudeEvent() amplitude.Event {
 	identify := amplitude.Identify{}
-	identify.Set("requiredBoolean", stronglyTypedEvent.RequiredBoolean)
-
-	if _, present := stronglyTypedEvent.optionals["OptionalArray"]; present {
-		identify.Set("optionalString", stronglyTypedEvent.OptionalString)
+	for name, value := range event.properties {
+		identify.Set(name, value)
 	}
 
 	return amplitude.Event{
-		EventType:       amplitude.GroupIdentifyEventType,
-		Groups:          stronglyTypedEvent.groups,
+		EventType:       event.eventType,
 		GroupProperties: identify.Properties,
+		Groups:          event.groups,
 	}
 }
 
@@ -187,15 +199,7 @@ func (stronglyTypedEvent *Group) ToEvent() amplitude.Event {
 //	- required_string: Event 2 Property - String
 //	- optional_string: Event 2 Property - Optional String
 type EventWithAllProperties struct {
-	RequiredArray   []string
-	RequiredBool    bool
-	RequiredEnum    EventWithAllPropertiesRequiredEnum
-	RequiredInteger int
-	RequiredNumber  float64
-	RequiredString  string
-	OptionalString  string
-	OptionalBool    bool
-	optionals       map[string]bool
+	*baseEvent
 }
 
 type EventWithAllPropertiesRequiredEnum string
@@ -207,50 +211,25 @@ const (
 
 func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum EventWithAllPropertiesRequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
 	return &EventWithAllProperties{
-		RequiredArray:   requiredArray,
-		RequiredBool:    requiredBool,
-		RequiredEnum:    requiredEnum,
-		RequiredInteger: requiredInteger,
-		RequiredNumber:  requiredNumber,
-		RequiredString:  requiredString,
-		optionals:       map[string]bool{},
+		newBaseEvent("Event With All Properties", map[string]interface{}{
+			"requiredArray":   requiredArray,
+			"requiredBool":    requiredBool,
+			"requiredEnum":    requiredEnum,
+			"requiredInteger": requiredInteger,
+			"requiredNumber":  requiredNumber,
+			"requiredString":  requiredString,
+		}),
 	}
 }
 
-func (stronglyTypedEvent *EventWithAllProperties) SetOptionalString(optionalString string) *EventWithAllProperties {
-	stronglyTypedEvent.OptionalString = optionalString
-	stronglyTypedEvent.optionals["OptionalString"] = true
+func (event *EventWithAllProperties) SetOptionalString(optionalString string) *EventWithAllProperties {
+	event.properties["optionalString"] = optionalString
 
-	return stronglyTypedEvent
+	return event
 }
 
-func (stronglyTypedEvent *EventWithAllProperties) SetOptionalBool(optionalBool bool) *EventWithAllProperties {
-	stronglyTypedEvent.OptionalBool = optionalBool
-	stronglyTypedEvent.optionals["OptionalBool"] = true
-
-	return stronglyTypedEvent
-}
-
-func (stronglyTypedEvent EventWithAllProperties) ToEvent() amplitude.Event {
-	event := amplitude.Event{
-		EventType: "Event With All Properties",
-		EventProperties: map[string]interface{}{
-			"requiredArray":   stronglyTypedEvent.RequiredArray,
-			"requiredBool":    stronglyTypedEvent.RequiredBool,
-			"requiredEnum":    stronglyTypedEvent.RequiredEnum,
-			"requiredInteger": stronglyTypedEvent.RequiredInteger,
-			"requiredNumber":  stronglyTypedEvent.RequiredNumber,
-			"requiredString":  stronglyTypedEvent.RequiredString,
-		},
-	}
-
-	if _, present := stronglyTypedEvent.optionals["OptionalString"]; present {
-		event.EventProperties["optionalString"] = stronglyTypedEvent.OptionalString
-	}
-
-	if _, present := stronglyTypedEvent.optionals["OptionalBool"]; present {
-		event.EventProperties["optionalBool"] = stronglyTypedEvent.OptionalBool
-	}
+func (event *EventWithAllProperties) SetOptionalBool(optionalBool bool) *EventWithAllProperties {
+	event.properties["optionalBool"] = optionalBool
 
 	return event
 }
@@ -327,15 +306,15 @@ func (a *Ampli) setUserID(userID string, eventOptions *amplitude.EventOptions) {
 	}
 }
 
-// Track tracks an StronglyTypedEvent.
-func (a *Ampli) Track(userID string, event StronglyTypedEvent, eventOptions amplitude.EventOptions) {
+// Track tracks an amplitudeEvent.
+func (a *Ampli) Track(userID string, event amplitudeEvent, eventOptions amplitude.EventOptions) {
 	if !a.InitializedAndEnabled() {
 		return
 	}
 
 	a.setUserID(userID, &eventOptions)
 
-	baseEvent := event.ToEvent()
+	baseEvent := event.toAmplitudeEvent()
 	baseEvent.EventOptions = eventOptions
 
 	a.Client.Track(baseEvent)
@@ -349,7 +328,7 @@ func (a *Ampli) Identify(userID string, identify *Identify, eventOptions amplitu
 // GroupIdentify identifies a group and set group properties.
 func (a *Ampli) GroupIdentify(groupType string, groupName string, group *Group, eventOptions amplitude.EventOptions) {
 	group.groups = map[string][]string{groupType: {groupName}}
-	event := group.ToEvent()
+	event := group.toAmplitudeEvent()
 	event.EventOptions = eventOptions
 
 	a.Client.Track(event)
