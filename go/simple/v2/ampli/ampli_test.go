@@ -7,6 +7,57 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestIdentify_WithOptionalProperties(t *testing.T) {
+	identify := NewIdentify(6.4)
+
+	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
+	userProperties[amplitude.IdentityOpSet] = map[string]interface{}{"requiredNumber": 6.4}
+	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
+
+	identify.SetOptionalArray([]string{"a", "b"})
+	userProperties[amplitude.IdentityOpSet]["optionalArray"] = []string{"a", "b"}
+	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
+}
+
+func TestIdentify_WithOptionalPropertiesChained(t *testing.T) {
+	identify := NewIdentify(6.4).SetOptionalArray([]string{"a", "b"})
+
+	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
+	userProperties[amplitude.IdentityOpSet] = map[string]interface{}{
+		"requiredNumber": 6.4,
+		"optionalArray":  []string{"a", "b"},
+	}
+
+	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
+}
+
+func TestGroup_NewGroup(t *testing.T) {
+	group := NewGroup(true)
+
+	expectEvent := amplitude.Event{
+		EventType: amplitude.GroupIdentifyEventType,
+		GroupProperties: map[amplitude.IdentityOp]map[string]interface{}{
+			amplitude.IdentityOpSet: {"requiredBoolean": true},
+		},
+	}
+
+	assert.Equal(t, expectEvent, group.toAmplitudeEvent())
+}
+
+func TestGroup_SetOptionalString(t *testing.T) {
+	group := NewGroup(true)
+	group.SetOptionalString("optional-string")
+
+	expectEvent := amplitude.Event{
+		EventType: amplitude.GroupIdentifyEventType,
+		GroupProperties: map[amplitude.IdentityOp]map[string]interface{}{
+			amplitude.IdentityOpSet: {"requiredBoolean": true, "optionalString": "optional-string"},
+		},
+	}
+
+	assert.Equal(t, expectEvent, group.toAmplitudeEvent())
+}
+
 func TestEventWithAllProperties(t *testing.T) {
 	event := NewEventWithAllProperties([]string{"abc", "test"}, true, EventWithAllPropertiesRequiredEnumEnum1, 3, 16.4, "str")
 
