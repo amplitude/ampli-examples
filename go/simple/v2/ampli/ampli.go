@@ -78,160 +78,11 @@ type LoadOptions struct {
 	Client      LoadClientOptions
 }
 
-type baseEvent struct {
-	eventType  string
-	properties map[string]interface{}
-}
-
-type amplitudeEvent interface {
-	toAmplitudeEvent() amplitude.Event
-}
-
-func newBaseEvent(eventType string, properties map[string]interface{}) *baseEvent {
-	return &baseEvent{
-		eventType:  eventType,
-		properties: properties,
-	}
-}
-
 func (event *baseEvent) toAmplitudeEvent() amplitude.Event {
 	return amplitude.Event{
 		EventType:       event.eventType,
 		EventProperties: event.properties,
 	}
-}
-
-// Identify
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Identify
-//
-// Identify properties
-//
-// Params:
-//	- RequiredNumber: description for Ampli.Identify RequiredNumber
-//	- OptionalArray: description for Ampli.Identify OptionalArray
-type Identify struct {
-	*baseEvent
-}
-
-func NewIdentify(requiredNumber float64) *Identify {
-	return &Identify{
-		newBaseEvent(amplitude.IdentifyEventType, map[string]interface{}{
-			"requiredNumber": requiredNumber,
-		}),
-	}
-}
-
-func (event *Identify) SetOptionalArray(optionalArray []string) *Identify {
-	event.properties["optionalArray"] = optionalArray
-
-	return event
-}
-
-func (event *Identify) toAmplitudeEvent() amplitude.Event {
-	identify := amplitude.Identify{}
-
-	for name, value := range event.properties {
-		identify.Set(name, value)
-	}
-
-	return amplitude.Event{
-		EventType:      event.eventType,
-		UserProperties: identify.Properties,
-	}
-}
-
-// Group
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group
-//
-// Group properties
-//
-// Params:
-//	- RequiredBool: description for group RequiredBool
-//	- OptionalString: description for group OptionalString
-type Group struct {
-	*baseEvent
-	groups map[string][]string
-}
-
-func NewGroup(requiredBoolean bool) *Group {
-	return &Group{
-		baseEvent: newBaseEvent(amplitude.GroupIdentifyEventType, map[string]interface{}{
-			"requiredBoolean": requiredBoolean,
-		}),
-	}
-}
-
-func (event *Group) SetOptionalString(optionString string) *Group {
-	event.properties["optionalString"] = optionString
-
-	return event
-}
-
-func (event *Group) toAmplitudeEvent() amplitude.Event {
-	identify := amplitude.Identify{}
-	for name, value := range event.properties {
-		identify.Set(name, value)
-	}
-
-	return amplitude.Event{
-		EventType:       event.eventType,
-		GroupProperties: identify.Properties,
-		Groups:          event.groups,
-	}
-}
-
-// EventWithAllProperties
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types
-//
-// Event with all properties
-//
-// Owner: Test codegen
-//
-// Params
-//	- required_array: Event 2 Property - Array
-//	- required_boolean: Event 2 Property - Boolean
-//	- required_enum: Event 2 Property - Enum
-//	- required_integer: Event 2 Property - Integer
-//	- required_number: Event 2 Property - Number
-//	- required_string: Event 2 Property - String
-//	- optional_string: Event 2 Property - Optional String
-type EventWithAllProperties struct {
-	*baseEvent
-}
-
-type EventWithAllPropertiesRequiredEnum string
-
-const (
-	EventWithAllPropertiesRequiredEnumEnum1 EventWithAllPropertiesRequiredEnum = "Enum1"
-	EventWithAllPropertiesRequiredEnumEnum2 EventWithAllPropertiesRequiredEnum = "Enum2"
-)
-
-func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum EventWithAllPropertiesRequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
-	return &EventWithAllProperties{
-		newBaseEvent("Event With All Properties", map[string]interface{}{
-			"requiredArray":   requiredArray,
-			"requiredBool":    requiredBool,
-			"requiredEnum":    requiredEnum,
-			"requiredInteger": requiredInteger,
-			"requiredNumber":  requiredNumber,
-			"requiredString":  requiredString,
-		}),
-	}
-}
-
-func (event *EventWithAllProperties) SetOptionalString(optionalString string) *EventWithAllProperties {
-	event.properties["optionalString"] = optionalString
-
-	return event
-}
-
-func (event *EventWithAllProperties) SetOptionalBool(optionalBool bool) *EventWithAllProperties {
-	event.properties["optionalBool"] = optionalBool
-
-	return event
 }
 
 type Ampli struct {
@@ -300,6 +151,7 @@ func (a *Ampli) InitializedAndEnabled() bool {
 
 		return false
 	}
+
 	a.mutex.RLock()
 	defer a.mutex.RUnlock()
 
