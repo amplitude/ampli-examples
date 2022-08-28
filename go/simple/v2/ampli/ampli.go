@@ -644,6 +644,46 @@ func (a *Ampli) Shutdown() {
 	a.Client.Shutdown()
 }
 
+func (a *Ampli) EventMaxIntForTest(userID string, event *EventMaxIntForTest, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventNoProperties(userID string, event *EventNoProperties, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventObjectTypes(userID string, event *EventObjectTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
 func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithArrayTypes(userID string, event *EventWithArrayTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithConstTypes(userID string, event *EventWithConstTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithDifferentCasingTypes(userID string, event *EventWithDifferentCasingTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithEnumTypes(userID string, event *EventWithEnumTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithOptionalArrayTypes(userID string, event *EventWithOptionalArrayTypes, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithOptionalProperties(userID string, event *EventWithOptionalProperties, eventOptions amplitude.EventOptions) {
+	a.Track(userID, event, eventOptions)
+}
+
+func (a *Ampli) EventWithTemplateProperties(userID string, event *EventWithTemplateProperties, eventOptions amplitude.EventOptions) {
 	a.Track(userID, event, eventOptions)
 }
