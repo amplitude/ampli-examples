@@ -63,6 +63,10 @@ func main() {
 	ampli.Instance.EventWithArrayTypes("user-id", eventWithArrayTypes, amplitude.EventOptions{})
 	ampli.Instance.Track("user-id", eventWithArrayTypes, amplitude.EventOptions{})
 
+	eventWithConstTypes := ampli.NewEventWithConstTypes()
+	ampli.Instance.EventWithConstTypes("user-id", eventWithConstTypes, amplitude.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithConstTypes, amplitude.EventOptions{})
+
 	eventWithEnumTypes := ampli.NewEventWithEnumTypes(ampli.EventWithEnumTypesRequiredEnumRequiredEnum1)
 	eventWithEnumTypes.SetOptionalEnum(ampli.EventWithEnumTypesOptionalEnumOptionalEnum2)
 	ampli.Instance.EventWithEnumTypes("user-id", eventWithEnumTypes, amplitude.EventOptions{})
