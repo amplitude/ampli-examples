@@ -37,7 +37,7 @@ func main() {
 	// Create a strongly typed event
 	eventMaxIntForTest := ampli.NewEventMaxIntForTest(6)
 	// Track the event using strongly typed method and parameters
-	ampli.Instance.EventMaxIntForTest("uesr-id", eventMaxIntForTest, amplitude.EventOptions{})
+	ampli.Instance.EventMaxIntForTest("user-id", eventMaxIntForTest, amplitude.EventOptions{})
 	// Track the event with generic track method
 	ampli.Instance.Track("user-id", eventMaxIntForTest, amplitude.EventOptions{})
 
