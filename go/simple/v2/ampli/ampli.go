@@ -518,7 +518,7 @@ type Ampli struct {
 // Call once when your application starts.
 func (a *Ampli) Load(options LoadOptions) {
 	if a.Client != nil {
-		log.Print("Warn: Ampli is already initialized. Ampli.load() should be called once at application start up.")
+		log.Print("Warn: Ampli is already initialized. Ampli.Load() should be called once at application start up.")
 
 		return
 	}
