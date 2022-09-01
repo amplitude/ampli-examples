@@ -2,7 +2,6 @@ package main
 
 import (
 	"ampli-example/ampli"
-	"github.com/amplitude/analytics-go/amplitude"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -18,41 +17,41 @@ func main() {
 	// Initialize the Ampli instance with LoadOptions and LoadClientOptions
 	ampli.Instance.Load(ampli.LoadOptions{
 		Client: ampli.LoadClientOptions{
-			Configuration: amplitude.NewConfig(apiKey),
+			Configuration: ampli.NewConfig(apiKey),
 		},
 	})
 	defer ampli.Instance.Shutdown()
 
 	// Identify using IdentifyProperties in tracking plan
 	identifyObj := ampli.NewIdentify(16.6).SetOptionalArray([]string{"abc", "test"})
-	ampli.Instance.Identify("user_id", identifyObj, amplitude.EventOptions{})
+	ampli.Instance.Identify("user_id", identifyObj, ampli.EventOptions{})
 
 	// Group Identify using GroupProperties in tracking plan
 	groupIdentifyObj := ampli.NewGroup(true).SetOptionalString("optional-string")
-	ampli.Instance.GroupIdentify("Org", "Engineer", groupIdentifyObj, amplitude.EventOptions{})
+	ampli.Instance.GroupIdentify("Org", "Engineer", groupIdentifyObj, ampli.EventOptions{})
 
 	// Set groups for user
-	ampli.Instance.SetGroup("user-id", "Org", []string{"Engineer", "DevOp"}, amplitude.EventOptions{})
+	ampli.Instance.SetGroup("user-id", "Org", []string{"Engineer", "DevOp"}, ampli.EventOptions{})
 
 	// Create a strongly typed event
 	eventMaxIntForTest := ampli.NewEventMaxIntForTest(6)
 	// Track the event using strongly typed method and parameters
-	ampli.Instance.EventMaxIntForTest("user-id", eventMaxIntForTest, amplitude.EventOptions{})
+	ampli.Instance.EventMaxIntForTest("user-id", eventMaxIntForTest, ampli.EventOptions{})
 	// Track the event with generic track method
-	ampli.Instance.Track("user-id", eventMaxIntForTest, amplitude.EventOptions{})
+	ampli.Instance.Track("user-id", eventMaxIntForTest, ampli.EventOptions{})
 
 	eventNoProperties := ampli.NewEventNoProperties()
-	ampli.Instance.EventNoProperties("user-id", eventNoProperties, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventNoProperties, amplitude.EventOptions{})
+	ampli.Instance.EventNoProperties("user-id", eventNoProperties, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventNoProperties, ampli.EventOptions{})
 
 	requiredObjectArray := map[string]int{"k": 15}
 	eventObjectTypes := ampli.NewEventObjectTypes(map[string]string{"key": "value"}, []interface{}{requiredObjectArray})
-	ampli.Instance.EventObjectTypes("user-id", eventObjectTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventObjectTypes, amplitude.EventOptions{})
+	ampli.Instance.EventObjectTypes("user-id", eventObjectTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventObjectTypes, ampli.EventOptions{})
 
 	eventWithAllProperties := ampli.NewEventWithAllProperties([]string{"abc", "test"}, true, ampli.EventWithAllPropertiesRequiredEnumEnum1, 3, 16.4, "str").SetOptionalString("optional-string")
-	ampli.Instance.EventWithAllProperties("user-id", eventWithAllProperties, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithAllProperties, amplitude.EventOptions{})
+	ampli.Instance.EventWithAllProperties("user-id", eventWithAllProperties, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithAllProperties, ampli.EventOptions{})
 
 	eventWithArrayTypes := ampli.NewEventWithArrayTypes(
 		[]bool{true, false},
@@ -60,27 +59,27 @@ func main() {
 		[]interface{}{map[string]string{"key": "value"}},
 		[]string{"a", "b"},
 	)
-	ampli.Instance.EventWithArrayTypes("user-id", eventWithArrayTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithArrayTypes, amplitude.EventOptions{})
+	ampli.Instance.EventWithArrayTypes("user-id", eventWithArrayTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithArrayTypes, ampli.EventOptions{})
 
 	eventWithConstTypes := ampli.NewEventWithConstTypes()
-	ampli.Instance.EventWithConstTypes("user-id", eventWithConstTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithConstTypes, amplitude.EventOptions{})
+	ampli.Instance.EventWithConstTypes("user-id", eventWithConstTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithConstTypes, ampli.EventOptions{})
 
 	eventWithEnumTypes := ampli.NewEventWithEnumTypes(ampli.EventWithEnumTypesRequiredEnumRequiredEnum1)
 	eventWithEnumTypes.SetOptionalEnum(ampli.EventWithEnumTypesOptionalEnumOptionalEnum2)
-	ampli.Instance.EventWithEnumTypes("user-id", eventWithEnumTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithEnumTypes, amplitude.EventOptions{})
+	ampli.Instance.EventWithEnumTypes("user-id", eventWithEnumTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithEnumTypes, ampli.EventOptions{})
 
 	eventWithOptionalArrayTypes := ampli.NewEventWithOptionalArrayTypes()
 	eventWithOptionalArrayTypes.SetOptionalBooleanArray([]bool{false, true}).SetOptionalNumberArray([]float64{1, 2, 15.0}).SetOptionalOptionalStringArray([]string{"test"})
-	ampli.Instance.EventWithOptionalArrayTypes("user-id", eventWithOptionalArrayTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithOptionalArrayTypes, amplitude.EventOptions{})
+	ampli.Instance.EventWithOptionalArrayTypes("user-id", eventWithOptionalArrayTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithOptionalArrayTypes, ampli.EventOptions{})
 
 	eventWithOptionalProperties := ampli.NewEventWithOptionalProperties()
 	eventWithOptionalProperties.SetOptionalBoolean(false)
-	ampli.Instance.EventWithOptionalProperties("user-id", eventWithOptionalProperties, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithOptionalProperties, amplitude.EventOptions{})
+	ampli.Instance.EventWithOptionalProperties("user-id", eventWithOptionalProperties, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithOptionalProperties, ampli.EventOptions{})
 
 	eventWithDifferentCasingTypes := ampli.NewEventWithDifferentCasingTypes(
 		ampli.EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase,
@@ -92,11 +91,11 @@ func main() {
 		"property_with_snake_case",
 		"property with space",
 	)
-	ampli.Instance.EventWithDifferentCasingTypes("user-id", eventWithDifferentCasingTypes, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithDifferentCasingTypes, amplitude.EventOptions{})
+	ampli.Instance.EventWithDifferentCasingTypes("user-id", eventWithDifferentCasingTypes, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithDifferentCasingTypes, ampli.EventOptions{})
 
 	eventWithTemplateProperties := ampli.NewEventWithTemplateProperties("event property", "template property")
 	eventWithTemplateProperties.SetOptionalTemplateProperty(1.23)
-	ampli.Instance.EventWithTemplateProperties("user-id", eventWithTemplateProperties, amplitude.EventOptions{})
-	ampli.Instance.Track("user-id", eventWithTemplateProperties, amplitude.EventOptions{})
+	ampli.Instance.EventWithTemplateProperties("user-id", eventWithTemplateProperties, ampli.EventOptions{})
+	ampli.Instance.Track("user-id", eventWithTemplateProperties, ampli.EventOptions{})
 }

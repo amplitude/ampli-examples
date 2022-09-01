@@ -2,7 +2,6 @@ package main
 
 import (
 	"ampli-example/ampli"
-	"github.com/amplitude/analytics-go/amplitude"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -19,7 +18,7 @@ func main() {
 	// Initialize the Ampli instance with LoadOptions and LoadClientOptions
 	ampli.Instance.Load(ampli.LoadOptions{
 		Client: ampli.LoadClientOptions{
-			Configuration: amplitude.NewConfig(apiKey),
+			Configuration: ampli.NewConfig(apiKey),
 		},
 	})
 	defer ampli.Instance.Shutdown()
@@ -29,7 +28,7 @@ func main() {
 		go func() {
 			for {
 				eventMaxIntForTest := ampli.NewEventMaxIntForTest(6)
-				ampli.Instance.Track("user-id", eventMaxIntForTest, amplitude.EventOptions{})
+				ampli.Instance.Track("user-id", eventMaxIntForTest, ampli.EventOptions{})
 				time.Sleep(time.Millisecond * 10)
 			}
 		}()

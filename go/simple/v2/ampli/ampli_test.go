@@ -85,7 +85,7 @@ func TestEventWithAllProperties(t *testing.T) {
 }
 
 func TestAmpli_LoadWithEnvironment(t *testing.T) {
-	expectConfig := amplitude.NewConfig("test-development-api-key")
+	expectConfig := NewConfig("test-development-api-key")
 
 	instance := Ampli{}
 	APIKey[EnvironmentDevelopment] = "test-development-api-key"
@@ -100,7 +100,7 @@ func TestAmpli_LoadWithEnvironment(t *testing.T) {
 }
 
 func TestAmpli_LoadWithClient(t *testing.T) {
-	expectConfig := amplitude.NewConfig("test-development-api-key")
+	expectConfig := NewConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
@@ -116,12 +116,12 @@ func TestAmpli_LoadWithClient(t *testing.T) {
 }
 
 func TestAmpli_LoadWithInstance(t *testing.T) {
-	expectConfig := amplitude.NewConfig("test-development-api-key")
+	expectConfig := NewConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
-			Instance: amplitude.NewClient(amplitude.NewConfig("test-development-api-key")),
+			Instance: NewClient(NewConfig("test-development-api-key")),
 		},
 	})
 
@@ -132,12 +132,12 @@ func TestAmpli_LoadWithInstance(t *testing.T) {
 }
 
 func TestAmpli_LoadWithConfig(t *testing.T) {
-	expectConfig := amplitude.NewConfig("test-development-api-key")
+	expectConfig := NewConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
-			Configuration: amplitude.NewConfig("test-development-api-key"),
+			Configuration: NewConfig("test-development-api-key"),
 		},
 	})
 
