@@ -95,8 +95,8 @@ func TestAmpli_LoadWithEnvironment(t *testing.T) {
 
 	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
 	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.GetConfig().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.GetConfig().FlushQueueSize)
+	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
+	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithClient(t *testing.T) {
@@ -111,8 +111,8 @@ func TestAmpli_LoadWithClient(t *testing.T) {
 
 	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
 	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.GetConfig().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.GetConfig().FlushQueueSize)
+	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
+	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithInstance(t *testing.T) {
@@ -127,8 +127,8 @@ func TestAmpli_LoadWithInstance(t *testing.T) {
 
 	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
 	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.GetConfig().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.GetConfig().FlushQueueSize)
+	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
+	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithConfig(t *testing.T) {
@@ -143,6 +143,6 @@ func TestAmpli_LoadWithConfig(t *testing.T) {
 
 	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
 	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.GetConfig().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.GetConfig().FlushQueueSize)
+	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
+	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }

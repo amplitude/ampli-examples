@@ -28,7 +28,7 @@ func main() {
 		go func() {
 			for {
 				eventMaxIntForTest := ampli.NewEventMaxIntForTest(6)
-				ampli.Instance.Track("user-id", eventMaxIntForTest, ampli.EventOptions{})
+				ampli.Instance.Track("user-id", eventMaxIntForTest)
 				time.Sleep(time.Millisecond * 10)
 			}
 		}()

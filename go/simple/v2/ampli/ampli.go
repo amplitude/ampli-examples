@@ -24,13 +24,13 @@ import (
 	"github.com/amplitude/analytics-go/amplitude"
 )
 
-// NewConfig is amplitude.NewConfig alias
+// NewConfig is amplitude.NewConfig alias.
 var NewConfig = amplitude.NewConfig
 
-// NewClient is amplitude.NewClient alias
+// NewClient is amplitude.NewClient alias.
 var NewClient = amplitude.NewClient
 
-// EventOptions is amplitude.EventOptions alias
+// EventOptions is amplitude.EventOptions alias.
 type EventOptions = amplitude.EventOptions
 
 var Instance = Ampli{}
@@ -597,38 +597,38 @@ func (a *Ampli) setUserID(userID string, eventOptions *EventOptions) {
 }
 
 // Track tracks an amplitudeEvent.
-func (a *Ampli) Track(userID string, event amplitudeEvent, eventOptions EventOptions) {
+func (a *Ampli) Track(userID string, event amplitudeEvent, eventOptions ...EventOptions) {
 	if !a.InitializedAndEnabled() {
 		return
 	}
 
-	a.setUserID(userID, &eventOptions)
+	a.setUserID(userID, &eventOptions[0])
 
 	baseEvent := event.toAmplitudeEvent()
-	baseEvent.EventOptions = eventOptions
+	baseEvent.EventOptions = eventOptions[0]
 
 	a.Client.Track(baseEvent)
 }
 
 // Identify identifies a user and set user properties.
-func (a *Ampli) Identify(userID string, identify *Identify, eventOptions EventOptions) {
-	a.Track(userID, identify, eventOptions)
+func (a *Ampli) Identify(userID string, identify *Identify, eventOptions ...EventOptions) {
+	a.Track(userID, identify, eventOptions[0])
 }
 
 // GroupIdentify identifies a group and set group properties.
-func (a *Ampli) GroupIdentify(groupType string, groupName string, group *Group, eventOptions EventOptions) {
+func (a *Ampli) GroupIdentify(groupType string, groupName string, group *Group, eventOptions ...EventOptions) {
 	group.groups = map[string][]string{groupType: {groupName}}
 	event := group.toAmplitudeEvent()
-	event.EventOptions = eventOptions
+	event.EventOptions = eventOptions[0]
 
 	a.Client.Track(event)
 }
 
 // SetGroup sets group for the current user.
-func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, eventOptions EventOptions) {
-	a.setUserID(userID, &eventOptions)
+func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, eventOptions ...EventOptions) {
+	a.setUserID(userID, &eventOptions[0])
 
-	a.Client.SetGroup(groupType, groupName, eventOptions)
+	a.Client.SetGroup(groupType, groupName, eventOptions[0])
 }
 
 // Flush flushes events waiting in buffer.
@@ -653,46 +653,46 @@ func (a *Ampli) Shutdown() {
 	a.Client.Shutdown()
 }
 
-func (a *Ampli) EventMaxIntForTest(userID string, event *EventMaxIntForTest, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventMaxIntForTest(userID string, event *EventMaxIntForTest, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventNoProperties(userID string, event *EventNoProperties, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventNoProperties(userID string, event *EventNoProperties, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventObjectTypes(userID string, event *EventObjectTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventObjectTypes(userID string, event *EventObjectTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithArrayTypes(userID string, event *EventWithArrayTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithArrayTypes(userID string, event *EventWithArrayTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithConstTypes(userID string, event *EventWithConstTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithConstTypes(userID string, event *EventWithConstTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithDifferentCasingTypes(userID string, event *EventWithDifferentCasingTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithDifferentCasingTypes(userID string, event *EventWithDifferentCasingTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithEnumTypes(userID string, event *EventWithEnumTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithEnumTypes(userID string, event *EventWithEnumTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithOptionalArrayTypes(userID string, event *EventWithOptionalArrayTypes, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithOptionalArrayTypes(userID string, event *EventWithOptionalArrayTypes, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithOptionalProperties(userID string, event *EventWithOptionalProperties, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithOptionalProperties(userID string, event *EventWithOptionalProperties, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventWithTemplateProperties(userID string, event *EventWithTemplateProperties, eventOptions EventOptions) {
-	a.Track(userID, event, eventOptions)
+func (a *Ampli) EventWithTemplateProperties(userID string, event *EventWithTemplateProperties, eventOptions ...EventOptions) {
+	a.Track(userID, event, eventOptions[0])
 }
