@@ -518,7 +518,7 @@ type Ampli struct {
 // Call once when your application starts.
 func (a *Ampli) Load(options LoadOptions) {
 	if a.Client != nil {
-		log.Default().Printf("Warn: Ampli is already initialized. Ampli.load() should be called once at application start up.")
+		log.Print("Warn: Ampli is already initialized. Ampli.load() should be called once at application start up.")
 
 		return
 	}
@@ -539,7 +539,7 @@ func (a *Ampli) Load(options LoadOptions) {
 	}
 
 	if !(apiKey != "" || options.Client.Instance != nil) {
-		log.Default().Printf("Error: Ampli.Load() requires option.Environment, " +
+		log.Print("Error: Ampli.Load() requires option.Environment, " +
 			"and apiKey from either options.Instance.APIKey or APIKey[options.Environment], " +
 			"or options.Instance.Instance")
 	}
@@ -570,7 +570,7 @@ func (a *Ampli) Load(options LoadOptions) {
 // InitializedAndEnabled checks if Ampli is initialized and enabled.
 func (a *Ampli) InitializedAndEnabled() bool {
 	if a.Client == nil {
-		log.Default().Print("Error: Ampli is not yet initialized. Have you called Ampli.Load() on app start?")
+		log.Print("Error: Ampli is not yet initialized. Have you called Ampli.Load() on app start?")
 
 		return false
 	}
