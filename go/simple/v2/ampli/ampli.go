@@ -24,8 +24,8 @@ import (
 	"github.com/amplitude/analytics-go/amplitude"
 )
 
-// NewConfig is amplitude.NewConfig alias.
-var NewConfig = amplitude.NewConfig
+// NewClientConfig is amplitude.NewConfig alias.
+var NewClientConfig = amplitude.NewConfig
 
 // NewClient is amplitude.NewClient alias.
 var NewClient = amplitude.NewClient
@@ -48,7 +48,7 @@ var APIKey = map[Environment]string{
 }
 
 func DefaultConfiguration() amplitude.Config {
-	config := NewConfig("")
+	config := NewClientConfig("")
 	config.Plan = amplitude.Plan{
 		Branch:    "main",
 		Source:    "go-Ampli",
@@ -62,9 +62,9 @@ func DefaultConfiguration() amplitude.Config {
 // LoadClientOptions is Instance options setting to initialize Ampli client.
 //
 // Params:
-// 	- APIKey: the API key of Amplitude project
-// 	- Instance: the core SDK instance used by Ampli client
-// 	- Configuration: the core SDK client configuration instance
+//   - APIKey: the API key of Amplitude project
+//   - Instance: the core SDK instance used by Ampli client
+//   - Configuration: the core SDK client configuration instance
 type LoadClientOptions struct {
 	APIKey        string
 	Instance      amplitude.Client
@@ -78,9 +78,9 @@ func (l LoadClientOptions) isEmpty() bool {
 // LoadOptions is options setting to initialize Ampli client.
 //
 // Params:
-//	- Environment: the environment of Amplitude Data project
-//	- Disabled: the flag of disabled Ampli client
-//	- Instance: the LoadClientOptions struct
+//   - Environment: the environment of Amplitude Data project
+//   - Disabled: the flag of disabled Ampli client
+//   - Instance: the LoadClientOptions struct
 type LoadOptions struct {
 	Environment Environment
 	Disabled    bool
@@ -92,7 +92,7 @@ type baseEvent struct {
 	properties map[string]interface{}
 }
 
-type amplitudeEvent interface {
+type Event interface {
 	toAmplitudeEvent() amplitude.Event
 }
 
@@ -110,411 +110,366 @@ func (event *baseEvent) toAmplitudeEvent() amplitude.Event {
 	}
 }
 
-// Identify
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Identify
-//
-// Identify properties.
-type Identify struct {
+var Identify = struct {
+	Builder func() interface {
+		SetRequiredNumber(requiredNumber float64) IdentifyBuilder
+	}
+}{
+	Builder: func() interface {
+		SetRequiredNumber(requiredNumber float64) IdentifyBuilder
+	} {
+		return &identifyBuilder{properties: map[string]interface{}{}}
+	},
+}
+
+type IdentifyEvent interface {
+	Event
+	identify()
+}
+
+type identifyEvent struct {
 	*baseEvent
 }
 
-func NewIdentify(requiredNumber float64) *Identify {
-	return &Identify{
-		newBaseEvent(amplitude.IdentifyEventType, map[string]interface{}{
-			"requiredNumber": requiredNumber,
-		}),
+func (e identifyEvent) identify() {}
+
+type identifyBuilder struct {
+	properties map[string]interface{}
+}
+
+func (b *identifyBuilder) SetRequiredNumber(requiredNumber float64) IdentifyBuilder {
+	b.properties["requiredNumber"] = requiredNumber
+
+	return b
+}
+
+type IdentifyBuilder interface {
+	SetOptionalArray(optionalArray []string) IdentifyBuilder
+	Build() IdentifyEvent
+}
+
+func (b *identifyBuilder) SetOptionalArray(optionalArray []string) IdentifyBuilder {
+	b.properties["optionalArray"] = optionalArray
+
+	return b
+}
+
+func (b *identifyBuilder) Build() IdentifyEvent {
+	return &identifyEvent{
+		newBaseEvent(amplitude.IdentifyEventType, b.properties),
 	}
 }
 
-func (event *Identify) SetOptionalArray(optionalArray []string) *Identify {
-	event.properties["optionalArray"] = optionalArray
-
-	return event
-}
-
-func (event *Identify) toAmplitudeEvent() amplitude.Event {
+func (e identifyEvent) toAmplitudeEvent() amplitude.Event {
 	identify := amplitude.Identify{}
 
-	for name, value := range event.properties {
+	for name, value := range e.properties {
 		identify.Set(name, value)
 	}
 
 	return amplitude.Event{
-		EventType:      event.eventType,
+		EventType:      e.eventType,
 		UserProperties: identify.Properties,
 	}
 }
 
-// Group
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group
-//
-// Group properties.
-type Group struct {
-	*baseEvent
-	groups map[string][]string
+var Group = struct {
+	Builder func() interface {
+		SetRequiredBoolean(requiredBoolean bool) GroupBuilder
+	}
+}{
+	Builder: func() interface {
+		SetRequiredBoolean(requiredBoolean bool) GroupBuilder
+	} {
+		return &groupBuilder{properties: map[string]interface{}{}}
+	},
 }
 
-func NewGroup(requiredBoolean bool) *Group {
-	return &Group{
-		baseEvent: newBaseEvent(amplitude.GroupIdentifyEventType, map[string]interface{}{
-			"requiredBoolean": requiredBoolean,
-		}),
+type GroupEvent interface {
+	Event
+	group()
+}
+
+type groupEvent struct {
+	*baseEvent
+}
+
+func (e groupEvent) group() {}
+
+type groupBuilder struct {
+	properties map[string]interface{}
+}
+
+func (b *groupBuilder) SetRequiredBoolean(requiredBoolean bool) GroupBuilder {
+	b.properties["requiredBoolean"] = requiredBoolean
+
+	return b
+}
+
+type GroupBuilder interface {
+	SetOptionalString(optionalString string) GroupBuilder
+	Build() GroupEvent
+}
+
+func (b *groupBuilder) SetOptionalString(optionalString string) GroupBuilder {
+	b.properties["optionalString"] = optionalString
+
+	return b
+}
+
+func (b *groupBuilder) Build() GroupEvent {
+	return &groupEvent{
+		baseEvent: newBaseEvent(amplitude.GroupIdentifyEventType, b.properties),
 	}
 }
 
-func (event *Group) SetOptionalString(optionString string) *Group {
-	event.properties["optionalString"] = optionString
-
-	return event
-}
-
-func (event *Group) toAmplitudeEvent() amplitude.Event {
+func (e groupEvent) toAmplitudeEvent() amplitude.Event {
 	identify := amplitude.Identify{}
-	for name, value := range event.properties {
+	for name, value := range e.properties {
 		identify.Set(name, value)
 	}
 
 	return amplitude.Event{
-		EventType:       event.eventType,
+		EventType:       e.eventType,
 		GroupProperties: identify.Properties,
-		Groups:          event.groups,
 	}
 }
 
-// EventMaxIntForTest
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest
-//
-// Event to test schema validation
-//
-// Owner: Test codegen.
-type EventMaxIntForTest struct {
+var EventNoProperties = struct {
+	Builder func() EventNoPropertiesBuilder
+}{
+	Builder: func() EventNoPropertiesBuilder {
+		return &eventNoPropertiesBuilder{properties: map[string]interface{}{}}
+	},
+}
+
+type EventNoPropertiesEvent interface {
+	Event
+	eventNoPropertiesEvent()
+}
+
+type eventNoPropertiesEvent struct {
 	*baseEvent
 }
 
-func NewEventMaxIntForTest(intMax10 int) *EventMaxIntForTest {
-	return &EventMaxIntForTest{
-		newBaseEvent("EventMaxIntForTest", map[string]interface{}{
-			"intMax10": intMax10,
-		}),
+func (e eventNoPropertiesEvent) eventNoPropertiesEvent() {}
+
+type eventNoPropertiesBuilder struct {
+	properties map[string]interface{}
+}
+
+type EventNoPropertiesBuilder interface {
+	Build() EventNoPropertiesEvent
+}
+
+func (b *eventNoPropertiesBuilder) Build() EventNoPropertiesEvent {
+	return &eventNoPropertiesEvent{
+		newBaseEvent("Event No Properties", b.properties),
 	}
-}
-
-// EventNoProperties
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties
-//
-// Event w no properties description
-//
-// Owner: Test codegen.
-type EventNoProperties struct {
-	*baseEvent
-}
-
-func NewEventNoProperties() *EventNoProperties {
-	return &EventNoProperties{
-		newBaseEvent("Event No Properties", map[string]interface{}{}),
-	}
-}
-
-// EventObjectTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types
-//
-// Event with Object and Object Array
-//
-// Owner: Test codegen.
-type EventObjectTypes struct {
-	*baseEvent
-}
-
-func NewEventObjectTypes(requiredObject interface{}, requiredObjectArray []interface{}) *EventObjectTypes {
-	return &EventObjectTypes{
-		newBaseEvent("Event Object Types", map[string]interface{}{
-			"requiredObject":      requiredObject,
-			"requiredObjectArray": requiredObjectArray,
-		}),
-	}
-}
-
-// EventWithAllProperties
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types
-//
-// Event with all properties
-//
-// Owner: Test codegen.
-type EventWithAllProperties struct {
-	*baseEvent
 }
 
 type EventWithAllPropertiesRequiredEnum string
 
-const (
-	EventWithAllPropertiesRequiredEnumEnum1 EventWithAllPropertiesRequiredEnum = "Enum1"
-	EventWithAllPropertiesRequiredEnumEnum2 EventWithAllPropertiesRequiredEnum = "Enum2"
-)
+var EventWithAllProperties = struct {
+	RequiredEnum struct {
+		Enum1 EventWithAllPropertiesRequiredEnum
+		Enum2 EventWithAllPropertiesRequiredEnum
+	}
+	Builder func() interface {
+		SetRequiredArray(requiredArray []string) interface {
+			SetRequiredBool(requiredBool bool) interface {
+				SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+					SetRequiredInteger(requiredInteger int) interface {
+						SetRequiredNumber(requiredNumber float64) interface {
+							SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+						}
+					}
+				}
+			}
+		}
+	}
+}{
+	RequiredEnum: struct {
+		Enum1 EventWithAllPropertiesRequiredEnum
+		Enum2 EventWithAllPropertiesRequiredEnum
+	}{
+		Enum1: "Enum1",
+		Enum2: "Enum2",
+	},
+	Builder: func() interface {
+		SetRequiredArray(requiredArray []string) interface {
+			SetRequiredBool(requiredBool bool) interface {
+				SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+					SetRequiredInteger(requiredInteger int) interface {
+						SetRequiredNumber(requiredNumber float64) interface {
+							SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+						}
+					}
+				}
+			}
+		}
+	} {
+		return &eventWithAllPropertiesBuilder{properties: map[string]interface{}{}}
+	},
+}
 
-func NewEventWithAllProperties(requiredArray []string, requiredBool bool, requiredEnum EventWithAllPropertiesRequiredEnum, requiredInteger int, requiredNumber float64, requiredString string) *EventWithAllProperties {
-	return &EventWithAllProperties{
-		newBaseEvent("Event With All Properties", map[string]interface{}{
-			"requiredArray":   requiredArray,
-			"requiredBool":    requiredBool,
-			"requiredEnum":    requiredEnum,
-			"requiredInteger": requiredInteger,
-			"requiredNumber":  requiredNumber,
-			"requiredString":  requiredString,
-		}),
+type EventWithAllPropertiesEvent interface {
+	Event
+	eventWithAllPropertiesEvent()
+}
+
+type eventWithAllPropertiesEvent struct {
+	*baseEvent
+}
+
+func (e eventWithAllPropertiesEvent) eventWithAllPropertiesEvent() {}
+
+type eventWithAllPropertiesBuilder struct {
+	properties map[string]interface{}
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredArray(requiredArray []string) interface {
+	SetRequiredBool(requiredBool bool) interface {
+		SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+			SetRequiredInteger(requiredInteger int) interface {
+				SetRequiredNumber(requiredNumber float64) interface {
+					SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+				}
+			}
+		}
+	}
+} {
+	b.properties["requiredArray"] = requiredArray
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredBool(requiredBool bool) interface {
+	SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+		SetRequiredInteger(requiredInteger int) interface {
+			SetRequiredNumber(requiredNumber float64) interface {
+				SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+			}
+		}
+	}
+} {
+	b.properties["requiredBool"] = requiredBool
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+	SetRequiredInteger(requiredInteger int) interface {
+		SetRequiredNumber(requiredNumber float64) interface {
+			SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+		}
+	}
+} {
+	b.properties["requiredEnum"] = requiredEnum
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredInteger(requiredInteger int) interface {
+	SetRequiredNumber(requiredNumber float64) interface {
+		SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+	}
+} {
+	b.properties["requiredInteger"] = requiredInteger
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredNumber(requiredNumber float64) interface {
+	SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+} {
+	b.properties["requiredNumber"] = requiredNumber
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) SetRequiredString(requiredString string) EventWithAllPropertiesBuilder {
+	b.properties["requiredString"] = requiredString
+
+	return b
+}
+
+type EventWithAllPropertiesBuilder interface {
+	SetOptionalString(optionalString string) EventWithAllPropertiesBuilder
+	Build() EventWithAllPropertiesEvent
+}
+
+func (b *eventWithAllPropertiesBuilder) SetOptionalString(optionalString string) EventWithAllPropertiesBuilder {
+	b.properties["optionalString"] = optionalString
+
+	return b
+}
+
+func (b *eventWithAllPropertiesBuilder) Build() EventWithAllPropertiesEvent {
+	return &eventWithAllPropertiesEvent{
+		newBaseEvent("Event With All Properties", b.properties),
 	}
 }
 
-func (event *EventWithAllProperties) SetOptionalString(optionalString string) *EventWithAllProperties {
-	event.properties["optionalString"] = optionalString
-
-	return event
+var EventWithOptionalProperties = struct {
+	Builder func() EventWithOptionalPropertiesBuilder
+}{
+	Builder: func() EventWithOptionalPropertiesBuilder {
+		return &eventWithOptionalPropertiesBuilder{properties: map[string]interface{}{}}
+	},
 }
 
-func (event *EventWithAllProperties) SetOptionalBool(optionalBool bool) *EventWithAllProperties {
-	event.properties["optionalBool"] = optionalBool
-
-	return event
+type EventWithOptionalPropertiesEvent interface {
+	Event
+	eventWithOptionalProperties()
 }
 
-// EventWithArrayTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types
-//
-// Description for event with Array Types
-//
-// Owner: Test codegen.
-type EventWithArrayTypes struct {
+type eventWithOptionalPropertiesEvent struct {
 	*baseEvent
 }
 
-func NewEventWithArrayTypes(requiredBooleanArray []bool, requiredNumberArray []float64, requiredObjectArray []interface{}, requiredStringArray []string) *EventWithArrayTypes {
-	return &EventWithArrayTypes{
-		newBaseEvent("Event With Array Types", map[string]interface{}{
-			"requiredBooleanArray": requiredBooleanArray,
-			"requiredNumberArray":  requiredNumberArray,
-			"requiredObjectArray":  requiredObjectArray,
-			"requiredStringArray":  requiredStringArray,
-		}),
+func (e eventWithOptionalPropertiesEvent) eventWithOptionalProperties() {}
+
+type eventWithOptionalPropertiesBuilder struct {
+	properties map[string]interface{}
+}
+
+type EventWithOptionalPropertiesBuilder interface {
+	SetOptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder
+	SetOptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder
+	SetOptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder
+	SetOptionalString(optionalString string) EventWithOptionalPropertiesBuilder
+	Build() EventWithOptionalPropertiesEvent
+}
+
+func (b *eventWithOptionalPropertiesBuilder) SetOptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder {
+	b.properties["optionalArrayNumber"] = optionalArrayNumber
+
+	return b
+}
+
+func (b *eventWithOptionalPropertiesBuilder) SetOptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder {
+	b.properties["optionalArrayString"] = optionalArrayString
+
+	return b
+}
+
+func (b *eventWithOptionalPropertiesBuilder) SetOptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder {
+	b.properties["optionalBoolean"] = optionalBoolean
+
+	return b
+}
+
+func (b *eventWithOptionalPropertiesBuilder) SetOptionalString(optionalString string) EventWithOptionalPropertiesBuilder {
+	b.properties["optionalString"] = optionalString
+
+	return b
+}
+
+func (b *eventWithOptionalPropertiesBuilder) Build() EventWithOptionalPropertiesEvent {
+	return &eventWithOptionalPropertiesEvent{
+		newBaseEvent("Event With Optional Properties", b.properties),
 	}
-}
-
-// EventWithConstTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types
-//
-// Description for event with const types
-//
-// Owner: Test codegen.
-type EventWithConstTypes struct {
-	*baseEvent
-}
-
-func NewEventWithConstTypes() *EventWithConstTypes {
-	return &EventWithConstTypes{
-		newBaseEvent("Event With Const Types", map[string]interface{}{
-			"Boolean Const":            true,
-			"Integer Const":            10,
-			"Number Const":             2.2,
-			"String Const":             "String-Constant",
-			"String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
-			"String Int Const":         0,
-		}),
-	}
-}
-
-// EventWithDifferentCasingTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes
-//
-// Description for case with space
-//
-// Owner: Test codegen.
-type EventWithDifferentCasingTypes struct {
-	*baseEvent
-}
-
-type EventWithDifferentCasingTypesEnumCamelCase string
-
-const EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase EventWithDifferentCasingTypesEnumCamelCase = "enumCamelCase"
-
-type EventWithDifferentCasingTypesEnumPascalCase string
-
-const EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase EventWithDifferentCasingTypesEnumPascalCase = "EnumPascalCase"
-
-type EventWithDifferentCasingTypesEnumSnakeCase string
-
-const EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase = "enum_snake_case"
-
-type EventWithDifferentCasingTypesEnumWithSpace string
-
-const EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace EventWithDifferentCasingTypesEnumWithSpace = "enum with space"
-
-func NewEventWithDifferentCasingTypes(
-	enumCamelCase EventWithDifferentCasingTypesEnumCamelCase,
-	enumPascalCase EventWithDifferentCasingTypesEnumPascalCase,
-	enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase,
-	enumWithSpace EventWithDifferentCasingTypesEnumWithSpace,
-	propertyWithCamelCase string,
-	propertyWithPascalCase string,
-	propertyWithSnakeCase string,
-	propertyWithSpace string,
-) *EventWithDifferentCasingTypes {
-	return &EventWithDifferentCasingTypes{
-		newBaseEvent("event withDifferent_CasingTypes", map[string]interface{}{
-			"enumCamelCase":            enumCamelCase,
-			"EnumPascalCase":           enumPascalCase,
-			"enum_snake_case":          enumSnakeCase,
-			"enum with space":          enumWithSpace,
-			"propertyWithCamelCase":    propertyWithCamelCase,
-			"PropertyWithPascalCase":   propertyWithPascalCase,
-			"property_with_snake_case": propertyWithSnakeCase,
-			"property with space":      propertyWithSpace,
-		}),
-	}
-}
-
-// EventWithEnumTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types
-//
-// Description for event with enum types
-//
-// Owner: Test codegen.
-type EventWithEnumTypes struct {
-	*baseEvent
-}
-
-type EventWithEnumTypesOptionalEnum string
-
-const (
-	EventWithEnumTypesOptionalEnumOptionalEnum1 EventWithEnumTypesOptionalEnum = "optional enum 1"
-	EventWithEnumTypesOptionalEnumOptionalEnum2 EventWithEnumTypesOptionalEnum = "optional enum 2"
-)
-
-type EventWithEnumTypesRequiredEnum string
-
-const (
-	EventWithEnumTypesRequiredEnumRequiredEnum1 EventWithEnumTypesRequiredEnum = "required enum 1"
-	EventWithEnumTypesRequiredEnumRequiredEnum2 EventWithEnumTypesRequiredEnum = "required enum 2"
-)
-
-func NewEventWithEnumTypes(requiredEnum EventWithEnumTypesRequiredEnum) *EventWithEnumTypes {
-	return &EventWithEnumTypes{newBaseEvent("Event With Enum Types", map[string]interface{}{
-		"required num": requiredEnum,
-	})}
-}
-
-func (event *EventWithEnumTypes) SetOptionalEnum(optionalEnum EventWithEnumTypesOptionalEnum) *EventWithEnumTypes {
-	event.properties["optional enum"] = optionalEnum
-
-	return event
-}
-
-// EventWithOptionalArrayTypes
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types
-//
-// Description for event with optional array types
-//
-// Owner: Test codegen.
-type EventWithOptionalArrayTypes struct {
-	*baseEvent
-}
-
-func NewEventWithOptionalArrayTypes() *EventWithOptionalArrayTypes {
-	return &EventWithOptionalArrayTypes{newBaseEvent("Event With Optional Array Types", map[string]interface{}{})}
-}
-
-func (event *EventWithOptionalArrayTypes) SetOptionalBooleanArray(optionalBooleanArray []bool) *EventWithOptionalArrayTypes {
-	event.properties["optionalBooleanArray"] = optionalBooleanArray
-
-	return event
-}
-
-func (event *EventWithOptionalArrayTypes) SetOptionalJSONArray(optionalJSONArray []interface{}) *EventWithOptionalArrayTypes {
-	event.properties["optionalJSONArray"] = optionalJSONArray
-
-	return event
-}
-
-func (event *EventWithOptionalArrayTypes) SetOptionalNumberArray(optionalNumberArray []float64) *EventWithOptionalArrayTypes {
-	event.properties["optionalNumberArray"] = optionalNumberArray
-
-	return event
-}
-
-func (event *EventWithOptionalArrayTypes) SetOptionalOptionalStringArray(optionalStringArray []string) *EventWithOptionalArrayTypes {
-	event.properties["optionalStringArray"] = optionalStringArray
-
-	return event
-}
-
-// EventWithOptionalProperties
-//
-// [View in Tracking Plan]: https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties)
-//
-// Event w optional properties description
-//
-//Owner: Test codegen.
-type EventWithOptionalProperties struct {
-	*baseEvent
-}
-
-func NewEventWithOptionalProperties() *EventWithOptionalProperties {
-	return &EventWithOptionalProperties{newBaseEvent("Event With Optional Properties", map[string]interface{}{})}
-}
-
-func (event *EventWithOptionalProperties) SetOptionalArrayNumber(optionalArrayNumber []float64) *EventWithOptionalProperties {
-	event.properties["optionalArrayNumber"] = optionalArrayNumber
-
-	return event
-}
-
-func (event *EventWithOptionalProperties) SetOptionalArrayString(optionalArrayString []string) *EventWithOptionalProperties {
-	event.properties["optionalArrayString"] = optionalArrayString
-
-	return event
-}
-
-func (event *EventWithOptionalProperties) SetOptionalBoolean(optionalBoolean bool) *EventWithOptionalProperties {
-	event.properties["optionalBoolean"] = optionalBoolean
-
-	return event
-}
-
-func (event *EventWithOptionalProperties) SetOptionalString(optionalString string) *EventWithOptionalProperties {
-	event.properties["optionalString"] = optionalString
-
-	return event
-}
-
-type EventWithTemplateProperties struct {
-	*baseEvent
-}
-
-func NewEventWithTemplateProperties(requiredEventProperty string, requiredTemplateProperty string) *EventWithTemplateProperties {
-	return &EventWithTemplateProperties{newBaseEvent("Event With Template Properties", map[string]interface{}{
-		"required_event_property":    requiredEventProperty,
-		"required_template_property": requiredTemplateProperty,
-	})}
-}
-
-func (event *EventWithTemplateProperties) SetOptionalEventProperty(optionalEventProperty float64) *EventWithTemplateProperties {
-	event.properties["optionalEventProperty"] = optionalEventProperty
-
-	return event
-}
-
-func (event *EventWithTemplateProperties) SetOptionalTemplateProperty(optionalTemplateProperty float64) *EventWithTemplateProperties {
-	event.properties["optionalTemplateProperty"] = optionalTemplateProperty
-
-	return event
 }
 
 type Ampli struct {
@@ -539,11 +494,12 @@ func (a *Ampli) Load(options LoadOptions) {
 	}
 
 	var apiKey string
-	if options.Client.APIKey != "" {
+	switch {
+	case options.Client.APIKey != "":
 		apiKey = options.Client.APIKey
-	} else if options.Environment != "" {
+	case options.Environment != "":
 		apiKey = APIKey[options.Environment]
-	} else if options.Client.Configuration.APIKey != "" {
+	default:
 		apiKey = options.Client.Configuration.APIKey
 	}
 
@@ -596,8 +552,8 @@ func (a *Ampli) setUserID(userID string, eventOptions *EventOptions) {
 	}
 }
 
-// Track tracks an amplitudeEvent.
-func (a *Ampli) Track(userID string, event amplitudeEvent, eventOptions ...EventOptions) {
+// Track tracks an Event.
+func (a *Ampli) Track(userID string, event Event, eventOptions ...EventOptions) {
 	if !a.InitializedAndEnabled() {
 		return
 	}
@@ -611,14 +567,14 @@ func (a *Ampli) Track(userID string, event amplitudeEvent, eventOptions ...Event
 }
 
 // Identify identifies a user and set user properties.
-func (a *Ampli) Identify(userID string, identify *Identify, eventOptions ...EventOptions) {
+func (a *Ampli) Identify(userID string, identify IdentifyEvent, eventOptions ...EventOptions) {
 	a.Track(userID, identify, eventOptions[0])
 }
 
 // GroupIdentify identifies a group and set group properties.
-func (a *Ampli) GroupIdentify(groupType string, groupName string, group *Group, eventOptions ...EventOptions) {
-	group.groups = map[string][]string{groupType: {groupName}}
+func (a *Ampli) GroupIdentify(groupType string, groupName string, group GroupEvent, eventOptions ...EventOptions) {
 	event := group.toAmplitudeEvent()
+	event.Groups = map[string][]string{groupType: {groupName}}
 	event.EventOptions = eventOptions[0]
 
 	a.Client.Track(event)
@@ -653,46 +609,14 @@ func (a *Ampli) Shutdown() {
 	a.Client.Shutdown()
 }
 
-func (a *Ampli) EventMaxIntForTest(userID string, event *EventMaxIntForTest, eventOptions ...EventOptions) {
+func (a *Ampli) EventNoProperties(userID string, event EventNoPropertiesEvent, eventOptions ...EventOptions) {
 	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventNoProperties(userID string, event *EventNoProperties, eventOptions ...EventOptions) {
+func (a *Ampli) EventWithAllProperties(userID string, event EventWithAllPropertiesEvent, eventOptions ...EventOptions) {
 	a.Track(userID, event, eventOptions[0])
 }
 
-func (a *Ampli) EventObjectTypes(userID string, event *EventObjectTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithAllProperties(userID string, event *EventWithAllProperties, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithArrayTypes(userID string, event *EventWithArrayTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithConstTypes(userID string, event *EventWithConstTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithDifferentCasingTypes(userID string, event *EventWithDifferentCasingTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithEnumTypes(userID string, event *EventWithEnumTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithOptionalArrayTypes(userID string, event *EventWithOptionalArrayTypes, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithOptionalProperties(userID string, event *EventWithOptionalProperties, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
-}
-
-func (a *Ampli) EventWithTemplateProperties(userID string, event *EventWithTemplateProperties, eventOptions ...EventOptions) {
+func (a *Ampli) EventWithOptionalProperties(userID string, event EventWithOptionalPropertiesEvent, eventOptions ...EventOptions) {
 	a.Track(userID, event, eventOptions[0])
 }

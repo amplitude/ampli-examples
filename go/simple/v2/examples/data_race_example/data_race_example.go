@@ -1,11 +1,13 @@
 package main
 
 import (
-	"ampli-example/ampli"
-	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"time"
+
+	"github.com/joho/godotenv"
+
+	"ampli-example/ampli"
 )
 
 func main() {
@@ -18,7 +20,7 @@ func main() {
 	// Initialize the Ampli instance with LoadOptions and LoadClientOptions
 	ampli.Instance.Load(ampli.LoadOptions{
 		Client: ampli.LoadClientOptions{
-			Configuration: ampli.NewConfig(apiKey),
+			Configuration: ampli.NewClientConfig(apiKey),
 		},
 	})
 	defer ampli.Instance.Shutdown()
@@ -27,8 +29,8 @@ func main() {
 		// Track an event in another goroutine
 		go func() {
 			for {
-				eventMaxIntForTest := ampli.NewEventMaxIntForTest(6)
-				ampli.Instance.Track("user-id", eventMaxIntForTest)
+				event := ampli.EventNoProperties.Builder().Build()
+				ampli.Instance.Track("user-id", event)
 				time.Sleep(time.Millisecond * 10)
 			}
 		}()

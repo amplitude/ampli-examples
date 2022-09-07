@@ -7,32 +7,21 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIdentify_WithOptionalProperties(t *testing.T) {
-	identify := NewIdentify(6.4)
-
-	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
-	userProperties[amplitude.IdentityOpSet] = map[string]interface{}{"requiredNumber": 6.4}
-	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
-
-	identify.SetOptionalArray([]string{"a", "b"})
-	userProperties[amplitude.IdentityOpSet]["optionalArray"] = []string{"a", "b"}
-	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
-}
-
-func TestIdentify_WithOptionalPropertiesChained(t *testing.T) {
-	identify := NewIdentify(6.4).SetOptionalArray([]string{"a", "b"})
+func TestIdentify(t *testing.T) {
+	identify := Identify.Builder().
+		SetRequiredNumber(6.4).
+		SetOptionalArray([]string{"a", "b"}).Build()
 
 	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
 	userProperties[amplitude.IdentityOpSet] = map[string]interface{}{
 		"requiredNumber": 6.4,
 		"optionalArray":  []string{"a", "b"},
 	}
-
 	assert.Equal(t, userProperties, identify.toAmplitudeEvent().UserProperties)
 }
 
-func TestGroup_NewGroup(t *testing.T) {
-	group := NewGroup(true)
+func TestGroup(t *testing.T) {
+	group := Group.Builder().SetRequiredBoolean(true).Build()
 
 	expectEvent := amplitude.Event{
 		EventType: amplitude.GroupIdentifyEventType,
@@ -44,48 +33,31 @@ func TestGroup_NewGroup(t *testing.T) {
 	assert.Equal(t, expectEvent, group.toAmplitudeEvent())
 }
 
-func TestGroup_SetOptionalString(t *testing.T) {
-	group := NewGroup(true)
-	group.SetOptionalString("optional-string")
-
-	expectEvent := amplitude.Event{
-		EventType: amplitude.GroupIdentifyEventType,
-		GroupProperties: map[amplitude.IdentityOp]map[string]interface{}{
-			amplitude.IdentityOpSet: {"requiredBoolean": true, "optionalString": "optional-string"},
-		},
-	}
-
-	assert.Equal(t, expectEvent, group.toAmplitudeEvent())
-}
-
 func TestEventWithAllProperties(t *testing.T) {
-	event := NewEventWithAllProperties([]string{"abc", "test"}, true, EventWithAllPropertiesRequiredEnumEnum1, 3, 16.4, "str")
+	event := EventWithAllProperties.Builder().
+		SetRequiredArray([]string{"abc", "test"}).
+		SetRequiredBool(true).
+		SetRequiredEnum(EventWithAllProperties.RequiredEnum.Enum1).
+		SetRequiredInteger(3).
+		SetRequiredNumber(16.4).
+		SetRequiredString("str").
+		SetOptionalString("optional-string").
+		Build()
 
 	eventProperties := map[string]interface{}{
 		"requiredArray":   []string{"abc", "test"},
 		"requiredBool":    true,
-		"requiredEnum":    EventWithAllPropertiesRequiredEnumEnum1,
+		"requiredEnum":    EventWithAllProperties.RequiredEnum.Enum1,
 		"requiredInteger": 3,
 		"requiredNumber":  16.4,
 		"requiredString":  "str",
+		"optionalString":  "optional-string",
 	}
-	// Should not have either optionalString or optionalBool in EventProperties
 	assert.Equal(t, eventProperties, event.toAmplitudeEvent().EventProperties)
-
-	event.SetOptionalString("optional-string")
-	eventProperties["optionalString"] = "optional-string"
-	// Should not have optionalBool in EventProperties
-	assert.Equal(t, eventProperties, event.toAmplitudeEvent().EventProperties)
-	// log.Printf("TestEventWithAllProperties: \n\t Should NOT have optionalBool in EventProperties: \n\t %+v", event.toAmplitudeEvent().EventProperties)
-
-	event.SetOptionalBool(false)
-	eventProperties["optionalBool"] = false
-	assert.Equal(t, eventProperties, event.toAmplitudeEvent().EventProperties)
-	// log.Printf("TestEventWithAllProperties: \n\t Should have optionalBool in EventProperties: \n\t %+v", event.toAmplitudeEvent().EventProperties)
 }
 
 func TestAmpli_LoadWithEnvironment(t *testing.T) {
-	expectConfig := NewConfig("test-development-api-key")
+	expectConfig := NewClientConfig("test-development-api-key")
 
 	instance := Ampli{}
 	APIKey[EnvironmentDevelopment] = "test-development-api-key"
@@ -100,7 +72,7 @@ func TestAmpli_LoadWithEnvironment(t *testing.T) {
 }
 
 func TestAmpli_LoadWithClient(t *testing.T) {
-	expectConfig := NewConfig("test-development-api-key")
+	expectConfig := NewClientConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
@@ -116,12 +88,12 @@ func TestAmpli_LoadWithClient(t *testing.T) {
 }
 
 func TestAmpli_LoadWithInstance(t *testing.T) {
-	expectConfig := NewConfig("test-development-api-key")
+	expectConfig := NewClientConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
-			Instance: NewClient(NewConfig("test-development-api-key")),
+			Instance: NewClient(NewClientConfig("test-development-api-key")),
 		},
 	})
 
@@ -132,12 +104,12 @@ func TestAmpli_LoadWithInstance(t *testing.T) {
 }
 
 func TestAmpli_LoadWithConfig(t *testing.T) {
-	expectConfig := NewConfig("test-development-api-key")
+	expectConfig := NewClientConfig("test-development-api-key")
 
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
-			Configuration: NewConfig("test-development-api-key"),
+			Configuration: NewClientConfig("test-development-api-key"),
 		},
 	})
 
