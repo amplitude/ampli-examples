@@ -57,23 +57,17 @@ func TestEventWithAllProperties(t *testing.T) {
 }
 
 func TestAmpli_LoadWithEnvironment(t *testing.T) {
-	expectConfig := NewClientConfig("test-development-api-key")
-
 	instance := Ampli{}
 	APIKey[EnvironmentDevelopment] = "test-development-api-key"
 	instance.Load(LoadOptions{
 		Environment: EnvironmentDevelopment,
 	})
 
-	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
-	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
+	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithClient(t *testing.T) {
-	expectConfig := NewClientConfig("test-development-api-key")
-
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
@@ -81,15 +75,11 @@ func TestAmpli_LoadWithClient(t *testing.T) {
 		},
 	})
 
-	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
-	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
+	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithInstance(t *testing.T) {
-	expectConfig := NewClientConfig("test-development-api-key")
-
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
@@ -97,15 +87,11 @@ func TestAmpli_LoadWithInstance(t *testing.T) {
 		},
 	})
 
-	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
-	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
+	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithConfig(t *testing.T) {
-	expectConfig := NewClientConfig("test-development-api-key")
-
 	instance := Ampli{}
 	instance.Load(LoadOptions{
 		Client: LoadClientOptions{
@@ -113,8 +99,6 @@ func TestAmpli_LoadWithConfig(t *testing.T) {
 		},
 	})
 
-	// Amplitude.Client.Logger is an interface of which equality is determined based on memory address
-	// So here only check one of the default configurations, FlushQueueSize
-	assert.Equal(t, expectConfig.APIKey, instance.Client.Config().APIKey)
-	assert.Equal(t, expectConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
+	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }

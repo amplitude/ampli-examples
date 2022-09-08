@@ -47,18 +47,6 @@ var APIKey = map[Environment]string{
 	EnvironmentProduction:  "",
 }
 
-func DefaultConfiguration() amplitude.Config {
-	config := NewClientConfig("")
-	config.Plan = amplitude.Plan{
-		Branch:    "main",
-		Source:    "go-Ampli",
-		Version:   "0",
-		VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
-	}
-
-	return config
-}
-
 // LoadClientOptions is Instance options setting to initialize Ampli client.
 //
 // Params:
@@ -69,10 +57,6 @@ type LoadClientOptions struct {
 	APIKey        string
 	Instance      amplitude.Client
 	Configuration amplitude.Config
-}
-
-func (l LoadClientOptions) isEmpty() bool {
-	return l.APIKey == "" && l.Instance == nil && l.Configuration.IsEmpty()
 }
 
 // LoadOptions is options setting to initialize Ampli client.
@@ -487,12 +471,6 @@ func (a *Ampli) Load(options LoadOptions) {
 		return
 	}
 
-	if options.Client.isEmpty() {
-		options.Client = LoadClientOptions{
-			Configuration: DefaultConfiguration(),
-		}
-	}
-
 	var apiKey string
 	switch {
 	case options.Client.APIKey != "":
@@ -503,28 +481,28 @@ func (a *Ampli) Load(options LoadOptions) {
 		apiKey = options.Client.Configuration.APIKey
 	}
 
-	if !(apiKey != "" || options.Client.Instance != nil) {
+	if apiKey == "" && options.Client.Instance == nil {
 		log.Print("Error: Ampli.Load() requires option.Environment, " +
 			"and apiKey from either options.Instance.APIKey or APIKey[options.Environment], " +
 			"or options.Instance.Instance")
 	}
 
-	var configuration amplitude.Config
-	if !options.Client.Configuration.IsEmpty() {
-		configuration = options.Client.Configuration
-	} else {
-		configuration = DefaultConfiguration()
-	}
+	clientConfig := options.Client.Configuration
 
-	if configuration.Plan == (amplitude.Plan{}) {
-		configuration.Plan = DefaultConfiguration().Plan
+	if clientConfig.Plan == (amplitude.Plan{}) {
+		clientConfig.Plan = amplitude.Plan{
+			Branch:    "main",
+			Source:    "go-Ampli",
+			Version:   "0",
+			VersionID: "79154a50-f057-4db5-9755-775e4e9f05e6",
+		}
 	}
 
 	if options.Client.Instance != nil {
 		a.Client = options.Client.Instance
 	} else {
-		configuration.APIKey = apiKey
-		a.Client = amplitude.NewClient(configuration)
+		clientConfig.APIKey = apiKey
+		a.Client = amplitude.NewClient(clientConfig)
 	}
 
 	a.mutex.Lock()
@@ -558,33 +536,44 @@ func (a *Ampli) Track(userID string, event Event, eventOptions ...EventOptions) 
 		return
 	}
 
-	a.setUserID(userID, &eventOptions[0])
+	var options EventOptions
+	if len(eventOptions) > 0 {
+		options = eventOptions[0]
+	}
+
+	a.setUserID(userID, &options)
 
 	baseEvent := event.toAmplitudeEvent()
-	baseEvent.EventOptions = eventOptions[0]
+	baseEvent.EventOptions = options
 
 	a.Client.Track(baseEvent)
 }
 
 // Identify identifies a user and set user properties.
 func (a *Ampli) Identify(userID string, identify IdentifyEvent, eventOptions ...EventOptions) {
-	a.Track(userID, identify, eventOptions[0])
+	a.Track(userID, identify, eventOptions...)
 }
 
 // GroupIdentify identifies a group and set group properties.
 func (a *Ampli) GroupIdentify(groupType string, groupName string, group GroupEvent, eventOptions ...EventOptions) {
 	event := group.toAmplitudeEvent()
 	event.Groups = map[string][]string{groupType: {groupName}}
-	event.EventOptions = eventOptions[0]
+	if len(eventOptions) > 0 {
+		event.EventOptions = eventOptions[0]
+	}
 
 	a.Client.Track(event)
 }
 
 // SetGroup sets group for the current user.
 func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, eventOptions ...EventOptions) {
-	a.setUserID(userID, &eventOptions[0])
+	var options EventOptions
+	if len(eventOptions) > 0 {
+		options = eventOptions[0]
+	}
+	a.setUserID(userID, &options)
 
-	a.Client.SetGroup(groupType, groupName, eventOptions[0])
+	a.Client.SetGroup(groupType, groupName, options)
 }
 
 // Flush flushes events waiting in buffer.
@@ -610,13 +599,13 @@ func (a *Ampli) Shutdown() {
 }
 
 func (a *Ampli) EventNoProperties(userID string, event EventNoPropertiesEvent, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
+	a.Track(userID, event, eventOptions...)
 }
 
 func (a *Ampli) EventWithAllProperties(userID string, event EventWithAllPropertiesEvent, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
+	a.Track(userID, event, eventOptions...)
 }
 
 func (a *Ampli) EventWithOptionalProperties(userID string, event EventWithOptionalPropertiesEvent, eventOptions ...EventOptions) {
-	a.Track(userID, event, eventOptions[0])
+	a.Track(userID, event, eventOptions...)
 }
