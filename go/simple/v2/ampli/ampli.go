@@ -489,8 +489,8 @@ func (a *Ampli) Load(options LoadOptions) {
 
 	clientConfig := options.Client.Configuration
 
-	if clientConfig.Plan == (amplitude.Plan{}) {
-		clientConfig.Plan = amplitude.Plan{
+	if clientConfig.Plan == nil {
+		clientConfig.Plan = &amplitude.Plan{
 			Branch:    "main",
 			Source:    "go-Ampli",
 			Version:   "0",

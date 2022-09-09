@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/amplitude/analytics-go/amplitude"
+	"github.com/amplitude/analytics-go/amplitude/constants"
+	"github.com/amplitude/analytics-go/amplitude/types"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,7 +15,7 @@ func TestIdentify(t *testing.T) {
 		SetOptionalArray([]string{"a", "b"}).Build()
 
 	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
-	userProperties[amplitude.IdentityOpSet] = map[string]interface{}{
+	userProperties[types.IdentityOpSet] = map[string]interface{}{
 		"requiredNumber": 6.4,
 		"optionalArray":  []string{"a", "b"},
 	}
@@ -26,7 +28,7 @@ func TestGroup(t *testing.T) {
 	expectEvent := amplitude.Event{
 		EventType: amplitude.GroupIdentifyEventType,
 		GroupProperties: map[amplitude.IdentityOp]map[string]interface{}{
-			amplitude.IdentityOpSet: {"requiredBoolean": true},
+			types.IdentityOpSet: {"requiredBoolean": true},
 		},
 	}
 
@@ -64,7 +66,7 @@ func TestAmpli_LoadWithEnvironment(t *testing.T) {
 	})
 
 	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
-	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, constants.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithClient(t *testing.T) {
@@ -76,7 +78,7 @@ func TestAmpli_LoadWithClient(t *testing.T) {
 	})
 
 	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
-	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, constants.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithInstance(t *testing.T) {
@@ -88,7 +90,7 @@ func TestAmpli_LoadWithInstance(t *testing.T) {
 	})
 
 	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
-	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, constants.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
 
 func TestAmpli_LoadWithConfig(t *testing.T) {
@@ -100,5 +102,5 @@ func TestAmpli_LoadWithConfig(t *testing.T) {
 	})
 
 	assert.Equal(t, "test-development-api-key", instance.Client.Config().APIKey)
-	assert.Equal(t, amplitude.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
+	assert.Equal(t, constants.DefaultConfig.FlushQueueSize, instance.Client.Config().FlushQueueSize)
 }
