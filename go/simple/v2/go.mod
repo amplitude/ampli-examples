@@ -3,7 +3,7 @@ module ampli-example
 go 1.17
 
 require (
-	github.com/amplitude/analytics-go v0.0.4
+	github.com/amplitude/analytics-go v0.0.5
 	github.com/joho/godotenv v1.4.0
 	github.com/stretchr/testify v1.8.0
 )

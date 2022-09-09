@@ -33,6 +33,8 @@ var NewClient = amplitude.NewClient
 // EventOptions is amplitude.EventOptions alias.
 type EventOptions = amplitude.EventOptions
 
+type ExecuteResult = amplitude.ExecuteResult
+
 var Instance = Ampli{}
 
 type Environment string
