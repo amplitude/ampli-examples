@@ -39,11 +39,11 @@ func main() {
 	// Set groups for user
 	ampli.Instance.SetGroup("user-id", "Org", []string{"Engineer", "DevOp"})
 
-	ampli.Instance.EventNoProperties("user-id", ampli.EventNoProperties.Builder().Build())
+	ampli.Instance.EventNoProperties("user-id")
 
 	ampli.Instance.Track("user-id", ampli.EventWithAllProperties.Builder().
 		SetRequiredArray([]string{"abc", "test"}).
-		SetRequiredBool(true).
+		SetRequiredBoolean(true).
 		SetRequiredEnum(ampli.EventWithAllProperties.RequiredEnum.Enum1).
 		SetRequiredInteger(3).
 		SetRequiredNumber(16.4).
