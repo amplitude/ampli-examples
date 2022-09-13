@@ -508,6 +508,10 @@ open class Ampli {
         if (this.client?.configuration?.plan == null) {
             this.client?.configuration?.plan = defaultObservePlan
         }
+        println("in ampli load")
+        this.client?.let {
+            println("add ingestion metaddata plugin")
+            it.add(IngestionMetadataErichmentPlugin()) }
     }
 
     /**
