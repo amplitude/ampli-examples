@@ -508,7 +508,17 @@ class Ampli:
         
         if not self.client.configuration.plan:
             self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
-    
+
+        # Python SDK min version 1.1.0 supports IngestionMetadata
+        # This lazy module loading is for backward compatible concern.
+        import amplitude
+        if hasattr(amplitude, "IngestionMetadata"):
+            ingestion_metadata_class = getattr(amplitude, "IngestionMetadata")
+            self.client.configuration.ingestion_metadata = ingestion_metadata_class(
+                source_name="python-python-ampli",
+                source_version="1.0.0"
+            )
+
     def initialized_and_enabled(self) -> bool:
         """ Check if Ampli is initialized and enabled
 

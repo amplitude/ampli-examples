@@ -3,7 +3,7 @@ from typing import Optional
 
 from amplitude import EventPlugin, DestinationPlugin, PluginType, BaseEvent, \
     IdentifyEvent
-from analytics import Client as SegmentClient
+from segment.analytics import Client as SegmentClient
 
 
 class MyEventIDPlugin(EventPlugin):
