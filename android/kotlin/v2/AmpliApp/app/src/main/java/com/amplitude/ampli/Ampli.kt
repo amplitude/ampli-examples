@@ -513,7 +513,7 @@ open class Ampli {
         if (this.client?.configuration?.plan == null) {
             this.client?.configuration?.plan = defaultObservePlan
         }
-        this.client?.add(IngestionMetadataErichmentPlugin())
+        this.client?.add(IngestionMetadataPlugin(IngestionMetadata("android-kotlin-ampli", "1.0.0")))
     }
 
     /**
