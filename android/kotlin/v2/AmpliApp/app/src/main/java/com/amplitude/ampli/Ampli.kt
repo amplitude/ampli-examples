@@ -497,7 +497,12 @@ open class Ampli {
                 this.client = options.client.instance
             }
             apiKey != null && apiKey != "" -> {
-                this.client = Amplitude(options?.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
+                this.client = Amplitude(
+                    options?.client?.configuration ?: DefaultConfiguration(
+                        apiKey,
+                        appContext
+                    ).config
+                )
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
@@ -508,10 +513,7 @@ open class Ampli {
         if (this.client?.configuration?.plan == null) {
             this.client?.configuration?.plan = defaultObservePlan
         }
-        println("in ampli load")
-        this.client?.let {
-            println("add ingestion metaddata plugin")
-            it.add(IngestionMetadataErichmentPlugin()) }
+        this.client?.add(IngestionMetadataErichmentPlugin())
     }
 
     /**
