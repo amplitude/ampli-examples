@@ -93,6 +93,12 @@ const DefaultOptions = {
     branch: 'main',
     source: 'node-js-ampli',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ...{
+    ingestionMetadata: {
+      source_name: 'node-javascript-ampli',
+      source_version: '1.0.0'
+    }
   }
 };
 

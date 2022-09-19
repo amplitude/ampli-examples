@@ -133,6 +133,12 @@ export const DefaultOptions = {
     branch: 'main',
     source: 'browser-js-ampli',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ...{
+    ingestionMetadata: {
+      sourceName: 'browser-javascript-ampli',
+      sourceVersion: '1.0.0'
+    }
   }
 };
 

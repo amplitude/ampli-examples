@@ -34,6 +34,12 @@ export const DefaultConfiguration: BrowserOptions = {
     branch: 'main',
     source: 'browser-ts-ampli-v2',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ...{
+    ingestionMetadata: {
+      sourceName: 'browser-typescript-ampli',
+      sourceVersion: '2.0.0'
+    }
   }
 };
 

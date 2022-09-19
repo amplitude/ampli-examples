@@ -38,6 +38,12 @@ export const DefaultOptions: Partial<Options> = {
     branch: 'main',
     source: 'node-ts-ampli',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ...{
+    ingestionMetadata: {
+      source_name: 'node-typescript-ampli',
+      source_version: '1.0.0'
+    }
   }
 };
 
