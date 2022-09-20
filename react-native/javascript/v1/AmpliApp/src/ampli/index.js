@@ -76,6 +76,10 @@ export const DefaultOptions = {
     source: 'react-native-javascript-ampli',
     version: '0',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6',
+  },
+  ingestionMetadata: {
+    sourceName: 'react-native-javascript-ampli',
+    sourceVersion: '1.0.0'
   }
 }
 
@@ -256,6 +260,10 @@ export class Ampli {
       const plan = clientOptions.plan;
       if (plan) {
         promise = promise.then(ok => ok ? this.amplitude.setPlan(plan) : false);
+      }
+      const ingestionMetadata = clientOptions.ingestionMetadata;
+      if (ingestionMetadata) {
+        promise = promise.then(ok => ok ? this.amplitude?.setIngestionMetadata?.(ingestionMetadata) : false);
       }
       return { promise };
     }

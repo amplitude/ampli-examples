@@ -42,6 +42,12 @@ export const DefaultConfiguration: ReactNativeOptions = {
     branch: 'main',
     source: 'react-native-ts-ampli-v2',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ...{
+    ingestionMetadata: {
+      sourceName: 'react-native-typescript-ampli',
+      sourceVersion: '2.0.0'
+    }
   }
 };
 

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@amplitude/react-native@^2.11.0":
-  version "2.11.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/react-native/-/react-native-2.11.0.tgz#ea8a9e14fda5369b37ea5984e6554196ff2d7a4f"
-  integrity sha512-mSnB3FXHo5ajGCx7Xo4OFHlYB7X+Kbh50uazTx/zkcsuqkwqMrC9F2xr4w9O3dE+PC+9dbamccL+vveBID7tbA==
+"@amplitude/react-native@^2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/react-native/-/react-native-2.15.0.tgz#1f19ade6fa24d024e9e085990931a429d872e5e0"
+  integrity sha512-nIqj5d5nQAvhgihnYehC6IB/4dShLn38+Oh8oga759fi1iaYn2LECgCo+/8IzKkekg2uO7OAuuzVwfwipOrTlw==
 
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"

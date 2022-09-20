@@ -88,6 +88,10 @@ export const DefaultConfiguration = {
     branch: 'main',
     source: 'react-native-js-ampli-v2',
     versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+  },
+  ingestionMetadata: {
+    sourceName: 'react-native-javascript-ampli',
+    sourceVersion: '2.0.0'
   }
 };
 
