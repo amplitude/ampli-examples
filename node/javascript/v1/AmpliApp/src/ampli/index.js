@@ -274,7 +274,7 @@ class Ampli {
     if (options?.client?.instance) {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
-      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options, serverUrl: 'http://localhost:8000' });
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
