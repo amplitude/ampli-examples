@@ -44,7 +44,7 @@ export const DefaultConfiguration: NodeOptions = {
   },
   ...{
     ingestionMetadata: {
-      sourceName: 'node-typescript-ampli',
+      sourceName: 'node.js-typescript-ampli',
       sourceVersion: '2.0.0'
     }
   }

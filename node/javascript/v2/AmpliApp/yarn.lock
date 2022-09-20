@@ -2,27 +2,27 @@
 # yarn lockfile v1
 
 
-"@amplitude/analytics-core@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-core/-/analytics-core-0.8.0.tgz#db6b6032fb9f419134f165fabb813e22d32c60ac"
-  integrity sha512-HcNDNeqptZckNODArb6/V+LSYpfvVFDk5ZaIbPUywlp3fqZ6yPeefUdv01t6nOiHAz3BXmSzIfgIJ6g6eytikw==
+"@amplitude/analytics-core@^0.9.1":
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-core/-/analytics-core-0.9.1.tgz#32564c743a50ba6bfc987aa7089df80a3fa4fb6a"
+  integrity sha512-hktDNRBNrGsRrgYh6+j1fgFurNuuaF1nCNTg+2hcK3tYWz7iEBLKQyjQUI3sU7teJ0Z6uAGfz0kTLz+z8rIPuA==
   dependencies:
-    "@amplitude/analytics-types" "^0.8.0"
+    "@amplitude/analytics-types" "^0.10.0"
     tslib "^2.3.1"
 
-"@amplitude/analytics-node@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-0.4.0.tgz#4d1f4c1c6ecf2f06a1bd567fa1a496e350eadfd4"
-  integrity sha512-4CbjIL4eHMnJUGvUOI+myBI3RyXOq1stoEHm3D6mudlPakC1Y79EfJnJTP3DjLT5+vO46dyIk3XhS+1iUNlEcQ==
+"@amplitude/analytics-node@^0.5.0":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-node/-/analytics-node-0.5.1.tgz#bf7e7a257f5269d1384d64d584ca10c06942f1f5"
+  integrity sha512-pdMaV0BVoSXmLMwgNGMyBQbemc33rn96jNb6jg+5WH933quGH8m2r9+axnVewVEcvc0gru26jf62c33qtADSTQ==
   dependencies:
-    "@amplitude/analytics-core" "^0.8.0"
-    "@amplitude/analytics-types" "^0.8.0"
+    "@amplitude/analytics-core" "^0.9.1"
+    "@amplitude/analytics-types" "^0.10.0"
     tslib "^2.3.1"
 
-"@amplitude/analytics-types@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-types/-/analytics-types-0.8.0.tgz#7d6a21b5c3e5d2a9b7fa208a07fb656bc44d9f60"
-  integrity sha512-YgWiCXJ6SQmY7MNAKmn2MzPlsRgj5Sunrwz9lTN4EjtVaZ79b/ltiNuCG2Hb+xnjNpspCzW0g8GxF+I70uU5Kg==
+"@amplitude/analytics-types@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-types/-/analytics-types-0.10.0.tgz#60c839bfcf4c6de059d16e853c9025babb9c080e"
+  integrity sha512-LJ1krefs4c5udSE+oKM/LYOvrblOOVwP+ELpdNdhXt3kV2BBV6T/dUBd3TLo/St8VjjCeIOeFnS+OPBGgjMvFQ==
 
 "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.16.0":
   version "7.16.0"

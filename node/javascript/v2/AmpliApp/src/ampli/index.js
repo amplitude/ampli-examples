@@ -90,7 +90,7 @@ const DefaultConfiguration = {
   },
   ...{
     ingestionMetadata: {
-      sourceName: 'node-javascript-ampli',
+      sourceName: 'node.js-javascript-ampli',
       sourceVersion: '2.0.0'
     }
   }

@@ -41,7 +41,7 @@ export const DefaultOptions: Partial<Options> = {
   },
   ...{
     ingestionMetadata: {
-      source_name: 'node-typescript-ampli',
+      source_name: 'node.js-typescript-ampli',
       source_version: '1.0.0'
     }
   }

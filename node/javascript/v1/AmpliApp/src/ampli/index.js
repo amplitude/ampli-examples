@@ -96,7 +96,7 @@ const DefaultOptions = {
   },
   ...{
     ingestionMetadata: {
-      source_name: 'node-javascript-ampli',
+      source_name: 'node.js-javascript-ampli',
       source_version: '1.0.0'
     }
   }
@@ -274,7 +274,7 @@ class Ampli {
     if (options?.client?.instance) {
       this.amplitude = options?.client?.instance;
     } else if (apiKey) {
-      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options, serverUrl: 'http://localhost:8000' });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }
