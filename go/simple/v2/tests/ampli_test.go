@@ -13,8 +13,8 @@ import (
 
 func TestIdentify(t *testing.T) {
 	identify := ampli.Identify.Builder().
-		SetRequiredNumber(6.4).
-		SetOptionalArray([]string{"a", "b"}).Build()
+		RequiredNumber(6.4).
+		OptionalArray([]string{"a", "b"}).Build()
 
 	userProperties := map[amplitude.IdentityOp]map[string]interface{}{}
 	userProperties[types.IdentityOpSet] = map[string]interface{}{
@@ -25,7 +25,7 @@ func TestIdentify(t *testing.T) {
 }
 
 func TestGroup(t *testing.T) {
-	group := ampli.Group.Builder().SetRequiredBoolean(true).Build()
+	group := ampli.Group.Builder().RequiredBoolean(true).Build()
 
 	expectEvent := amplitude.Event{
 		EventType: amplitude.GroupIdentifyEventType,
@@ -39,18 +39,19 @@ func TestGroup(t *testing.T) {
 
 func TestEventWithAllProperties(t *testing.T) {
 	event := ampli.EventWithAllProperties.Builder().
-		SetRequiredArray([]string{"abc", "test"}).
-		SetRequiredBoolean(true).
-		SetRequiredEnum(ampli.EventWithAllProperties.RequiredEnum.Enum1).
-		SetRequiredInteger(3).
-		SetRequiredNumber(16.4).
-		SetRequiredString("str").
-		SetOptionalString("optional-string").
+		RequiredArray([]string{"abc", "test"}).
+		RequiredBoolean(true).
+		RequiredEnum(ampli.EventWithAllProperties.RequiredEnum.Enum1).
+		RequiredInteger(3).
+		RequiredNumber(16.4).
+		RequiredString("str").
+		OptionalString("optional-string").
 		Build()
 
 	eventProperties := map[string]interface{}{
 		"requiredArray":   []string{"abc", "test"},
-		"requiredBool":    true,
+		"requiredBoolean": true,
+		`requiredConst`:   `some-const-value`,
 		"requiredEnum":    ampli.EventWithAllProperties.RequiredEnum.Enum1,
 		"requiredInteger": 3,
 		"requiredNumber":  16.4,

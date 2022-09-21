@@ -107,11 +107,11 @@ func (event baseEvent) ToAmplitudeEvent() amplitude.Event {
 
 var Identify = struct {
 	Builder func() interface {
-		SetRequiredNumber(requiredNumber float64) IdentifyBuilder
+		RequiredNumber(requiredNumber float64) IdentifyBuilder
 	}
 }{
 	Builder: func() interface {
-		SetRequiredNumber(requiredNumber float64) IdentifyBuilder
+		RequiredNumber(requiredNumber float64) IdentifyBuilder
 	} {
 		return &identifyBuilder{
 			properties: map[string]interface{}{},
@@ -133,20 +133,20 @@ func (e identifyEvent) identify() {
 
 type IdentifyBuilder interface {
 	Build() IdentifyEvent
-	SetOptionalArray(optionalArray []string) IdentifyBuilder
+	OptionalArray(optionalArray []string) IdentifyBuilder
 }
 
 type identifyBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *identifyBuilder) SetRequiredNumber(requiredNumber float64) IdentifyBuilder {
+func (b *identifyBuilder) RequiredNumber(requiredNumber float64) IdentifyBuilder {
 	b.properties[`requiredNumber`] = requiredNumber
 
 	return b
 }
 
-func (b *identifyBuilder) SetOptionalArray(optionalArray []string) IdentifyBuilder {
+func (b *identifyBuilder) OptionalArray(optionalArray []string) IdentifyBuilder {
 	b.properties[`optionalArray`] = optionalArray
 
 	return b
@@ -172,11 +172,11 @@ func (e identifyEvent) ToAmplitudeEvent() amplitude.Event {
 
 var Group = struct {
 	Builder func() interface {
-		SetRequiredBoolean(requiredBoolean bool) GroupBuilder
+		RequiredBoolean(requiredBoolean bool) GroupBuilder
 	}
 }{
 	Builder: func() interface {
-		SetRequiredBoolean(requiredBoolean bool) GroupBuilder
+		RequiredBoolean(requiredBoolean bool) GroupBuilder
 	} {
 		return &groupBuilder{
 			properties: map[string]interface{}{},
@@ -198,20 +198,20 @@ func (e groupEvent) group() {
 
 type GroupBuilder interface {
 	Build() GroupEvent
-	SetOptionalString(optionalString string) GroupBuilder
+	OptionalString(optionalString string) GroupBuilder
 }
 
 type groupBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *groupBuilder) SetRequiredBoolean(requiredBoolean bool) GroupBuilder {
+func (b *groupBuilder) RequiredBoolean(requiredBoolean bool) GroupBuilder {
 	b.properties[`requiredBoolean`] = requiredBoolean
 
 	return b
 }
 
-func (b *groupBuilder) SetOptionalString(optionalString string) GroupBuilder {
+func (b *groupBuilder) OptionalString(optionalString string) GroupBuilder {
 	b.properties[`optionalString`] = optionalString
 
 	return b
@@ -237,11 +237,11 @@ func (e groupEvent) ToAmplitudeEvent() amplitude.Event {
 
 var EventMaxIntForTest = struct {
 	Builder func() interface {
-		SetIntMax10(intMax10 int) EventMaxIntForTestBuilder
+		IntMax10(intMax10 int) EventMaxIntForTestBuilder
 	}
 }{
 	Builder: func() interface {
-		SetIntMax10(intMax10 int) EventMaxIntForTestBuilder
+		IntMax10(intMax10 int) EventMaxIntForTestBuilder
 	} {
 		return &eventMaxIntForTestBuilder{
 			properties: map[string]interface{}{},
@@ -269,7 +269,7 @@ type eventMaxIntForTestBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventMaxIntForTestBuilder) SetIntMax10(intMax10 int) EventMaxIntForTestBuilder {
+func (b *eventMaxIntForTestBuilder) IntMax10(intMax10 int) EventMaxIntForTestBuilder {
 	b.properties[`intMax10`] = intMax10
 
 	return b
@@ -319,14 +319,14 @@ func (b *eventNoPropertiesBuilder) Build() EventNoPropertiesEvent {
 
 var EventObjectTypes = struct {
 	Builder func() interface {
-		SetRequiredObject(requiredObject interface{}) interface {
-			SetRequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
+		RequiredObject(requiredObject interface{}) interface {
+			RequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
 		}
 	}
 }{
 	Builder: func() interface {
-		SetRequiredObject(requiredObject interface{}) interface {
-			SetRequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
+		RequiredObject(requiredObject interface{}) interface {
+			RequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
 		}
 	} {
 		return &eventObjectTypesBuilder{
@@ -355,15 +355,15 @@ type eventObjectTypesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventObjectTypesBuilder) SetRequiredObject(requiredObject interface{}) interface {
-	SetRequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
+func (b *eventObjectTypesBuilder) RequiredObject(requiredObject interface{}) interface {
+	RequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder
 } {
 	b.properties[`requiredObject`] = requiredObject
 
 	return b
 }
 
-func (b *eventObjectTypesBuilder) SetRequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder {
+func (b *eventObjectTypesBuilder) RequiredObjectArray(requiredObjectArray []interface{}) EventObjectTypesBuilder {
 	b.properties[`requiredObjectArray`] = requiredObjectArray
 
 	return b
@@ -384,12 +384,12 @@ var EventWithAllProperties = struct {
 		Enum2 EventWithAllPropertiesRequiredEnum
 	}
 	Builder func() interface {
-		SetRequiredArray(requiredArray []string) interface {
-			SetRequiredBoolean(requiredBoolean bool) interface {
-				SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
-					SetRequiredInteger(requiredInteger int) interface {
-						SetRequiredNumber(requiredNumber float64) interface {
-							SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+		RequiredArray(requiredArray []string) interface {
+			RequiredBoolean(requiredBoolean bool) interface {
+				RequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+					RequiredInteger(requiredInteger int) interface {
+						RequiredNumber(requiredNumber float64) interface {
+							RequiredString(requiredString string) EventWithAllPropertiesBuilder
 						}
 					}
 				}
@@ -407,12 +407,12 @@ var EventWithAllProperties = struct {
 		Enum2: `Enum2`,
 	},
 	Builder: func() interface {
-		SetRequiredArray(requiredArray []string) interface {
-			SetRequiredBoolean(requiredBoolean bool) interface {
-				SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
-					SetRequiredInteger(requiredInteger int) interface {
-						SetRequiredNumber(requiredNumber float64) interface {
-							SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+		RequiredArray(requiredArray []string) interface {
+			RequiredBoolean(requiredBoolean bool) interface {
+				RequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+					RequiredInteger(requiredInteger int) interface {
+						RequiredNumber(requiredNumber float64) interface {
+							RequiredString(requiredString string) EventWithAllPropertiesBuilder
 						}
 					}
 				}
@@ -441,19 +441,19 @@ func (e eventWithAllPropertiesEvent) eventWithAllProperties() {
 
 type EventWithAllPropertiesBuilder interface {
 	Build() EventWithAllPropertiesEvent
-	SetOptionalString(optionalString string) EventWithAllPropertiesBuilder
+	OptionalString(optionalString string) EventWithAllPropertiesBuilder
 }
 
 type eventWithAllPropertiesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredArray(requiredArray []string) interface {
-	SetRequiredBoolean(requiredBoolean bool) interface {
-		SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
-			SetRequiredInteger(requiredInteger int) interface {
-				SetRequiredNumber(requiredNumber float64) interface {
-					SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+func (b *eventWithAllPropertiesBuilder) RequiredArray(requiredArray []string) interface {
+	RequiredBoolean(requiredBoolean bool) interface {
+		RequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+			RequiredInteger(requiredInteger int) interface {
+				RequiredNumber(requiredNumber float64) interface {
+					RequiredString(requiredString string) EventWithAllPropertiesBuilder
 				}
 			}
 		}
@@ -464,11 +464,11 @@ func (b *eventWithAllPropertiesBuilder) SetRequiredArray(requiredArray []string)
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredBoolean(requiredBoolean bool) interface {
-	SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
-		SetRequiredInteger(requiredInteger int) interface {
-			SetRequiredNumber(requiredNumber float64) interface {
-				SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+func (b *eventWithAllPropertiesBuilder) RequiredBoolean(requiredBoolean bool) interface {
+	RequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+		RequiredInteger(requiredInteger int) interface {
+			RequiredNumber(requiredNumber float64) interface {
+				RequiredString(requiredString string) EventWithAllPropertiesBuilder
 			}
 		}
 	}
@@ -478,10 +478,10 @@ func (b *eventWithAllPropertiesBuilder) SetRequiredBoolean(requiredBoolean bool)
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
-	SetRequiredInteger(requiredInteger int) interface {
-		SetRequiredNumber(requiredNumber float64) interface {
-			SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+func (b *eventWithAllPropertiesBuilder) RequiredEnum(requiredEnum EventWithAllPropertiesRequiredEnum) interface {
+	RequiredInteger(requiredInteger int) interface {
+		RequiredNumber(requiredNumber float64) interface {
+			RequiredString(requiredString string) EventWithAllPropertiesBuilder
 		}
 	}
 } {
@@ -490,9 +490,9 @@ func (b *eventWithAllPropertiesBuilder) SetRequiredEnum(requiredEnum EventWithAl
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredInteger(requiredInteger int) interface {
-	SetRequiredNumber(requiredNumber float64) interface {
-		SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+func (b *eventWithAllPropertiesBuilder) RequiredInteger(requiredInteger int) interface {
+	RequiredNumber(requiredNumber float64) interface {
+		RequiredString(requiredString string) EventWithAllPropertiesBuilder
 	}
 } {
 	b.properties[`requiredInteger`] = requiredInteger
@@ -500,21 +500,21 @@ func (b *eventWithAllPropertiesBuilder) SetRequiredInteger(requiredInteger int) 
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredNumber(requiredNumber float64) interface {
-	SetRequiredString(requiredString string) EventWithAllPropertiesBuilder
+func (b *eventWithAllPropertiesBuilder) RequiredNumber(requiredNumber float64) interface {
+	RequiredString(requiredString string) EventWithAllPropertiesBuilder
 } {
 	b.properties[`requiredNumber`] = requiredNumber
 
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetRequiredString(requiredString string) EventWithAllPropertiesBuilder {
+func (b *eventWithAllPropertiesBuilder) RequiredString(requiredString string) EventWithAllPropertiesBuilder {
 	b.properties[`requiredString`] = requiredString
 
 	return b
 }
 
-func (b *eventWithAllPropertiesBuilder) SetOptionalString(optionalString string) EventWithAllPropertiesBuilder {
+func (b *eventWithAllPropertiesBuilder) OptionalString(optionalString string) EventWithAllPropertiesBuilder {
 	b.properties[`optionalString`] = optionalString
 
 	return b
@@ -528,20 +528,20 @@ func (b *eventWithAllPropertiesBuilder) Build() EventWithAllPropertiesEvent {
 
 var EventWithArrayTypes = struct {
 	Builder func() interface {
-		SetRequiredBooleanArray(requiredBooleanArray []bool) interface {
-			SetRequiredNumberArray(requiredNumberArray []float64) interface {
-				SetRequiredObjectArray(requiredObjectArray []interface{}) interface {
-					SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+		RequiredBooleanArray(requiredBooleanArray []bool) interface {
+			RequiredNumberArray(requiredNumberArray []float64) interface {
+				RequiredObjectArray(requiredObjectArray []interface{}) interface {
+					RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 				}
 			}
 		}
 	}
 }{
 	Builder: func() interface {
-		SetRequiredBooleanArray(requiredBooleanArray []bool) interface {
-			SetRequiredNumberArray(requiredNumberArray []float64) interface {
-				SetRequiredObjectArray(requiredObjectArray []interface{}) interface {
-					SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+		RequiredBooleanArray(requiredBooleanArray []bool) interface {
+			RequiredNumberArray(requiredNumberArray []float64) interface {
+				RequiredObjectArray(requiredObjectArray []interface{}) interface {
+					RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 				}
 			}
 		}
@@ -572,10 +572,10 @@ type eventWithArrayTypesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithArrayTypesBuilder) SetRequiredBooleanArray(requiredBooleanArray []bool) interface {
-	SetRequiredNumberArray(requiredNumberArray []float64) interface {
-		SetRequiredObjectArray(requiredObjectArray []interface{}) interface {
-			SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+func (b *eventWithArrayTypesBuilder) RequiredBooleanArray(requiredBooleanArray []bool) interface {
+	RequiredNumberArray(requiredNumberArray []float64) interface {
+		RequiredObjectArray(requiredObjectArray []interface{}) interface {
+			RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 		}
 	}
 } {
@@ -584,9 +584,9 @@ func (b *eventWithArrayTypesBuilder) SetRequiredBooleanArray(requiredBooleanArra
 	return b
 }
 
-func (b *eventWithArrayTypesBuilder) SetRequiredNumberArray(requiredNumberArray []float64) interface {
-	SetRequiredObjectArray(requiredObjectArray []interface{}) interface {
-		SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+func (b *eventWithArrayTypesBuilder) RequiredNumberArray(requiredNumberArray []float64) interface {
+	RequiredObjectArray(requiredObjectArray []interface{}) interface {
+		RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 	}
 } {
 	b.properties[`requiredNumberArray`] = requiredNumberArray
@@ -594,15 +594,15 @@ func (b *eventWithArrayTypesBuilder) SetRequiredNumberArray(requiredNumberArray 
 	return b
 }
 
-func (b *eventWithArrayTypesBuilder) SetRequiredObjectArray(requiredObjectArray []interface{}) interface {
-	SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+func (b *eventWithArrayTypesBuilder) RequiredObjectArray(requiredObjectArray []interface{}) interface {
+	RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 } {
 	b.properties[`requiredObjectArray`] = requiredObjectArray
 
 	return b
 }
 
-func (b *eventWithArrayTypesBuilder) SetRequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder {
+func (b *eventWithArrayTypesBuilder) RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder {
 	b.properties[`requiredStringArray`] = requiredStringArray
 
 	return b
@@ -684,14 +684,14 @@ var EventWithDifferentCasingTypes = struct {
 		EnumWithSpace EventWithDifferentCasingTypesEnumWithSpace
 	}
 	Builder func() interface {
-		SetEnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
-			SetEnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
-				SetEnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
-					SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-						SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-							SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-								SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-									SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+		EnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
+			EnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
+				EnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
+					EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+						PropertyWithCamelCase(propertyWithCamelCase string) interface {
+							PropertyWithPascalCase(propertyWithPascalCase string) interface {
+								PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+									PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 								}
 							}
 						}
@@ -722,14 +722,14 @@ var EventWithDifferentCasingTypes = struct {
 		EnumWithSpace: `enum with space`,
 	},
 	Builder: func() interface {
-		SetEnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
-			SetEnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
-				SetEnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
-					SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-						SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-							SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-								SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-									SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+		EnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
+			EnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
+				EnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
+					EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+						PropertyWithCamelCase(propertyWithCamelCase string) interface {
+							PropertyWithPascalCase(propertyWithPascalCase string) interface {
+								PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+									PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 								}
 							}
 						}
@@ -764,14 +764,14 @@ type eventWithDifferentCasingTypesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetEnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
-	SetEnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
-		SetEnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
-			SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-				SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-					SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-						SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-							SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) EnumCamelCase(enumCamelCase EventWithDifferentCasingTypesEnumCamelCase) interface {
+	EnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
+		EnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
+			EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+				PropertyWithCamelCase(propertyWithCamelCase string) interface {
+					PropertyWithPascalCase(propertyWithPascalCase string) interface {
+						PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+							PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 						}
 					}
 				}
@@ -784,13 +784,13 @@ func (b *eventWithDifferentCasingTypesBuilder) SetEnumCamelCase(enumCamelCase Ev
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetEnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
-	SetEnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
-		SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-			SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-				SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-					SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-						SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) EnumPascalCase(enumPascalCase EventWithDifferentCasingTypesEnumPascalCase) interface {
+	EnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
+		EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+			PropertyWithCamelCase(propertyWithCamelCase string) interface {
+				PropertyWithPascalCase(propertyWithPascalCase string) interface {
+					PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+						PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 					}
 				}
 			}
@@ -802,12 +802,12 @@ func (b *eventWithDifferentCasingTypesBuilder) SetEnumPascalCase(enumPascalCase 
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetEnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
-	SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-		SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-			SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-				SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-					SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) EnumSnakeCase(enumSnakeCase EventWithDifferentCasingTypesEnumSnakeCase) interface {
+	EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+		PropertyWithCamelCase(propertyWithCamelCase string) interface {
+			PropertyWithPascalCase(propertyWithPascalCase string) interface {
+				PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+					PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 				}
 			}
 		}
@@ -818,11 +818,11 @@ func (b *eventWithDifferentCasingTypesBuilder) SetEnumSnakeCase(enumSnakeCase Ev
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetEnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
-	SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-		SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-			SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-				SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) EnumWithSpace(enumWithSpace EventWithDifferentCasingTypesEnumWithSpace) interface {
+	PropertyWithCamelCase(propertyWithCamelCase string) interface {
+		PropertyWithPascalCase(propertyWithPascalCase string) interface {
+			PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+				PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 			}
 		}
 	}
@@ -832,10 +832,10 @@ func (b *eventWithDifferentCasingTypesBuilder) SetEnumWithSpace(enumWithSpace Ev
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithCamelCase(propertyWithCamelCase string) interface {
-	SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-		SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-			SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) PropertyWithCamelCase(propertyWithCamelCase string) interface {
+	PropertyWithPascalCase(propertyWithPascalCase string) interface {
+		PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+			PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 		}
 	}
 } {
@@ -844,9 +844,9 @@ func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithCamelCase(property
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithPascalCase(propertyWithPascalCase string) interface {
-	SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-		SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) PropertyWithPascalCase(propertyWithPascalCase string) interface {
+	PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+		PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 	}
 } {
 	b.properties[`PropertyWithPascalCase`] = propertyWithPascalCase
@@ -854,15 +854,15 @@ func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithPascalCase(propert
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithSnakeCase(propertyWithSnakeCase string) interface {
-	SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
+func (b *eventWithDifferentCasingTypesBuilder) PropertyWithSnakeCase(propertyWithSnakeCase string) interface {
+	PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder
 } {
 	b.properties[`property_with_snake_case`] = propertyWithSnakeCase
 
 	return b
 }
 
-func (b *eventWithDifferentCasingTypesBuilder) SetPropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder {
+func (b *eventWithDifferentCasingTypesBuilder) PropertyWithSpace(propertyWithSpace string) EventWithDifferentCasingTypesBuilder {
 	b.properties[`property with space`] = propertyWithSpace
 
 	return b
@@ -890,7 +890,7 @@ var EventWithEnumTypes = struct {
 		RequiredEnum2 EventWithEnumTypesRequiredEnum
 	}
 	Builder func() interface {
-		SetRequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder
+		RequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder
 	}
 }{
 	OptionalEnum: struct {
@@ -912,7 +912,7 @@ var EventWithEnumTypes = struct {
 		RequiredEnum2: `required enum 2`,
 	},
 	Builder: func() interface {
-		SetRequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder
+		RequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder
 	} {
 		return &eventWithEnumTypesBuilder{
 			properties: map[string]interface{}{},
@@ -934,20 +934,20 @@ func (e eventWithEnumTypesEvent) eventWithEnumTypes() {
 
 type EventWithEnumTypesBuilder interface {
 	Build() EventWithEnumTypesEvent
-	SetOptionalEnum(optionalEnum EventWithEnumTypesOptionalEnum) EventWithEnumTypesBuilder
+	OptionalEnum(optionalEnum EventWithEnumTypesOptionalEnum) EventWithEnumTypesBuilder
 }
 
 type eventWithEnumTypesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithEnumTypesBuilder) SetRequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder {
+func (b *eventWithEnumTypesBuilder) RequiredEnum(requiredEnum EventWithEnumTypesRequiredEnum) EventWithEnumTypesBuilder {
 	b.properties[`required enum`] = requiredEnum
 
 	return b
 }
 
-func (b *eventWithEnumTypesBuilder) SetOptionalEnum(optionalEnum EventWithEnumTypesOptionalEnum) EventWithEnumTypesBuilder {
+func (b *eventWithEnumTypesBuilder) OptionalEnum(optionalEnum EventWithEnumTypesOptionalEnum) EventWithEnumTypesBuilder {
 	b.properties[`optional enum`] = optionalEnum
 
 	return b
@@ -983,35 +983,35 @@ func (e eventWithOptionalArrayTypesEvent) eventWithOptionalArrayTypes() {
 
 type EventWithOptionalArrayTypesBuilder interface {
 	Build() EventWithOptionalArrayTypesEvent
-	SetOptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder
-	SetOptionalJsonArray(optionalJsonArray []interface{}) EventWithOptionalArrayTypesBuilder
-	SetOptionalNumberArray(optionalNumberArray []float64) EventWithOptionalArrayTypesBuilder
-	SetOptionalStringArray(optionalStringArray []string) EventWithOptionalArrayTypesBuilder
+	OptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder
+	OptionalJsonArray(optionalJsonArray []interface{}) EventWithOptionalArrayTypesBuilder
+	OptionalNumberArray(optionalNumberArray []float64) EventWithOptionalArrayTypesBuilder
+	OptionalStringArray(optionalStringArray []string) EventWithOptionalArrayTypesBuilder
 }
 
 type eventWithOptionalArrayTypesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithOptionalArrayTypesBuilder) SetOptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder {
+func (b *eventWithOptionalArrayTypesBuilder) OptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder {
 	b.properties[`optionalBooleanArray`] = optionalBooleanArray
 
 	return b
 }
 
-func (b *eventWithOptionalArrayTypesBuilder) SetOptionalJsonArray(optionalJsonArray []interface{}) EventWithOptionalArrayTypesBuilder {
+func (b *eventWithOptionalArrayTypesBuilder) OptionalJsonArray(optionalJsonArray []interface{}) EventWithOptionalArrayTypesBuilder {
 	b.properties[`optionalJSONArray`] = optionalJsonArray
 
 	return b
 }
 
-func (b *eventWithOptionalArrayTypesBuilder) SetOptionalNumberArray(optionalNumberArray []float64) EventWithOptionalArrayTypesBuilder {
+func (b *eventWithOptionalArrayTypesBuilder) OptionalNumberArray(optionalNumberArray []float64) EventWithOptionalArrayTypesBuilder {
 	b.properties[`optionalNumberArray`] = optionalNumberArray
 
 	return b
 }
 
-func (b *eventWithOptionalArrayTypesBuilder) SetOptionalStringArray(optionalStringArray []string) EventWithOptionalArrayTypesBuilder {
+func (b *eventWithOptionalArrayTypesBuilder) OptionalStringArray(optionalStringArray []string) EventWithOptionalArrayTypesBuilder {
 	b.properties[`optionalStringArray`] = optionalStringArray
 
 	return b
@@ -1047,42 +1047,42 @@ func (e eventWithOptionalPropertiesEvent) eventWithOptionalProperties() {
 
 type EventWithOptionalPropertiesBuilder interface {
 	Build() EventWithOptionalPropertiesEvent
-	SetOptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder
-	SetOptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder
-	SetOptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder
-	SetOptionalNumber(optionalNumber float64) EventWithOptionalPropertiesBuilder
-	SetOptionalString(optionalString string) EventWithOptionalPropertiesBuilder
+	OptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder
+	OptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder
+	OptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder
+	OptionalNumber(optionalNumber float64) EventWithOptionalPropertiesBuilder
+	OptionalString(optionalString string) EventWithOptionalPropertiesBuilder
 }
 
 type eventWithOptionalPropertiesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithOptionalPropertiesBuilder) SetOptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder {
+func (b *eventWithOptionalPropertiesBuilder) OptionalArrayNumber(optionalArrayNumber []float64) EventWithOptionalPropertiesBuilder {
 	b.properties[`optionalArrayNumber`] = optionalArrayNumber
 
 	return b
 }
 
-func (b *eventWithOptionalPropertiesBuilder) SetOptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder {
+func (b *eventWithOptionalPropertiesBuilder) OptionalArrayString(optionalArrayString []string) EventWithOptionalPropertiesBuilder {
 	b.properties[`optionalArrayString`] = optionalArrayString
 
 	return b
 }
 
-func (b *eventWithOptionalPropertiesBuilder) SetOptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder {
+func (b *eventWithOptionalPropertiesBuilder) OptionalBoolean(optionalBoolean bool) EventWithOptionalPropertiesBuilder {
 	b.properties[`optionalBoolean`] = optionalBoolean
 
 	return b
 }
 
-func (b *eventWithOptionalPropertiesBuilder) SetOptionalNumber(optionalNumber float64) EventWithOptionalPropertiesBuilder {
+func (b *eventWithOptionalPropertiesBuilder) OptionalNumber(optionalNumber float64) EventWithOptionalPropertiesBuilder {
 	b.properties[`optionalNumber`] = optionalNumber
 
 	return b
 }
 
-func (b *eventWithOptionalPropertiesBuilder) SetOptionalString(optionalString string) EventWithOptionalPropertiesBuilder {
+func (b *eventWithOptionalPropertiesBuilder) OptionalString(optionalString string) EventWithOptionalPropertiesBuilder {
 	b.properties[`optionalString`] = optionalString
 
 	return b
@@ -1096,14 +1096,14 @@ func (b *eventWithOptionalPropertiesBuilder) Build() EventWithOptionalProperties
 
 var EventWithTemplateProperties = struct {
 	Builder func() interface {
-		SetRequiredEventProperty(requiredEventProperty string) interface {
-			SetRequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
+		RequiredEventProperty(requiredEventProperty string) interface {
+			RequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
 		}
 	}
 }{
 	Builder: func() interface {
-		SetRequiredEventProperty(requiredEventProperty string) interface {
-			SetRequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
+		RequiredEventProperty(requiredEventProperty string) interface {
+			RequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
 		}
 	} {
 		return &eventWithTemplatePropertiesBuilder{
@@ -1126,35 +1126,35 @@ func (e eventWithTemplatePropertiesEvent) eventWithTemplateProperties() {
 
 type EventWithTemplatePropertiesBuilder interface {
 	Build() EventWithTemplatePropertiesEvent
-	SetOptionalEventProperty(optionalEventProperty float64) EventWithTemplatePropertiesBuilder
-	SetOptionalTemplateProperty(optionalTemplateProperty float64) EventWithTemplatePropertiesBuilder
+	OptionalEventProperty(optionalEventProperty float64) EventWithTemplatePropertiesBuilder
+	OptionalTemplateProperty(optionalTemplateProperty float64) EventWithTemplatePropertiesBuilder
 }
 
 type eventWithTemplatePropertiesBuilder struct {
 	properties map[string]interface{}
 }
 
-func (b *eventWithTemplatePropertiesBuilder) SetRequiredEventProperty(requiredEventProperty string) interface {
-	SetRequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
+func (b *eventWithTemplatePropertiesBuilder) RequiredEventProperty(requiredEventProperty string) interface {
+	RequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder
 } {
 	b.properties[`required_event_property`] = requiredEventProperty
 
 	return b
 }
 
-func (b *eventWithTemplatePropertiesBuilder) SetRequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder {
+func (b *eventWithTemplatePropertiesBuilder) RequiredTemplateProperty(requiredTemplateProperty string) EventWithTemplatePropertiesBuilder {
 	b.properties[`required_template_property`] = requiredTemplateProperty
 
 	return b
 }
 
-func (b *eventWithTemplatePropertiesBuilder) SetOptionalEventProperty(optionalEventProperty float64) EventWithTemplatePropertiesBuilder {
+func (b *eventWithTemplatePropertiesBuilder) OptionalEventProperty(optionalEventProperty float64) EventWithTemplatePropertiesBuilder {
 	b.properties[`optional_event_property`] = optionalEventProperty
 
 	return b
 }
 
-func (b *eventWithTemplatePropertiesBuilder) SetOptionalTemplateProperty(optionalTemplateProperty float64) EventWithTemplatePropertiesBuilder {
+func (b *eventWithTemplatePropertiesBuilder) OptionalTemplateProperty(optionalTemplateProperty float64) EventWithTemplatePropertiesBuilder {
 	b.properties[`optional_template_property`] = optionalTemplateProperty
 
 	return b

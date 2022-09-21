@@ -1,6 +1,6 @@
 # Ampi Go SDK (Alpha)
 
-An example uisng the Ampli Go SDK (Alpha) to track events.
+An example using the Ampli Go SDK (Alpha) to track events.
 
 # Usage
 
@@ -17,12 +17,12 @@ Change keys in `.env`
 
 You can run the app using the events from our sample tracking plan. 
 
-```go
+```shell
 go run examples/simple_example/simple_example.go
 ```
-Also, there is another example to track events concurrently using different goroutines. It serves as an good example to detect data race. 
+Also, there is another example to track events concurrently using different goroutines. It serves as a good example to detect data race. 
 
-```go
+```shell
 go run examples/data_race_example/data_race_example.go
 ```
 
@@ -34,4 +34,4 @@ go run examples/data_race_example/data_race_example.go
 - examples
   - simple_example/simple_example - An example to track all events
   - data_race_example/data_race_example.go - An example to track events concurrently to detect data race
-- [go.mod](https:go.dev/doc/modules/gomod-ref) - Describes the module's properties
+- [go.mod](https://go.dev/doc/modules/gomod-ref) - Describes the module's properties

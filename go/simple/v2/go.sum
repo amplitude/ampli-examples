@@ -1,5 +1,5 @@
-github.com/amplitude/analytics-go v0.0.5 h1:+iKCZZHqO5CQJtC4UjCEaiaYowR0HjoY9TlYCoHAO94=
-github.com/amplitude/analytics-go v0.0.5/go.mod h1:usOqpc3xyDqxJyjGKWVIDbuVvk2H93KX1Skir/TM0nA=
+github.com/amplitude/analytics-go v0.0.9 h1:8yH7TJT+P/s1Xe9gb2CWHRRFJQvXgJOpdqFJf/6jyRc=
+github.com/amplitude/analytics-go v0.0.9/go.mod h1:usOqpc3xyDqxJyjGKWVIDbuVvk2H93KX1Skir/TM0nA=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
