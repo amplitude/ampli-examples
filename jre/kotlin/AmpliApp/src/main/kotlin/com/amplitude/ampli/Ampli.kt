@@ -16,13 +16,12 @@
 
 package com.amplitude.ampli
 
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-
 import com.amplitude.Amplitude
 import com.amplitude.MiddlewareExtra
 import com.amplitude.Plan
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 abstract class Event<E: Event<E>>(
     val eventType: String,
@@ -494,6 +493,26 @@ open class Ampli {
         }
 
         this._client?.setPlan(options?.client?.plan ?: observePlan)
+
+        // set IngestionMetadata with backwards compatibility, min Java SDK version 1.10.1.
+        try {
+            val clazz = Class.forName("com.amplitude.IngestionMetadata")
+            val setSourceNameMethod = clazz.getMethod("setSourceName", String::class.java)
+            val setSourceVersionMethod = clazz.getMethod("setSourceVersion", String::class.java)
+            val ingestionMetadata = clazz.newInstance()
+            setSourceNameMethod.invoke(ingestionMetadata, "jre-kotlin-ampli")
+            setSourceVersionMethod.invoke(ingestionMetadata, "1.0.0")
+            val setIngestionMetadata = Amplitude::class.java.getMethod("setIngestionMetadata", clazz)
+            setIngestionMetadata.invoke(this._client, ingestionMetadata)
+        } catch (e: ClassNotFoundException) {
+            println("com.amplitude.IngestionMetadata is available starting from Java SDK 1.10.1 version")
+        } catch (e: NoSuchMethodException) {
+            println("com.amplitude.IngestionMetadata is available starting from Java SDK 1.10.1 version")
+        } catch (e: SecurityException) {
+            println("com.amplitude.IngestionMetadata is available starting from Java SDK 1.10.1 version")
+        } catch (e: Exception) {
+            System.err.println("Unexpected error when setting IngestionMetadata")
+        }
     }
 
     open fun track(userId: String?, event: Event<*>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {

@@ -15,6 +15,7 @@
 //
 package com.amplitude.ampli;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONArray;
@@ -121,6 +122,22 @@ public class Ampli {
             }
         }
         this.client.setPlan(plan);
+
+        // set IngestionMetadata with backwards compatibility, min Java SDK version 1.10.1.
+        try {
+            Class<?> clazz = Class.forName("com.amplitude.IngestionMetadata");
+            Method setSourceNameMethod = clazz.getMethod("setSourceName", String.class);
+            Method setSourceVersionMethod = clazz.getMethod("setSourceVersion", String.class);
+            Object ingestionMetadata = clazz.newInstance();
+            setSourceNameMethod.invoke(ingestionMetadata, "jre-java-ampli");
+            setSourceVersionMethod.invoke(ingestionMetadata, "1.0.0");
+            Method setIngestionMetadata = Amplitude.class.getMethod("setIngestionMetadata", clazz);
+            setIngestionMetadata.invoke(this.client, ingestionMetadata);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+            System.out.println("com.amplitude.IngestionMetadata is available starting from Java SDK 1.10.1 version");
+        } catch (Exception e) {
+            System.err.println("Unexpected error when setting IngestionMetadata");
+        }
     }
 
     public void track(String userId, Event event) {
