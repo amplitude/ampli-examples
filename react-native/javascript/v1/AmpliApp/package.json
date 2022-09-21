@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@amplitude/react-native": "^2.11.0",
+    "@amplitude/react-native": "^2.15.0",
     "@react-native-async-storage/async-storage": "^1.16.1",
     "@segment/analytics-react-native": "^2.1.7",
     "@segment/sovran-react-native": "^0.2.6",
