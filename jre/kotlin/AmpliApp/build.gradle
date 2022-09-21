@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.amplitude:java-sdk:1.10.1'
+    implementation 'com.amplitude:java-sdk:1.10.1+'
     implementation 'org.json:json:20201115'
 
     implementation 'io.github.cdimascio:dotenv-kotlin:6.2.2'
