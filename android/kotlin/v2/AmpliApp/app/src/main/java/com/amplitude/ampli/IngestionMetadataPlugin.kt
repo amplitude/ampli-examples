@@ -11,10 +11,10 @@ class IngestionMetadataPlugin(ingestionMetadata: IngestionMetadata) : Plugin {
     override fun execute(event: BaseEvent): BaseEvent? {
         val amplitudeExtra = (event.extra?.get("amplitude") ?: mapOf<String, Any>()) as Map<String, Any>
         val ingestionMetadataMap = mapOf(
-            "ingestionMetadata" to  ingestionMetadata.toJsonObject()
+            "ingestionMetadata" to  ingestionMetadata.toMap()
         )
         amplitudeExtra.plus(ingestionMetadataMap)
-        event.extra = event.extra?.plus(mapOf("amplitude" to amplitudeExtra))
+        event.extra = event.extra?.plus(mapOf("amplitude" to ingestionMetadataMap))
         return event
     }
 }
