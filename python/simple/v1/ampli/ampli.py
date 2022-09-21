@@ -49,12 +49,12 @@ DEFAULT_CONFIGURATION = Config(
 
 class LoadClientOptions:
     """Client options setting to initialize Ampli client
-    
-    :param api_key: The API key of of Amplitude project. Default to None.
+
+    :param api_key: The API key of Amplitude project. Default to None.
     :param instance: The core SDK instance used by Ampli client. Default to None
     :param configuration: The core SDK client configuration instance. Default to None
     """
-    
+
     def __init__(self, api_key: Optional[str] = None,
                  instance: Optional[Amplitude] = None,
                  configuration: Optional[Config] = None):
@@ -65,12 +65,12 @@ class LoadClientOptions:
 
 class LoadOptions:
     """Options setting to initialize Ampli client
-    
+
     :param environment: The environment of Amplitude Data project. Default to None.
     :param disabled: The flag of disabled Ampli client. Default to False
     :param client: The LoadClientOptions instance. Default to None
     """
-    
+
     def __init__(self, environment: Environment = None,
                  disabled: bool = False,
                  client: LoadClientOptions = None):
@@ -473,7 +473,7 @@ class EventWithTemplateProperties(BaseEvent):
 
 
 class Ampli:
-    
+
     def __init__(self):
         self.client: Amplitude = None
         self.disabled: bool = False
@@ -486,14 +486,14 @@ class Ampli:
         if not options:
             options = LoadOptions()
         self.disabled = options.disabled
-        
+
         if self.client:
             logging.getLogger(__name__).warning('Warning: Ampli is already initialized. ampli.load() should be called once at application start up.')
             return
-            
+
         if not options.client:
             options.client = LoadClientOptions(configuration=DEFAULT_CONFIGURATION)
-            
+
         api_key = None
         if options.client.api_key:
             api_key = options.client.api_key
@@ -502,10 +502,10 @@ class Ampli:
         if not (api_key or options.client.instance):
             logging.getLogger(__name__).error("ampli.load() requires 'environment', 'client.api_key', or 'client.instance'")
             return
-            
+
         configuration = options.client.configuration or DEFAULT_CONFIGURATION
         self.client = options.client.instance or Amplitude(api_key=api_key, configuration=configuration)
-        
+
         if not self.client.configuration.plan:
             self.client.configuration.plan = DEFAULT_CONFIGURATION.plan
 
@@ -528,7 +528,7 @@ class Ampli:
             logging.getLogger(__name__).error("Ampli is not yet initialized. Called `ampli.load()` on app start.")
             return False
         return not self.disabled
-    
+
     def track(self, user_id: Optional[str], event: BaseEvent, event_options: Optional[EventOptions] = None):
         """Track event
 
@@ -544,7 +544,7 @@ class Ampli:
             event_options["user_id"] = user_id
         event.load_event_options(event_options)
         self.client.track(event)
-        
+
     def identify(self, user_id: Optional[str], event: Identify, event_options: Optional[EventOptions] = None):
         """Identify a user and set user properties.
 
@@ -558,7 +558,7 @@ class Ampli:
 
     def group_identify(self, group_type: str,
                        group_name: str,
-                       event: Group, 
+                       event: Group,
                        event_options: Optional[EventOptions] = None):
         """Identify a group and set group properties.
 
@@ -590,20 +590,20 @@ class Ampli:
         if user_id:
             event_options["user_id"] = user_id
         self.client.set_group(group_type, group_name, event_options)
-        
+
     def flush(self):
         """Flush events waiting in buffer"""
         if not self.initialized_and_enabled():
             return []
         return self.client.flush()
-        
+
     def shutdown(self):
         """Disable and shutdown the Ampli client"""
         if not self.initialized_and_enabled():
             return
         self.client.shutdown()
         self.disabled = True
-        
+
     def event_max_int_for_test(
         self,
         user_id: Optional[str],
