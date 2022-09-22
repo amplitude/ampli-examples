@@ -1,0 +1,28 @@
+name: CI - Go Tests
+
+on:
+  pull_request:
+    paths:
+      - 'go/**'
+
+jobs:
+  test:
+    name: Test Go Ampli
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go: [ '1.17', '1.18', '1.19' ]
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Run Go Simple Tests
+        working-directory: go/simple/v2
+        run: |
+          go mod download
+          go test ./...

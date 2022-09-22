@@ -1,0 +1,24 @@
+name: Ampli Merge Check (Go)
+
+on:
+  pull_request:
+    paths:
+      - 'go/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: amplitudeinc/ampli
+    env:
+      API_URL: https://data-api.staging.amplitude.com/graphql
+      APP_URL: https://data.staging.amplitude.com/
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: (Go) Check the Data branch is merged before merging the Git branch
+        working-directory: go/simple/v2
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+        
