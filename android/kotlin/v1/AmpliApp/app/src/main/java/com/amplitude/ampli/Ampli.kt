@@ -16,14 +16,13 @@
 
 package com.amplitude.ampli
 
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
-
 import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 abstract class Event<E: Event<E>>(
     val eventType: String,
@@ -519,6 +518,30 @@ open class Ampli {
         }
 
         this._client?.setPlan(options?.client?.plan ?: observePlan)
+
+        // set IngestionMetadata with backwards compatibility, min Android SDK version 2.38.2.
+        try {
+            val clazz = Class.forName("com.amplitude.api.IngestionMetadata")
+            val setSourceNameMethod = clazz.getMethod("setSourceName", String::class.java)
+            val setSourceVersionMethod = clazz.getMethod(
+                "setSourceVersion",
+                String::class.java
+            )
+            val ingestionMetadata = clazz.newInstance()
+            setSourceNameMethod.invoke(ingestionMetadata, "android-kotlin-ampli")
+            setSourceVersionMethod.invoke(ingestionMetadata, "1.0.0")
+            val setIngestionMetadata =
+                AmplitudeClient::class.java.getMethod("setIngestionMetadata", clazz)
+            setIngestionMetadata.invoke(client, ingestionMetadata)
+        } catch (e: ClassNotFoundException) {
+            println("com.amplitude.api.IngestionMetadata is available starting from Android SDK 2.38.2 version")
+        } catch (e: NoSuchMethodException) {
+            println("com.amplitude.api.IngestionMetadata is available starting from Android SDK 2.38.2 version")
+        } catch (e: SecurityException) {
+            println("com.amplitude.api.IngestionMetadata is available starting from Android SDK 2.38.2 version")
+        } catch (e: Exception) {
+            System.err.println("Unexpected error when setting IngestionMetadata")
+        }
     }
 
     open fun track(event: Event<*>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {

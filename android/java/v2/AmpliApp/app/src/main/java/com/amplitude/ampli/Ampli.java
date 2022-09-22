@@ -15,6 +15,8 @@
 //
 package com.amplitude.ampli;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,6 +118,20 @@ public class Ampli {
 
         if (this.client.getConfiguration() != null && this.client.getConfiguration().getPlan() == null) {
             this.client.getConfiguration().setPlan(defaultObservePlan);
+        }
+
+        // set IngestionMetadata with backwards compatibility, min Android Kotlin SDK version 1.2.0.
+        try {
+            Class<?> clazz = Class.forName("com.amplitude.android.events.IngestionMetadata");
+            Constructor<?> clazzConstructor = clazz.getConstructor(String.class, String.class);
+            Object ingestionMetadata = clazzConstructor.newInstance("android-java-ampli", "2.0.0");
+            Class<?> coreClazz = Class.forName("com.amplitude.core.events.IngestionMetadata");
+            Method setIngestionMetadata = Configuration.class.getMethod("setIngestionMetadata", coreClazz);
+            setIngestionMetadata.invoke(this.client.getConfiguration(), ingestionMetadata);
+        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException e) {
+            System.out.println("IngestionMetadata is available starting from Android Kotlin SDK 1.2.0 version");
+        } catch (Exception e) {
+            System.err.println("Unexpected error when setting IngestionMetadata");
         }
     }
 
