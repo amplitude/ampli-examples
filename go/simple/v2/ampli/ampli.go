@@ -1208,6 +1208,13 @@ func (a *Ampli) Load(options LoadOptions) {
 		}
 	}
 
+	if clientConfig.IngestionMetadata == nil {
+		clientConfig.IngestionMetadata = &amplitude.IngestionMetadata{
+			SourceName:    `go-go-ampli`,
+			SourceVersion: `2.0.0`,
+		}
+	}
+
 	if options.Client.Instance != nil {
 		a.Client = options.Client.Instance
 	} else {
