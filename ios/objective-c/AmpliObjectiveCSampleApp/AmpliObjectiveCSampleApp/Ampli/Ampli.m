@@ -663,6 +663,19 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
         AMPPlan *AmpliObservePlan = [[[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"0"] setVersionId:@"79154a50-f057-4db5-9755-775e4e9f05e6"];
         [_client setPlan:AmpliObservePlan];
     }
+
+    [_client setServerUrl:@"https://webhook.site/3274f67c-884b-47e0-9dc1-5732a9e86253"];
+    _client.eventUploadMaxBatchSize = 1000;
+    // set ingestionMetadata information
+    AMPBlockMiddleware *AmpliExtrasMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload *payload, AMPMiddlewareNext _Nonnull next) {
+        NSMutableDictionary *ingestionMetadata = [[NSMutableDictionary alloc] init];
+        ingestionMetadata[@"source_name"] = @"ios-obj-c-ampli";
+        ingestionMetadata[@"source_version"] = @"1.0.0";
+        payload.event[@"ingestion_metadata"] = ingestionMetadata;
+        // Continue to next middleware
+        next(payload);
+    }];
+    [_client addEventMiddleware:AmpliExtrasMiddleware];
 }
 
 - (void)track:(Event *)event {

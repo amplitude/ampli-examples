@@ -612,6 +612,18 @@ public class Ampli {
         }
 
         self.amplitude?.setPlan(options?.client?.config?.plan ?? AmpliObservePlan!);
+
+        // set ingestionMetadata information
+        let AmpliExtrasMiddleware = AMPBlockMiddleware { (payload, next) in
+            let ingestionMetadata: NSMutableDictionary = [
+                "source_name": "ios-swift-ampli",
+                "source_version": "1.0.0"
+            ];
+            payload.event["ingestion_metadata"] = ingestionMetadata;
+            // Continue to next middleware
+            next(payload);
+        }
+        self.amplitude?.addEventMiddleware(AmpliExtrasMiddleware);
     }
 
     public func track(_ event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
