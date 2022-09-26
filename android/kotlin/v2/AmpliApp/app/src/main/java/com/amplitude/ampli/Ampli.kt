@@ -21,7 +21,7 @@ import com.amplitude.android.Configuration
 import com.amplitude.android.events.BaseEvent
 import com.amplitude.android.events.EventOptions
 import com.amplitude.android.events.Plan
-import java.lang.reflect.Method
+import com.amplitude.core.platform.Plugin
 
 enum class EventType(val value: String) {
     Identify("\$identify"),
@@ -41,6 +41,24 @@ class LoadClientOptions(
 )
 
 val defaultObservePlan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
+
+class SetAmpliExtrasPlugin : Plugin {
+    override val type: Plugin.Type = Plugin.Type.Before
+    override lateinit var amplitude: com.amplitude.core.Amplitude
+
+    override fun execute(event: com.amplitude.core.events.BaseEvent): com.amplitude.core.events.BaseEvent {
+        val ampliExtra = mapOf(
+            "ampli" to mapOf(
+                "ingestionMetadata" to mapOf(
+                    "sourceName" to "android-kotlin-ampli",
+                    "sourceVersion" to "2.0.0"
+                )
+            )
+        )
+        event.extra = (event.extra ?: mapOf<String, Any>()).plus(ampliExtra)
+        return event
+    }
+}
 
 class DefaultConfiguration(apiKey: String, context : android.content.Context) {
     val config : Configuration
@@ -510,24 +528,7 @@ open class Ampli {
             this.client?.configuration?.plan = defaultObservePlan
         }
 
-        // set IngestionMetadata with backwards compatibility, min Android Kotlin SDK version 1.2.0.
-        try {
-            val clazz = Class.forName("com.amplitude.android.events.IngestionMetadata")
-            val clazzConstructor = clazz.getDeclaredConstructor(String::class.java, String::class.java)
-            val ingestionMetadata = clazzConstructor.newInstance("android-kotlin-ampli", "2.0.0")
-            val coreClazz = Class.forName("com.amplitude.core.events.IngestionMetadata")
-            val setIngestionMetadata: Method =
-                Configuration::class.java.getMethod("setIngestionMetadata", coreClazz)
-            setIngestionMetadata.invoke(this.client?.configuration, ingestionMetadata)
-        } catch (e: ClassNotFoundException) {
-            println("IngestionMetadata is available starting from Android Kotlin SDK 1.2.0 version")
-        } catch (e: NoSuchMethodException) {
-            println("IngestionMetadata is available starting from Android Kotlin SDK 1.2.0 version")
-        } catch (e: SecurityException) {
-            println("IngestionMetadata is available starting from Android Kotlin SDK 1.2.0 version")
-        } catch (e: Exception) {
-            System.err.println("Unexpected error when setting IngestionMetadata")
-        }
+        this.client?.add(SetAmpliExtrasPlugin())
     }
 
     /**
