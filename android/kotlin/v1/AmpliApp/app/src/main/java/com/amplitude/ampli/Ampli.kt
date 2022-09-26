@@ -16,13 +16,14 @@
 
 package com.amplitude.ampli
 
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
+
 import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 
 abstract class Event<E: Event<E>>(
     val eventType: String,
@@ -530,8 +531,7 @@ open class Ampli {
             val ingestionMetadata = clazz.newInstance()
             setSourceNameMethod.invoke(ingestionMetadata, "android-kotlin-ampli")
             setSourceVersionMethod.invoke(ingestionMetadata, "1.0.0")
-            val setIngestionMetadata =
-                AmplitudeClient::class.java.getMethod("setIngestionMetadata", clazz)
+            val setIngestionMetadata = AmplitudeClient::class.java.getMethod("setIngestionMetadata", clazz)
             setIngestionMetadata.invoke(client, ingestionMetadata)
         } catch (e: ClassNotFoundException) {
             println("com.amplitude.api.IngestionMetadata is available starting from Android SDK 2.38.2 version")

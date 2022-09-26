@@ -16,12 +16,13 @@
 
 package com.amplitude.ampli
 
-import com.amplitude.Amplitude
-import com.amplitude.MiddlewareExtra
-import com.amplitude.Plan
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+
+import com.amplitude.Amplitude
+import com.amplitude.MiddlewareExtra
+import com.amplitude.Plan
 
 abstract class Event<E: Event<E>>(
     val eventType: String,
