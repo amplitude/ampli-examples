@@ -38,7 +38,9 @@ public class SetAmpliExtrasPlugin implements Plugin {
         Map<String, Map<String, String>> ingestionMetadataMap = new HashMap<>();
         ingestionMetadataMap.put("ingestionMetadata", ingestionMetadataValue);
         ampliExtra.put("ampli", ingestionMetadataMap);
-        baseEvent.setExtra(ampliExtra);
+        Map<String, Object> extra = baseEvent.getExtra();
+        extra.putAll(ampliExtra);
+        baseEvent.setExtra(extra);
         return baseEvent;
     }
 
