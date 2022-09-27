@@ -117,6 +117,8 @@ public class Ampli {
         if (this.client.getConfiguration() != null && this.client.getConfiguration().getPlan() == null) {
             this.client.getConfiguration().setPlan(defaultObservePlan);
         }
+
+        this.client.add(new SetAmpliExtrasPlugin());
     }
 
     public void track(BaseEvent event) {
