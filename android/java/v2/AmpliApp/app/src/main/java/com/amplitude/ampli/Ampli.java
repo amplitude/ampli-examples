@@ -117,6 +117,8 @@ public class Ampli {
         if (this.client.getConfiguration() != null && this.client.getConfiguration().getPlan() == null) {
             this.client.getConfiguration().setPlan(defaultObservePlan);
         }
+
+        this.client.add(new SetAmpliExtrasPlugin());
     }
 
     public void track(BaseEvent event) {
@@ -138,12 +140,11 @@ public class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
+        EventOptions overriddenOptions = options != null ? options: new EventOptions();
+        String overriddenUserId = userId != null ? userId : (event.getUserId() != null ? event.getUserId() : overriddenOptions.getUserId());
+        overriddenOptions.setUserId(overriddenUserId);
 
-        EventOptions overridenOptions = options != null ? options: new EventOptions();
-        String overridenUserId = userId != null ? userId : (event.getUserId() != null ? event.getUserId() : overridenOptions.getUserId());
-        overridenOptions.setUserId(overridenUserId);
-
-        this.client.identify(event.getEventProperties(), overridenOptions);
+        this.client.identify(event.getEventProperties(), overriddenOptions);
     }
 
     public void setGroup(String name, String value) {
@@ -178,7 +179,6 @@ public class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return;
         }
-
         this.client.groupIdentify(groupType, groupName, event.getEventProperties(), options);
     }
 

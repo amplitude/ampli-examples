@@ -21,6 +21,7 @@ import com.amplitude.android.Configuration
 import com.amplitude.android.events.BaseEvent
 import com.amplitude.android.events.EventOptions
 import com.amplitude.android.events.Plan
+import com.amplitude.core.platform.Plugin
 
 enum class EventType(val value: String) {
     Identify("\$identify"),
@@ -49,6 +50,24 @@ class DefaultConfiguration(apiKey: String, context : android.content.Context) {
             context = context.applicationContext,
             plan = defaultObservePlan
         )
+    }
+}
+
+class SetAmpliExtrasPlugin : Plugin {
+    override val type: Plugin.Type = Plugin.Type.Before
+    override lateinit var amplitude: com.amplitude.core.Amplitude
+
+    override fun execute(event: com.amplitude.core.events.BaseEvent): com.amplitude.core.events.BaseEvent {
+        val ampliExtra = mapOf(
+            "ampli" to mapOf(
+                "ingestionMetadata" to mapOf(
+                    "sourceName" to "android-kotlin-ampli",
+                    "sourceVersion" to "2.0.0"
+                )
+            )
+        )
+        event.extra = (event.extra ?: mapOf<String, Any>()).plus(ampliExtra)
+        return event
     }
 }
 
@@ -508,6 +527,8 @@ open class Ampli {
         if (this.client?.configuration?.plan == null) {
             this.client?.configuration?.plan = defaultObservePlan
         }
+
+        this.client?.add(SetAmpliExtrasPlugin())
     }
 
     /**
@@ -536,12 +557,12 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        var overridenOptions = options ?: EventOptions()
+        var overriddenOptions = options ?: EventOptions()
         val userId = userId ?: event?.userId ?: options?.userId
         userId?.let {
-            overridenOptions.userId = it
+            overriddenOptions.userId = it
         }
-        this.client?.identify(event.eventProperties?.toMap(), overridenOptions)
+        this.client?.identify(event.eventProperties?.toMap(), overriddenOptions)
     }
 
     /**
