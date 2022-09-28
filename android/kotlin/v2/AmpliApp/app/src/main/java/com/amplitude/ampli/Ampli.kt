@@ -42,6 +42,17 @@ class LoadClientOptions(
 
 val defaultObservePlan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
 
+class DefaultConfiguration(apiKey: String, context : android.content.Context) {
+    val config : Configuration
+    init {
+        config = Configuration(
+            apiKey = apiKey,
+            context = context.applicationContext,
+            plan = defaultObservePlan
+        )
+    }
+}
+
 class SetAmpliExtrasPlugin : Plugin {
     override val type: Plugin.Type = Plugin.Type.Before
     override lateinit var amplitude: com.amplitude.core.Amplitude
@@ -57,17 +68,6 @@ class SetAmpliExtrasPlugin : Plugin {
         )
         event.extra = (event.extra ?: mapOf<String, Any>()).plus(ampliExtra)
         return event
-    }
-}
-
-class DefaultConfiguration(apiKey: String, context : android.content.Context) {
-    val config : Configuration
-    init {
-        config = Configuration(
-            apiKey = apiKey,
-            context = context.applicationContext,
-            plan = defaultObservePlan
-        )
     }
 }
 
@@ -557,12 +557,12 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        var overridenOptions = options ?: EventOptions()
+        var overriddenOptions = options ?: EventOptions()
         val userId = userId ?: event?.userId ?: options?.userId
         userId?.let {
-            overridenOptions.userId = it
+            overriddenOptions.userId = it
         }
-        this.client?.identify(event.eventProperties?.toMap(), overridenOptions)
+        this.client?.identify(event.eventProperties?.toMap(), overriddenOptions)
     }
 
     /**
