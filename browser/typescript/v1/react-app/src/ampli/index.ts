@@ -579,25 +579,32 @@ export class Ampli {
       device_id: options?.device_id
     };
     this.runMiddleware({ event, extra }, payload => {
-      const e = payload.event;
-      if (e.user_id) {
-        this.amplitude?.setUserId(e.user_id);
+      if (payload.event.user_id) {
+        this.amplitude?.setUserId(payload.event.user_id);
       }
-      if (e.device_id) {
-        this.amplitude?.setDeviceId(e.device_id);
+      if (payload.event.device_id) {
+        this.amplitude?.setDeviceId(payload.event.device_id);
       }
-      const amplitudeIdentify = new amplitude.Identify();
-      if (e.event_properties != null) {
-        for (const [key, value] of Object.entries(e.event_properties)) {
-          amplitudeIdentify.set(key, value);
-        }
-      }
-      this.amplitude?.identify(
-        amplitudeIdentify,
-        options?.callback,
-        // options?.errorCallback
-      );
+
+      this._identify(payload.event, options);
     });
+  }
+
+  private _identify(
+    event: Event,
+    options?: IdentifyOptions,
+  ) {
+    const amplitudeIdentify = new amplitude.Identify();
+    if (event.event_properties != null) {
+      for (const [key, value] of Object.entries(event.event_properties)) {
+        amplitudeIdentify.set(key, value);
+      }
+    }
+    this.amplitude?.identify(
+      amplitudeIdentify,
+      options?.callback,
+      // options?.errorCallback
+    );
   }
 
   setGroup(name: string, value: string | string[], options?: GroupOptions, extra?: MiddlewareExtra) {
@@ -664,7 +671,32 @@ export class Ampli {
       return;
     }
 
-    this.runMiddleware({ event, extra }, payload => {
+    const trackEvent: BaseEvent = {
+      event_type: event.event_type,
+      event_properties: event.event_properties,
+      user_id: event.user_id || options?.user_id,
+      device_id: event.device_id || options?.device_id,
+      user_properties: (event as BaseEvent).user_properties ?? options?.user_properties,
+    };
+    this.runMiddleware({ event: trackEvent, extra }, payload => {
+      if (payload.event.user_id) {
+        this.amplitude?.setUserId(payload.event.user_id);
+      }
+      if (payload.event.device_id) {
+        this.amplitude?.setDeviceId(payload.event.device_id);
+      }
+
+      const userProperties = (payload.event as BaseEvent).user_properties;
+      if (userProperties) {
+        const identifyEvent: IdentifyEvent = {
+          event_type: SpecialEventType.Identify,
+          event_properties: userProperties,
+          user_id: payload.event.user_id,
+          device_id: payload.event.device_id
+        };
+        this._identify(identifyEvent, options);
+      }
+
       this.amplitude?.logEvent(
         payload.event.event_type,
         payload.event.event_properties,
@@ -947,18 +979,19 @@ export type BaseEvent = {
   plan?: Plan;
   user_id?: string;
   device_id?: string;
+  user_properties?: { [key: string]: any };
 }
-export type IdentifyEvent = BaseEvent & { event_type: SpecialEventType.Identify };
-export type GroupEvent = BaseEvent & { event_type: SpecialEventType.Group };
+export type IdentifyEvent = Omit<BaseEvent, 'user_properties'> & {event_type: SpecialEventType.Identify };
+export type GroupEvent = Omit<BaseEvent, 'user_properties'> & { event_type: SpecialEventType.Group };
 export type Event = BaseEvent | IdentifyEvent | GroupEvent;
 
 type BaseEventOptions = Omit<BaseEvent, 'event_type' | 'event_properties'> & {
-  callback: Callback;
-  errorCallback: Callback;
+  callback?: Callback;
+  errorCallback?: Callback;
 };
 export type EventOptions = BaseEventOptions;
-export type IdentifyOptions = BaseEventOptions;
-export type GroupOptions = BaseEventOptions;
+export type IdentifyOptions = Omit<BaseEventOptions, 'user_properties'>;
+export type GroupOptions = Omit<BaseEventOptions, 'user_properties'>;
 
 /**
  * Unstructured object to let users pass extra data to middleware
