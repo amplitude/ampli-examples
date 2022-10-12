@@ -671,13 +671,7 @@ export class Ampli {
       return;
     }
 
-    const trackEvent: BaseEvent = {
-      event_type: event.event_type,
-      event_properties: event.event_properties,
-      user_id: event.user_id || options?.user_id,
-      device_id: event.device_id || options?.device_id,
-      user_properties: (event as BaseEvent).user_properties ?? options?.user_properties,
-    };
+    const trackEvent: BaseEvent = { ...options, ...event };
     this.runMiddleware({ event: trackEvent, extra }, payload => {
       if (payload.event.user_id) {
         this.amplitude?.setUserId(payload.event.user_id);
