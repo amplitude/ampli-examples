@@ -326,25 +326,29 @@ export class Ampli {
       device_id: options?.device_id
     };
     this.runMiddleware({ event, extra }, payload => {
-      const e = payload.event;
-      if (e.user_id) {
-        this.amplitude.setUserId(e.user_id);
+      if (payload.event.user_id) {
+        this.amplitude?.setUserId(payload.event.user_id);
       }
-      if (e.device_id) {
-        this.amplitude.setDeviceId(e.device_id);
+      if (payload.event.device_id) {
+        this.amplitude?.setDeviceId(payload.event.device_id);
       }
-      const ampIdentify = new amplitude.Identify();
-      if (e.event_properties != null) {
-        for (const [key, value] of Object.entries(e.event_properties)) {
-          ampIdentify.set(key, value);
-        }
-      }
-      this.amplitude.identify(
-        ampIdentify,
-        options?.callback,
-        options?.errorCallback
-      );
+
+      this._identify(payload.event, options);
     });
+  }
+
+  _identify(event, options) {
+    const ampIdentify = new amplitude.Identify();
+    if (event.event_properties != null) {
+      for (const [key, value] of Object.entries(event.event_properties)) {
+        ampIdentify.set(key, value);
+      }
+    }
+    this.amplitude.identify(
+      ampIdentify,
+      options?.callback,
+      options?.errorCallback
+    );
   }
 
   /**
@@ -415,7 +419,26 @@ export class Ampli {
       return;
     }
 
-    this.runMiddleware({ event, extra }, payload => {
+    const trackEvent = { ...event, ...options };
+    this.runMiddleware({ event: trackEvent, extra }, payload => {
+      if (payload.event.user_id) {
+        this.amplitude?.setUserId(payload.event.user_id);
+      }
+      if (payload.event.device_id) {
+        this.amplitude?.setDeviceId(payload.event.device_id);
+      }
+
+      const userProperties = payload.event.user_properties;
+      if (userProperties) {
+        const identifyEvent = {
+          event_type: SpecialEventType.Identify,
+          event_properties: userProperties,
+          user_id: payload.event.user_id,
+          device_id: payload.event.device_id
+        };
+        this._identify(identifyEvent, options);
+      }
+
       this.amplitude.logEvent(
         payload.event.event_type,
         payload.event.event_properties,
