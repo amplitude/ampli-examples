@@ -193,7 +193,7 @@ class EventWithAllProperties private constructor(
     constructor(
         requiredArray: Array<String>,
         requiredBoolean: Boolean,
-        requiredEnum: EventWithAllProperties.RequiredEnum,
+        requiredEnum: RequiredEnum,
         requiredInteger: Int,
         requiredNumber: Double,
         requiredString: String,
@@ -292,10 +292,10 @@ class EventWithDifferentCasingTypes private constructor(
      * @param propertyWithSpace Description for case with space
      */
     constructor(
-        enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase,
-        enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase,
-        enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase,
-        enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace,
+        enumCamelCase: EnumCamelCase,
+        enumPascalCase: EnumPascalCase,
+        enumSnakeCase: EnumSnakeCase,
+        enumWithSpace: EnumWithSpace,
         propertyWithCamelCase: String,
         propertyWithPascalCase: String,
         propertyWithSnakeCase: String,
@@ -345,8 +345,8 @@ class EventWithEnumTypes private constructor(
      * @param optionalEnum Description for required enum
      */
     constructor(
-        requiredEnum: EventWithEnumTypes.RequiredEnum,
-        optionalEnum: EventWithEnumTypes.OptionalEnum? = null
+        requiredEnum: RequiredEnum,
+        optionalEnum: OptionalEnum? = null
     ) : this(mapOf(
         *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
         "required enum" to requiredEnum.value

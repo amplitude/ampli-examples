@@ -40,19 +40,6 @@ class LoadClientOptions(
     val configuration: Configuration? = null
 )
 
-val defaultObservePlan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
-
-class DefaultConfiguration(apiKey: String, context : android.content.Context) {
-    val config : Configuration
-    init {
-        config = Configuration(
-            apiKey = apiKey,
-            context = context.applicationContext,
-            plan = defaultObservePlan
-        )
-    }
-}
-
 class SetAmpliExtrasPlugin : Plugin {
     override val type: Plugin.Type = Plugin.Type.Before
     override lateinit var amplitude: com.amplitude.core.Amplitude
@@ -66,8 +53,21 @@ class SetAmpliExtrasPlugin : Plugin {
                 )
             )
         )
-        event.extra = (event.extra ?: mapOf<String, Any>()).plus(ampliExtra)
+        event.extra = (event.extra ?: mapOf()).plus(ampliExtra)
         return event
+    }
+}
+
+val defaultObservePlan = Plan("main", "kotlin-ampli-v2", "0", "79154a50-f057-4db5-9755-775e4e9f05e6")
+
+class DefaultConfiguration(apiKey: String, context : android.content.Context) {
+    val config : Configuration
+    init {
+        config = Configuration(
+            apiKey = apiKey,
+            context = context.applicationContext,
+            plan = defaultObservePlan
+        )
     }
 }
 
@@ -204,7 +204,7 @@ class EventWithAllProperties private constructor() : BaseEvent() {
     constructor(
         requiredArray: Array<String>,
         requiredBoolean: Boolean,
-        requiredEnum: EventWithAllProperties.RequiredEnum,
+        requiredEnum: RequiredEnum,
         requiredInteger: Int,
         requiredNumber: Double,
         requiredString: String,
@@ -306,10 +306,10 @@ class EventWithDifferentCasingTypes private constructor() : BaseEvent() {
      * @param propertyWithSpace Description for case with space
      */
     constructor(
-        enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase,
-        enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase,
-        enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase,
-        enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace,
+        enumCamelCase: EnumCamelCase,
+        enumPascalCase: EnumPascalCase,
+        enumSnakeCase: EnumSnakeCase,
+        enumWithSpace: EnumWithSpace,
         propertyWithCamelCase: String,
         propertyWithPascalCase: String,
         propertyWithSnakeCase: String,
@@ -360,8 +360,8 @@ class EventWithEnumTypes private constructor() : BaseEvent() {
      * @param optionalEnum Description for required enum
      */
     constructor(
-        requiredEnum: EventWithEnumTypes.RequiredEnum,
-        optionalEnum: EventWithEnumTypes.OptionalEnum? = null
+        requiredEnum: RequiredEnum,
+        optionalEnum: OptionalEnum? = null
     ) : this() {
         this.eventType = "EventWithEnumTypes"
         this.eventProperties =
@@ -557,9 +557,8 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        var overriddenOptions = options ?: EventOptions()
-        val userId = userId ?: event?.userId ?: options?.userId
-        userId?.let {
+        val overriddenOptions = options ?: EventOptions()
+        (userId ?: event.userId ?: options?.userId) ?. let {
             overriddenOptions.userId = it
         }
         this.client?.identify(event.eventProperties?.toMap(), overriddenOptions)
@@ -571,7 +570,7 @@ open class Ampli {
      * @param groupType the group type
      * @param groupName the group name
      * @param options optional event options
-    */
+     */
     open fun setGroup(groupType: String, groupName: String, options: EventOptions? = null) {
         if (!this.isInitializedAndEnabled()) {
             return
