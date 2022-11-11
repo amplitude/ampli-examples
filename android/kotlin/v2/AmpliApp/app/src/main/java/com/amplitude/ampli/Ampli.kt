@@ -88,10 +88,10 @@ class Identify private constructor() : BaseEvent() {
     ) : this() {
         this.eventType = EventType.Identify.value
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalArray != null) arrayOf("optionalArray" to optionalArray) else arrayOf()),
                 "requiredNumber" to requiredNumber
-            ).toMutableMap()
+            )
     }
 }
 
@@ -112,10 +112,10 @@ class Group private constructor() : BaseEvent() {
     ) : this() {
         this.eventType = EventType.GroupIdentify.value
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
                 "requiredBoolean" to requiredBoolean
-            ).toMutableMap()
+            )
     }
 }
 
@@ -136,9 +136,9 @@ class EventMaxIntForTest private constructor() : BaseEvent() {
     ) : this() {
         this.eventType = "EventMaxIntForTest"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 "intMax10" to intMax10
-            ).toMutableMap()
+            )
     }
 }
 
@@ -153,7 +153,7 @@ class EventNoProperties : BaseEvent() {
      * Owner: Test codegen
      */
     init {
-        this.eventType = "EventNoProperties"
+        this.eventType = "Event No Properties"
     }
 }
 
@@ -174,12 +174,12 @@ class EventObjectTypes private constructor() : BaseEvent() {
         requiredObject: Any,
         requiredObjectArray: Array<Any>
     ) : this() {
-        this.eventType = "EventObjectTypes"
+        this.eventType = "Event Object Types"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 "requiredObject" to requiredObject,
                 "requiredObjectArray" to requiredObjectArray
-            ).toMutableMap()
+            )
     }
 }
 
@@ -210,9 +210,9 @@ class EventWithAllProperties private constructor() : BaseEvent() {
         requiredString: String,
         optionalString: String? = null
     ) : this() {
-        this.eventType = "EventWithAllProperties"
+        this.eventType = "Event With All Properties"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
                 "requiredArray" to requiredArray,
                 "requiredBoolean" to requiredBoolean,
@@ -221,7 +221,7 @@ class EventWithAllProperties private constructor() : BaseEvent() {
                 "requiredInteger" to requiredInteger,
                 "requiredNumber" to requiredNumber,
                 "requiredString" to requiredString
-            ).toMutableMap()
+            )
     }
 
     enum class RequiredEnum(val value: String) {
@@ -251,14 +251,14 @@ class EventWithArrayTypes private constructor() : BaseEvent() {
         requiredObjectArray: Array<Any>,
         requiredStringArray: Array<String>
     ) : this() {
-        this.eventType = "EventWithArrayTypes"
+        this.eventType = "Event With Array Types"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 "requiredBooleanArray" to requiredBooleanArray,
                 "requiredNumberArray" to requiredNumberArray,
                 "requiredObjectArray" to requiredObjectArray,
                 "requiredStringArray" to requiredStringArray
-            ).toMutableMap()
+            )
     }
 }
 
@@ -273,16 +273,16 @@ class EventWithConstTypes : BaseEvent() {
      * Owner: Test codegen
      */
     init {
-        this.eventType = "EventWithConstTypes"
+        this.eventType = "Event With Const Types"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 "Boolean Const" to true,
                 "Integer Const" to 10,
                 "Number Const" to 2.2,
                 "String Const" to "String-Constant",
                 "String Const WIth Quotes" to "\"String \"Const With\" Quotes\"",
                 "String Int Const" to 0
-            ).toMutableMap()
+            )
     }
 }
 
@@ -315,9 +315,9 @@ class EventWithDifferentCasingTypes private constructor() : BaseEvent() {
         propertyWithSnakeCase: String,
         propertyWithSpace: String
     ) : this() {
-        this.eventType = "EventWithDifferentCasingTypes"
+        this.eventType = "event withDifferent_CasingTypes"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 "enumCamelCase" to enumCamelCase.value,
                 "EnumPascalCase" to enumPascalCase.value,
                 "enum_snake_case" to enumSnakeCase.value,
@@ -326,7 +326,7 @@ class EventWithDifferentCasingTypes private constructor() : BaseEvent() {
                 "PropertyWithPascalCase" to propertyWithPascalCase,
                 "property_with_snake_case" to propertyWithSnakeCase,
                 "property with space" to propertyWithSpace
-            ).toMutableMap()
+            )
     }
 
     enum class EnumCamelCase(val value: String) {
@@ -363,12 +363,12 @@ class EventWithEnumTypes private constructor() : BaseEvent() {
         requiredEnum: RequiredEnum,
         optionalEnum: OptionalEnum? = null
     ) : this() {
-        this.eventType = "EventWithEnumTypes"
+        this.eventType = "Event With Enum Types"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalEnum != null) arrayOf("optional enum" to optionalEnum.value) else arrayOf()),
                 "required enum" to requiredEnum.value
-            ).toMutableMap()
+            )
     }
 
     enum class OptionalEnum(val value: String) {
@@ -403,14 +403,14 @@ class EventWithOptionalArrayTypes private constructor() : BaseEvent() {
         optionalNumberArray: Array<Double>? = null,
         optionalStringArray: Array<String>? = null
     ) : this() {
-        this.eventType = "EventWithOptionalArrayTypes"
+        this.eventType = "Event With Optional Array Types"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalBooleanArray != null) arrayOf("optionalBooleanArray" to optionalBooleanArray) else arrayOf()),
                 *(if (optionalJsonArray != null) arrayOf("optionalJSONArray" to optionalJsonArray) else arrayOf()),
                 *(if (optionalNumberArray != null) arrayOf("optionalNumberArray" to optionalNumberArray) else arrayOf()),
                 *(if (optionalStringArray != null) arrayOf("optionalStringArray" to optionalStringArray) else arrayOf())
-            ).toMutableMap()
+            )
     }
 }
 
@@ -437,15 +437,15 @@ class EventWithOptionalProperties private constructor() : BaseEvent() {
         optionalNumber: Double? = null,
         optionalString: String? = null
     ) : this() {
-        this.eventType = "EventWithOptionalProperties"
+        this.eventType = "Event With Optional Properties"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalArrayNumber != null) arrayOf("optionalArrayNumber" to optionalArrayNumber) else arrayOf()),
                 *(if (optionalArrayString != null) arrayOf("optionalArrayString" to optionalArrayString) else arrayOf()),
                 *(if (optionalBoolean != null) arrayOf("optionalBoolean" to optionalBoolean) else arrayOf()),
                 *(if (optionalNumber != null) arrayOf("optionalNumber" to optionalNumber) else arrayOf()),
                 *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf())
-            ).toMutableMap()
+            )
     }
 }
 
@@ -470,14 +470,14 @@ class EventWithTemplateProperties private constructor() : BaseEvent() {
         optionalEventProperty: Double? = null,
         optionalTemplateProperty: Double? = null
     ) : this() {
-        this.eventType = "EventWithTemplateProperties"
+        this.eventType = "Event With Template Properties"
         this.eventProperties =
-            mapOf(
+            mutableMapOf(
                 *(if (optionalEventProperty != null) arrayOf("optional_event_property" to optionalEventProperty) else arrayOf()),
                 *(if (optionalTemplateProperty != null) arrayOf("optional_template_property" to optionalTemplateProperty) else arrayOf()),
                 "required_event_property" to requiredEventProperty,
                 "required_template_property" to requiredTemplateProperty
-            ).toMutableMap()
+            )
     }
 }
 
@@ -561,7 +561,7 @@ open class Ampli {
         (userId ?: event.userId ?: options?.userId) ?. let {
             overriddenOptions.userId = it
         }
-        this.client?.identify(event.eventProperties?.toMap(), overriddenOptions)
+        this.client?.identify(event.eventProperties, overriddenOptions)
     }
 
     /**
@@ -604,7 +604,7 @@ open class Ampli {
         if (!this.isInitializedAndEnabled()) {
             return
         }
-        this.client?.groupIdentify(groupType, groupName, event.eventProperties?.toMap(), options)
+        this.client?.groupIdentify(groupType, groupName, event.eventProperties, options)
     }
 
     /**
