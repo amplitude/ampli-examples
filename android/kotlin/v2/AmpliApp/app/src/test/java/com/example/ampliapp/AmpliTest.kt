@@ -140,7 +140,7 @@ class AmpliTest {
             eq(null),
             eq(null)
         )
-        assertEquals("EventNoProperties", eventCaptor.allValues.first().eventType )
+        assertEquals("Event No Properties", eventCaptor.allValues.first().eventType )
     }
 
     @Test
@@ -167,7 +167,7 @@ class AmpliTest {
             eq(null)
         )
 
-        assertEquals("EventWithAllProperties", eventCaptor.allValues.first().eventType)
+        assertEquals("Event With All Properties", eventCaptor.allValues.first().eventType)
         assertEquals(
             """{
   "requiredEnum": "Enum2",
