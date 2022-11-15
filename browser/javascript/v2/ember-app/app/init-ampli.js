@@ -4,6 +4,10 @@ import config from 'ember-app/config/environment';
 export default function initAmpli() {
   const { AMPLITUDE_API_KEY = '' } = config;
 
+  if (!AMPLITUDE_API_KEY) {
+    return;
+  }
+
   /**
    * Start by calling ampli.load()
    *
