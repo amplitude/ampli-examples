@@ -3,7 +3,7 @@ name: CI - JS/TS V2 Tests
 on:
   pull_request:
     paths:
-      - 'browser/javascript/v2/**'
+      - 'browser/javascript/v2/react-app/**'
       - 'browser/typescript/v2/**'
       - 'node/javascript/v2/**'
       - 'node/typescript/v2/**'

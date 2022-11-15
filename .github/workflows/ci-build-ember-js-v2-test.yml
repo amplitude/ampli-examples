@@ -1,0 +1,30 @@
+name: CI - Ember JS V2 Tests
+
+on:
+  pull_request:
+    paths:
+      - 'browser/javascript/v2/ember-app/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        working-directory: browser/javascript/v2/ember-app
+        run: yarn install --frozen-lockfile
+
+      - name: Run Tests
+        working-directory: browser/javascript/v2/ember-app
+        run: yarn test

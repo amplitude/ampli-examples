@@ -1,0 +1,27 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+button {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0.5em 0.1em 0.1em 0;
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: #FFFFFF;
+  background: blue;
+  text-align: center;
+  font-size: large;
+}
