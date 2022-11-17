@@ -989,11 +989,15 @@ public class Ampli {
     }
 
     private com.amplitude.Event createAmplitudeEvent(String eventType, EventOptions options, String userId) {
-        return new com.amplitude.Event(
-            eventType,
-            userId != null ? userId : (options != null ? options.userId : null),
-            options != null ? options.deviceId : null
+        com.amplitude.Event event = new com.amplitude.Event(
+                eventType,
+                userId != null ? userId : (options != null ? options.userId : null),
+                options != null ? options.deviceId : null
         );
+        if (options != null && options.sessionId != -1) {
+            event.sessionId = options.sessionId;
+        }
+        return event;
     }
 
     private boolean isInitializedAndEnabled() {

@@ -18,6 +18,7 @@ package com.amplitude.ampli;
 public class EventOptions {
     String userId;
     String deviceId;
+    long sessionId = -1;
 
     public EventOptions setUserId(String userId) {
         this.userId = userId;
@@ -26,6 +27,11 @@ public class EventOptions {
 
     public EventOptions setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+        return this;
+    }
+
+    public EventOptions setSessionId(long sessionId) {
+        this.sessionId = sessionId;
         return this;
     }
 }
