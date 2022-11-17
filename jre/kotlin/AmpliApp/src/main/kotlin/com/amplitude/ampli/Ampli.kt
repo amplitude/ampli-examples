@@ -772,10 +772,10 @@ open class Ampli {
             overrideUserId ?: overrideOptions?.userId ?: options?.userId,
             overrideOptions?.deviceId ?: options?.deviceId
         )
-        if (overrideOptions?.sessionId != -1L) {
-            event.sessionId = overrideOptions!!.sessionId
-        } else if (options?.sessionId != -1L) {
-            event.sessionId = options!!.sessionId
+        if (overrideOptions != null && overrideOptions.sessionId != -1L) {
+            event.sessionId = overrideOptions.sessionId
+        } else if (options != null && options.sessionId != -1L) {
+            event.sessionId = options.sessionId
         }
         return event
     }
