@@ -87,7 +87,7 @@ describe('Ampli Browser TS SDK V2 tests', () => {
       },
     })?.promise;
 
-    const response = (await ampli.setGroup('Group name', 'Group Value', { user_id: userId })?.promise) as amplitude.Types.Result;
+    const response = (await ampli.client.setGroup('Group name', 'Group Value', { user_id: userId })?.promise) as amplitude.Types.Result;
 
     expect(response.event.event_type).toBe('$identify');
     expect(response.event.user_id).toBe(userId);
@@ -120,10 +120,11 @@ describe('Ampli Browser TS SDK V2 tests', () => {
       },
     })?.promise;
 
-    const response = (await ampli.groupIdentify('Group name', 'Group Value', {
-      requiredBoolean: true,
-      optionalString: 'some-string',
-    }, { user_id: userId })?.promise) as amplitude.Types.Result;
+    const amplitudeIdentify = new amplitude.Identify();
+    amplitudeIdentify.set('requiredBoolean', true);
+    amplitudeIdentify.set('optionalString', 'some-string');
+
+    const response = (await ampli.client.groupIdentify('Group name', 'Group Value', amplitudeIdentify, { user_id: userId })?.promise) as amplitude.Types.Result;
 
     expect(response.event.event_type).toBe('$groupidentify');
     expect(response.event.user_id).toBe(userId);

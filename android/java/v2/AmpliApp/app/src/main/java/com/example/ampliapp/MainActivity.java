@@ -7,6 +7,9 @@ import android.widget.Button;
 
 import com.amplitude.ampli.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     private final String userId = "ampli-java-user-id";
 
@@ -24,14 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSetGroup = this.findViewById(R.id.btn_set_group);
         btnSetGroup.setOnClickListener(v -> {
-            Ampli.getInstance().setGroup("test group", "android-java-ampli");
+            Ampli.getInstance().getClient().setGroup("test group", "android-java-ampli");
         });
 
         Button btnGroupIdentify = this.findViewById(R.id.btn_group_identify);
         btnGroupIdentify.setOnClickListener(v -> {
-            Ampli.getInstance().groupIdentify("test group", "android-java-ampli", Group.builder()
-                    .requiredBoolean(true)
-                    .build());
+            Map<String, Object> groupProperties = new HashMap<String, Object>() {{
+                put("requiredBoolean", true);
+            }};
+            Ampli.getInstance().getClient().groupIdentify("test group", "android-java-ampli", groupProperties);
         });
 
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     .build());
 
             Ampli.getInstance().eventObjectTypes(EventObjectTypes.builder()
+                    .requiredObject("abc")
                     .requiredObjectArray(new Object[]{1, "a", true})
                     .build());
 

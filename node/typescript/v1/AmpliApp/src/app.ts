@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { LogLevel } from "@amplitude/types";
+import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { Ampli, ampli, EventWithOptionalProperties } from './ampli';
 import { Page } from './middleware/segmentItlyPluginMiddleware';
 import { UserTrackExtra } from "./types";
@@ -110,7 +111,9 @@ ampli.identify(userId,
   { platform: process.platform },
 );
 
-ampli.setGroup(userId, 'test group', 'node-ts-ampli');
+const setGroupIdentify = new AmplitudeIdentify().setGroup('test group', 'node-ts-ampli');
+const setGroupIdentifyEvent = setGroupIdentify.identifyUser(userId);
+ampli.client.logEvent(setGroupIdentifyEvent);
 
 /**
  * Track Events via strongly typed methods
@@ -196,7 +199,10 @@ ampli.track(userId, new Page({
   myPageProp: true,
 }));
 
-ampli.groupIdentify('test group', 'node-ts-ampli', { requiredBoolean: true });
+const groupIdentify = new AmplitudeIdentify();
+groupIdentify.set('requiredBoolean', true);
+const groupIdentifyEvent = groupIdentify.identifyGroup('test group', 'node-ts-ampli');
+ampli.client.logEvent(groupIdentifyEvent);
 
 const myService = new Service1();
 myService.doAction1();

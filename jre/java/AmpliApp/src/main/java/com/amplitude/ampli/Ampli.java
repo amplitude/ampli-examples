@@ -184,63 +184,6 @@ public class Ampli {
         this.client.logEvent(amplitudeEvent, extra);
     }
 
-    public void setGroup(String userId, String name, String value) {
-        this.setGroup(userId, name, value, null, null);
-    }
-
-    public void setGroup(String userId, String name, String value, EventOptions options) {
-        this.setGroup(userId, name, value, options, null);
-    }
-
-    public void setGroup(String userId, String name, String value, MiddlewareExtra extra) {
-        this.setGroup(userId, name, value, null, extra);
-    }
-
-    public void setGroup(String userId, String name, String value, EventOptions options, MiddlewareExtra extra) {
-        this.setGroupProperties(userId, name, value, options, extra);
-    }
-
-    public void setGroup(String userId, String name, String[] value) {
-        this.setGroup(userId, name, value, null, null);
-    }
-
-    public void setGroup(String userId, String name, String[] value, EventOptions options) {
-        this.setGroup(userId, name, value, options, null);
-    }
-
-    public void setGroup(String userId, String name, String[] value, MiddlewareExtra extra) {
-        this.setGroup(userId, name, value, null, extra);
-    }
-
-    public void setGroup(String userId, String name, String[] value, EventOptions options, MiddlewareExtra extra) {
-        JSONArray jsonValue;
-        try {
-            jsonValue = new JSONArray(value);
-        } catch (JSONException e) {
-            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
-            return;
-        }
-        this.setGroupProperties(userId, name, jsonValue, options, extra);
-    }
-
-    private void setGroupProperties(String userId, String name, Object value, EventOptions options, MiddlewareExtra extra) {
-        if (!this.isInitializedAndEnabled()) {
-            return;
-        }
-
-        JSONObject groupProperties = new JSONObject();
-        try {
-            groupProperties.put(name, value);
-        } catch (JSONException e) {
-            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
-        }
-
-        com.amplitude.Event amplitudeEvent = this.createAmplitudeEvent("$identify", options, userId);
-        amplitudeEvent.groupProperties = groupProperties;
-
-        this.client.logEvent(amplitudeEvent, extra);
-    }
-
     public void flush() {
         if (!this.isInitializedAndEnabled()) {
             return;

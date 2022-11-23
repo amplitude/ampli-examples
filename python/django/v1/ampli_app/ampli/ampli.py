@@ -102,29 +102,6 @@ class Identify(IdentifyEvent):
         }
 
 
-class Group(GroupIdentifyEvent):
-    """Group
-
-    [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group)
-
-    Group properties.
-
-    :param required_boolean: Description for group requiredBoolean
-    :param optional_string: Description for group optionalString
-    """
-
-    def __init__(
-        self,
-        required_boolean: bool,
-        optional_string: Optional[str] = None
-    ):
-        super().__init__()
-        self.group_properties = {
-            "optionalString": optional_string,
-            "requiredBoolean": required_boolean
-        }
-
-
 class EventMaxIntForTest(BaseEvent):
     """EventMaxIntForTest
 
@@ -556,40 +533,6 @@ class Ampli:
             return
         self.track(user_id, event, event_options)
 
-    def group_identify(self, group_type: str,
-                       group_name: str,
-                       event: Group,
-                       event_options: Optional[EventOptions] = None):
-        """Identify a group and set group properties.
-
-        :param group_type: The group type.
-        :param group_name: The group name.
-        :param event: The Group event instance.
-        :param event_options: Extra optional event attributes options.
-        """
-        if not self.initialized_and_enabled():
-            return
-        event.groups = {group_type: group_name}
-        self.track(None, event, event_options)
-
-    def set_group(self, user_id: Optional[str],
-                  group_type: str,
-                  group_name: Union[str, List[str]],
-                  event_options: Optional[EventOptions] = None):
-        """Set Group for the current user
-
-        :param user_id: The user's ID.
-        :param group_type: The group type.
-        :param group_name: The group name.
-        :param event_options: Extra optional event attributes options.
-        """
-        if not self.initialized_and_enabled():
-            return
-        if not event_options:
-            event_options = EventOptions()
-        if user_id:
-            event_options["user_id"] = user_id
-        self.client.set_group(group_type, group_name, event_options)
 
     def flush(self):
         """Flush events waiting in buffer"""

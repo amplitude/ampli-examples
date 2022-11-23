@@ -73,17 +73,6 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface GroupProperties {
-  /**
-   * Description for group optionalString
-   */
-  optionalString?: string;
-  /**
-   * Description for group requiredBoolean
-   */
-  requiredBoolean: boolean;
-}
-
 export interface EventMaxIntForTestProperties {
   /**
    * property to test schema validation
@@ -384,16 +373,6 @@ export class Identify implements BaseEvent {
   }
 }
 
-export class Group implements BaseEvent {
-  event_type = 'Group';
-
-  constructor(
-    public event_properties: GroupProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
 export class EventMaxIntForTest implements BaseEvent {
   event_type = 'EventMaxIntForTest';
 
@@ -605,58 +584,6 @@ export class Ampli {
       options?.callback,
       // options?.errorCallback
     );
-  }
-
-  setGroup(name: string, value: string | string[], options?: GroupOptions, extra?: MiddlewareExtra) {
-    if (!this.isInitializedAndEnabled()) {
-      return;
-    }
-
-    this.amplitude?.setGroup(name, value);
-  }
-
-  /**
-   * Identify a group and set group properties.
-   *
-   * @param groupType The group type.
-   * @param groupName The group name.
-   * @param properties The group properties.
-   * @param options Optional event options.
-   * @param extra Extra unstructured data for middleware.
-   */
-  groupIdentify(
-    groupType: string,
-    groupName: string | string[],
-    properties: GroupProperties,
-    options?: GroupOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    if (!this.isInitializedAndEnabled()) {
-      return;
-    }
-
-    const event: GroupEvent = {
-      event_type: SpecialEventType.Group,
-      event_properties: properties,
-      user_id: options?.user_id,
-      device_id: options?.device_id
-    };
-    this.runMiddleware({ event, extra }, payload => {
-      const e = payload.event;
-      if (e.user_id) {
-        this.amplitude?.setUserId(e.user_id);
-      }
-      if (e.device_id) {
-        this.amplitude?.setDeviceId(e.device_id);
-      }
-      const amplitudeIdentify = new amplitude.Identify();
-      if (e.event_properties != null) {
-        for (const [key, value] of Object.entries(e.event_properties)) {
-          amplitudeIdentify.set(key, value);
-        }
-      }
-      this.amplitude?.groupIdentify(groupType, groupName, amplitudeIdentify, options?.callback);
-    });
   }
 
   /**

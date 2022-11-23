@@ -66,43 +66,6 @@ optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
 }
 @end
 
-#pragma mark - GroupBuilder
-
-@implementation GroupBuilder: NSObject
--(instancetype)init {
-    if (self = [super init]) {
-        self.optionalString = nil;
-    }
-    return self;
-}
-@end
-
-#pragma mark - Group
-
-@implementation Group: Event
-
-+ (instancetype)requiredBoolean:(Boolean)requiredBoolean {
-    return [self requiredBoolean: requiredBoolean
-                builderBlock:^(GroupBuilder * b) {}];
-}
-+ (instancetype)requiredBoolean:(Boolean)requiredBoolean builderBlock:(void (^)(GroupBuilder *b))builderBlock {
-    GroupBuilder *options = [GroupBuilder new];
-    builderBlock(options);
-    return [[self alloc] initWithRequiredBoolean_Group: requiredBoolean
-                optionalString: options.optionalString];
-}
-
-- (instancetype)initWithRequiredBoolean_Group:(Boolean)requiredBoolean
-optionalString:(NSString* _Nullable)optionalString {
-    self = [super initWithEventType:@"Group"
-                    withEventProperties:@{
-                        @"optionalString": optionalString ?: NSNull.null,
-                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean]
-                    }];
-    return self;
-}
-@end
-
 #pragma mark - EventMaxIntForTest
 
 @implementation EventMaxIntForTest: Event
@@ -721,57 +684,6 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
     }
     [self.client identify:identifyArgs];
  }
-
-- (void)setGroup:(NSString *)name value:(NSString *)value {
-    [self setGroup:name value:value options:nil extra:nil];
-}
-
-- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options {
-    [self setGroup:name value:value options:options extra:nil];
-}
-
-- (void)setGroup:(NSString *)name value:(NSString *)value extra:(MiddlewareExtra *_Nullable)extra {
-    [self setGroup:name value:value options:nil extra:extra];
-}
-
-- (void)setGroup:(NSString *)name value:(NSString *)value options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
-    if (![self isInitializedAndEnabled]) {
-        return;
-    }
-    [self handleEventOptions:options];
-    [self.client setGroup:name groupName:value];
-}
-
-- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event {
-    [self groupIdentify:groupType groupName:groupName event:event options:nil extra:nil];
-}
-
-- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options {
-    [self groupIdentify:groupType groupName:groupName event:event options:options extra:nil];
-}
-
-- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event extra:(MiddlewareExtra *_Nullable)extra {
-    [self groupIdentify:groupType groupName:groupName event:event options:nil extra:extra];
-}
-
-- (void)groupIdentify:(NSString *)groupType groupName:(NSString *)groupName event:(Group *)event options:(EventOptions *_Nullable)options extra:(MiddlewareExtra *_Nullable)extra {
-    if (![self isInitializedAndEnabled]) {
-        return;
-    }
-    if (options != nil && options.userId != nil) {
-        [self.client setUserId:options.userId];
-    }
-    if (options != nil && options.deviceId != nil) {
-        [self.client setDeviceId:options.deviceId];
-    }
-    AMPIdentify *identifyArgs = [AMPIdentify identify];
-    if (event.eventProperties != nil) {
-        [event.eventProperties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
-          [identifyArgs set:key value:value];
-        }];
-    }
-    [self.client groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:identifyArgs];
-}
 
 - (void)flush {
     if (![self isInitializedAndEnabled]) {

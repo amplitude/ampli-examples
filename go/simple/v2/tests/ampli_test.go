@@ -45,22 +45,14 @@ func (t *AmpliSuite) TestIdentify() {
 func (t *AmpliSuite) TestGroupIdentify() {
 	testAmpli, client := t.createAmpli()
 
-	expectedEvent := amplitude.Event{
-		EventType: amplitude.GroupIdentifyEventType,
-		GroupProperties: map[amplitude.IdentityOp]map[string]interface{}{
-			types.IdentityOpSet: {"requiredBoolean": true},
-		},
-		Groups: map[string][]string{
-			"group-type": {"group-name"},
-		},
-	}
+	groupIdentify := amplitude.Identify{}
+	groupIdentify.Set("requiredBoolean", true)
 
-	client.On("Track", expectedEvent).Return().Once()
+	client.On("GroupIdentify",
+		"group-type", "group-name", groupIdentify, amplitude.EventOptions{},
+	).Return().Once()
 
-	testAmpli.GroupIdentify("group-type", "group-name", ampli.Group.Builder().
-		RequiredBoolean(true).
-		Build(),
-	)
+	testAmpli.Client.GroupIdentify("group-type", "group-name", groupIdentify, amplitude.EventOptions{})
 
 	client.AssertExpectations(t.T())
 }
@@ -72,7 +64,7 @@ func (t *AmpliSuite) TestSetGroup() {
 		"group-type", []string{"group-name-1", "group-name-2"}, amplitude.EventOptions{UserID: "user-1"},
 	).Return().Once()
 
-	testAmpli.SetGroup("user-1", "group-type", []string{"group-name-1", "group-name-2"})
+	testAmpli.Client.SetGroup("group-type", []string{"group-name-1", "group-name-2"}, ampli.EventOptions{UserID: "user-1"})
 
 	client.AssertExpectations(t.T())
 }

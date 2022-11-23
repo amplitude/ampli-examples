@@ -12,7 +12,7 @@ import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 
-import {Types} from '@amplitude/analytics-react-native';
+import * as amplitude from '@amplitude/analytics-react-native';
 import {ampli} from './ampli';
 import {EventWithOptionalProperties} from './ampli';
 import LoggingPlugin from './plugins/loggingPlugin';
@@ -57,7 +57,7 @@ async function initAmpli() {
   await ampli.load({
     client: {
       apiKey: AMPLITUDE_API_KEY,
-      configuration: {logLevel: Types.LogLevel.Verbose},
+      configuration: {logLevel: amplitude.Types.LogLevel.Verbose},
     },
   }).promise;
 
@@ -107,17 +107,21 @@ function App() {
         <Button
           title="Set Group"
           onPress={() =>
-            ampli.setGroup('test group', 'react-native-typescript-ampli')
+            ampli.client.setGroup('test group', 'react-native-javascript-ampli')
           }
         />
 
         <Button
           title="Group Identify"
-          onPress={() =>
-            ampli.groupIdentify('test group', 'react-native-typescript-ampli', {
-              requiredBoolean: true,
-            })
-          }
+          onPress={() => {
+            const amplitudeIdentify = new amplitude.Identify();
+            amplitudeIdentify.set('requiredBoolean', true);
+            ampli.client.groupIdentify(
+              'test group',
+              'react-native-javascript-ampli',
+              amplitudeIdentify,
+            );
+          }}
         />
 
         <Button

@@ -57,10 +57,12 @@ struct AmpliSwiftSampleAppApp: App {
         ampli.identify("ampli-swift-user", Identify(requiredNumber: 22.0, optionalArray: ["optional string"]))
 
         // Set group
-        ampli.setGroup("ampli group type", "ampli swift group")
+        ampli.client.setGroup("ampli group type", groupName: "ampli swift group" as NSObject)
 
         // GroupIdentify
-        ampli.groupIdentify("ampli group type", "ampli swift group", Group(requiredBoolean: true))
+        let identifyArgs = AMPIdentify()
+        identifyArgs.set("requiredBoolean", value: true as NSObject)
+        ampli.client.groupIdentify(withGroupType: "ampli group type", groupName: "ampli swift group" as NSObject, groupIdentify: identifyArgs)
 
         // Track events with dedicated event methods
         ampli.eventNoProperties()

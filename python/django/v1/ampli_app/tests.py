@@ -3,7 +3,7 @@ from unittest.mock import MagicMock
 
 from django.test import TestCase
 from .ampli import *
-from amplitude import http_client
+from amplitude import http_client, Identify as AmplitudeIdentify
 
 
 class AmpliDjangoTestCase(TestCase):
@@ -56,22 +56,23 @@ class AmpliDjangoTestCase(TestCase):
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
-        event = Group(required_boolean=False)
-        self.assertTrue(isinstance(event, GroupIdentifyEvent))
-        ampli_client.group_identify('sport', 'football', event)
+
+        group_identify = AmplitudeIdentify()
+        group_identify.set("requiredBoolean", False)
+        ampli_client.client.group_identify('sport', 'football', group_identify)
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         self.assertEqual('$groupidentify', self.events[200][0].event_type)
         self.assertEqual({'sport': 'football'}, self.events[200][0].groups)
-        self.assertEqual({'optionalString': None, 'requiredBoolean': False},
+        self.assertEqual({'$set': {'requiredBoolean': False}},
                          self.events[200][0].group_properties)
 
     def test_ampli_set_group_success(self):
         ampli_client = Ampli()
         ampli_client.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         ampli_client.client.configuration.callback = self.callback_function
-        ampli_client.set_group('test_user', 'sport', 'football')
-        ampli_client.set_group('test_user_2', 'team', ['10', '11'])
+        ampli_client.client.set_group('sport', 'football', EventOptions(user_id='test_user'))
+        ampli_client.client.set_group('team', ['10', '11'], EventOptions(user_id='test_user_2'))
         [future.result() for future in ampli_client.flush()]
         self.mock_post.assert_called_once()
         self.assertEqual('$identify', self.events[200][0].event_type)

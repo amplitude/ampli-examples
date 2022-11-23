@@ -13,6 +13,7 @@
 import React from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
+import * as amplitude from '@amplitude/react-native';
 
 import {ampli} from './ampli';
 import {EventWithOptionalProperties} from './ampli';
@@ -115,17 +116,21 @@ function App() {
         <Button
           title="Set Group"
           onPress={() =>
-            ampli.setGroup('test group', 'react-native-typescript-ampli')
+            ampli.client.setGroup('test group', 'react-native-typescript-ampli')
           }
         />
 
         <Button
           title="Group Identify"
-          onPress={() =>
-            ampli.groupIdentify('test group', 'react-native-typescript-ampli', {
-              requiredBoolean: true,
-            })
-          }
+          onPress={() => {
+            const amplitudeIdentify = new amplitude.Identify();
+            amplitudeIdentify.set('requiredBoolean', true);
+            ampli.client.groupIdentify(
+              'test group',
+              'react-native-typescript-ampli',
+              amplitudeIdentify,
+            );
+          }}
         />
 
         <Button

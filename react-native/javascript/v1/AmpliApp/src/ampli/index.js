@@ -102,13 +102,6 @@ export class Identify {
   }
 }
 
-export class Group {
-  constructor(properties) {
-    this.eventType = 'Group';
-    this.eventProperties = properties;
-  }
-}
-
 export class EventMaxIntForTest {
   constructor(properties) {
     this.eventType = 'EventMaxIntForTest';
@@ -299,58 +292,6 @@ export class Ampli {
     }
 
     const promise = this.amplitude.identify(amplitudeIdentify, extra);
-    return { promise };
-  }
-
-  /**
-   * Set Group for the current user
-   *
-   * @param {String} groupType
-   * @param {String|String[]} groupName
-   * @param {EventOptions} [options]
-   * @param {MiddlewareExtra} [extra]
-   *
-   * @return {{promise: Promise<boolean>}}
-   */
-  setGroup(groupType, groupName, options, extra) {
-    if (!this.isInitializedAndEnabled()) {
-      return { promise: getPromiseResponse(false) };
-    }
-
-    this.handleEventOptions(options);
-
-    const promise = this.amplitude.setGroup(groupType, groupName);
-    return { promise };
-  }
-
-  /**
-   * Identify a group and set or update that group's properties.
-   *
-   * @param {string} groupType The group type.
-   * @param {string|string[]} groupName The group name.
-   * @param {Object} properties The group's properties.
-   * @param {string} [properties.optionalString] Description for group optionalString
-   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
-   * @param {EventOptions} [options] Options for this groupIdentify call.
-   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
-   *
-   * @return {{promise: Promise<boolean>}}
-   */
-  groupIdentify(groupType, groupName, properties, options, extra) {
-    if (!this.isInitializedAndEnabled()) {
-      return { promise: getPromiseResponse(false) };
-    }
-
-    this.handleEventOptions(options);
-
-    const amplitudeIdentify = new AmplitudeIdentify();
-    if (properties != null) {
-      for (const [key, value] of Object.entries(properties)) {
-        amplitudeIdentify.set(key, value);
-      }
-    }
-
-    const promise = this.amplitude.groupIdentify(groupType, groupName, amplitudeIdentify, extra);
     return { promise };
   }
 

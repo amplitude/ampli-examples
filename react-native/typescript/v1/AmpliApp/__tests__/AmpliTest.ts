@@ -1,5 +1,6 @@
 import {Ampli, EventOptions} from '../src/ampli';
 import {Amplitude, MiddlewareExtra} from '@amplitude/react-native';
+import * as amplitude from '@amplitude/react-native';
 
 type MockClient = {
   identify: jest.Mock;
@@ -73,39 +74,29 @@ describe('ampli tests', () => {
   });
 
   test('groupIdentify', async () => {
-    const {promise} = ampli.groupIdentify(
+    const amplitudeIdentify = new amplitude.Identify();
+    amplitudeIdentify.set('requiredBoolean', true);
+    amplitudeIdentify.set('optionalString', 'abc');
+
+    await ampli.client.groupIdentify(
       'test-group-type',
       'test-group-name',
-      {
-        requiredBoolean: true,
-        optionalString: 'abc',
-      },
-      options,
+      amplitudeIdentify,
       extra,
     );
-    await promise;
     checkSnapshots();
   });
 
   test('setGroup', async () => {
-    const {promise} = ampli.setGroup(
-      'test-group-type',
-      'test-group-name',
-      options,
-      extra,
-    );
-    await promise;
+    await ampli.client.setGroup('test-group-type', 'test-group-name');
     checkSnapshots();
   });
 
   test('setGroup (multiple names)', async () => {
-    const {promise} = ampli.setGroup(
-      'test-group-type',
-      ['test-group-name1', 'test-group-name2'],
-      options,
-      extra,
-    );
-    await promise;
+    await ampli.client.setGroup('test-group-type', [
+      'test-group-name1',
+      'test-group-name2',
+    ]);
     checkSnapshots();
   });
 

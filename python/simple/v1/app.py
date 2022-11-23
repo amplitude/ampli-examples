@@ -1,6 +1,7 @@
 from ampli import *
 from plugins import MyEventIDPlugin, SegmentPlugin
 from dotenv import dotenv_values
+from amplitude import Identify as AmplitudeIdentify
 
 envs = dotenv_values(".env")
 print(envs['AMPLITUDE_API_KEY'])
@@ -14,11 +15,13 @@ ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
 # Identify using IdentifyProperties in tracking plan
 ampli.identify("user_id", Identify(required_number=16.6, optional_array=['abc', 'test']))
 
-# Group Identify using GroupProperties in tracking plan
-ampli.group_identify("Org", "Engineer", Group(required_boolean=True, optional_string=None))
+# Group Identify
+group_identify = AmplitudeIdentify()
+group_identify.set("requiredBoolean", True)
+ampli.client.group_identify("Org", "Engineer", group_identify)
 
 # Set groups for user
-ampli.set_group("user_id", "Org", ["Engineer", "DevOp"])
+ampli.client.set_group("Org", ["Engineer", "DevOp"], EventOptions(user_id="user_id"))
 
 # track strongly typed event class with ampli.track
 ampli.track(None, EventNoProperties(), EventOptions(user_id="user_id", device_id="device_id"))

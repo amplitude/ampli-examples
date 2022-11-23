@@ -86,17 +86,6 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface GroupProperties {
-  /**
-   * Description for group optionalString
-   */
-  optionalString?: string;
-  /**
-   * Description for group requiredBoolean
-   */
-  requiredBoolean: boolean;
-}
-
 export interface EventMaxIntForTestProperties {
   /**
    * property to test schema validation
@@ -397,16 +386,6 @@ export class Identify implements Event {
   }
 }
 
-export class Group implements Event {
-  eventType = 'Group';
-
-  constructor(
-    public eventProperties: GroupProperties,
-  ) {
-    this.eventProperties = eventProperties;
-  }
-}
-
 export class EventMaxIntForTest implements Event {
   eventType = 'EventMaxIntForTest';
 
@@ -611,50 +590,6 @@ export class Ampli {
     }
 
     const promise = this.amplitude!.identify(amplitudeIdentify, extra);
-    return { promise };
-  }
-
-  setGroup(groupType: string, groupName: string | string[], options?: EventOptions, extra?: MiddlewareExtra) {
-    if (!this.isInitializedAndEnabled()) {
-      return { promise: getPromiseResponse(false) };
-    }
-
-    this.handleEventOptions(options);
-
-    const promise = this.amplitude!.setGroup(groupType, groupName);
-    return { promise };
-  }
-
-  /**
-   * Identify a group and set group properties.
-   *
-   * @param groupType The group type.
-   * @param groupName The group name.
-   * @param properties The group properties.
-   * @param options Optional event options.
-   * @param extra Extra unstructured data for middleware.
-   */
-  groupIdentify(
-    groupType: string,
-    groupName: string | string[],
-    properties: GroupProperties,
-    options?: EventOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    if (!this.isInitializedAndEnabled()) {
-      return { promise: getPromiseResponse(false) };
-    }
-
-    this.handleEventOptions(options);
-
-    const amplitudeIdentify = new AmplitudeIdentify();
-    if (properties != null) {
-      for (const [key, value] of Object.entries(properties)) {
-        amplitudeIdentify.set(key, value);
-      }
-    }
-
-    const promise = this.amplitude!.groupIdentify(groupType, groupName, amplitudeIdentify, extra);
     return { promise };
   }
 

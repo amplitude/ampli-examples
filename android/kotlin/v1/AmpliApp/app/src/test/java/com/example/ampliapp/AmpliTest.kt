@@ -6,6 +6,7 @@ import com.amplitude.api.AmplitudeClient
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import org.junit.Assert.*
 import org.junit.Before
@@ -89,15 +90,12 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.setGroup(
+        this.ampli.client.setGroup(
             "group-1",
             "value-1",
-            EventOptions(deviceId = deviceId, userId = userId),
             extra
         )
 
-        verify(client, times(1)).userId = userId
-        verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).setGroup(eq("group-1"), eq("value-1"), extraCaptor.capture())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
     }
@@ -110,15 +108,19 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.setGroup(
+        val groupNames = arrayOf("value-1", "value-2", "value-3")
+        val jsonGroupNames = try {
+            JSONArray(groupNames)
+        } catch (e: JSONException) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.message)
+            return
+        }
+        this.ampli.client.setGroup(
             "group-1",
-            arrayOf("value-1", "value-2", "value-3"),
-            EventOptions(deviceId = deviceId, userId = userId),
+            jsonGroupNames,
             extra
         )
 
-        verify(client, times(1)).userId = userId
-        verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).setGroup(eq("group-1"), jsonArrayCaptor.capture(), extraCaptor.capture())
         assertEquals("""["value-1","value-2","value-3"]""", jsonArrayCaptor.value.toString())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())
@@ -132,16 +134,22 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.groupIdentify(
+        val groupProperties = JSONObject()
+        try {
+            groupProperties.put("requiredBoolean", false)
+            groupProperties.put("optionalString", "test-string")
+        } catch (e: JSONException) {
+            System.err.println("Error converting properties to JSONObject: ${e.message}")
+        }
+
+        this.ampli.client.groupIdentify(
             "group-type-1",
             "group-name-1",
-            Group(false, "test-string"),
-            EventOptions(deviceId = deviceId, userId = userId),
+            groupProperties,
+            false,
             extra
         )
 
-        verify(client, times(1)).userId = userId
-        verify(client, times(1)).deviceId = deviceId
         verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), jsonObjectCaptor.capture(), eq(false), extraCaptor.capture())
         assertEquals("""{"optionalString":"test-string","requiredBoolean":false}""", jsonObjectCaptor.value.toString())
         assertEquals("{xyz=987, abc=123}", extraCaptor.value.toString())

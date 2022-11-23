@@ -1,9 +1,9 @@
 const { Ampli } = require('../src/ampli');
-import { Types } from '@amplitude/analytics-node';
+import * as amplitude from '@amplitude/analytics-node';
 
 class BaseCheckPlugin {
   name = 'checkPlugin';
-  type = Types.PluginType.BEFORE;
+  type = amplitude.Types.PluginType.BEFORE;
   async setup(config) {
     return undefined;
   }
@@ -39,7 +39,7 @@ describe('Ampli Node JS SDK tests', () => {
   test('should identify()', done => {
     class CheckPlugin extends BaseCheckPlugin {
       async execute(context) {
-        expect(context.event_type).toBe(Types.SpecialEventType.IDENTIFY);
+        expect(context.event_type).toBe(amplitude.Types.SpecialEventType.IDENTIFY);
         expect(context.user_id).toBe(userId);
         expect(context.user_properties).toEqual({
           "$set": {
@@ -72,7 +72,7 @@ describe('Ampli Node JS SDK tests', () => {
   test('should setGroup()', done => {
     class CheckPlugin extends BaseCheckPlugin {
       async execute(context) {
-        expect(context.event_type).toBe(Types.SpecialEventType.IDENTIFY);
+        expect(context.event_type).toBe(amplitude.Types.SpecialEventType.IDENTIFY);
         // TODO: expect(context.user_id).toBe(userId);
         expect(context.user_properties).toEqual({
           "$set": {
@@ -92,7 +92,7 @@ describe('Ampli Node JS SDK tests', () => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
-      ampli.setGroup(userId, 'Group name', 'Group Value');
+      ampli.client.setGroup('Group name', 'Group Value', { user_id: userId });
 
       expect(consoleLogMock).toHaveBeenCalledTimes(0);
       expect(consoleErrorMock).toHaveBeenCalledTimes(0);
@@ -103,7 +103,7 @@ describe('Ampli Node JS SDK tests', () => {
   test('should groupIdentify()', done => {
     class CheckPlugin extends BaseCheckPlugin {
       async execute(context) {
-        expect(context.event_type).toBe(Types.SpecialEventType.GROUP_IDENTIFY);
+        expect(context.event_type).toBe(amplitude.Types.SpecialEventType.GROUP_IDENTIFY);
         // TODO: expect(context.user_id).toBe(userId);
         expect(context.group_properties).toEqual({
           "$set": {
@@ -124,7 +124,10 @@ describe('Ampli Node JS SDK tests', () => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
-      ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+      const amplitudeIdentify = new amplitude.Identify();
+      amplitudeIdentify.set('requiredBoolean', true);
+      amplitudeIdentify.set('optionalString', 'some-string');
+      ampli.client.groupIdentify('Group name', 'Group Value', amplitudeIdentify);
 
       expect(consoleLogMock).toHaveBeenCalledTimes(0);
       expect(consoleErrorMock).toHaveBeenCalledTimes(0);

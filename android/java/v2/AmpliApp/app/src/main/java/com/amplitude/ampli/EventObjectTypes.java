@@ -24,14 +24,24 @@ public class EventObjectTypes extends BaseEvent {
         setEventProperties(builder.properties);
     }
 
-    public static IRequiredObjectArray builder() { return new Builder(); }
+    public static IRequiredObject builder() { return new Builder(); }
 
     // Inner Builder class with required properties
-    public static class Builder implements IRequiredObjectArray, IBuild {
+    public static class Builder implements IRequiredObject, IRequiredObjectArray, IBuild {
         private final HashMap<String, Object> properties = new HashMap<>();
 
         private Builder() {
-            this.properties.put("requiredObject", null);
+
+        }
+
+        /**
+         * Property Object Type
+         * <p>
+         * Must be followed by {@link IRequiredObjectArray#requiredObjectArray(Object[])
+         */
+        public IRequiredObjectArray requiredObject(Object requiredObject) {
+            this.properties.put("requiredObject", requiredObject);
+            return this;
         }
 
         /**
@@ -50,6 +60,10 @@ public class EventObjectTypes extends BaseEvent {
     }
 
     // Required property interfaces
+    public interface IRequiredObject {
+        IRequiredObjectArray requiredObject(Object requiredObject);
+    }
+
     public interface IRequiredObjectArray {
         IBuild requiredObjectArray(Object[] requiredObjectArray);
     }

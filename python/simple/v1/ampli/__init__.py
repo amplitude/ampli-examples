@@ -34,5 +34,4 @@ from .ampli import Ampli, LoadOptions, LoadClientOptions, Environment, ampli, \
     EventWithOptionalArrayTypes, \
     EventWithOptionalProperties, \
     EventWithTemplateProperties, \
-    Identify, \
-    Group
+    Identify

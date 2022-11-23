@@ -1,4 +1,5 @@
 const { Ampli, ApiKey } = require("../src/ampli");
+const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 
 describe('Ampli Node JS SDK tests', () => {
   /** @typedef {Ampli}*/
@@ -67,7 +68,9 @@ describe('Ampli Node JS SDK tests', () => {
 
     ampli.load({ client: { instance: mockAmp } });
 
-    ampli.setGroup(userId, 'Group name', 'Group Value');
+    const setGroupIdentify = new AmplitudeIdentify().setGroup('Group name', 'Group Value');
+    const setGroupIdentifyEvent = setGroupIdentify.identifyUser(userId);
+    ampli.client.logEvent(setGroupIdentifyEvent);
 
     const logEventCalls = mockAmp.logEvent.mock.calls;
     expect(logEventCalls.length).toBe(1);
@@ -87,7 +90,11 @@ describe('Ampli Node JS SDK tests', () => {
 
     ampli.load({ client: { instance: mockAmp } });
 
-    ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+    const groupIdentify = new AmplitudeIdentify();
+    groupIdentify.set('requiredBoolean', true);
+    groupIdentify.set('optionalString', 'some-string');
+    const groupIdentifyEvent = groupIdentify.identifyGroup('Group name', 'Group Value');
+    ampli.client.logEvent(groupIdentifyEvent);
 
     const logEventCalls = mockAmp.logEvent.mock.calls;
     expect(logEventCalls.length).toBe(1);

@@ -15,8 +15,8 @@
     "@segment/analytics-react-native": "^2.1.7",
     "@segment/sovran-react-native": "^0.2.6",
     "react": "17.0.2",
-    "react-native": "0.67.3",
-    "react-native-config": "^1.4.5"
+    "react-native": "0.68.5",
+    "react-native-config": "^1.4.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -1,6 +1,8 @@
 import com.amplitude.MiddlewareExtra
 import com.amplitude.ampli.*
 import io.github.cdimascio.dotenv.dotenv
+import org.json.JSONException
+import org.json.JSONObject
 
 fun main() {
     initAmpli()
@@ -85,7 +87,15 @@ fun sendEvents() {
         requiredNumber = 42.0,
     ))
 
-    ampli.setGroup(userId, "test-group", "a-group-value")
+    val groupProperties = JSONObject()
+    try {
+        groupProperties.put("test-group", "a-group-value")
+    } catch (e: JSONException) {
+        System.err.println("Error converting properties to JSONObject: ${e.message}")
+    }
+    val amplitudeEvent = com.amplitude.Event("\$identify", userId)
+    amplitudeEvent.groupProperties = groupProperties
+    ampli.client.logEvent(amplitudeEvent, null as MiddlewareExtra?)
 
     ampli.eventNoProperties(userId)
 

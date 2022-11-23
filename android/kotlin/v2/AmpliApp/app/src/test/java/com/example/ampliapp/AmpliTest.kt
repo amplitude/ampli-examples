@@ -75,7 +75,7 @@ class AmpliTest {
         eventOptions.userId = userId
         eventOptions.deviceId = deviceId
 
-        this.ampli.setGroup(
+        this.ampli.client?.setGroup(
             "group-1",
             "value-1",
             eventOptions
@@ -94,7 +94,7 @@ class AmpliTest {
 
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        this.ampli.setGroup(
+        this.ampli.client?.setGroup(
             "group-1",
             arrayOf("value-1", "value-2", "value-3"),
             eventOptions
@@ -114,10 +114,13 @@ class AmpliTest {
 
         this.ampli.load(appContext, LoadOptions(client = LoadClientOptions(instance = client)))
 
-        this.ampli.groupIdentify(
+        this.ampli.client?.groupIdentify(
             "group-type-1",
             "group-name-1",
-            Group(false, "test-string"),
+            mutableMapOf(
+                "requiredBoolean" to false,
+                "optionalString" to "test-string"
+            ),
             eventOptions
         )
 

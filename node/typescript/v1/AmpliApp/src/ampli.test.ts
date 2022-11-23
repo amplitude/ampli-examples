@@ -1,6 +1,7 @@
 import { Ampli, ApiKey } from './ampli';
 import { SpecialEventType } from "@amplitude/types";
 import { NodeClient } from "@amplitude/node";
+import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 
 describe('Ampli Node JS SDK tests', () => {
   let ampli: Ampli;
@@ -68,7 +69,9 @@ describe('Ampli Node JS SDK tests', () => {
 
     ampli.load({ client: { instance: mockAmp as unknown as NodeClient } });
 
-    ampli.setGroup(userId, 'Group name', 'Group Value');
+    const setGroupIdentify = new AmplitudeIdentify().setGroup('Group name', 'Group Value');
+    const setGroupIdentifyEvent = setGroupIdentify.identifyUser(userId);
+    ampli.client.logEvent(setGroupIdentifyEvent);
 
     const logEventCalls = mockAmp.logEvent.mock.calls;
     expect(logEventCalls.length).toBe(1);
@@ -89,7 +92,11 @@ describe('Ampli Node JS SDK tests', () => {
 
     ampli.load({ client: { instance: mockAmp as unknown as NodeClient } });
 
-    ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+    const groupIdentify = new AmplitudeIdentify();
+    groupIdentify.set('requiredBoolean', true);
+    groupIdentify.set('optionalString', 'some-string');
+    const groupIdentifyEvent = groupIdentify.identifyGroup('Group name', 'Group Value');
+    ampli.client.logEvent(groupIdentifyEvent);
 
     const logEventCalls = mockAmp.logEvent.mock.calls;
     expect(logEventCalls.length).toBe(1);

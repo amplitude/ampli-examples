@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/amplitude/analytics-go/amplitude"
 	"github.com/joho/godotenv"
 
 	"ampli-example/ampli"
@@ -32,14 +33,14 @@ func main() {
 		OptionalArray([]string{"abc", "test"}).
 		Build())
 
-	// Group Identify using GroupProperties in tracking plan
-	ampli.Instance.GroupIdentify("Org", "Engineer", ampli.Group.Builder().
-		RequiredBoolean(true).
-		OptionalString("optional-string").
-		Build())
+	// Group Identify
+	groupIdentify := amplitude.Identify{}
+	groupIdentify.Set("requiredBoolean", true)
+	groupIdentify.Set("optionalString", "optional-string")
+	ampli.Instance.Client.GroupIdentify("Org", "Engineer", groupIdentify, amplitude.EventOptions{})
 
 	// Set groups for user
-	ampli.Instance.SetGroup(userID, "Org", []string{"Engineer", "DevOp"})
+	ampli.Instance.Client.SetGroup("Org", []string{"Engineer", "DevOp"}, amplitude.EventOptions{UserID: userID})
 
 	ampli.Instance.EventNoProperties(userID)
 

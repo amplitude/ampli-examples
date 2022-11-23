@@ -8,6 +8,9 @@ import android.widget.Button;
 import com.amplitude.ampli.*;
 import com.amplitude.api.MiddlewareExtra;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
     private final String userId = "ampli-java-user-id";
 
@@ -25,14 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button btnSetGroup = this.findViewById(R.id.btn_set_group);
         btnSetGroup.setOnClickListener(v -> {
-            Ampli.getInstance().setGroup("test group", "android-java-ampli");
+            Ampli.getInstance().getClient().setGroup("test group", "android-java-ampli");
         });
 
         Button btnGroupIdentify = this.findViewById(R.id.btn_group_identify);
         btnGroupIdentify.setOnClickListener(v -> {
-            Ampli.getInstance().groupIdentify("test group", "android-java-ampli", Group.builder()
-                    .requiredBoolean(true)
-                    .build());
+            JSONObject groupProperties = new JSONObject();
+            try {
+                groupProperties.put("requiredBoolean", true);
+            } catch (JSONException e) {
+                System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+            }
+            Ampli.getInstance().getClient().groupIdentify("test group", "android-java-ampli", groupProperties, false, null);
         });
 
         Button btnEventWithOptionalProperties = this.findViewById(R.id.btn_optional_properties);
@@ -75,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                     .build());
 
             Ampli.getInstance().eventObjectTypes(EventObjectTypes.builder()
+                    .requiredObject("abc")
                     .requiredObjectArray(new Object[]{1, "a", true})
                     .build());
 
