@@ -125,7 +125,7 @@ class AmpliTests: XCTestCase {
 
         let identifyArgs = AMPIdentify()
         identifyArgs.set("requiredBoolean", value: false as NSObject)
-        identifyArgs.set("optionalString", value: nil as NSObject)
+        identifyArgs.set("optionalString", value: nil)
         ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
     }
 }
