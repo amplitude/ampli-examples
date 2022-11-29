@@ -20,12 +20,12 @@ import Amplitude
 public typealias MiddlewareExtra = [String: Any]
 
 public enum AmpliEnvironment: Int {
-    case development, production;
+    case dev, prod;
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
-    .development: "",
-    .production: ""
+    .dev: "",
+    .prod: ""
 ];
 
 let AmpliObservePlan = AMPPlan()
@@ -592,17 +592,24 @@ public class Ampli {
         disabled = false;
     }
 
-    public func load(_ options: LoadOptions? = nil) -> Void {
-        self.disabled = options?.disabled ?? false;
+    // options should have 'environment', 'client.api_key' or 'client.instance'
+    public func load(_ options: LoadOptions) -> Void {
+        self.disabled = options.disabled ?? false;
         if (self.isLoaded) {
             NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
             return;
         }
-        let env = options?.environment ?? AmpliEnvironment.development;
-        let apiKey = options?.client?.apiKey ?? ApiKey[env];
-
-        if (options?.client?.instance != nil) {
-            self.amplitude = options?.client?.instance;
+        
+        var apiKey: String?;
+        
+        if (options.client?.apiKey != nil) {
+            apiKey = options.client?.apiKey;
+        } else if (options.environment != nil) {
+            apiKey = ApiKey[options.environment!];
+        }
+        
+        if (options.client?.instance != nil) {
+            self.amplitude = options.client?.instance;
         } else if (apiKey != nil) {
             self.amplitude = Amplitude.instance();
             self.amplitude?.initializeApiKey(apiKey!);
@@ -611,7 +618,7 @@ public class Ampli {
             return;
         }
 
-        self.amplitude?.setPlan(options?.client?.config?.plan ?? AmpliObservePlan!);
+        self.amplitude?.setPlan(options.client?.config?.plan ?? AmpliObservePlan!);
 
         // set ingestionMetadata information
         let AmpliExtrasMiddleware = AMPBlockMiddleware { (payload, next) in
