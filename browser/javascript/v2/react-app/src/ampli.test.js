@@ -1,4 +1,4 @@
-import { Ampli, ApiKey } from './ampli';
+import { Ampli } from './ampli';
 
 describe('Ampli Browser JS SDK V2 tests', () => {
   let userId = 'test-browser-js-ampli-v2-user-id';
@@ -15,7 +15,7 @@ describe('Ampli Browser JS SDK V2 tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should log warning if load() without any arguments without ApiKeys for each environment', async () => {
+  test('should log warning if load() without any arguments', async () => {
     const ampli = new Ampli();
     await ampli.load().promise;
 

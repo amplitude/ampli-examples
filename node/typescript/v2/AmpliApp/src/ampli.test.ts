@@ -25,17 +25,6 @@ describe('Ampli Node TS SDK tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should log error if load() without any arguments without ApiKeys for each environment', async () => {
-    const ampli = new Ampli();
-    await ampli.load().promise;
-
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
-    expect(consoleErrorMock.mock.calls).toEqual([
-      [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
-    ]);
-  });
-
   test('should identify()', done => {
     class CheckPlugin extends BaseCheckPlugin {
       async execute(context: Types.Event): Promise<Types.Event> {

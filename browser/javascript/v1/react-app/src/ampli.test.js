@@ -17,14 +17,7 @@ describe('Ampli Browser JS SDK tests', () => {
     ApiKey.development = 'test-api-key-dev';
   });
 
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
-
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
-  });
-
-  test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
+  test('should log warning if load() without any arguments', () => {
     ApiKey.production = '';
     ApiKey.development = '';
     ampli.load();
