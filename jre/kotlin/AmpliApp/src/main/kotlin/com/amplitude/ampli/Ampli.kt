@@ -51,7 +51,7 @@ class LoadOptions(
 class EventOptions(
     val userId: String? = null,
     val deviceId: String? = null,
-    val sessionId: Long = -1L
+    val sessionId: Long? = null
 )
 
 class LoadClientOptions(
@@ -772,10 +772,8 @@ open class Ampli {
             overrideUserId ?: overrideOptions?.userId ?: options?.userId,
             overrideOptions?.deviceId ?: options?.deviceId
         )
-        if (overrideOptions != null && overrideOptions.sessionId != -1L) {
-            event.sessionId = overrideOptions.sessionId
-        } else if (options != null && options.sessionId != -1L) {
-            event.sessionId = options.sessionId
+        (overrideOptions?.sessionId ?: options?.sessionId) ?. let {
+            event.sessionId = it
         }
         return event
     }

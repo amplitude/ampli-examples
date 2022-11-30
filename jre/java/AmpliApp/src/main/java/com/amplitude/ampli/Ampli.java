@@ -994,7 +994,7 @@ public class Ampli {
             userId != null ? userId : (options != null ? options.userId : null),
             options != null ? options.deviceId : null
         );
-        if (options != null && options.sessionId != -1) {
+        if (options != null && options.sessionId != null) {
             event.sessionId = options.sessionId;
         }
         return event;
