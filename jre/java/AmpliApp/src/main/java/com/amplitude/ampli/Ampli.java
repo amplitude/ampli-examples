@@ -73,10 +73,6 @@ public class Ampli {
         .setVersion("0")
         .setVersionId("79154a50-f057-4db5-9755-775e4e9f05e6");
 
-    public void load() {
-        this.load(null);
-    }
-
     // Options should have 'environment', 'client.api_key' or 'client.instance'
     public void load(LoadOptions options) {
         Boolean disabled = options.getDisabled();
@@ -989,11 +985,15 @@ public class Ampli {
     }
 
     private com.amplitude.Event createAmplitudeEvent(String eventType, EventOptions options, String userId) {
-        return new com.amplitude.Event(
+        com.amplitude.Event event = new com.amplitude.Event(
             eventType,
             userId != null ? userId : (options != null ? options.userId : null),
             options != null ? options.deviceId : null
         );
+        if (options != null && options.sessionId != null) {
+            event.sessionId = options.sessionId;
+        }
+        return event;
     }
 
     private boolean isInitializedAndEnabled() {

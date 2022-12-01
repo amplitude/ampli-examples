@@ -67,10 +67,6 @@ public class Ampli {
 
     private Plan defaultObservePlan = new Plan("main","java-ampli-v2","0", "79154a50-f057-4db5-9755-775e4e9f05e6");
 
-    public void load(android.content.Context appContext) {
-        this.load(appContext, null);
-    }
-
     // Options should have 'environment', 'client.api_key' or 'client.instance'
     public void load(android.content.Context appContext, LoadOptions options) {
         Boolean disabled = options.getDisabled();
