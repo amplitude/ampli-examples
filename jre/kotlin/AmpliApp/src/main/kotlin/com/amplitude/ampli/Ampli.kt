@@ -50,7 +50,8 @@ class LoadOptions(
 
 class EventOptions(
     val userId: String? = null,
-    val deviceId: String? = null
+    val deviceId: String? = null,
+    val sessionId: Long? = null
 )
 
 class LoadClientOptions(
@@ -480,9 +481,9 @@ open class Ampli {
             return
         }
 
-        var apiKey = "";
+        var apiKey = ""
         if (options.client?.apiKey != null) {
-          apiKey = options.client?.apiKey
+          apiKey = options.client.apiKey
         }
         if (options.environment != null) {
           apiKey = API_KEY[options.environment].toString()
@@ -492,7 +493,7 @@ open class Ampli {
             options.client?.instance != null -> {
                 this._client = options.client.instance
             }
-            apiKey != null && apiKey != "" -> {
+            apiKey != "" -> {
                 this._client = Amplitude.getInstance()
                 this._client?.init(apiKey)
             }
@@ -775,11 +776,15 @@ open class Ampli {
     }
 
     private fun createAmplitudeEvent(eventType: String, options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String?): com.amplitude.Event {
-        return com.amplitude.Event(
+        val event = com.amplitude.Event(
             eventType,
             overrideUserId ?: overrideOptions?.userId ?: options?.userId,
             overrideOptions?.deviceId ?: options?.deviceId
         )
+        (overrideOptions?.sessionId ?: options?.sessionId) ?. let {
+            event.sessionId = it
+        }
+        return event
     }
 
     private fun isInitializedAndEnabled(): Boolean {

@@ -511,9 +511,9 @@ open class Ampli {
             return
         }
         
-        var apiKey = "";
+        var apiKey = ""
         if (options.client?.apiKey != null) {
-          apiKey = options.client?.apiKey
+          apiKey = options.client.apiKey
         }
         if (options.environment != null) {
           apiKey = API_KEY[options.environment].toString()
@@ -523,7 +523,7 @@ open class Ampli {
             options.client?.instance != null -> {
                 this.client = options.client.instance
             }
-            apiKey != null && apiKey != "" -> {
+            apiKey != "" -> {
                 this.client = Amplitude(options.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
             }
             else -> {
