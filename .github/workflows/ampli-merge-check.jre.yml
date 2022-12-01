@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: amplitudeinc/ampli
+    timeout-minutes: 2
+
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
