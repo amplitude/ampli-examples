@@ -8,9 +8,11 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted-4x16-x86-64
+    runs-on: self-hosted-8x32-x86-64
     container:
       image: amplitudeinc/ampli
+    timeout-minutes: 2
+
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
