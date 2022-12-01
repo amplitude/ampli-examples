@@ -50,7 +50,7 @@ export const DefaultConfiguration: NodeOptions = {
   }
 };
 
-export interface LoadOptionsBase { disabled?: boolean };
+export interface LoadOptionsBase { disabled?: boolean }
 
 export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { configuration?: NodeOptions; }; };
 export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; configuration?: NodeOptions; } };

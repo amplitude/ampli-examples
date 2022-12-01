@@ -43,7 +43,7 @@ export const DefaultConfiguration: BrowserOptions = {
   }
 };
 
-export interface LoadOptionsBase { disabled?: boolean };
+export interface LoadOptionsBase { disabled?: boolean }
 
 export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { configuration?: BrowserOptions; }; };
 export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; configuration?: BrowserOptions; } };

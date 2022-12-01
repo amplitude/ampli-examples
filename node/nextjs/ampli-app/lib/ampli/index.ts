@@ -47,7 +47,7 @@ export const DefaultOptions: Partial<Options> = {
   }
 };
 
-export interface LoadOptionsBase { disabled?: boolean };
+export interface LoadOptionsBase { disabled?: boolean }
 
 export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { options?: Partial<Options>; }; };
 export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; options?: Partial<Options>; } };

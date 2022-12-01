@@ -43,7 +43,7 @@ export const DefaultOptions: ConfigExt = {
   }
 };
 
-export interface LoadOptionsBase { disabled?: boolean };
+export interface LoadOptionsBase { disabled?: boolean }
 
 export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { options?: Partial<ConfigExt>; }; };
 export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; options?: Partial<ConfigExt>; } };
