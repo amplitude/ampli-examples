@@ -45,15 +45,15 @@ public class Ampli {
     }
 
     public enum Environment {
-        DEVELOPMENT,
-        PRODUCTION
+        DEV,
+        PROD
     }
 
     public static final Map<Environment, String> API_KEY = new HashMap<>();
 
     static {
-        API_KEY.put(Environment.DEVELOPMENT, "");
-        API_KEY.put(Environment.PRODUCTION, "");
+        API_KEY.put(Environment.DEV, "");
+        API_KEY.put(Environment.PROD, "");
     }
 
     private boolean disabled = false;
@@ -75,12 +75,9 @@ public class Ampli {
         .setVersion("0")
         .setVersionId("79154a50-f057-4db5-9755-775e4e9f05e6");
 
-    public void load(android.content.Context appContext) {
-        this.load(appContext, null);
-    }
-
+    // Options should have 'environment', 'client.api_key' or 'client.instance'
     public void load(android.content.Context appContext, LoadOptions options) {
-        Boolean disabled = options != null ? options.getDisabled() : null;
+        Boolean disabled = options.getDisabled();
         this.disabled = disabled != null ? disabled : false;
 
         if (this.isLoaded()) {
@@ -88,15 +85,12 @@ public class Ampli {
             return;
         }
 
-        Environment env = options != null ? options.getEnvironment() : null;
-        if (env == null) {
-            env = Environment.DEVELOPMENT;
-        }
+        LoadClientOptions clientOptions = options.getClient();
+        Environment env = options.getEnvironment();
 
-        LoadClientOptions clientOptions = options != null ? options.getClient() : null;
-
-        String apiKey = Ampli.API_KEY.get(env);
+        String apiKey = null;
         AmplitudeClient client = null;
+        
         if (clientOptions != null) {
             String optionsApiKey = clientOptions.getApiKey();
             if (optionsApiKey != null) {
@@ -104,6 +98,8 @@ public class Ampli {
             }
 
             client = clientOptions.getInstance();
+        } else if (env != null) {
+            apiKey = Ampli.API_KEY.get(env);
         }
 
         if (client != null) {
