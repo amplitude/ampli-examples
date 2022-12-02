@@ -13,31 +13,13 @@ describe('Ampli Browser TS SDK tests', () => {
 
     ampli = new Ampli();
     // Set API keys for tests
-    ApiKey.production = 'test-api-key-prod';
-    ApiKey.development = 'test-api-key-dev';
+    ApiKey.prod = 'test-api-key-prod';
+    ApiKey.dev = 'test-api-key-dev';
   });
 
   afterEach(() => {
     consoleLogMock.mockRestore();
     consoleErrorMock.mockRestore();
-  });
-
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
-  });
-
-  test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
-    ApiKey.production = '';
-    ApiKey.development = '';
-    ampli.load();
-
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
-    expect(consoleErrorMock.mock.calls).toEqual([
-      [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
-    ]);
   });
 
   test('should identify()', () => {

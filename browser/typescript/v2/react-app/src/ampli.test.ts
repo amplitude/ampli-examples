@@ -16,17 +16,6 @@ describe('Ampli Browser TS SDK V2 tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should log warning if load() without any arguments without ApiKeys for each environment', async () => {
-    const ampli = new Ampli();
-    await ampli.load().promise;
-
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
-    expect(consoleErrorMock.mock.calls).toEqual([
-      [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
-    ]);
-  });
-
   test('should identify()', async () => {
     const send = jest.fn().mockReturnValue({
       status: 'success',
