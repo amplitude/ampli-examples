@@ -21,8 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSMutableDictionary<NSString *, id> MiddlewareExtra;
 
 typedef NS_ENUM(NSInteger, AmpliEnvironment) {
-    development,
-    production
+    dev,
+    prod
 };
 
 @interface Event: NSObject
