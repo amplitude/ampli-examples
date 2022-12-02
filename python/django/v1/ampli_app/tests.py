@@ -29,7 +29,7 @@ class AmpliDjangoTestCase(TestCase):
         ampli.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
         self.assertTrue(ampli.initialized_and_enabled())
         with self.assertLogs(None, 'WARN') as cm:
-            ampli.load()
+            ampli.load(LoadOptions(client=LoadClientOptions(api_key="TEST_API_KEY")))
             self.assertEqual([
                 'WARNING:ampli_app.ampli.ampli:Warning: Ampli is already initialized. ampli.load() should be called once at application start up.'],
                 cm.output)
