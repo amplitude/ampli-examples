@@ -47,15 +47,15 @@ var Instance = Ampli{}
 type Environment string
 
 const (
-	EnvironmentDevelopment Environment = `development`
+	EnvironmentDev Environment = `dev`
 
-	EnvironmentProduction Environment = `production`
+	EnvironmentProd Environment = `prod`
 )
 
 var APIKey = map[Environment]string{
-	EnvironmentDevelopment: ``,
+	EnvironmentDev: ``,
 
-	EnvironmentProduction: ``,
+	EnvironmentProd: ``,
 }
 
 // LoadClientOptions is Client options setting to initialize Ampli client.

@@ -9,7 +9,7 @@ api_key = envs['AMPLITUDE_API_KEY']
 write_key = envs['SEGMENT_WRITE_KEY']
 
 # Initialize the Ampli instance with LoadOptions and LoadClientOptions
-ampli.load(LoadOptions(Environment.DEVELOPMENT, False,
+ampli.load(LoadOptions(Environment.DEV, False,
                        client=LoadClientOptions(api_key=api_key, configuration=Config(server_zone='EU'))))
 
 # Identify using IdentifyProperties in tracking plan

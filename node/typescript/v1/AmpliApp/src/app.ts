@@ -47,7 +47,7 @@ const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
  */
 ampli.load({
   client: {
-    apiKey: AMPLITUDE_API_KEY,
+    apiKey: AMPLITUDE_API_KEY as string,
     options: { logLevel: LogLevel.Verbose },
   }
 });

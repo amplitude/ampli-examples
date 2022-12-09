@@ -22,11 +22,11 @@ import {
   BaseEvent, Event, EventOptions, GroupOptions, IdentifyEvent, IdentifyOptions, Options, MiddlewareExtra,
 } from '@amplitude/types';
 
-export type Environment = 'development' | 'production';
+export type Environment = 'dev' | 'prod';
 
 export const ApiKey: Record<Environment, string> = {
-  development: '',
-  production: ''
+  dev: '',
+  prod: ''
 };
 
 /**
@@ -47,15 +47,13 @@ export const DefaultOptions: Partial<Options> = {
   }
 };
 
-export interface LoadOptions {
-  environment?: Environment;
-  disabled?: boolean;
-  client?: {
-    apiKey?: string;
-    options?: Partial<Options>;
-    instance?: NodeClient;
-  }
-}
+export interface LoadOptionsBase { disabled?: boolean }
+
+export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { options?: Partial<Options>; }; };
+export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; options?: Partial<Options>; } };
+export type LoadOptionsWithClientInstance = LoadOptionsBase & { client: { instance: NodeClient; } };
+
+export type LoadOptions = LoadOptionsWithEnvironment | LoadOptionsWithApiKey | LoadOptionsWithClientInstance;
 
 export interface IdentifyProperties {
   /**
@@ -528,20 +526,25 @@ export class Ampli {
    * Initialize the Ampli SDK. Call once when your application starts.
    * @param options Configuration options to initialize the Ampli SDK with.
    */
-  load(options?: LoadOptions): void {
-    this.disabled = options?.disabled ?? false;
+  load(options: LoadOptions): void {
+    this.disabled = options.disabled ?? false;
 
     if (this.isLoaded) {
       console.warn('WARNING: Ampli is already initialized. Ampli.load() should be called once at application startup.');
       return;
     }
 
-    const env = options?.environment ?? 'development';
-    const apiKey = options?.client?.apiKey || ApiKey[env];
-    if (options?.client?.instance) {
-      this.amplitude = options?.client?.instance;
+    let apiKey: string | null = null;
+    if (options.client && 'apiKey' in options.client) {
+      apiKey = options.client.apiKey;
+    } else if ('environment' in options) {
+      apiKey = ApiKey[options.environment];
+    }
+    
+    if (options.client && 'instance' in options.client) {
+      this.amplitude = options.client.instance;
     } else if (apiKey) {
-      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options?.client?.options });
+      this.amplitude = initNodeClient(apiKey, { ...DefaultOptions, ...options.client?.options });
     } else {
       console.error("ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
     }

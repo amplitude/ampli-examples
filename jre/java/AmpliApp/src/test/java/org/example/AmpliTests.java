@@ -230,4 +230,17 @@ public class AmpliTests {
 
         verify(client, times(1)).flushEvents();
     }
+
+    @Test
+    public void eventOptionsSessionId() {
+        Amplitude client = mock(Amplitude.class);
+        this.ampli.load(new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
+        this.ampli.eventNoProperties(
+                userId,
+                new EventOptions().setDeviceId(deviceId).setUserId("some-user").setSessionId(999L)
+        );
+        verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture());
+        com.amplitude.Event event = eventCaptor.getValue();
+        assertEquals(999L, event.sessionId);
+    }
 }

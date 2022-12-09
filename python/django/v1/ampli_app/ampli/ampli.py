@@ -28,13 +28,13 @@ from amplitude import Amplitude, Config, Plan, BaseEvent, EventOptions, Identify
 
 
 class Environment(enum.Enum):
-    DEVELOPMENT = 'development'
-    PRODUCTION = 'production'
+    DEV = 'dev'
+    PROD = 'prod'
 
 
 API_KEY: Dict[Environment, str] = {
-    Environment("development"): "",
-    Environment("production"): ""
+    Environment("dev"): "",
+    Environment("prod"): ""
 }
 
 DEFAULT_CONFIGURATION = Config(
@@ -455,13 +455,12 @@ class Ampli:
         self.client: Amplitude = None
         self.disabled: bool = False
 
-    def load(self, options: Optional[LoadOptions] = None):
+    def load(self, options: LoadOptions):
         """Initialize the Ampli wrapper. Call once when your application starts.
 
-        :param options: Configuration options to initialize the Ampli wrapper with.
+        :param options: Configuration options to initialize the Ampli wrapper with. 'environment', 'client.api_key' or 'client.instance' is required.
         """
-        if not options:
-            options = LoadOptions()
+
         self.disabled = options.disabled
 
         if self.client:

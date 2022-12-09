@@ -460,14 +460,14 @@ class EventWithTemplateProperties private constructor() : BaseEvent() {
 open class Ampli {
     companion object {
         val API_KEY: Map<Environment, String> = mapOf(
-            Environment.DEVELOPMENT to "",
-            Environment.PRODUCTION to ""
+            Environment.DEV to "",
+            Environment.PROD to ""
         )
     }
 
     enum class Environment {
-        DEVELOPMENT,
-        PRODUCTION
+        DEV,
+        PROD
     }
 
     private var disabled: Boolean = false
@@ -478,21 +478,29 @@ open class Ampli {
 
     /**
      * Load the amplitude core SDK
+     * Options should have 'environment', 'client.api_key' or 'client.instance'
      */
-    open fun load(appContext: android.content.Context, options: LoadOptions? = null) {
-        this.disabled = options?.disabled ?: false
+    open fun load(appContext: android.content.Context, options: LoadOptions) {
+        this.disabled = options.disabled ?: false
         if (this.client != null) {
             System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
-        val env = options?.environment ?: Environment.DEVELOPMENT
-        val apiKey = options?.client?.apiKey ?: API_KEY[env]
+        
+        var apiKey = ""
+        if (options.client?.apiKey != null) {
+          apiKey = options.client.apiKey
+        }
+        if (options.environment != null) {
+          apiKey = API_KEY[options.environment].toString()
+        }
+
         when {
-            options?.client?.instance != null -> {
+            options.client?.instance != null -> {
                 this.client = options.client.instance
             }
-            apiKey != null && apiKey != "" -> {
-                this.client = Amplitude(options?.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
+            apiKey != "" -> {
+                this.client = Amplitude(options.client?.configuration ?: DefaultConfiguration(apiKey, appContext).config)
             }
             else -> {
                 System.err.println("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")

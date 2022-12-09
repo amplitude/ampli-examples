@@ -23,13 +23,7 @@ describe('Ampli Node JS SDK tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
-  });
-
-  test('should log warning if load() without any arguments without ApiKeys for each environment', () => {
+  test('should log warning if load() without any arguments', () => {
     ApiKey.production = '';
     ApiKey.development = '';
     ampli.load();
@@ -42,7 +36,7 @@ describe('Ampli Node JS SDK tests', () => {
   });
 
   test('should identify()', done => {
-    ampli.load();
+    ampli.load({ environment: 'development' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('$identify');
       expect(payload.event.user_id).toBe(userId);
@@ -110,7 +104,7 @@ describe('Ampli Node JS SDK tests', () => {
   });
 
   test('should track an event with no properties', done => {
-    ampli.load();
+    ampli.load({ environment: 'development' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event No Properties');
       done();
@@ -123,7 +117,7 @@ describe('Ampli Node JS SDK tests', () => {
   });
 
   test('should track an event with properties of all types', (done) => {
-    ampli.load();
+    ampli.load({ environment: 'development' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event With All Properties');
       expect(payload.event.event_properties).toEqual({

@@ -50,7 +50,8 @@ class LoadOptions(
 
 class EventOptions(
     val userId: String? = null,
-    val deviceId: String? = null
+    val deviceId: String? = null,
+    val sessionId: Long? = null
 )
 
 class LoadClientOptions(
@@ -440,8 +441,8 @@ val ampli = Ampli()
 open class Ampli {
     companion object {
         val API_KEY: Map<Environment, String> = mapOf(
-            Environment.DEVELOPMENT to "",
-            Environment.PRODUCTION to ""
+            Environment.DEV to "",
+            Environment.PROD to ""
         )
 
         private val observePlan: Plan = Plan()
@@ -452,8 +453,8 @@ open class Ampli {
     }
 
     enum class Environment {
-        DEVELOPMENT,
-        PRODUCTION
+        DEV,
+        PROD
     }
 
     private var disabled: Boolean = false
@@ -470,20 +471,29 @@ open class Ampli {
             return this._client!!
         }
 
-    open fun load(options: LoadOptions? = null) {
-        this.disabled = options?.disabled ?: false
+    /**
+     * Options should have 'environment', 'client.api_key' or 'client.instance'
+     */
+    open fun load(options: LoadOptions) {
+        this.disabled = options.disabled ?: false
         if (this.isLoaded) {
             System.err.println("Warning: Ampli is already initialized. ampli.load() should be called once at application start up.")
             return
         }
-        val env = options?.environment ?: Environment.DEVELOPMENT
-        val apiKey = options?.client?.apiKey ?: API_KEY[env]
+
+        var apiKey = ""
+        if (options.client?.apiKey != null) {
+          apiKey = options.client.apiKey
+        }
+        if (options.environment != null) {
+          apiKey = API_KEY[options.environment].toString()
+        }
 
         when {
-            options?.client?.instance != null -> {
+            options.client?.instance != null -> {
                 this._client = options.client.instance
             }
-            apiKey != null && apiKey != "" -> {
+            apiKey != "" -> {
                 this._client = Amplitude.getInstance()
                 this._client?.init(apiKey)
             }
@@ -493,7 +503,7 @@ open class Ampli {
             }
         }
 
-        this._client?.setPlan(options?.client?.plan ?: observePlan)
+        this._client?.setPlan(options.client?.plan ?: observePlan)
 
         // set IngestionMetadata with backwards compatibility, min Java SDK version 1.10.1.
         try {
@@ -740,11 +750,15 @@ open class Ampli {
     }
 
     private fun createAmplitudeEvent(eventType: String, options: EventOptions?, overrideOptions: EventOptions?, overrideUserId: String?): com.amplitude.Event {
-        return com.amplitude.Event(
+        val event = com.amplitude.Event(
             eventType,
             overrideUserId ?: overrideOptions?.userId ?: options?.userId,
             overrideOptions?.deviceId ?: options?.deviceId
         )
+        (overrideOptions?.sessionId ?: options?.sessionId) ?. let {
+            event.sessionId = it
+        }
+        return event
     }
 
     private fun isInitializedAndEnabled(): Boolean {

@@ -45,7 +45,7 @@ const amplitude = require('@amplitude/analytics-node');
 /**
  * @typedef LoadOptions
  * @type {object}
- * @property {'development'|'production'} [environment]
+ * @property {'dev'|'prod'} [environment]
  * @property {boolean} [disabled]
  * @property {LoadClientOptions} [client]
  */
@@ -58,12 +58,12 @@ const amplitude = require('@amplitude/analytics-node');
 /**
  * @typedef ApiKey
  * @type {object}
- * @property {string} development
- * @property {string} production
+ * @property {string} dev
+ * @property {string} prod
  */
 const ApiKey = {
-  development: '',
-  production: ''
+  dev: '',
+  prod: ''
 };
 
 /**
@@ -235,7 +235,7 @@ class Ampli {
   /**
    * Initialize the Ampli SDK. Call once when your application starts.
    *
-   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   * @param {LoadOptions} options Configuration options to initialize the Ampli SDK with. 'environment', 'client.apiKey' or 'client.instance' is required.
    *
    * @return {PromiseResult}
    */
@@ -247,8 +247,12 @@ class Ampli {
       return getVoidPromiseResult();
     }
 
-    const env = options?.environment ?? 'development';
-    const apiKey = options?.client?.apiKey ?? ApiKey[env];
+    let apiKey;
+    if (options?.client?.apiKey) {
+      apiKey = options.client.apiKey;
+    } else if (options?.environment) {
+      apiKey = ApiKey[options.environment];
+    }
 
     if (options?.client?.instance) {
       this.amplitude = options?.client?.instance;

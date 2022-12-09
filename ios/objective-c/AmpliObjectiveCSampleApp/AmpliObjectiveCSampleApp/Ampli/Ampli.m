@@ -527,10 +527,10 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
 @implementation LoadOptionsBuilder
 
 - (instancetype)initWithOptions:(LoadOptions *)options {
-    _environment = options != nil ? options.environment : development;
-    _disabled = options != nil ? options.environment : NO;
-    _instance = options != nil && options.client != nil ? options.client.instance : nil;
-    _apiKey = options != nil && options.client != nil ? options.client.apiKey : nil;
+    _environment = options.environment;
+    _disabled = options.environment;
+    _instance = options.client != nil ? options.client.instance : nil;
+    _apiKey = options.client != nil ? options.client.apiKey : nil;
     return self;
 }
 
@@ -599,20 +599,24 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
     [self load:nil];
 }
 
-- (void)load:(LoadOptions *_Nullable)options {
+/**
+ * options should have 'environment', 'client.api_key' or 'client.instance'
+ */
+- (void)load:(LoadOptions *)options {
     NSDictionary *ApiKey = @{
-        @(development): @"",
-        @(production): @""
+        @(dev): @"",
+        @(prod): @""
     };
-    self.disabled = options != nil ? options.disabled : NO;
+    self.disabled = options.disabled;
     if (self.isLoaded) {
         NSLog(@"Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
         return;
     }
-    AmpliEnvironment env = options != nil ? options.environment : development;
-    NSString *apiKey = options != nil && options.client != nil && options.client.apiKey != nil ? options.client.apiKey : ApiKey[@(env)];
 
-    if (options != nil && options.client != nil && options.client.instance != nil) {
+    AmpliEnvironment env = options.environment;
+    NSString *apiKey = options.client != nil && options.client.apiKey != nil ? options.client.apiKey : ApiKey[@(env)];
+
+    if (options.client != nil && options.client.instance != nil) {
         _client = options.client.instance;
     } else if (apiKey != nil) {
         _client = [Amplitude instance];

@@ -129,9 +129,9 @@ func (t *AmpliSuite) TestShutdown() {
 
 func (t *AmpliSuite) TestLoadWithEnvironment() {
 	instance := ampli.Ampli{}
-	ampli.APIKey[ampli.EnvironmentDevelopment] = "test-development-api-key"
+	ampli.APIKey[ampli.EnvironmentDev] = "test-development-api-key"
 	instance.Load(ampli.LoadOptions{
-		Environment: ampli.EnvironmentDevelopment,
+		Environment: ampli.EnvironmentDev,
 	})
 
 	t.Assert().Equal("test-development-api-key", instance.Client.Config().APIKey)

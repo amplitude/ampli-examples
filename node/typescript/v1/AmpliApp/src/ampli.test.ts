@@ -15,8 +15,8 @@ describe('Ampli Node JS SDK tests', () => {
 
     ampli = new Ampli();
     // Set API keys for tests
-    ApiKey.production = 'test-api-key-prod';
-    ApiKey.development = 'test-api-key-dev';
+    ApiKey.prod = 'test-api-key-prod';
+    ApiKey.dev = 'test-api-key-dev';
   });
 
   afterEach(() => {
@@ -24,26 +24,8 @@ describe('Ampli Node JS SDK tests', () => {
     consoleErrorMock.mockRestore();
   });
 
-  test('should load() without any arguments if there are ApiKeys for each environment', () => {
-    expect(() => ampli.load()).not.toThrow();
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(0);
-  });
-
-  test('should log error if load() without any arguments without ApiKeys for each environment', () => {
-    ApiKey.production = '';
-    ApiKey.development = '';
-    ampli.load();
-
-    expect(consoleLogMock).toHaveBeenCalledTimes(0);
-    expect(consoleErrorMock).toHaveBeenCalledTimes(1);
-    expect(consoleErrorMock.mock.calls).toEqual([
-        [`ERROR: ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'`],
-    ]);
-  });
-
   test('should identify()', done => {
-    ampli.load();
+    ampli.load({ environment: 'dev' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe(SpecialEventType.IDENTIFY);
       expect(payload.event.user_id).toBe(userId);
@@ -112,7 +94,7 @@ describe('Ampli Node JS SDK tests', () => {
   });
 
   test('should track an event with no properties', done => {
-    ampli.load();
+    ampli.load({ environment: 'dev' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event No Properties');
       done();
@@ -125,7 +107,7 @@ describe('Ampli Node JS SDK tests', () => {
   });
 
   test('should track an event with properties of all types', (done) => {
-    ampli.load();
+    ampli.load({ environment: 'dev' });
     ampli.client.addEventMiddleware((payload) => {
       expect(payload.event.event_type).toBe('Event With All Properties');
       expect(payload.event.event_properties).toEqual({

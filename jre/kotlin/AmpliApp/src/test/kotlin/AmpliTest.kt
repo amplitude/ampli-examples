@@ -218,4 +218,14 @@ class AmpliTest {
 
         verify(client, times(1)).flushEvents()
     }
+
+    @Test
+    fun eventOptionsSessionId() {
+        val client = mock(Amplitude::class.java)
+        this.ampli.load(LoadOptions(client = LoadClientOptions(instance = client)))
+        this.ampli.eventNoProperties(userId, EventOptions(deviceId = deviceId, userId = "some-user", sessionId = 999L))
+        verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture())
+        val event = eventCaptor.value
+        assertEquals(999L, event.sessionId)
+    }
 }
