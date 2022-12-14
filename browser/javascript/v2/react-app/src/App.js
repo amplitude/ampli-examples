@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import * as amplitude from '@amplitude/analytics-browser';
 import logo from "./logo.svg";
 import "./App.css";
 
@@ -79,18 +80,16 @@ function App() {
         </button>
 
         <button
-          onClick={() => ampli.setGroup("test group", "browser-js-ampli")}
+          onClick={() => ampli.client.setGroup("test group", "browser-js-ampli")}
         >
           Group
         </button>
 
-        <button
-          onClick={() =>
-            ampli.groupIdentify("test group", "browser-js-ampli", {
-              requiredBoolean: true,
-            })
-          }
-        >
+        <button onClick={() => {
+          const amplitudeIdentify = new amplitude.Identify();
+          amplitudeIdentify.set('requiredBoolean', true);
+          ampli.client.groupIdentify('test group', 'browser-js-ampli', amplitudeIdentify);
+        }}>
           Group Identify
         </button>
 

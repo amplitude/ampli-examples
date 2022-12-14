@@ -141,41 +141,6 @@ public class Ampli {
         this.client.identify(event.getEventProperties(), overriddenOptions);
     }
 
-    public void setGroup(String name, String value) {
-        this.setGroup(name, value, null);
-    }
-
-    public void setGroup(String name, String value, EventOptions options) {
-        if (!this.isInitializedAndEnabled()) {
-            return;
-        }
-
-        this.client.setGroup(name, value, options);
-    }
-
-    public void setGroup(String name, String[] value) {
-        this.setGroup(name, value, null);
-    }
-
-    public void setGroup(String name, String[] value, EventOptions options) {
-        if (!this.isInitializedAndEnabled()) {
-            return;
-        }
-
-        this.client.setGroup(name, value, options);
-    }
-
-    public void groupIdentify(String groupType, String groupName, Group event) {
-        this.groupIdentify(groupType, groupName, event, null);
-    }
-
-    public void groupIdentify(String groupType, String groupName, Group event, EventOptions options) {
-        if (!this.isInitializedAndEnabled()) {
-            return;
-        }
-        this.client.groupIdentify(groupType, groupName, event.getEventProperties(), options);
-    }
-
     public void flush() {
         if (!this.isInitializedAndEnabled()) {
             return;

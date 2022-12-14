@@ -4,6 +4,9 @@ import com.amplitude.ampli.*
 import com.amplitude.Amplitude
 import com.amplitude.Event
 import com.amplitude.MiddlewareExtra
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import kotlin.test.assertEquals
 import kotlin.test.Test
 import kotlin.test.BeforeTest
@@ -81,20 +84,22 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.setGroup(
-            userId,
-            "group-1",
-            "value-1",
-            EventOptions(deviceId = deviceId, userId = "some-user"),
-            extra
-        )
+        val groupProperties = JSONObject()
+        try {
+            groupProperties.put("group-1", "value-1")
+        } catch (e: JSONException) {
+            System.err.println("Error converting properties to JSONObject: ${e.message}")
+        }
+
+        val amplitudeEvent = Event("\$identify", userId)
+        amplitudeEvent.groupProperties = groupProperties
+        this.ampli.client.logEvent(amplitudeEvent, extra)
 
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture())
 
         val event = eventCaptor.value
         assertEquals("\$identify", event.eventType)
         assertEquals(userId, event.userId)
-        assertEquals(deviceId, event.deviceId)
         assertEquals(
             """{"group-1": "value-1"}""", event.groupProperties.toString(2)
         )
@@ -108,20 +113,30 @@ class AmpliTest {
 
         val extra = MiddlewareExtra(mapOf("abc" to 123, "xyz" to "987"))
 
-        this.ampli.setGroup(
-            userId,
-            "group-1",
-            arrayOf("value-1", "value-2", "value-3"),
-            EventOptions(deviceId = deviceId, userId = "some-user"),
-            extra
-        )
+        val groupNames = try {
+            JSONArray(arrayOf("value-1", "value-2", "value-3"))
+        } catch (e: JSONException) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.message)
+            JSONArray()
+        }
+
+        val groupProperties = JSONObject()
+        try {
+            groupProperties.put("group-1", groupNames)
+        } catch (e: JSONException) {
+            System.err.println("Error converting properties to JSONObject: ${e.message}")
+        }
+
+        val amplitudeEvent = Event("\$identify", userId)
+        amplitudeEvent.groupProperties = groupProperties
+
+        this.ampli.client.logEvent(amplitudeEvent, extra)
 
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture())
 
         val event = eventCaptor.value
         assertEquals("\$identify", event.eventType)
         assertEquals(userId, event.userId)
-        assertEquals(deviceId, event.deviceId)
         assertEquals(
             """{"group-1": [
   "value-1",

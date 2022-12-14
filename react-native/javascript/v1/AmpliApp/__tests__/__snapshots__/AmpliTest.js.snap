@@ -126,23 +126,11 @@ exports[`ampli tests groupIdentify: identify 1`] = `Array []`;
 
 exports[`ampli tests groupIdentify: logEvent 1`] = `Array []`;
 
-exports[`ampli tests groupIdentify: setDeviceId 1`] = `
-Array [
-  Array [
-    "options-device-id",
-  ],
-]
-`;
+exports[`ampli tests groupIdentify: setDeviceId 1`] = `Array []`;
 
 exports[`ampli tests groupIdentify: setGroup 1`] = `Array []`;
 
-exports[`ampli tests groupIdentify: setUserId 1`] = `
-Array [
-  Array [
-    "options-user-id",
-  ],
-]
-`;
+exports[`ampli tests groupIdentify: setUserId 1`] = `Array []`;
 
 exports[`ampli tests groupIdentify: uploadEvents 1`] = `Array []`;
 
@@ -197,13 +185,7 @@ exports[`ampli tests setGroup (multiple names): identify 1`] = `Array []`;
 
 exports[`ampli tests setGroup (multiple names): logEvent 1`] = `Array []`;
 
-exports[`ampli tests setGroup (multiple names): setDeviceId 1`] = `
-Array [
-  Array [
-    "options-device-id",
-  ],
-]
-`;
+exports[`ampli tests setGroup (multiple names): setDeviceId 1`] = `Array []`;
 
 exports[`ampli tests setGroup (multiple names): setGroup 1`] = `
 Array [
@@ -217,13 +199,7 @@ Array [
 ]
 `;
 
-exports[`ampli tests setGroup (multiple names): setUserId 1`] = `
-Array [
-  Array [
-    "options-user-id",
-  ],
-]
-`;
+exports[`ampli tests setGroup (multiple names): setUserId 1`] = `Array []`;
 
 exports[`ampli tests setGroup (multiple names): uploadEvents 1`] = `Array []`;
 
@@ -233,13 +209,7 @@ exports[`ampli tests setGroup: identify 1`] = `Array []`;
 
 exports[`ampli tests setGroup: logEvent 1`] = `Array []`;
 
-exports[`ampli tests setGroup: setDeviceId 1`] = `
-Array [
-  Array [
-    "options-device-id",
-  ],
-]
-`;
+exports[`ampli tests setGroup: setDeviceId 1`] = `Array []`;
 
 exports[`ampli tests setGroup: setGroup 1`] = `
 Array [
@@ -250,12 +220,6 @@ Array [
 ]
 `;
 
-exports[`ampli tests setGroup: setUserId 1`] = `
-Array [
-  Array [
-    "options-user-id",
-  ],
-]
-`;
+exports[`ampli tests setGroup: setUserId 1`] = `Array []`;
 
 exports[`ampli tests setGroup: uploadEvents 1`] = `Array []`;

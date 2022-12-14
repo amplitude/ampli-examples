@@ -77,12 +77,13 @@
     }]];
 
     // Set Group
-    [ampli setGroup:@"ampli group type" value:@"ampli objective-c group"];
+    [ampli.client setGroup:@"ampli group type" groupName:@"ampli objective-c group"];
 
     // GroupIdentify
-    [ampli groupIdentify:@"ampli group type" groupName:@"ampli objective-c group" event:[Group requiredBoolean: true builderBlock:^(GroupBuilder *b) {
-        b.optionalString = @"optional string";
-    }]];
+    AMPIdentify *identifyArgs = [AMPIdentify identify];
+    [identifyArgs set:@"requiredBoolean" value:@true];
+    [identifyArgs set:@"optionalString" value:@"optional string"];
+    [ampli.client groupIdentifyWithGroupType:@"ampli group type" groupName:@"ampli objective-c group" groupIdentify:identifyArgs];
 
     // MiddlewareExtra can be used to pass information to middleware
     NSMutableDictionary *extra = [NSMutableDictionary new];

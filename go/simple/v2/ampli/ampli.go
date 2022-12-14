@@ -170,71 +170,6 @@ func (e identifyEvent) ToAmplitudeEvent() amplitude.Event {
 	}
 }
 
-var Group = struct {
-	Builder func() interface {
-		RequiredBoolean(requiredBoolean bool) GroupBuilder
-	}
-}{
-	Builder: func() interface {
-		RequiredBoolean(requiredBoolean bool) GroupBuilder
-	} {
-		return &groupBuilder{
-			properties: map[string]interface{}{},
-		}
-	},
-}
-
-type GroupEvent interface {
-	Event
-	group()
-}
-
-type groupEvent struct {
-	baseEvent
-}
-
-func (e groupEvent) group() {
-}
-
-type GroupBuilder interface {
-	Build() GroupEvent
-	OptionalString(optionalString string) GroupBuilder
-}
-
-type groupBuilder struct {
-	properties map[string]interface{}
-}
-
-func (b *groupBuilder) RequiredBoolean(requiredBoolean bool) GroupBuilder {
-	b.properties[`requiredBoolean`] = requiredBoolean
-
-	return b
-}
-
-func (b *groupBuilder) OptionalString(optionalString string) GroupBuilder {
-	b.properties[`optionalString`] = optionalString
-
-	return b
-}
-
-func (b *groupBuilder) Build() GroupEvent {
-	return &groupEvent{
-		newBaseEvent(`Group`, b.properties),
-	}
-}
-
-func (e groupEvent) ToAmplitudeEvent() amplitude.Event {
-	identify := amplitude.Identify{}
-	for name, value := range e.properties {
-		identify.Set(name, value)
-	}
-
-	return amplitude.Event{
-		EventType:       GroupIdentifyEventType,
-		GroupProperties: identify.Properties,
-	}
-}
-
 var EventMaxIntForTest = struct {
 	Builder func() interface {
 		IntMax10(intMax10 int) EventMaxIntForTestBuilder
@@ -1269,28 +1204,6 @@ func (a *Ampli) Track(userID string, event Event, eventOptions ...EventOptions) 
 // Identify identifies a user and set user properties.
 func (a *Ampli) Identify(userID string, identify IdentifyEvent, eventOptions ...EventOptions) {
 	a.Track(userID, identify, eventOptions...)
-}
-
-// GroupIdentify identifies a group and set group properties.
-func (a *Ampli) GroupIdentify(groupType string, groupName string, group GroupEvent, eventOptions ...EventOptions) {
-	event := group.ToAmplitudeEvent()
-	event.Groups = map[string][]string{groupType: {groupName}}
-	if len(eventOptions) > 0 {
-		event.EventOptions = eventOptions[0]
-	}
-
-	a.Client.Track(event)
-}
-
-// SetGroup sets group for the current user.
-func (a *Ampli) SetGroup(userID string, groupType string, groupName []string, eventOptions ...EventOptions) {
-	var options EventOptions
-	if len(eventOptions) > 0 {
-		options = eventOptions[0]
-	}
-	a.setUserID(userID, &options)
-
-	a.Client.SetGroup(groupType, groupName, options)
 }
 
 // Flush flushes events waiting in buffer.

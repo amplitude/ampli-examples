@@ -109,13 +109,6 @@ class Identify {
   }
 }
 
-class Group {
-  constructor(properties) {
-    this.event_type = 'Group';
-    this.event_properties = properties;
-  }
-}
-
 class EventMaxIntForTest {
   constructor(properties) {
     this.event_type = 'EventMaxIntForTest';
@@ -310,58 +303,6 @@ class Ampli {
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude?.logEvent({ ...options, ...identifyEvent }, extra)
-      : getDefaultPromiseResponse();
-
-    return { promise };
-  }
-
-  /**
-   * Set Group name and value
-   *
-   * @param {string|undefined} userId The user's Id
-   * @param {string} name
-   * @param {string} value
-   * @param {GroupOptions} [options]
-   * @param {MiddlewareExtra} [extra]
-   *
-   * @return {{promise: Promise<Response>}}
-   */
-  setGroup(userId, name, value, options, extra) {
-    const identify = new AmplitudeIdentify().setGroup(name, value);
-    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
-    const promise = this.isInitializedAndEnabled()
-      ? this.amplitude.logEvent({ ...options, ...identifyEvent }, extra)
-      : getDefaultPromiseResponse();
-
-    return { promise };
-  }
-
-  /**
-   * Identify a group and set or update that group's properties.
-   *
-   * @param {string} groupType The group type.
-   * @param {string} groupName The group name.
-   * @param {Object} properties The group's properties.
-   * @param {string} [properties.optionalString] Description for group optionalString
-   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
-   * @param {GroupOptions} [options] Options for this groupIdentify call.
-   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
-   *
-   * @return {{promise: Promise<Response>}}
-   */
-  groupIdentify(groupType, groupName, properties, options, extra) {
-    const identify = new AmplitudeIdentify();
-    const eventProperties = properties;
-    if (eventProperties != null) {
-      for (const [key, value] of Object.entries(eventProperties)) {
-        if (value !== undefined) {
-          identify.set(key, value);
-        }
-      }
-    }
-    const groupIdentifyEvent = identify.identifyGroup(groupType, groupName);
-    const promise = this.isInitializedAndEnabled()
-      ? this.amplitude?.logEvent({ ...options, ...groupIdentifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };

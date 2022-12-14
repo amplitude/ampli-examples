@@ -11,6 +11,9 @@ import com.amplitude.Amplitude;
 import com.amplitude.MiddlewareExtra;
 import com.amplitude.ampli.*;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -84,20 +87,21 @@ public class AmpliTests {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        this.ampli.setGroup(
-            userId,
-            "group-1",
-            "value-1",
-            new EventOptions().setDeviceId(deviceId).setUserId(userId),
-            extra
-        );
+        JSONObject groupProperties = new JSONObject();
+        try {
+            groupProperties.put("group-1", "value-1");
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+        }
+        com.amplitude.Event amplitudeEvent = new com.amplitude.Event("$identify", userId);
+        amplitudeEvent.groupProperties = groupProperties;
+        this.ampli.getClient().logEvent(amplitudeEvent, extra);
 
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture());
 
         com.amplitude.Event event = eventCaptor.getValue();
         assertEquals("$identify", event.eventType);
         assertEquals(userId, event.userId);
-        assertEquals(deviceId, event.deviceId);
         assertEquals(
             "{\"group-1\":\"value-1\"}",
             event.groupProperties.toString()
@@ -117,20 +121,29 @@ public class AmpliTests {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        this.ampli.setGroup(
-            userId,
-            "group-1",
-            new String[]{"value-1", "value-2", "value-3"},
-            new EventOptions().setDeviceId(deviceId).setUserId(userId),
-            extra
-        );
+        JSONArray groupNames;
+        try {
+            groupNames = new JSONArray(new String[]{"value-1", "value-2", "value-3"});
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+            return;
+        }
+
+        JSONObject groupProperties = new JSONObject();
+        try {
+            groupProperties.put("group-1", groupNames);
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+        }
+        com.amplitude.Event amplitudeEvent = new com.amplitude.Event("$identify", userId);
+        amplitudeEvent.groupProperties = groupProperties;
+        this.ampli.getClient().logEvent(amplitudeEvent, extra);
 
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture());
 
         com.amplitude.Event event = eventCaptor.getValue();
         assertEquals("$identify", event.eventType);
         assertEquals(userId, event.userId);
-        assertEquals(deviceId, event.deviceId);
         assertEquals(
             "{\"group-1\":[\"value-1\",\"value-2\",\"value-3\"]}",
             event.groupProperties.toString()

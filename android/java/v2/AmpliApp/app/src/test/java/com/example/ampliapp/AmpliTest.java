@@ -10,7 +10,6 @@ import android.content.Context;
 
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventWithAllProperties;
-import com.amplitude.ampli.Group;
 import com.amplitude.ampli.Identify;
 import com.amplitude.ampli.LoadClientOptions;
 import com.amplitude.ampli.LoadOptions;
@@ -27,6 +26,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -90,7 +90,7 @@ public class AmpliTest {
         EventOptions eventOptions = new EventOptions();
         eventOptions.setDeviceId(deviceId);
         eventOptions.setUserId(userId);
-        this.ampli.setGroup(
+        this.ampli.getClient().setGroup(
                 "group-1",
                 "value-1",
                 eventOptions
@@ -117,7 +117,7 @@ public class AmpliTest {
         eventOptions.setUserId(userId);
         this.ampli.load(appContext, new LoadOptions().setClient(new LoadClientOptions().setInstance(client)));
 
-        this.ampli.setGroup(
+        this.ampli.getClient().setGroup(
                 "group-1",
                 new String[]{"value-1", "value-2", "value-3"},
                 eventOptions
@@ -147,11 +147,17 @@ public class AmpliTest {
         EventOptions eventOptions = new EventOptions();
         eventOptions.setDeviceId(deviceId);
         eventOptions.setUserId(userId);
-        this.ampli.groupIdentify(
-                "group-type-1",
-                "group-name-1",
-                Group.builder().requiredBoolean(false).optionalString("test-string").build(),
-                eventOptions
+
+        Map<String, Object> groupProperties = new HashMap<String, Object>() {{
+            put("requiredBoolean", false);
+            put("optionalString", "test-string");
+        }};
+
+        this.ampli.getClient().groupIdentify(
+            "group-type-1",
+            "group-name-1",
+            groupProperties,
+            eventOptions
         );
 
        verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), mapCaptor.capture(), optionsCaptor.capture());

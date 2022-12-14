@@ -13,7 +13,6 @@ import android.content.Context;
 import com.amplitude.ampli.Ampli;
 import com.amplitude.ampli.EventOptions;
 import com.amplitude.ampli.EventWithAllProperties;
-import com.amplitude.ampli.Group;
 import com.amplitude.ampli.Identify;
 import com.amplitude.ampli.LoadClientOptions;
 import com.amplitude.ampli.LoadOptions;
@@ -22,6 +21,7 @@ import com.amplitude.api.MiddlewareExtra;
 import com.amplitude.api.Plan;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,15 +102,12 @@ public class AmpliTest {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        this.ampli.setGroup(
+        this.ampli.getClient().setGroup(
                 "group-1",
                 "value-1",
-                new EventOptions().setDeviceId(deviceId).setUserId(userId),
                 extra
         );
 
-        verify(client, times(1)).setUserId(userId);
-        verify(client, times(1)).setDeviceId(deviceId);
         verify(client, times(1)).setGroup(eq("group-1"), eq("value-1"), extraCaptor.capture());
         assertEquals(
                 "{abc=123, xyz=987}",
@@ -128,15 +125,22 @@ public class AmpliTest {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        this.ampli.setGroup(
+
+        String[] groupNames = {"value-1", "value-2", "value-3"};
+        JSONArray jsonGroupNames;
+        try {
+            jsonGroupNames = new JSONArray(groupNames);
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+            return;
+        }
+
+        this.ampli.getClient().setGroup(
                 "group-1",
-                new String[]{"value-1", "value-2", "value-3"},
-                new EventOptions().setDeviceId(deviceId).setUserId(userId),
+                jsonGroupNames,
                 extra
         );
 
-        verify(client, times(1)).setUserId(userId);
-        verify(client, times(1)).setDeviceId(deviceId);
         verify(client, times(1)).setGroup(eq("group-1"), jsonArrayCaptor.capture(), extraCaptor.capture());
         assertEquals(
                 "[\"value-1\",\"value-2\",\"value-3\"]",
@@ -158,16 +162,22 @@ public class AmpliTest {
         extra.put("abc", 123);
         extra.put("xyz", "987");
 
-        this.ampli.groupIdentify(
+        JSONObject groupProperties = new JSONObject();
+        try {
+            groupProperties.put("requiredBoolean", false);
+            groupProperties.put("optionalString", "test-string");
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+        }
+
+        this.ampli.getClient().groupIdentify(
                 "group-type-1",
                 "group-name-1",
-                Group.builder().requiredBoolean(false).optionalString("test-string").build(),
-                new EventOptions().setDeviceId(deviceId).setUserId(userId),
+                groupProperties,
+                false,
                 extra
         );
 
-        verify(client, times(1)).setUserId(userId);
-        verify(client, times(1)).setDeviceId(deviceId);
         verify(client, times(1)).groupIdentify(eq("group-type-1"), eq("group-name-1"), jsonObjectCaptor.capture(), eq(false), extraCaptor.capture());
         assertEquals(
                 "{\"optionalString\":\"test-string\",\"requiredBoolean\":false}",

@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import * as amplitude from '@amplitude/analytics-browser';
 import { ampli, EventWithOptionalProperties } from '../ampli';
 
 const userId = 'ampli-ember-js-user-id';
@@ -12,14 +13,18 @@ export default class AmpliEventsComponent extends Component {
 
   @action
   group() {
-    ampli.setGroup('test group', 'ember-js-ampli');
+    ampli.client.setGroup('test group', 'ember-js-ampli');
   }
 
   @action
   groupIdentify() {
-    ampli.groupIdentify('test group', 'ember-js-ampli', {
-      requiredBoolean: true,
-    });
+    const amplitudeIdentify = new amplitude.Identify();
+    amplitudeIdentify.set('requiredBoolean', true);
+    ampli.client.groupIdentify(
+      'test group',
+      'ember-js-ampli',
+      amplitudeIdentify
+    );
   }
 
   @action

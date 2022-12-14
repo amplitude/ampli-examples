@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Button
 import com.amplitude.ampli.*
 import com.amplitude.api.MiddlewareExtra
+import org.json.JSONException
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
     private val userId: String = "ampli-kotlin-user-id"
@@ -22,12 +24,18 @@ class MainActivity : AppCompatActivity() {
 
         val btnSetGroup = findViewById<Button>(R.id.btn_set_group)
         btnSetGroup.setOnClickListener {
-            ampli.setGroup("test group", "android-kotlin-ampli")
+            ampli.client.setGroup("test group", "android-kotlin-ampli")
         }
 
         val btnGroupIdentify = findViewById<Button>(R.id.btn_group_identify)
         btnGroupIdentify.setOnClickListener {
-            ampli.groupIdentify("test group", "android-kotlin-ampli", Group(requiredBoolean = true))
+            val groupProperties = JSONObject()
+            try {
+                groupProperties.put("requiredBoolean", true)
+            } catch (e: JSONException) {
+                System.err.println("Error converting properties to JSONObject: ${e.message}")
+            }
+            ampli.client.groupIdentify("test group", "android-kotlin-ampli", groupProperties, false, null)
         }
 
         val btnEventWithOptionalProperties = findViewById<Button>(R.id.btn_optional_properties)

@@ -149,13 +149,6 @@ export class Identify {
   }
 }
 
-export class Group {
-  constructor(properties) {
-    this.event_type = 'Group';
-    this.event_properties = properties;
-  }
-}
-
 export class EventMaxIntForTest {
   constructor(properties) {
     this.event_type = 'EventMaxIntForTest';
@@ -353,62 +346,6 @@ export class Ampli {
       options?.callback,
       options?.errorCallback
     );
-  }
-
-  /**
-   * Set Group for the current user
-   *
-   * @param {String} name
-   * @param {String|String[]} value
-   * @param {GroupOptions} [options]
-   * @param {MiddlewareExtra} [extra]
-   */
-  setGroup(name, value, options, extra) {
-    if (!this.isInitializedAndEnabled()) {
-      return;
-    }
-
-    this.amplitude?.setGroup(name, value);
-  }
-
-  /**
-   * Identify a group and set or update that group's properties.
-   *
-   * @param {string} groupType The group type.
-   * @param {string|string[]} groupName The group name.
-   * @param {Object} properties The group's properties.
-   * @param {string} [properties.optionalString] Description for group optionalString
-   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
-   * @param {GroupOptions} [options] Options for this groupIdentify call.
-   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
-   */
-  groupIdentify(groupType, groupName, properties, options, extra) {
-    if (!this.isInitializedAndEnabled()) {
-      return;
-    }
-
-    const event = {
-      event_type: SpecialEventType.Group,
-      event_properties: properties,
-      user_id: options?.user_id,
-      device_id: options?.device_id
-    };
-    this.runMiddleware({ event, extra }, payload => {
-      const e = payload.event;
-      if (e.user_id) {
-        this.amplitude.setUserId(e.user_id);
-      }
-      if (e.device_id) {
-        this.amplitude.setDeviceId(e.device_id);
-      }
-      const amplitudeIdentify = new amplitude.Identify();
-      if (e.event_properties != null) {
-        for (const [key, value] of Object.entries(e.event_properties)) {
-          amplitudeIdentify.set(key, value);
-        }
-      }
-      this.amplitude.groupIdentify(groupType, groupName, amplitudeIdentify, options?.callback);
-    });
   }
 
   /**

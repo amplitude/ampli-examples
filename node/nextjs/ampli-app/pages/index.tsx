@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import styles from '../styles/Home.module.css'
 import { ampli, EventWithOptionalProperties } from '../lib/ampli';
 
@@ -14,11 +15,20 @@ const Home: NextPage = () => {
           Identify
         </button>
 
-        <button key="set-group" onClick={() => ampli.setGroup(userId, 'test group', 'nextjs-ampli')}>
+        <button key="set-group" onClick={() => {
+          const setGroupIdentify = new AmplitudeIdentify().setGroup('test group', 'nextjs-ampli');
+          const setGroupIdentifyEvent = setGroupIdentify.identifyUser(userId);
+          ampli.client.logEvent(setGroupIdentifyEvent);
+        }}>
           Set Group
         </button>
 
-        <button key="group-identify" onClick={() => ampli.groupIdentify('test group', 'nextjs-ampli', { requiredBoolean: true })}>
+        <button key="group-identify" onClick={() => {
+          const groupIdentify = new AmplitudeIdentify();
+          groupIdentify.set('requiredBoolean', true);
+          const groupIdentifyEvent = groupIdentify.identifyGroup('test group', 'nextjs-ampli');
+          ampli.client.logEvent(groupIdentifyEvent);
+        }}>
           Group Identify
         </button>
 

@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { Types } from "@amplitude/analytics-node";
+import * as amplitude from '@amplitude/analytics-node';
 import { Ampli, ampli, EventWithOptionalProperties } from './ampli';
 import { Service1 } from "./services/service-1";
 import LoggingPlugin from './plugins/loggingPlugin';
@@ -92,7 +93,7 @@ async function sendEvents() {
       { platform: process.platform },
   );
 
-  ampli.setGroup(userId, 'test group', 'node-ts-ampli');
+  ampli.client.setGroup('test group', 'node-ts-ampli', { user_id: userId });
 
   /**
    * Track Events via strongly typed methods
@@ -165,7 +166,9 @@ async function sendEvents() {
     PropertyWithPascalCase: 'property with pascal case'
   });
 
-  ampli.groupIdentify('test group', 'node-ts-ampli-v2', { requiredBoolean: true });
+  const amplitudeIdentify = new amplitude.Identify();
+  amplitudeIdentify.set('requiredBoolean', true);
+  ampli.client.groupIdentify('test group', 'node-ts-ampli-v2', amplitudeIdentify);
 
   const myService = new Service1(userId);
   myService.doAction1();

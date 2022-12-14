@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const { Types } = require('@amplitude/analytics-node');
+const amplitude = require('@amplitude/analytics-node');
 const { Ampli, ampli, EventWithOptionalProperties } = require('./ampli');
 const { LoggingPlugin } = require('./plugins/loggingPlugin');
 const { SegmentPlugin } = require('./plugins/segmentPlugin');
@@ -91,7 +92,7 @@ async function sendEvents() {
       { platform: process.platform },
   );
 
-  ampli.setGroup(userId, 'test group', 'node-js-ampli');
+  ampli.client.setGroup('test group', 'node-js-ampli', { user_id: userId });
 
   /**
    * Track Events via strongly typed methods
@@ -164,7 +165,9 @@ async function sendEvents() {
     PropertyWithPascalCase: 'property with pascal case'
   });
 
-  ampli.groupIdentify('test group', 'node-js-ampli-v2', { requiredBoolean: true });
+  const amplitudeIdentify = new amplitude.Identify();
+  amplitudeIdentify.set('requiredBoolean', true);
+  ampli.client.groupIdentify('test group', 'node-js-ampli-v2', amplitudeIdentify);
 
   /**
    * Flush all pending events

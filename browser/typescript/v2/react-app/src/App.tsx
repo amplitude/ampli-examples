@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
+import * as amplitude from '@amplitude/analytics-browser';
 import logo from './logo.svg';
 import './App.css';
 
@@ -76,9 +77,13 @@ function App() {
 
         <button onClick={() => ampli.identify(userId, { requiredNumber: 42 })}>Identify</button>
 
-        <button onClick={() => ampli.setGroup('test group', 'browser-ts-ampli')}>Group</button>
+        <button onClick={() => ampli.client.setGroup('test group', 'browser-ts-ampli')}>Group</button>
 
-        <button onClick={() => ampli.groupIdentify('test group', 'browser-ts-ampli', { requiredBoolean: true })}>
+        <button onClick={() => {
+          const amplitudeIdentify = new amplitude.Identify();
+          amplitudeIdentify.set('requiredBoolean', true);
+          ampli.client.groupIdentify('test group', 'browser-ts-ampli', amplitudeIdentify);
+        }}>
           Group Identify
         </button>
 

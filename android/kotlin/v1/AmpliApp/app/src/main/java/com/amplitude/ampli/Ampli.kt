@@ -83,29 +83,6 @@ class Identify private constructor(
     ), null as EventOptions?)
 }
 
-class Group private constructor(
-    eventProperties: Map<String, Any?>?,
-    options: EventOptions? = null
-) : Event<Group>("Group", eventProperties, options, ::Group) {
-    /**
-     * Group
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group)
-     *
-     * Group properties.
-     *
-     * @param requiredBoolean Description for group requiredBoolean
-     * @param optionalString Description for group optionalString
-     */
-    constructor(
-        requiredBoolean: Boolean,
-        optionalString: String? = null
-    ) : this(mapOf(
-        *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
-        "requiredBoolean" to requiredBoolean
-    ), null as EventOptions?)
-}
-
 class EventMaxIntForTest private constructor(
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
@@ -567,38 +544,6 @@ open class Ampli {
         }
         this.handleEventOptions(event.options, options, userId)
         this._client?.setUserProperties(this.getEventPropertiesJson(event), extra)
-    }
-
-    open fun setGroup(name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-        this.handleEventOptions(null, options)
-        this._client?.setGroup(name, value, extra)
-    }
-
-    open fun setGroup(name: String, value: Array<String>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-
-        val jsonValue = try {
-            JSONArray(value)
-        } catch (e: JSONException) {
-            System.err.printf("Error converting value to JSONArray: %s%n", e.message)
-            return
-        }
-        this.handleEventOptions(null, options)
-        this._client?.setGroup(name, jsonValue, extra)
-    }
-
-    open fun groupIdentify(groupType: String, groupName: String, event: Group, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-        this.handleEventOptions(event.options, options)
-        val groupProperties: JSONObject? = this.getEventPropertiesJson(event)
-        this._client?.groupIdentify(groupType, groupName, groupProperties, false, extra)
     }
 
     open fun flush() {

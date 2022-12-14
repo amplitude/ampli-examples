@@ -17,7 +17,7 @@ class AmpliTests: XCTestCase {
         ampli?.load(LoadOptions(client: LoadClientOptions(apiKey: "test-api-key")))
     }
 
-    func testIdenify() throws {
+    func testIdentify() throws {
         let userId = "test-user-id";
         let deviceId = "test-device-id";
         let identifyProperties = Identify(requiredNumber: 22.0, optionalArray: ["optional array str"])
@@ -31,7 +31,7 @@ class AmpliTests: XCTestCase {
         ampli?.identify(userId, identifyProperties, options: eventOptions)
     }
 
-    func testTrackWithNoProperies() throws {
+    func testTrackWithNoProperties() throws {
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event No Properties")
             XCTAssertNil(payload.event["event_properties"])
@@ -84,13 +84,12 @@ class AmpliTests: XCTestCase {
             let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
         })
-        ampli?.setGroup(groupType, groupName)
+        ampli?.client.setGroup(groupType, groupName: groupName as NSObject)
     }
 
     func testGroupIdentify() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        let groupProperties = Group(requiredBoolean: false, optionalString: "optional str")
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
             XCTAssertNil(payload.event["event_properties"])
@@ -102,13 +101,16 @@ class AmpliTests: XCTestCase {
             XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, true)
             XCTAssertEqual(groupPropertiesSet!["optionalString"] as! String, "optional str")
         })
-        ampli?.groupIdentify(groupType, groupName, groupProperties)
+
+        let identifyArgs = AMPIdentify()
+        identifyArgs.set("requiredBoolean", value: false as NSObject)
+        identifyArgs.set("optionalString", value: "optional str" as NSObject)
+        ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
     }
 
     func testGroupIdentifyNilOptionalString() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        let groupProperties = Group(requiredBoolean: false, optionalString: nil)
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
             XCTAssertNil(payload.event["event_properties"])
@@ -120,6 +122,10 @@ class AmpliTests: XCTestCase {
             XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, true)
             XCTAssertNil(groupPropertiesSet!["optionalString"])
         })
-        ampli?.groupIdentify(groupType, groupName, groupProperties)
+
+        let identifyArgs = AMPIdentify()
+        identifyArgs.set("requiredBoolean", value: false as NSObject)
+        identifyArgs.set("optionalString", value: nil)
+        ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
     }
 }

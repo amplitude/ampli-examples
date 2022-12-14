@@ -103,13 +103,6 @@ class Identify {
   }
 }
 
-class Group {
-  constructor(properties) {
-    this.event_type = 'Group';
-    this.event_properties = properties;
-  }
-}
-
 class EventMaxIntForTest {
   constructor(properties) {
     this.event_type = 'EventMaxIntForTest';
@@ -302,56 +295,6 @@ class Ampli {
     }
 
     return this.amplitude.identify(amplitudeIdentify, options);
-  }
-
-  /**
-   * Set Group for the user.
-   *
-   * @param {string|undefined} userId The user's id.
-   * @param {string} groupType The group type.
-   * @param {string|string[]} groupName The group name.
-   * @param {EventOptions} [options] Optional event options.
-   *
-   * @return {PromiseResult}
-   */
-  setGroup(userId, groupType, groupName, options) {
-    if (!this.isInitializedAndEnabled()) {
-      return getVoidPromiseResult();
-    }
-
-    if (userId) {
-      options = {...options,  user_id: userId};
-    }
-
-    return this.amplitude.setGroup(groupType, groupName, options);
-  }
-
-  /**
-   * Identify a group and set or update that group's properties.
-   *
-   * @param {string} groupType The group type.
-   * @param {string|string[]} groupName The group name.
-   * @param {Object} properties The group's properties.
-   * @param {string} [properties.optionalString] Description for group optionalString
-   * @param {boolean} properties.requiredBoolean Description for group requiredBoolean
-   * @param {EventOptions} [options] Optional event options.
-   *
-   * @return {PromiseResult}
-   */
-  groupIdentify(groupType, groupName, properties, options) {
-    if (!this.isInitializedAndEnabled()) {
-      return getVoidPromiseResult();
-    }
-
-    const amplitudeIdentify = new amplitude.Identify();
-    const eventProperties = properties;
-    if (eventProperties != null) {
-      for (const [key, value] of Object.entries(eventProperties)) {
-        amplitudeIdentify.set(key, value);
-      }
-    }
-
-    return this.amplitude.groupIdentify(groupType, groupName, amplitudeIdentify, options);
   }
 
   /**

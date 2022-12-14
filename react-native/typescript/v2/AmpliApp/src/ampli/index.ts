@@ -81,17 +81,6 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface GroupProperties {
-  /**
-   * Description for group optionalString
-   */
-  optionalString?: string;
-  /**
-   * Description for group requiredBoolean
-   */
-  requiredBoolean: boolean;
-}
-
 export interface EventMaxIntForTestProperties {
   /**
    * property to test schema validation
@@ -392,16 +381,6 @@ export class Identify implements BaseEvent {
   }
 }
 
-export class Group implements BaseEvent {
-  event_type = 'Group';
-
-  constructor(
-    public event_properties: GroupProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
 export class EventMaxIntForTest implements BaseEvent {
   event_type = 'EventMaxIntForTest';
 
@@ -597,53 +576,6 @@ export class Ampli {
     }
 
     return this.amplitude!.identify(amplitudeIdentify, options);
-  }
-
-  /**
-   * Set Group for the current user.
-   *
-   * @param groupType The group type.
-   * @param groupName The group name.
-   * @param options Optional event options.
-   */
-  setGroup(
-    groupType: string,
-    groupName: string | string[],
-    options?: EventOptions,
-  ): PromiseResult<Result> {
-    if (!this.isInitializedAndEnabled()) {
-      return getVoidPromiseResult();
-    }
-
-    return this.amplitude!.setGroup(groupType, groupName, options);
-  }
-
-  /**
-   * Identify a group and set group properties.
-   *
-   * @param groupType The group type.
-   * @param groupName The group name.
-   * @param properties The group properties.
-   * @param options Optional event options.
-   */
-  groupIdentify(
-    groupType: string,
-    groupName: string | string[],
-    properties: GroupProperties,
-    options?: EventOptions,
-  ): PromiseResult<Result> {
-    if (!this.isInitializedAndEnabled()) {
-      return getVoidPromiseResult();
-    }
-
-    const amplitudeIdentify = new amplitude.Identify();
-    const eventProperties = properties;
-    if (eventProperties != null) {
-      for (const [key, value] of Object.entries(eventProperties)) {
-        amplitudeIdentify.set(key, value);
-      }
-    }
-    return this.amplitude!.groupIdentify(groupType, groupName, amplitudeIdentify, options);
   }
 
   /**

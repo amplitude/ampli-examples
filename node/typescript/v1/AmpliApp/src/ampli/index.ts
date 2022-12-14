@@ -75,17 +75,6 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface GroupProperties {
-  /**
-   * Description for group optionalString
-   */
-  optionalString?: string;
-  /**
-   * Description for group requiredBoolean
-   */
-  requiredBoolean: boolean;
-}
-
 export interface EventMaxIntForTestProperties {
   /**
    * property to test schema validation
@@ -386,16 +375,6 @@ export class Identify implements BaseEvent {
   }
 }
 
-export class Group implements BaseEvent {
-  event_type = 'Group';
-
-  constructor(
-    public event_properties: GroupProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
 export class EventMaxIntForTest implements BaseEvent {
   event_type = 'EventMaxIntForTest';
 
@@ -589,47 +568,6 @@ export class Ampli {
     const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
     const promise = this.isInitializedAndEnabled()
       ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra)
-      : getDefaultPromiseResponse();
-
-    return { promise };
-  }
-
-  setGroup(
-    userId: string | undefined,
-    name: string,
-    value: string,
-    options?: GroupOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    const identify = new AmplitudeIdentify().setGroup(name, value);
-    const identifyEvent = getIdentifyEvent(identify, userId || options?.user_id, options?.device_id);
-    const promise = this.isInitializedAndEnabled()
-      ? this.amplitude!.logEvent({ ...options, ...identifyEvent }, extra)
-      : getDefaultPromiseResponse();
-
-    return { promise };
-  }
-
-  groupIdentify(
-    groupType: string,
-    groupName: string,
-    properties: GroupProperties,
-    options?: GroupOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    const identify = new AmplitudeIdentify();
-    const eventProperties = properties;
-    if (eventProperties != null) {
-      for (const [key, value] of Object.entries(eventProperties)) {
-        if (value !== undefined) {
-          identify.set(key, value);
-        }
-      }
-    }
-    const groupIdentifyEvent = identify.identifyGroup(groupType, groupName);
-
-    const promise = this.isInitializedAndEnabled()
-      ? this.amplitude!.logEvent({ ...options, ...groupIdentifyEvent }, extra)
       : getDefaultPromiseResponse();
 
     return { promise };

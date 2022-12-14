@@ -3,6 +3,8 @@ package org.example;
 import com.amplitude.MiddlewareExtra;
 import com.amplitude.ampli.*;
 import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class App {
     public static void main(String[] args) {
@@ -90,7 +92,15 @@ public class App {
                 .build()
         );
 
-        Ampli.getInstance().setGroup(userId, "test-group", "a-group-value");
+        JSONObject groupProperties = new JSONObject();
+        try {
+            groupProperties.put("test-group", "a-group-value");
+        } catch (JSONException e) {
+            System.err.printf("Error converting value to JSONArray: %s%n", e.getMessage());
+        }
+        com.amplitude.Event amplitudeEvent = new com.amplitude.Event("$identify", userId);
+        amplitudeEvent.groupProperties = groupProperties;
+        Ampli.getInstance().getClient().logEvent(amplitudeEvent, (MiddlewareExtra) null);
 
         Ampli.getInstance().eventNoProperties(userId);
 
@@ -135,6 +145,7 @@ public class App {
 
         Ampli.getInstance().track(userId,
             EventObjectTypes.builder()
+                .requiredObject("abc")
                 .requiredObjectArray(new Object[]{1, "a", true})
                 .build()
         );

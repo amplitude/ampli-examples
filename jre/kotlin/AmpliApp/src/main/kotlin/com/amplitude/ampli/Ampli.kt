@@ -546,32 +546,6 @@ open class Ampli {
         this._client?.logEvent(amplitudeEvent, extra)
     }
 
-    open fun setGroup(userId: String?, name: String, value: String, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.setGroupProperties(userId, name, value, options, extra)
-    }
-
-    open fun setGroup(userId: String?, name: String, value: Array<String>, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        this.setGroupProperties(userId, name, this.getJsonArray(value), options, extra)
-    }
-
-    private fun setGroupProperties(userId: String?, name: String, value: Any, options: EventOptions? = null, extra: MiddlewareExtra? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-
-        val groupProperties = JSONObject()
-        try {
-            groupProperties.put(name, value)
-        } catch (e: JSONException) {
-            System.err.println("Error converting properties to JSONObject: ${e.message}")
-        }
-
-        val amplitudeEvent = this.createAmplitudeEvent("\$identify", null, options, userId)
-        amplitudeEvent.groupProperties = groupProperties
-
-        this._client?.logEvent(amplitudeEvent, extra)
-    }
-
     open fun flush() {
         if (!this.isInitializedAndEnabled()) {
             return

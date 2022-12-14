@@ -1,4 +1,5 @@
 import {Ampli, EventOptions, ReactNativeClient} from '../src/ampli';
+import * as amplitude from '@amplitude/analytics-react-native';
 
 type MockClient = {
   identify: jest.Mock;
@@ -60,25 +61,27 @@ describe('ampli tests', () => {
   });
 
   test('groupIdentify', async () => {
-    await ampli.groupIdentify(
+    const amplitudeIdentify = new amplitude.Identify();
+    amplitudeIdentify.set('requiredBoolean', true);
+    amplitudeIdentify.set('optionalString', 'abc');
+
+    await ampli.client.groupIdentify(
       'test-group-type',
       'test-group-name',
-      {
-        requiredBoolean: true,
-        optionalString: 'abc',
-      },
+      amplitudeIdentify,
       options,
     ).promise;
     checkSnapshots();
   });
 
   test('setGroup', async () => {
-    await ampli.setGroup('test-group-type', 'test-group-name', options).promise;
+    await ampli.client.setGroup('test-group-type', 'test-group-name', options)
+      .promise;
     checkSnapshots();
   });
 
   test('setGroup (multiple names)', async () => {
-    await ampli.setGroup(
+    await ampli.client.setGroup(
       'test-group-type',
       ['test-group-name1', 'test-group-name2'],
       options,

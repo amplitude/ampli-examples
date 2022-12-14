@@ -91,34 +91,6 @@ public class Identify : GenericEvent<Identify> {
     }
 }
 
-public class Group : GenericEvent<Group> {
-
-    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
-        super.init(
-            eventType: "Group",
-            eventProperties: eventProperties,
-            options: options,
-            eventFactory: Group.init
-        );
-    }
-
-    /**
-    Group properties.
-
-    - Parameter requiredBoolean: Description for group requiredBoolean
-    - Parameter optionalString: Description for group optionalString
-    */
-    public convenience init(
-        requiredBoolean: Bool,
-        optionalString: String? = nil
-    ) {
-        self.init([
-            "optionalString": optionalString,
-            "requiredBoolean": requiredBoolean
-        ]);
-    }
-}
-
 public class EventMaxIntForTest : GenericEvent<EventMaxIntForTest> {
 
     private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
@@ -653,28 +625,6 @@ public class Ampli {
         }
 
         amplitude?.identify(identifyArgs)
-    }
-
-    public func setGroup(_ name: String, _ value: String, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
-        if (!isInitializedAndEnabled()) {
-            return;
-        }
-        self.handleEventOptions(nil, options);
-        amplitude?.setGroup(name, groupName: value as NSObject)
-    }
-
-    public func groupIdentify(_ groupType: String, _ groupName: String, _ event: Group, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
-        if (!isInitializedAndEnabled()) {
-            return;
-        }
-        self.handleEventOptions(event.options, options)
-
-        let identifyArgs = AMPIdentify()
-        event.eventProperties?.forEach{ key, value in
-            identifyArgs.set(key, value: value as? NSObject)
-        }
-
-        amplitude?.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
     }
 
     public func flush() -> Void {

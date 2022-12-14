@@ -91,7 +91,7 @@
         XCTAssertEqualObjects(userPropertiesSet[groupType], groupName);
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
-    [_ampli setGroup:groupType value:groupName];
+    [_ampli.client setGroup:groupType groupName:groupName];
 }
 
 - (void)testGroupIdentify {
@@ -99,14 +99,8 @@
     NSString *deviceId = @"test-device-id";
     NSString *groupType = @"test-group-type";
     NSString *groupName = @"test-group";
-    EventOptions *eventOptions = [EventOptions builderBlock:^(EventOptionsBuilder *builder) {
-        builder.deviceId = deviceId;
-        builder.userId = userId;
-    }];
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"@groupidentify");
-        XCTAssertEqualObjects(payload.event[@"user_id"], userId);
-        XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
         XCTAssertNil(payload.event[@"event_properties"]);
         XCTAssertNil(payload.event[@"user_properties"]);
         NSMutableDictionary *groups = payload.event[@"groups"];
@@ -116,13 +110,11 @@
         XCTAssertEqual(groupPropertiesSet[@"optionalString"], @"optional string");
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
-    [_ampli groupIdentify:groupType
-           groupName:groupName
-           event:[Group requiredBoolean:false builderBlock:^(GroupBuilder *b) {
-                b.optionalString = @"optional string";
-           }]
-           options:eventOptions
-   ];
+
+    AMPIdentify *identifyArgs = [AMPIdentify identify];
+    [identifyArgs set:@"requiredBoolean" value:@false];
+    [identifyArgs set:@"optionalString" value:@"optional string"];
+    [_ampli.client groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:identifyArgs];
 }
 
 @end

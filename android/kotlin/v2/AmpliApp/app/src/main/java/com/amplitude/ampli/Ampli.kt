@@ -95,30 +95,6 @@ class Identify private constructor() : BaseEvent() {
     }
 }
 
-class Group private constructor() : BaseEvent() {
-    /**
-     * Group
-     *
-     * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Group)
-     *
-     * Group properties.
-     *
-     * @param requiredBoolean Description for group requiredBoolean
-     * @param optionalString Description for group optionalString
-     */
-    constructor(
-        requiredBoolean: Boolean,
-        optionalString: String? = null
-    ) : this() {
-        this.eventType = EventType.GroupIdentify.value
-        this.eventProperties =
-            mutableMapOf(
-                *(if (optionalString != null) arrayOf("optionalString" to optionalString) else arrayOf()),
-                "requiredBoolean" to requiredBoolean
-            )
-    }
-}
-
 class EventMaxIntForTest private constructor() : BaseEvent() {
     /**
      * EventMaxIntForTest
@@ -570,49 +546,6 @@ open class Ampli {
             overriddenOptions.userId = it
         }
         this.client?.identify(event.eventProperties, overriddenOptions)
-    }
-
-    /**
-     * Set the user's group.
-     *
-     * @param groupType the group type
-     * @param groupName the group name
-     * @param options optional event options
-     */
-    open fun setGroup(groupType: String, groupName: String, options: EventOptions? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-        this.client?.setGroup(groupType, groupName, options)
-    }
-
-    /**
-     * Set the user's group.
-     *
-     * @param groupType the group type
-     * @param groupName the group name
-     * @param options optional event options
-     */
-    open fun setGroup(groupType: String, groupName: Array<String>, options: EventOptions? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-        this.client?.setGroup(groupType, groupName, options)
-    }
-
-    /**
-     * Identify a group. You can modify group properties by calling this api.
-     *
-     * @param groupType the group type
-     * @param groupName the group name
-     * @param event the group event which contains group properties
-     * @param options optional event options
-     */
-    open fun groupIdentify(groupType: String, groupName: String, event: Group, options: EventOptions? = null) {
-        if (!this.isInitializedAndEnabled()) {
-            return
-        }
-        this.client?.groupIdentify(groupType, groupName, event.eventProperties, options)
     }
 
     /**

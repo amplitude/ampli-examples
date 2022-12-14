@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const dotenv = require('dotenv');
 const { init: initAmplitudeNodeClient } = require('@amplitude/node');
+const { Identify: AmplitudeIdentify } = require('@amplitude/identify');
 const { ampli } = require('./ampli');
 const { EventWithOptionalProperties } = require('./ampli');
 const { getSegmentMiddleware, loggingMiddleware, stopMiddleware } = require('./middleware');
@@ -182,9 +183,14 @@ ampli.eventWithDifferentCasingTypes(userId, {
   PropertyWithPascalCase: 'property with pascal case'
 });
 
-ampli.setGroup(userId, 'test group', 'node-js-ampli')
+const setGroupIdentify = new AmplitudeIdentify().setGroup('test group', 'node-js-ampli');
+const setGroupIdentifyEvent = setGroupIdentify.identifyUser(userId);
+ampli.client.logEvent(setGroupIdentifyEvent);
 
-ampli.groupIdentify('test group', 'node-js-ampli', { requiredBoolean: true });
+const groupIdentify = new AmplitudeIdentify();
+groupIdentify.set('requiredBoolean', true);
+const groupIdentifyEvent = groupIdentify.identifyGroup('test group', 'node-js-ampli');
+ampli.client.logEvent(groupIdentifyEvent);
 
 /**
  * Flush all pending events

@@ -1,5 +1,6 @@
 import { Ampli } from './ampli';
 import { Types } from '@amplitude/analytics-node';
+import * as amplitude from '@amplitude/analytics-node';
 
 abstract class BaseCheckPlugin implements Types.BeforePlugin {
   name = 'checkPlugin';
@@ -81,7 +82,7 @@ describe('Ampli Node TS SDK tests', () => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
-      ampli.setGroup(userId, 'Group name', 'Group Value');
+      ampli.client.setGroup('Group name', 'Group Value', { user_id: userId });
 
       expect(consoleLogMock).toHaveBeenCalledTimes(0);
       expect(consoleErrorMock).toHaveBeenCalledTimes(0);
@@ -113,7 +114,10 @@ describe('Ampli Node TS SDK tests', () => {
       ampli.client.add(new CheckPlugin());
       ampli.client.remove('amplitude');
 
-      ampli.groupIdentify('Group name', 'Group Value', { requiredBoolean: true, optionalString: 'some-string' });
+      const amplitudeIdentify = new amplitude.Identify();
+      amplitudeIdentify.set('requiredBoolean', true);
+      amplitudeIdentify.set('optionalString', 'some-string');
+      ampli.client.groupIdentify('Group name', 'Group Value', amplitudeIdentify);
 
       expect(consoleLogMock).toHaveBeenCalledTimes(0);
       expect(consoleErrorMock).toHaveBeenCalledTimes(0);
