@@ -15,7 +15,7 @@ const userID = "ampli-go-user-id"
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalln("Error loading .env file")
+		log.Fatalln("Error loading .env file:", err)
 	}
 	apiKey := os.Getenv("AMPLITUDE_API_KEY")
 
@@ -102,13 +102,13 @@ func main() {
 		Build())
 
 	ampli.Instance.Track(userID, ampli.EventWithDifferentCasingTypes.Builder().
+		EnumWithSpace(ampli.EventWithDifferentCasingTypes.EnumWithSpace.EnumWithSpace).
+		EnumSnakeCase(ampli.EventWithDifferentCasingTypes.EnumSnakeCase.EnumSnakeCase).
 		EnumCamelCase(ampli.EventWithDifferentCasingTypes.EnumCamelCase.EnumCamelCase).
 		EnumPascalCase(ampli.EventWithDifferentCasingTypes.EnumPascalCase.EnumPascalCase).
-		EnumSnakeCase(ampli.EventWithDifferentCasingTypes.EnumSnakeCase.EnumSnakeCase).
-		EnumWithSpace(ampli.EventWithDifferentCasingTypes.EnumWithSpace.EnumWithSpace).
+		PropertyWithSpace("property with space").
+		PropertyWithSnakeCase("property with snake case").
 		PropertyWithCamelCase("property with camel case").
 		PropertyWithPascalCase("property with pascal case").
-		PropertyWithSnakeCase("property with snake case").
-		PropertyWithSpace("property with space").
 		Build())
 }
