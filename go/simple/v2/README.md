@@ -1,17 +1,18 @@
-# Ampi Go SDK (Alpha)
+# Ampi Go SDK
 
-An example using the Ampli Go SDK (Alpha) to track events.
+An example using the Ampli Go SDK to track events.
 
 # Usage
 
 ### Setup the project 
 You will need to do the following before running the app.
 
-`go get .`
-
-`cp .env.example .env`
-
-Change keys in `.env`
+Create a `.env` with your API key
+  1. `cp .env.example .env`
+  2. Set your Amplitude API key
+```
+AMPLITUDE_API_KEY=your-amplitide-api-key
+```
 
 ### Run the app
 
@@ -30,8 +31,9 @@ go run examples/data_race_example/data_race_example.go
 - README.md - you are here*
 - ampli
   - ampli.go - Generated SDK, don't modify by hand. Update with `ampli pull`
-  - ampli_test.go - Unit tests 
 - examples
   - simple_example/simple_example - An example to track all events
   - data_race_example/data_race_example.go - An example to track events concurrently to detect data race
+- tests
+  - ampli_test.go - Unit tests
 - [go.mod](https://go.dev/doc/modules/gomod-ref) - Describes the module's properties

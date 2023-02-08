@@ -8,5 +8,8 @@
   "Version": "0.0.0",
   "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
   "Path": "./ampli",
-  "OmitApiKeys": true
+  "OmitApiKeys": true,
+  "Platform": "Go",
+  "Language": "Go",
+  "SDK": "analytics-go"
 }
