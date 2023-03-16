@@ -156,17 +156,20 @@ requiredInteger:(NSInteger)requiredInteger
 requiredNumber:(Float64)requiredNumber
 requiredString:(NSString*)requiredString
 optionalString:(NSString* _Nullable)optionalString {
+    NSDictionary *properties = @{
+        @"requiredArray": requiredArray,
+        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
+        @"requiredConst": @"some-const-value",
+        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
+        @"requiredInteger": @(requiredInteger),
+        @"requiredNumber": @(requiredNumber),
+        @"requiredString": requiredString
+    };
+    if (optionalString != nil) {
+        [properties setValue:optionalString forKey:@"optionalString"];
+    }
     self = [super initWithEventType:@"Event With All Properties"
-                    withEventProperties:@{
-                        @"optionalString": optionalString ?: NSNull.null,
-                        @"requiredArray": requiredArray,
-                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
-                        @"requiredConst": @"some-const-value",
-                        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
-                        @"requiredInteger": @(requiredInteger),
-                        @"requiredNumber": @(requiredNumber),
-                        @"requiredString": requiredString
-                    }];
+                    withEventProperties:properties];
     return self;
 }
 
@@ -674,7 +677,9 @@ optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
     if (![self isInitializedAndEnabled]) {
         return;
     }
-    if (userId != nil) {
+    if (options != nil && options.userId != nil) {
+        [self.client setUserId:options.userId];
+    } else if (userId != nil) {
         [self.client setUserId:userId];
     }
     if (options != nil && options.deviceId != nil) {

@@ -115,6 +115,8 @@ struct AmpliSwiftSampleAppApp: App {
             optionalEventProperty: 1.23
         )
 
+        ampli.client.uploadEvents();
+
         return WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
