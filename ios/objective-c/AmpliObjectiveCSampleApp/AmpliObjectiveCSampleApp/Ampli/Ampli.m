@@ -23,11 +23,11 @@
 
 - (instancetype)initWithEventType: (NSString *) eventType withEventProperties: (NSDictionary *) eventProperties {
     _eventType = eventType;
-    _eventProperties = [self removeNullValues eventProperties];
+    _eventProperties = [self removeNullValues:eventProperties];
     return self;
 }
 
-- (NSDictionary *)removeNullValues: (NSDictionary *)dict {
+- (NSDictionary *)removeNullValues:(NSDictionary *)dict {
     if (dict == nil) {
         return nil;
     }

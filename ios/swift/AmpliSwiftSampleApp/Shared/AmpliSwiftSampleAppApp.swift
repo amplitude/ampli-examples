@@ -99,14 +99,14 @@ struct AmpliSwiftSampleAppApp: App {
         )
 
         ampli.eventWithDifferentCasingTypes(
+            enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace.enumWithSpace,
+            enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase.enumSnakeCase,
             enumCamelCase: EventWithDifferentCasingTypes.EnumCamelCase.enumCamelCase,
             enumPascalCase: EventWithDifferentCasingTypes.EnumPascalCase.enumPascalCase,
-            enumSnakeCase: EventWithDifferentCasingTypes.EnumSnakeCase.enumSnakeCase,
-            enumWithSpace: EventWithDifferentCasingTypes.EnumWithSpace.enumWithSpace,
-            propertyWithCamelCase: "property with camel case",
-            propertyWithPascalCase: "property with pascal case",
+            propertyWithSpace: "property with space",
             propertyWithSnakeCase: "property with snake case",
-            propertyWithSpace: "property with space"
+            propertyWithCamelCase: "property with camel case",
+            propertyWithPascalCase: "property with pascal case"
         )
 
         ampli.eventWithTemplateProperties(

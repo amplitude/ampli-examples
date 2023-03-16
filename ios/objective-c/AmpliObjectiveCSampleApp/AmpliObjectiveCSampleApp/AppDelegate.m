@@ -124,6 +124,7 @@
     ]];
 
     [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:@[@true]
+                                          requiredEnumArray:@[@"Enum1"]
                                           requiredNumberArray:@[@1.0]
                                           requiredObjectArray:@[obj]
                                           requiredStringArray:@[@"required"]
@@ -139,14 +140,14 @@
                                           requiredTemplateProperty:@"template property"
     ]];
 
-    [ampli eventWithDifferentCasingTypes:[EventWithDifferentCasingTypes enumCamelCase:EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
-                                          enumPascalCase:EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase
+    [ampli eventWithDifferentCasingTypes:[EventWithDifferentCasingTypes enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
                                           enumSnakeCase:EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase
-                                          enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
+                                          enumCamelCase:EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
+                                          enumPascalCase:EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase
+                                          propertyWithSpace:@"property with space"
+                                          propertyWithSnakeCase:@"property with snake case"
                                           propertyWithCamelCase:@"property with camel case"
                                           propertyWithPascalCase:@"property with pascal case"
-                                          propertyWithSnakeCase:@"property with snake case"
-                                          propertyWithSpace:@"property with space"
     ]];
 
     // TODO: Do we want to allow to track using direct params? Seems kinda pointless
