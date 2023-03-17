@@ -156,20 +156,17 @@ requiredInteger:(NSInteger)requiredInteger
 requiredNumber:(Float64)requiredNumber
 requiredString:(NSString*)requiredString
 optionalString:(NSString* _Nullable)optionalString {
-    NSMutableDictionary *properties = [@{
-        @"requiredArray": requiredArray,
-        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
-        @"requiredConst": @"some-const-value",
-        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
-        @"requiredInteger": @(requiredInteger),
-        @"requiredNumber": @(requiredNumber),
-        @"requiredString": requiredString
-    } mutableCopy];
-    if (optionalString != nil) {
-        [properties setValue:optionalString forKey:@"optionalString"];
-    }
     self = [super initWithEventType:@"Event With All Properties"
-                    withEventProperties:properties];
+                    withEventProperties:@{
+                        @"optionalString": optionalString ?: NSNull.null,
+                        @"requiredArray": requiredArray,
+                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
+                        @"requiredConst": @"some-const-value",
+                        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
+                        @"requiredInteger": @(requiredInteger),
+                        @"requiredNumber": @(requiredNumber),
+                        @"requiredString": requiredString
+                    }];
     return self;
 }
 
