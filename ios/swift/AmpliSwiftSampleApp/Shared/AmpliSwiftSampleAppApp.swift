@@ -37,7 +37,7 @@ struct AmpliSwiftSampleAppApp: App {
         //    let ampli2 = new Ampli();
         //    ampli2.load(LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
 
-        let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"];
+        let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"] ?? "test-api-key";
         let ampli = Ampli.instance
         let extraDict = ["test" : "extra test"];
 
