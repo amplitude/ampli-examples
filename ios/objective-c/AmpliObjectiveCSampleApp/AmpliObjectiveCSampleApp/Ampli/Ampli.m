@@ -156,7 +156,7 @@ requiredInteger:(NSInteger)requiredInteger
 requiredNumber:(Float64)requiredNumber
 requiredString:(NSString*)requiredString
 optionalString:(NSString* _Nullable)optionalString {
-    NSDictionary *properties = @{
+    NSMutableDictionary *properties = [@{
         @"requiredArray": requiredArray,
         @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
         @"requiredConst": @"some-const-value",
@@ -164,7 +164,7 @@ optionalString:(NSString* _Nullable)optionalString {
         @"requiredInteger": @(requiredInteger),
         @"requiredNumber": @(requiredNumber),
         @"requiredString": requiredString
-    };
+    } mutableCopy];
     if (optionalString != nil) {
         [properties setValue:optionalString forKey:@"optionalString"];
     }

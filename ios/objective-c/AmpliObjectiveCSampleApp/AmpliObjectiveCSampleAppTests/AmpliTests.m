@@ -11,50 +11,49 @@
 
 @interface AmpliTests : XCTestCase
 @property (nonatomic, strong) Ampli *ampli;
-@property (nonatomic) bool hasMiddlewareRun;
+@property (nonatomic, weak) XCTestExpectation* middlwareRun;
 @end
 
 @implementation AmpliTests
 
 - (void)setUp {
-    _ampli = [Ampli instance];
-    [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *b) {
-        b.apiKey = @"test-api-key";
-    }]];
-    _ampli.client.eventUploadThreshold = 1;
-    _hasMiddlewareRun = NO;
-    [_ampli flush];
+    _ampli = [Ampli new];
 }
 
-- (void) waitForMiddlewareToRun {
-    while(self->_hasMiddlewareRun == NO) {
-       // wait
-//        [NSThread sleepForTimeInterval:]
-    }
-    XCTAssertTrue(self->_hasMiddlewareRun);
-    
-    //    [sleep 10]
-    //    XCTestExpectation *middlwareRun = [self expectationWithDescription:@"middleware ran"];
-    //        [middlwareRun fulfill];
-    //    [XCTWaiter waitForExpectations:@[middlwareRun] timeout:0.5];
+- (void) initAmpliWithNewInstance:(NSString *) instanceName {
+    Amplitude *client = [Amplitude instanceWithName:instanceName];
+    [client initializeApiKey:@"test-api-key"];
+
+    [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *b) {
+        b.instance = client;
+    }]];
+
+    _middlwareRun = [self expectationWithDescription:@"Wait for middleware run"];
 }
 
 - (void)testTrackWithNoProperies {
+    [self initAmpliWithNewInstance:@"testTrackWithNoProperties"];
+
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"Event No Properties");
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli eventNoProperties];
     [_ampli flush];
-    
-    [self waitForMiddlewareToRun];
+
+    [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
+        if (error) {
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 - (void)testTrackEventWithAllTypes {
+    [self initAmpliWithNewInstance:@"testTrackEventWithAllTypes"];
+
     NSMutableDictionary *extraDict = [NSMutableDictionary new];
     [extraDict setObject:@"extra test" forKey:@"test"];
-
     NSArray *requiredArray = [NSArray arrayWithObjects:@"array element 1", @"array element 2", nil];
 
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
@@ -68,7 +67,7 @@
         XCTAssertEqualObjects(eventProperties[@"requiredString"], @"required string");
         XCTAssertNil(eventProperties[@"optionalString"]);
         XCTAssertEqualObjects(payload.extra[@"test"], @"extra test");
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
 
     [_ampli.client addEventMiddleware:testMiddleware];
@@ -80,11 +79,18 @@
                                          requiredString:@"required string"
     ] extra:extraDict];
     [_ampli flush];
-    
-    [self waitForMiddlewareToRun];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"timeout errored: %@", error);
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 - (void)testIdentify {
+    [self initAmpliWithNewInstance:@"testIdentify"];
+
     NSString *userId = @"test-user-id";
     NSString *deviceId = @"test-device-id";
     EventOptions *eventOptions = [EventOptions builderBlock:^(EventOptionsBuilder *builder) {
@@ -95,7 +101,7 @@
         XCTAssertEqualObjects(payload.event[@"event_type"], @"$identify");
         XCTAssertEqualObjects(payload.event[@"user_id"], userId);
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli identify:userId
@@ -105,10 +111,17 @@
            options:eventOptions
    ];
     [_ampli flush];
-    [self waitForMiddlewareToRun];
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"timeout errored: %@", error);
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 - (void)testIdentifyUserIdOnEvent {
+    [self initAmpliWithNewInstance:@"testIdentifyUserIdOnEvent"];
+
     NSString *eventOptionsUserId = @"test-user-id-options";
     NSString *userId = @"test-user-id";
     NSString *deviceId = @"test-device-id";
@@ -116,12 +129,13 @@
         builder.deviceId = deviceId;
         builder.userId = eventOptionsUserId;
     }];
+
     AMPBlockMiddleware *testMiddleware = [[AMPBlockMiddleware alloc] initWithBlock: ^(AMPMiddlewarePayload * _Nonnull payload, AMPMiddlewareNext _Nonnull next) {
         XCTAssertEqualObjects(payload.event[@"event_type"], @"$identify");
         XCTAssertEqualObjects(payload.event[@"user_id"], eventOptionsUserId);
         XCTAssertEqualObjects(payload.event[@"device_id"], deviceId);
         XCTAssertEqualObjects(self->_ampli.client.userId, eventOptionsUserId);
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli identify:nil
@@ -131,10 +145,18 @@
            options:eventOptions
    ];
     [_ampli flush];
-    [self waitForMiddlewareToRun];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"timeout errored: %@", error);
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 - (void)testSetGroup {
+    [self initAmpliWithNewInstance:@"testSetGroup"];
+
     NSString *groupType = @"test group type";
     NSString *groupName = @"test group name";
 
@@ -143,16 +165,23 @@
         XCTAssertEqualObjects(payload.event[@"event_properties"], @{});
         NSMutableDictionary *userPropertiesSet = payload.event[@"user_properties"][@"$set"];
         XCTAssertEqualObjects(userPropertiesSet[groupType], groupName);
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
     [_ampli.client setGroup:groupType groupName:groupName];
     [_ampli flush];
-    
-    [self waitForMiddlewareToRun];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"timeout errored: %@", error);
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 - (void)testGroupIdentify {
+    [self initAmpliWithNewInstance:@"testGroupIdentify"];
+
     NSString *userId = @"test-user-id";
     NSString *deviceId = @"test-device-id";
     NSString *groupType = @"test-group-type";
@@ -166,7 +195,7 @@
         NSMutableDictionary *groupPropertiesSet = payload.event[@"group_properties"][@"$set"];
         XCTAssertEqual(groupPropertiesSet[@"requiredBoolean"], @false);
         XCTAssertEqual(groupPropertiesSet[@"optionalString"], @"optional string");
-        self->_hasMiddlewareRun = YES;
+        [self->_middlwareRun fulfill];
     }];
     [_ampli.client addEventMiddleware:testMiddleware];
 
@@ -175,8 +204,13 @@
     [identifyArgs set:@"optionalString" value:@"optional string"];
     [_ampli.client groupIdentifyWithGroupType:groupType groupName:groupName groupIdentify:identifyArgs];
     [_ampli flush];
-    
-    [self waitForMiddlewareToRun];
+
+    [self waitForExpectationsWithTimeout:2.0 handler:^(NSError *error) {
+        if (error) {
+            NSLog(@"timeout errored: %@", error);
+            XCTFail(@"test timed out");
+        }
+    }];
 }
 
 @end

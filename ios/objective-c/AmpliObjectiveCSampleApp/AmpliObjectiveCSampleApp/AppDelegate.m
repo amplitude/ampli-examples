@@ -149,8 +149,7 @@
                                           propertyWithSpace:@"property with space"
     ]];
 
-    // TODO: Do we want to allow to track using direct params? Seems kinda pointless
-
+    [ampli flush];
     return YES;
 }
 
