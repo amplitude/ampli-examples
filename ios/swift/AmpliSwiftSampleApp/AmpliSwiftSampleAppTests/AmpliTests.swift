@@ -46,7 +46,32 @@ class AmpliTests: XCTestCase {
             self.middlewareRun?.fulfill()
         })
         ampli?.identify(userId, identifyProperties, options: eventOptions)
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
+    }
+    
+    func testIdentifyUserIdOnEvent() {
+        initAmpliWithNewInstance("testIdentifyUserIdOnEvent")
+
+        let eventOptionsUserId = "test-user-id-options"
+        let deviceId = "test-device-id"
+        let identifyProperties = Identify(requiredNumber: 22.0, optionalArray: ["optional array str"])
+        let eventOptions = EventOptions(deviceId: deviceId, userId: eventOptionsUserId)
+
+        ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
+            XCTAssertEqual(payload.event["event_type"] as! String, "$identify")
+            XCTAssertEqual(payload.event["user_id"] as! String, eventOptionsUserId)
+            XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
+            XCTAssertEqual(self.ampli?.client.userId, eventOptionsUserId)
+            self.middlewareRun?.fulfill()
+        })
+        
+        ampli?.identify(nil, identifyProperties, options: eventOptions)
+        ampli?.flush()
+        
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
+
     }
 
     func testTrackWithNoProperties() throws {
@@ -60,6 +85,8 @@ class AmpliTests: XCTestCase {
             self.middlewareRun?.fulfill()
         })
         ampli?.eventNoProperties()
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
@@ -97,6 +124,8 @@ class AmpliTests: XCTestCase {
             options: eventOptions,
             extra: extraDict
         )
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
@@ -115,6 +144,8 @@ class AmpliTests: XCTestCase {
             self.middlewareRun?.fulfill()
         })
         ampli?.client.setGroup(groupType, groupName: groupName as NSObject)
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
@@ -141,6 +172,8 @@ class AmpliTests: XCTestCase {
         identifyArgs.set("requiredBoolean", value: false as NSObject)
         identifyArgs.set("optionalString", value: "optional str" as NSObject)
         ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
@@ -167,6 +200,8 @@ class AmpliTests: XCTestCase {
         identifyArgs.set("requiredBoolean", value: false as NSObject)
         identifyArgs.set("optionalString", value: nil)
         ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
+        ampli?.flush()
+        
         let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 }
