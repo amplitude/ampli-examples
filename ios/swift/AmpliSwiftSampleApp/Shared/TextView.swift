@@ -17,7 +17,7 @@ struct TextView: View {
             requiredObjectArray: [["key1": "value1"], ["key2": "value2"]],
             requiredStringArray: ["string1", "string2"]
         )
-        
+
         return Text("Welcome to Ampli Swift!")
     }
 }

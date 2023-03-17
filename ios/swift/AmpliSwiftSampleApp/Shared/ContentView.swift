@@ -16,7 +16,7 @@ struct ContentView: View {
         animation: .default)
     private var items: FetchedResults<Item>
     private var ampli: Ampli = Ampli.instance
-    
+
 
     var body: some View {
         NavigationView {

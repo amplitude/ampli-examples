@@ -63,7 +63,7 @@
       <EnvironmentVariables>
          <EnvironmentVariable
             key = "AMPLITUDE_API_KEY"
-            value = ""
+            value = "your-amplitude-api-key"
             isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
