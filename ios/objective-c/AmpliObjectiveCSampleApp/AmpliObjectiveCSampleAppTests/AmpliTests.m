@@ -18,6 +18,7 @@
 
 - (void)setUp {
     _ampli = [Ampli new];
+    _middlwareRun = [self expectationWithDescription:@"Wait for middleware run"];
 }
 
 - (void) initAmpliWithNewInstance:(NSString *) instanceName {
@@ -27,8 +28,6 @@
     [_ampli load:[LoadOptions builderBlock:^(LoadOptionsBuilder *b) {
         b.instance = client;
     }]];
-
-    _middlwareRun = [self expectationWithDescription:@"Wait for middleware run"];
 }
 
 - (void)testTrackWithNoProperies {

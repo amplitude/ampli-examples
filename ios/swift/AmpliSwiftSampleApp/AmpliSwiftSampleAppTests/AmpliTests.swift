@@ -16,49 +16,51 @@ func isEmptyDictionary(_ dict: Any?) -> Bool {
 
 class AmpliTests: XCTestCase {
     private var ampli: Ampli?
+    private var middlewareRun: XCTestExpectation?
 
     override func setUpWithError() throws {
         ampli = Ampli()
+        middlewareRun = expectation(description: "Waiting")
+    }
+    
+    func initAmpliWithNewInstance(_ instanceName: String) {
+        let client = Amplitude.instance(withName: instanceName);
+        client.initializeApiKey("test-api-key");
+        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
     }
 
     func testIdentify() throws {
         let userId = "test-user-id";
         let deviceId = "test-device-id";
         
-        let client = Amplitude.instance(withName: "testIdentify");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+        initAmpliWithNewInstance("testIdentify")
         
         let identifyProperties = Identify(requiredNumber: 22.0, optionalArray: ["optional array str"])
         let eventOptions = EventOptions(deviceId: deviceId)
         
-        let waitExpectation = expectation(description: "Waiting")
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$identify")
             XCTAssertTrue(isEmptyDictionary(payload.event["event_properties"]))
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
             XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
         ampli?.identify(userId, identifyProperties, options: eventOptions)
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
     func testTrackWithNoProperties() throws {
-        let client = Amplitude.instance(withName: "testTrackWithNoProperties");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+        initAmpliWithNewInstance("testTrackWithNoProperties")
         
-        let waitExpectation = expectation(description: "Waiting")
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event No Properties")
             XCTAssertTrue(isEmptyDictionary(payload.event["event_properties"]))
 //            XCTAssertNil(payload.event["user_id"])
 //            XCTAssertNotNil(payload.event["device_id"])
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
         ampli?.eventNoProperties()
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
     func testTrackEventWithAllTypes() throws {
@@ -66,11 +68,8 @@ class AmpliTests: XCTestCase {
         let deviceId = "test-device-id";
         let eventOptions = EventOptions(deviceId: deviceId)
         let extraDict: MiddlewareExtra = ["test" : "extra test"];
-        let waitExpectation = expectation(description: "Waiting")
         
-        let client = Amplitude.instance(withName: "testTrackEventWithAllTypes");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+        initAmpliWithNewInstance("testTrackEventWithAllTypes")
         
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "Event With All Properties")
@@ -84,7 +83,7 @@ class AmpliTests: XCTestCase {
             XCTAssertNil(eventProperties!["optionalString"])
             XCTAssertEqual(payload.event["user_id"] as! String, userId)
             XCTAssertEqual(payload.event["device_id"] as! String, deviceId)
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
         ampli?.track(
             EventWithAllProperties(
@@ -98,17 +97,14 @@ class AmpliTests: XCTestCase {
             options: eventOptions,
             extra: extraDict
         )
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
     func testSetGroup() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        let waitExpectation = expectation(description: "Waiting")
         
-        let client = Amplitude.instance(withName: "testSetGroup");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+        initAmpliWithNewInstance("testSetGroup")
         
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$identify")
@@ -116,20 +112,17 @@ class AmpliTests: XCTestCase {
             let userProperties = payload.event["user_properties"] as? Dictionary<String, Any>
             let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
         ampli?.client.setGroup(groupType, groupName: groupName as NSObject)
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
     func testGroupIdentify() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        let waitExpectation = expectation(description: "Waiting")
         
-        let client = Amplitude.instance(withName: "testGroupIdentify");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+        initAmpliWithNewInstance("testGroupIdentify")
         
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
@@ -141,24 +134,21 @@ class AmpliTests: XCTestCase {
             let groupPropertiesSet = groupProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, false)
             XCTAssertEqual(groupPropertiesSet!["optionalString"] as! String, "optional str")
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
 
         let identifyArgs = AMPIdentify()
         identifyArgs.set("requiredBoolean", value: false as NSObject)
         identifyArgs.set("optionalString", value: "optional str" as NSObject)
         ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 
     func testGroupIdentifyNilOptionalString() throws {
         let groupType = "test-group-type";
         let groupName = "test-group";
-        let waitExpectation = expectation(description: "Waiting")
-        
-        let client = Amplitude.instance(withName: "testGroupIdentifyNilOptionalString");
-        client.initializeApiKey("test-api-key");
-        ampli?.load(LoadOptions(client: LoadClientOptions(instance: client)))
+
+        initAmpliWithNewInstance("testGroupIdentifyNilOptionalString")
         
         ampli?.client.addEventMiddleware(AMPBlockMiddleware { (payload, next) in
             XCTAssertEqual(payload.event["event_type"] as! String, "$groupidentify")
@@ -170,13 +160,13 @@ class AmpliTests: XCTestCase {
             let groupPropertiesSet = groupProperties!["$set"] as? Dictionary<String, Any>
             XCTAssertEqual(groupPropertiesSet!["requiredBoolean"] as! Bool, false)
             XCTAssertNil(groupPropertiesSet!["optionalString"])
-            waitExpectation.fulfill()
+            self.middlewareRun?.fulfill()
         })
 
         let identifyArgs = AMPIdentify()
         identifyArgs.set("requiredBoolean", value: false as NSObject)
         identifyArgs.set("optionalString", value: nil)
         ampli?.client.groupIdentify(withGroupType: groupType, groupName: groupName as NSObject, groupIdentify: identifyArgs)
-        let _ = XCTWaiter.wait(for: [waitExpectation], timeout: 2.0)
+        let _ = XCTWaiter.wait(for: [middlewareRun!], timeout: 2.0)
     }
 }
