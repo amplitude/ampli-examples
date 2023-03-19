@@ -692,6 +692,7 @@ propertyWithPascalCase:(NSString*)propertyWithPascalCase {
     if (![self isInitializedAndEnabled]) {
         return;
     }
+
     if (options != nil && options.userId != nil) {
         [self.client setUserId:options.userId];
     } else if (userId != nil) {
