@@ -13,6 +13,7 @@ struct TextView: View {
 
         ampli.eventWithArrayTypes(
             requiredBooleanArray: [true],
+            requiredEnumArray: ["Enum1"],
             requiredNumberArray: [5.0, 6.0],
             requiredObjectArray: [["key1": "value1"], ["key2": "value2"]],
             requiredStringArray: ["string1", "string2"]
