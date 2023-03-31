@@ -112,8 +112,10 @@ function App() {
 
             ampli.eventWithConstTypes();
 
+            const optionalString: string | undefined = undefined;
             ampli.eventWithOptionalProperties({
               optionalBoolean: true,
+              optionalString,
             });
 
             ampli.eventMaxIntForTest({
