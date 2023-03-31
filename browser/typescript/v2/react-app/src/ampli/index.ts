@@ -18,11 +18,11 @@
 
 import * as amplitude from '@amplitude/analytics-browser';
 
-export type Environment = 'dev' | 'prod';
+export type Environment = 'prod' | 'dev';
 
 export const ApiKey: Record<Environment, string> = {
-  dev: '',
-  prod: ''
+  prod: '',
+  dev: ''
 };
 
 /**
@@ -71,25 +71,11 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface EventMaxIntForTestProperties {
-  /**
-   * property to test schema validation
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Type | integer |
-   * | Max Value | 10 |
-   */
-  intMax10: number;
-}
-
 export interface EventObjectTypesProperties {
   /**
    * Property Object Type
    */
-  requiredObject: {
-    [k: string]: any;
-  };
+  requiredObject: any;
   /**
    * Property Object Array Type
    */
@@ -156,6 +142,14 @@ export interface EventWithArrayTypesProperties {
    */
   requiredBooleanArray: boolean[];
   /**
+   * Description for enum array property
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  requiredEnumArray: ("enum1" | "enum2")[];
+  /**
    * Description for required number array
    *
    * | Rule | Value |
@@ -175,57 +169,6 @@ export interface EventWithArrayTypesProperties {
    * | Item Type | string |
    */
   requiredStringArray: string[];
-}
-
-export interface EventWithDifferentCasingTypesProperties {
-  /**
-   * descriptionForEnumCamelCase
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enumCamelCase |
-   */
-  enumCamelCase: "enumCamelCase";
-  /**
-   * DescirptionForEnumPascalCase
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | EnumPascalCase |
-   */
-  EnumPascalCase: "EnumPascalCase";
-  /**
-   * description_for_enum_snake_case
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enum_snake_case |
-   */
-  enum_snake_case: "enum_snake_case";
-  /**
-   * Description for enum with space
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enum with space |
-   */
-  "enum with space": "enum with space";
-  /**
-   * descriptionForCamelCase
-   */
-  propertyWithCamelCase: string;
-  /**
-   * DescriptionForPascalCase
-   */
-  PropertyWithPascalCase: string;
-  /**
-   * Description_for_snake_case
-   */
-  property_with_snake_case: string;
-  /**
-   * Description for case with space
-   */
-  "property with space": string;
 }
 
 export interface EventWithEnumTypesProperties {
@@ -256,6 +199,14 @@ export interface EventWithOptionalArrayTypesProperties {
    * | Item Type | boolean |
    */
   optionalBooleanArray?: boolean[];
+  /**
+   * Description for optional enum array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  optionalEnumArray?: ("enum1" | "enum2")[];
   /**
    * Description for optional object array
    */
@@ -331,6 +282,69 @@ export interface EventWithTemplatePropertiesProperties {
   required_template_property: string;
 }
 
+export interface EventWithDifferentCasingTypesProperties {
+  /**
+   * Description for enum with space
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum with space |
+   */
+  "enum with space": "enum with space";
+  /**
+   * description_for_enum_snake_case
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum_snake_case |
+   */
+  enum_snake_case: "enum_snake_case";
+  /**
+   * descriptionForEnumCamelCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enumCamelCase |
+   */
+  enumCamelCase: "enumCamelCase";
+  /**
+   * DescirptionForEnumPascalCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | EnumPascalCase |
+   */
+  EnumPascalCase: "EnumPascalCase";
+  /**
+   * Description for case with space
+   */
+  "property with space": string;
+  /**
+   * Description_for_snake_case
+   */
+  property_with_snake_case: string;
+  /**
+   * descriptionForCamelCase
+   */
+  propertyWithCamelCase: string;
+  /**
+   * DescriptionForPascalCase
+   */
+  PropertyWithPascalCase: string;
+}
+
+export interface EventMaxIntForTestProperties {
+  /**
+   * property to test schema validation
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   * | Max Value | 10 |
+   */
+  intMax10: number;
+}
+
 export interface EventTemplateProperties {
   /**
    * optional_template_property description
@@ -366,16 +380,6 @@ export class Identify implements BaseEvent {
 
   constructor(
     public event_properties: IdentifyProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
-export class EventMaxIntForTest implements BaseEvent {
-  event_type = 'EventMaxIntForTest';
-
-  constructor(
-    public event_properties: EventMaxIntForTestProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -433,16 +437,6 @@ export class EventWithConstTypes implements BaseEvent {
   };
 }
 
-export class EventWithDifferentCasingTypes implements BaseEvent {
-  event_type = 'event withDifferent_CasingTypes';
-
-  constructor(
-    public event_properties: EventWithDifferentCasingTypesProperties,
-  ) {
-    this.event_properties = event_properties;
-  }
-}
-
 export class EventWithEnumTypes implements BaseEvent {
   event_type = 'Event With Enum Types';
 
@@ -478,6 +472,26 @@ export class EventWithTemplateProperties implements BaseEvent {
 
   constructor(
     public event_properties: EventWithTemplatePropertiesProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class EventWithDifferentCasingTypes implements BaseEvent {
+  event_type = 'event withDifferent_CasingTypes';
+
+  constructor(
+    public event_properties: EventWithDifferentCasingTypesProperties,
+  ) {
+    this.event_properties = event_properties;
+  }
+}
+
+export class EventMaxIntForTest implements BaseEvent {
+  event_type = 'EventMaxIntForTest';
+
+  constructor(
+    public event_properties: EventMaxIntForTestProperties,
   ) {
     this.event_properties = event_properties;
   }
@@ -589,25 +603,6 @@ export class Ampli {
   }
 
   /**
-   * EventMaxIntForTest
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-   *
-   * Event to test schema validation
-   *
-   * Owner: Test codegen
-   *
-   * @param properties The event's properties (e.g. intMax10)
-   * @param options Amplitude event options.
-   */
-  eventMaxIntForTest(
-    properties: EventMaxIntForTestProperties,
-    options?: EventOptions,
-  ) {
-    return this.track(new EventMaxIntForTest(properties), options);
-  }
-
-  /**
    * Event No Properties
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
@@ -699,25 +694,6 @@ export class Ampli {
   }
 
   /**
-   * event withDifferent_CasingTypes
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-   *
-   * Description for case with space
-   *
-   * Owner: Test codegen
-   *
-   * @param properties The event's properties (e.g. enumCamelCase)
-   * @param options Amplitude event options.
-   */
-  eventWithDifferentCasingTypes(
-    properties: EventWithDifferentCasingTypesProperties,
-    options?: EventOptions,
-  ) {
-    return this.track(new EventWithDifferentCasingTypes(properties), options);
-  }
-
-  /**
    * Event With Enum Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
@@ -791,6 +767,44 @@ export class Ampli {
     options?: EventOptions,
   ) {
     return this.track(new EventWithTemplateProperties(properties), options);
+  }
+
+  /**
+   * event withDifferent_CasingTypes
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
+   *
+   * Description for case with space
+   *
+   * Owner: Test codegen
+   *
+   * @param properties The event's properties (e.g. enum with space)
+   * @param options Amplitude event options.
+   */
+  eventWithDifferentCasingTypes(
+    properties: EventWithDifferentCasingTypesProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new EventWithDifferentCasingTypes(properties), options);
+  }
+
+  /**
+   * EventMaxIntForTest
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
+   *
+   * Event to test schema validation
+   *
+   * Owner: Test codegen
+   *
+   * @param properties The event's properties (e.g. intMax10)
+   * @param options Amplitude event options.
+   */
+  eventMaxIntForTest(
+    properties: EventMaxIntForTestProperties,
+    options?: EventOptions,
+  ) {
+    return this.track(new EventMaxIntForTest(properties), options);
   }
 }
 
