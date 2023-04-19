@@ -8,7 +8,7 @@ abstract class BaseCheckPlugin implements Types.BeforePlugin {
   async setup(config: Types.Config): Promise<undefined> {
     return undefined;
   }
-  abstract async execute(context: Types.Event): Promise<Types.Event>;
+  abstract execute(context: Types.Event): Promise<Types.Event>;
 }
 
 describe('Ampli Node TS SDK tests', () => {

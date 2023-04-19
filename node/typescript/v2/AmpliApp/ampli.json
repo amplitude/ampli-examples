@@ -5,8 +5,11 @@
   "SourceId": "fdd7eaca-6f0d-49a5-8204-8e1134ae2156",
   "Runtime": "node.js:typescript-ampli-v2",
   "Branch": "main",
-  "Version": "0.0.0",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
+  "Version": "1.0.0",
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
   "OmitApiKeys": true,
-  "Path": "./src/ampli"
+  "Path": "./src/ampli",
+  "Platform": "Node.js",
+  "Language": "TypeScript",
+  "SDK": "@amplitude/analytics-node@^1.0"
 }

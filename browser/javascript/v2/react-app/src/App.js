@@ -142,6 +142,7 @@ function App() {
 
             ampli.eventWithArrayTypes({
               requiredBooleanArray: [true, false],
+              requiredEnumArray: ['enum1'],
               requiredNumberArray: [1.2, 3, 4.56],
               requiredObjectArray: [
                 { "key-1": "value-1" },
