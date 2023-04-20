@@ -113,8 +113,10 @@ async function sendEvents() {
   /**
    * Track Events with strongly typed Event classes
    */
+  const optionalString: string | undefined = undefined;
   ampli.track(userId, new EventWithOptionalProperties({
     optionalBoolean: true,
+    optionalString,
   }));
 
   ampli.eventWithOptionalProperties(undefined,

@@ -60,7 +60,7 @@ export interface IdentifyProperties {
    * | Unique Items | false |
    * | Item Type | string |
    */
-  optionalArray?: string[];
+  optionalArray?: string[] | undefined;
   /**
    * Description for identify requiredNumber
    *
@@ -86,7 +86,7 @@ export interface EventWithAllPropertiesProperties {
   /**
    * Event 2 Property - Optional String    *     * Examples:    * Some string, or another
    */
-  optionalString?: string;
+  optionalString?: string | undefined;
   /**
    * Event 2 Property - Array
    *
@@ -179,7 +179,7 @@ export interface EventWithEnumTypesProperties {
    * |---|---|
    * | Enum Values | optional enum 1, optional enum 2 |
    */
-  "optional enum"?: "optional enum 1" | "optional enum 2";
+  "optional enum"?: "optional enum 1" | "optional enum 2" | undefined;
   /**
    * Description for optional enum
    *
@@ -198,7 +198,7 @@ export interface EventWithOptionalArrayTypesProperties {
    * |---|---|
    * | Item Type | boolean |
    */
-  optionalBooleanArray?: boolean[];
+  optionalBooleanArray?: boolean[] | undefined;
   /**
    * Description for optional enum array
    *
@@ -206,11 +206,11 @@ export interface EventWithOptionalArrayTypesProperties {
    * |---|---|
    * | Item Type | string |
    */
-  optionalEnumArray?: ("enum1" | "enum2")[];
+  optionalEnumArray?: ("enum1" | "enum2")[] | undefined;
   /**
    * Description for optional object array
    */
-  optionalJSONArray?: any[];
+  optionalJSONArray?: any[] | undefined;
   /**
    * Description for optional number array
    *
@@ -218,7 +218,7 @@ export interface EventWithOptionalArrayTypesProperties {
    * |---|---|
    * | Item Type | number |
    */
-  optionalNumberArray?: number[];
+  optionalNumberArray?: number[] | undefined;
   /**
    * Description for optional string array
    *
@@ -226,7 +226,7 @@ export interface EventWithOptionalArrayTypesProperties {
    * |---|---|
    * | Item Type | string |
    */
-  optionalStringArray?: string[];
+  optionalStringArray?: string[] | undefined;
 }
 
 export interface EventWithOptionalPropertiesProperties {
@@ -235,24 +235,24 @@ export interface EventWithOptionalPropertiesProperties {
    * |---|---|
    * | Item Type | number |
    */
-  optionalArrayNumber?: number[];
+  optionalArrayNumber?: number[] | undefined;
   /**
    * | Rule | Value |
    * |---|---|
    * | Item Type | string |
    */
-  optionalArrayString?: string[];
-  optionalBoolean?: boolean;
+  optionalArrayString?: string[] | undefined;
+  optionalBoolean?: boolean | undefined;
   /**
    * | Rule | Value |
    * |---|---|
    * | Type | number |
    */
-  optionalNumber?: number;
+  optionalNumber?: number | undefined;
   /**
    * Optional String property description
    */
-  optionalString?: string;
+  optionalString?: string | undefined;
 }
 
 export interface EventWithTemplatePropertiesProperties {
@@ -263,7 +263,7 @@ export interface EventWithTemplatePropertiesProperties {
    * |---|---|
    * | Type | number |
    */
-  optional_event_property?: number;
+  optional_event_property?: number | undefined;
   /**
    * optional_template_property description
    *
@@ -271,7 +271,7 @@ export interface EventWithTemplatePropertiesProperties {
    * |---|---|
    * | Type | number |
    */
-  optional_template_property?: number;
+  optional_template_property?: number | undefined;
   /**
    * required_event_property description
    */
@@ -353,7 +353,7 @@ export interface EventTemplateProperties {
    * |---|---|
    * | Type | number |
    */
-  optional_template_property?: number;
+  optional_template_property?: number | undefined;
   /**
    * required_template_property description
    */
@@ -368,7 +368,7 @@ export interface SourceTemplateProperties {
    * |---|---|
    * | Enum Values | Value 1, Value 2 |
    */
-  optionalEnum?: "Value 1" | "Value 2";
+  optionalEnum?: "Value 1" | "Value 2" | undefined;
   /**
    * description for context requiredString
    */
