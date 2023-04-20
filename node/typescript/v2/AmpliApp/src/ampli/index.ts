@@ -215,14 +215,6 @@ export interface EventWithOptionalArrayTypesProperties {
    */
   optionalEnumArray?: ("enum1" | "enum2")[] | undefined;
   /**
-   * Description for optional enum array
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Item Type | string |
-   */
-  optionalEnumArray?: ("enum1" | "enum2")[];
-  /**
    * Description for optional object array
    */
   optionalJSONArray?: any[] | undefined;
