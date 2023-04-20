@@ -40,7 +40,7 @@ export const DefaultConfiguration: NodeOptions = {
     version: '0',
     branch: 'main',
     source: 'node-ts-ampli-v2',
-    versionId: '79154a50-f057-4db5-9755-775e4e9f05e6'
+    versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c'
   },
   ...{
     ingestionMetadata: {
@@ -214,6 +214,14 @@ export interface EventWithOptionalArrayTypesProperties {
    * | Item Type | string |
    */
   optionalEnumArray?: ("enum1" | "enum2")[] | undefined;
+  /**
+   * Description for optional enum array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  optionalEnumArray?: ("enum1" | "enum2")[];
   /**
    * Description for optional object array
    */

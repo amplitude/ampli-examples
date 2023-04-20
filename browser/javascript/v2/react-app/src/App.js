@@ -2,13 +2,14 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import logo from "./logo.svg";
 import "./App.css";
+import SegmentPlugin from './plugins/segmentPlugin';
 
 import { ampli, DefaultConfiguration, EventWithOptionalProperties } from "./ampli";
 
 const { REACT_APP_AMPLITUDE_API_KEY = "", REACT_APP_SEGMENT_WRITE_KEY = "" } =
   process.env;
 
-const userId = "ampli-browser-js-user-id";
+const userId = "ampli-v2-browser-js-user-id";
 
 /**
  * Start by calling ampli.load()
@@ -68,6 +69,12 @@ ampli.load({
 // const ampli2 = new Ampli();
 // ampli2.load({ client: { apiKey: 'api-key-2' } });
 
+/**
+ * 3rd party destination support
+ */
+// const segmentPlugin = new SegmentPlugin(REACT_APP_SEGMENT_WRITE_KEY);
+// ampli.client.add(segmentPlugin);
+
 function App() {
   return (
     <div className="App">
@@ -82,7 +89,7 @@ function App() {
         <button
           onClick={() => ampli.client.setGroup("test group", "browser-js-ampli")}
         >
-          Group
+          Set Group
         </button>
 
         <button onClick={() => {
@@ -91,6 +98,17 @@ function App() {
           ampli.client.groupIdentify('test group', 'browser-js-ampli', amplitudeIdentify);
         }}>
           Group Identify
+        </button>
+
+        <button onClick={() => ampli.track({
+          event_type: 'page',
+          event_properties: {
+            category: 'Docs',
+            name: 'SDK Library',
+            description: 'SDK Library Description',
+          },
+        })}>
+          Page
         </button>
 
         <button
@@ -142,6 +160,7 @@ function App() {
 
             ampli.eventWithArrayTypes({
               requiredBooleanArray: [true, false],
+              requiredEnumArray: ['enum1'],
               requiredNumberArray: [1.2, 3, 4.56],
               requiredObjectArray: [
                 { "key-1": "value-1" },

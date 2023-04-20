@@ -12,6 +12,8 @@ const userId = 'ampli-v2-node-ts-user-id';
 dotenv.config()
 const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 
+// let segmentPlugin: SegmentPlugin;
+
 async function initAmpli()
 {
   /**
@@ -78,7 +80,7 @@ async function initAmpli()
   /**
    * 3rd party destination support
    */
-  // const segmentPlugin = new SegmentPlugin(SEGMENT_WRITE_KEY!);
+  // segmentPlugin = new SegmentPlugin(SEGMENT_WRITE_KEY!);
   // ampli.client.add(segmentPlugin);
 }
 
@@ -171,7 +173,16 @@ async function sendEvents() {
 
   const amplitudeIdentify = new amplitude.Identify();
   amplitudeIdentify.set('requiredBoolean', true);
-  ampli.client.groupIdentify('test group', 'node-ts-ampli-v2', amplitudeIdentify);
+  ampli.client.groupIdentify('test group', 'node-ts-ampli', amplitudeIdentify, { user_id: userId });
+
+  ampli.track(userId, {
+    event_type: 'page',
+    event_properties: {
+      category: 'Docs',
+      name: 'SDK Library',
+      description: 'SDK Library Description',
+    },
+  });
 
   const myService = new Service1(userId);
   myService.doAction1();
@@ -185,6 +196,13 @@ async function sendEvents() {
    * Wait for returned promise to complete
    */
   await ampli.flush().promise;
+
+  /**
+   * Flush all pending Segment events
+   *
+   * Wait for returned promise to complete
+   */
+  // await segmentPlugin.segment.flush();
 }
 
 initAmpli().then(
