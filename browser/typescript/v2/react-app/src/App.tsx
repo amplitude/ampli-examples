@@ -3,6 +3,7 @@ import React from 'react';
 import * as amplitude from '@amplitude/analytics-browser';
 import logo from './logo.svg';
 import './App.css';
+import SegmentPlugin from './plugins/segmentPlugin';
 
 import { DefaultConfiguration, EventWithOptionalProperties, ampli } from './ampli';
 
@@ -68,16 +69,22 @@ ampli.load({
 // const ampli2 = new Ampli();
 // ampli2.load({ client: { apiKey: 'api-key-2' } });
 
+/**
+ * 3rd party destination support
+ */
+// const segmentPlugin = new SegmentPlugin(REACT_APP_SEGMENT_WRITE_KEY);
+// ampli.client.add(segmentPlugin);
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className='App'>
+      <header className='App-header'>
+        <img src={logo} className='App-logo' alt='logo' />
         <h2>Ampli Browser TypeScript Example with React</h2>
 
         <button onClick={() => ampli.identify(userId, { requiredNumber: 42 })}>Identify</button>
 
-        <button onClick={() => ampli.client.setGroup('test group', 'browser-ts-ampli')}>Group</button>
+        <button onClick={() => ampli.client.setGroup('test group', 'browser-ts-ampli')}>Set Group</button>
 
         <button onClick={() => {
           const amplitudeIdentify = new amplitude.Identify();
@@ -85,6 +92,17 @@ function App() {
           ampli.client.groupIdentify('test group', 'browser-ts-ampli', amplitudeIdentify);
         }}>
           Group Identify
+        </button>
+
+        <button onClick={() => ampli.track({
+          event_type: 'page',
+          event_properties: {
+            category: 'Docs',
+            name: 'SDK Library',
+            description: 'SDK Library Description',
+          },
+        })}>
+          Page
         </button>
 
         <button onClick={() => ampli.track(new EventWithOptionalProperties({ optionalBoolean: true }))}>
@@ -95,7 +113,7 @@ function App() {
           onClick={() => {
             ampli.eventWithAllProperties({
               requiredNumber: 1.23,
-              requiredArray: ["I'm", 'required'],
+              requiredArray: [`I'm`, 'required'],
               requiredBoolean: false,
               requiredEnum: 'Enum1',
               requiredInteger: 42,
@@ -127,6 +145,7 @@ function App() {
 
             ampli.eventWithArrayTypes({
               requiredBooleanArray: [true, false],
+              requiredEnumArray: ['enum1'],
               requiredNumberArray: [1.2, 3, 4.56],
               requiredObjectArray: [{ 'key-1': 'value-1' }, { 'key-2': 'value-2' }],
               requiredStringArray: ['string-1', 'string-2', 'string-3'],

@@ -11,6 +11,8 @@ const userId = 'ampli-v2-node-js-user-id';
 dotenv.config()
 const { AMPLITUDE_API_KEY, SEGMENT_WRITE_KEY } = process.env;
 
+// let segmentPlugin;
+
 async function initAmpli()
 {
   /**
@@ -77,7 +79,7 @@ async function initAmpli()
   /**
    * 3rd party destination support
    */
-  // const segmentPlugin = new SegmentPlugin(SEGMENT_WRITE_KEY);
+  // segmentPlugin = new SegmentPlugin(SEGMENT_WRITE_KEY);
   // ampli.client.add(segmentPlugin);
 }
 
@@ -135,6 +137,7 @@ async function sendEvents() {
 
   ampli.eventWithArrayTypes(userId, {
     requiredBooleanArray: [true, false],
+    requiredEnumArray: ['enum1'],
     requiredNumberArray: [1.2, 3, 4.56],
     requiredObjectArray: [{ 'key-1': 'value-1' }, { 'key-2': 'value-2' }],
     requiredStringArray: ['string-1', 'string-2', 'string-3'],
@@ -167,7 +170,16 @@ async function sendEvents() {
 
   const amplitudeIdentify = new amplitude.Identify();
   amplitudeIdentify.set('requiredBoolean', true);
-  ampli.client.groupIdentify('test group', 'node-js-ampli-v2', amplitudeIdentify);
+  ampli.client.groupIdentify('test group', 'node-js-ampli', amplitudeIdentify, { user_id: userId });
+
+  ampli.track(userId, {
+    event_type: 'page',
+    event_properties: {
+      category: 'Docs',
+      name: 'SDK Library',
+      description: 'SDK Library Description',
+    },
+  });
 
   /**
    * Flush all pending events
@@ -175,6 +187,13 @@ async function sendEvents() {
    * Wait for returned promise to complete
    */
   await ampli.flush().promise;
+
+  /**
+   * Flush all pending Segment events
+   *
+   * Wait for returned promise to complete
+   */
+  // await segmentPlugin.segment.flush();
 }
 
 initAmpli().then(

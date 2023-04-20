@@ -5,8 +5,11 @@
   "SourceId": "f8a922b9-2725-41c8-a1e0-8dc0d31cd386",
   "Runtime": "browser:typescript-ampli-v2",
   "Branch": "main",
-  "Version": "0.0.0",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
+  "Version": "1.0.0",
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
   "Path": "./src/ampli",
-  "OmitApiKeys": true
+  "OmitApiKeys": true,
+  "Platform": "Browser",
+  "Language": "TypeScript",
+  "SDK": "@amplitude/analytics-browser@^1.0"
 }
