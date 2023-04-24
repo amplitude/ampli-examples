@@ -71,4 +71,8 @@ export default class SegmentPlugin implements Types.DestinationPlugin {
       }
     });
   }
+
+  async flush(): Promise<void> {
+    await this.segment.flush();
+  }
 }

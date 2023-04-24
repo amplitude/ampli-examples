@@ -187,13 +187,6 @@ async function sendEvents() {
    * Wait for returned promise to complete
    */
   await ampli.flush().promise;
-
-  /**
-   * Flush all pending Segment events
-   *
-   * Wait for returned promise to complete
-   */
-  // await segmentPlugin.segment.flush();
 }
 
 initAmpli().then(

@@ -68,6 +68,10 @@ class SegmentPlugin {
       }
     });
   }
+
+  async flush() {
+    await this.segment.flush();
+  }
 }
 
 module.exports.SegmentPlugin = SegmentPlugin;
