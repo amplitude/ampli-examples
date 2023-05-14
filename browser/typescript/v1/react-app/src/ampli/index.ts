@@ -376,7 +376,7 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements BaseEvent {
-  event_type = 'Identify';
+  event_type = SpecialEventType.Identify;
 
   constructor(
     public event_properties: IdentifyProperties,
@@ -906,8 +906,8 @@ export type Plan = {
 }
 
 export enum SpecialEventType {
-  Identify = "Identify",
-  Group = "Group"
+  Identify = "$identify",
+  Group = "$groupidentify"
 }
 
 export type BaseEvent = {

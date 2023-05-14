@@ -20,7 +20,7 @@ import com.amplitude.android.events.BaseEvent;
 
 public class Identify extends BaseEvent {
     private Identify(Builder builder) {
-        eventType = "$identify";
+        eventType = com.amplitude.core.Constants.IDENTIFY_EVENT;
         setEventProperties(builder.properties);
     }
 

@@ -23,6 +23,7 @@ import {
   BaseEvent as Event,
   MiddlewareExtra,
   Plan,
+  SpecialEventType,
 } from '@amplitude/react-native';
 
 export type EventOptions = {
@@ -389,7 +390,7 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements Event {
-  eventType = 'Identify';
+  eventType = SpecialEventType.IDENTIFY;
 
   constructor(
     public eventProperties: IdentifyProperties,

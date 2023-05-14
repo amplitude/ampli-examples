@@ -21,11 +21,12 @@ import com.amplitude.android.Configuration
 import com.amplitude.android.events.BaseEvent
 import com.amplitude.android.events.EventOptions
 import com.amplitude.android.events.Plan
+import com.amplitude.core.Constants
 import com.amplitude.core.platform.Plugin
 
 enum class EventType(val value: String) {
-    Identify("\$identify"),
-    GroupIdentify("\$groupidentify"),
+    Identify(Constants.IDENTIFY_EVENT),
+    GroupIdentify(Constants.GROUP_IDENTIFY_EVENT),
 }
 
 class LoadOptions(

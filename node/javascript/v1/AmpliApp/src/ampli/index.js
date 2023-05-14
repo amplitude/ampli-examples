@@ -18,6 +18,7 @@
 
 const { Identify: AmplitudeIdentify, IdentifyEvent } = require('@amplitude/identify');
 const { init: initNodeClient, NodeClient, Status, Options } = require('@amplitude/node');
+const { SpecialEventType } = require('@amplitude/types');
 
 /**
  * @typedef {Object} BaseEvent
@@ -104,7 +105,7 @@ const DefaultOptions = {
 
 class Identify {
   constructor(properties) {
-    this.event_type = 'Identify';
+    this.event_type = SpecialEventType.IDENTIFY;
     this.event_properties = properties;
   }
 }
