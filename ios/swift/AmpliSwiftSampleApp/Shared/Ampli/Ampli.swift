@@ -5,7 +5,7 @@
  * To update run 'ampli pull swift-ampli'
  *
  * Required dependencies: Amplitude ~> 8.10
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: ios:swift-ampli
  *
@@ -31,8 +31,8 @@ let ApiKey: [AmpliEnvironment: String] = [
 let AmpliObservePlan = AMPPlan()
                       .setBranch("main")
                       .setSource("swift-ampli")
-                      .setVersion("0")
-                      .setVersionId("79154a50-f057-4db5-9755-775e4e9f05e6");
+                      .setVersion("1")
+                      .setVersionId("a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c");
 
 public class Event {
     public let eventType: String

@@ -153,6 +153,7 @@ ampli.eventObjectTypes(userId, {
 
 ampli.eventWithArrayTypes(userId, {
   requiredBooleanArray: [true, false],
+  requiredEnumArray: ['enum1'],
   requiredNumberArray: [1.2, 3, 4.56],
   requiredObjectArray: [{ 'key-1': 'value-1' }, { 'key-2': 'value-2' }],
   requiredStringArray: ['string-1', 'string-2', 'string-3'],

@@ -117,6 +117,7 @@ fun sendEvents() {
 
     ampli.eventWithArrayTypes(userId, EventWithArrayTypes(
         requiredBooleanArray = arrayOf(true, false, true),
+        requiredEnumArray = arrayOf("enum1"),
         requiredNumberArray = arrayOf(1.1, 2.2, 3.3),
         requiredStringArray = arrayOf("a", "bc", "def"),
         requiredObjectArray = arrayOf(1, "a", true)

@@ -5,7 +5,7 @@
  * To update run 'ampli pull obj-c-ampli'
  *
  * Required dependencies: Amplitude ~> 8.10
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: ios:obj-c-ampli
  *
@@ -645,7 +645,7 @@ propertyWithPascalCase:(NSString*)propertyWithPascalCase {
     }
     if (_client != nil) {
         _isLoaded = YES;
-        AMPPlan *AmpliObservePlan = [[[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"0"] setVersionId:@"79154a50-f057-4db5-9755-775e4e9f05e6"];
+        AMPPlan *AmpliObservePlan = [[[[[AMPPlan plan] setBranch:@"main"] setSource:@"obj-c-ampli"] setVersion:@"1"] setVersionId:@"a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c"];
         [_client setPlan:AmpliObservePlan];
 
         // set ingestionMetadata information

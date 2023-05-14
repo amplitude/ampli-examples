@@ -7,7 +7,7 @@
  * To update run 'ampli pull browser-ts-ampli-v2'
  *
  * Required dependencies: @amplitude/analytics-browser@^1.3.0
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: browser:typescript-ampli-v2
  *
@@ -30,7 +30,7 @@ export const ApiKey: Record<Environment, string> = {
  */
 export const DefaultConfiguration: BrowserOptions = {
   plan: {
-    version: '0',
+    version: '1',
     branch: 'main',
     source: 'browser-ts-ampli-v2',
     versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c'

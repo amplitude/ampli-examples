@@ -131,6 +131,7 @@ public class App {
         Ampli.getInstance().track(userId,
             EventWithArrayTypes.builder()
                 .requiredBooleanArray(new Boolean[]{true, false, true})
+                .requiredEnumArray(new String[]{"enum1"})
                 .requiredNumberArray(new Double[]{1.1, 2.2, 3.3})
                 .requiredObjectArray(new Object[]{1, "a", true})
                 .requiredStringArray(new String[]{"a", "bc", "def"})
