@@ -18,6 +18,7 @@
 #import "Ampli.h"
 #import "Amplitude.h"
 #import "AMPPlan.h"
+#import "AMPConstants.h"
 
 @implementation Event: NSObject
 
