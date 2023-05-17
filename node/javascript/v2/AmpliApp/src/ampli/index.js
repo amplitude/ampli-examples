@@ -7,7 +7,7 @@
  * To update run 'ampli pull node-js-ampli-v2'
  *
  * Required dependencies: @amplitude/analytics-node@^1.0.0
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: node.js:javascript-ampli-v2
  *
@@ -83,7 +83,7 @@ const ApiKey = {
  */
 const DefaultConfiguration = {
   plan: {
-    version: '0',
+    version: '1',
     branch: 'main',
     source: 'node-js-ampli-v2',
     versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c'
@@ -98,7 +98,7 @@ const DefaultConfiguration = {
 
 class Identify {
   constructor(properties) {
-    this.event_type = 'Identify';
+    this.event_type = amplitude.Types.SpecialEventType.IDENTIFY;
     this.event_properties = properties;
   }
 }

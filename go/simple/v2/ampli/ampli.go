@@ -6,7 +6,7 @@
 // To update run 'ampli pull go-ampli'
 //
 // Required dependencies: github.com/amplitude/analytics-go@latest
-// Tracking Plan Version: 0
+// Tracking Plan Version: 1
 // Build: 1.0.0
 // Runtime: go-ampli
 //
@@ -154,7 +154,7 @@ func (b *identifyBuilder) OptionalArray(optionalArray []string) IdentifyBuilder 
 
 func (b *identifyBuilder) Build() IdentifyEvent {
 	return &identifyEvent{
-		newBaseEvent(`Identify`, b.properties),
+		newBaseEvent(IdentifyEventType, b.properties),
 	}
 }
 
@@ -418,9 +418,11 @@ func (b *eventWithAllPropertiesBuilder) Build() EventWithAllPropertiesEvent {
 var EventWithArrayTypes = struct {
 	Builder func() interface {
 		RequiredBooleanArray(requiredBooleanArray []bool) interface {
-			RequiredNumberArray(requiredNumberArray []float64) interface {
-				RequiredObjectArray(requiredObjectArray []interface{}) interface {
-					RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+			RequiredEnumArray(requiredEnumArray []string) interface {
+				RequiredNumberArray(requiredNumberArray []float64) interface {
+					RequiredObjectArray(requiredObjectArray []interface{}) interface {
+						RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+					}
 				}
 			}
 		}
@@ -428,9 +430,11 @@ var EventWithArrayTypes = struct {
 }{
 	Builder: func() interface {
 		RequiredBooleanArray(requiredBooleanArray []bool) interface {
-			RequiredNumberArray(requiredNumberArray []float64) interface {
-				RequiredObjectArray(requiredObjectArray []interface{}) interface {
-					RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+			RequiredEnumArray(requiredEnumArray []string) interface {
+				RequiredNumberArray(requiredNumberArray []float64) interface {
+					RequiredObjectArray(requiredObjectArray []interface{}) interface {
+						RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+					}
 				}
 			}
 		}
@@ -462,13 +466,27 @@ type eventWithArrayTypesBuilder struct {
 }
 
 func (b *eventWithArrayTypesBuilder) RequiredBooleanArray(requiredBooleanArray []bool) interface {
+	RequiredEnumArray(requiredEnumArray []string) interface {
+		RequiredNumberArray(requiredNumberArray []float64) interface {
+			RequiredObjectArray(requiredObjectArray []interface{}) interface {
+				RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
+			}
+		}
+	}
+} {
+	b.properties[`requiredBooleanArray`] = requiredBooleanArray
+
+	return b
+}
+
+func (b *eventWithArrayTypesBuilder) RequiredEnumArray(requiredEnumArray []string) interface {
 	RequiredNumberArray(requiredNumberArray []float64) interface {
 		RequiredObjectArray(requiredObjectArray []interface{}) interface {
 			RequiredStringArray(requiredStringArray []string) EventWithArrayTypesBuilder
 		}
 	}
 } {
-	b.properties[`requiredBooleanArray`] = requiredBooleanArray
+	b.properties[`requiredEnumArray`] = requiredEnumArray
 
 	return b
 }
@@ -661,6 +679,7 @@ func (e eventWithOptionalArrayTypesEvent) eventWithOptionalArrayTypes() {
 type EventWithOptionalArrayTypesBuilder interface {
 	Build() EventWithOptionalArrayTypesEvent
 	OptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder
+	OptionalEnumArray(optionalEnumArray []string) EventWithOptionalArrayTypesBuilder
 	OptionalJsonArray(optionalJsonArray []interface{}) EventWithOptionalArrayTypesBuilder
 	OptionalNumberArray(optionalNumberArray []float64) EventWithOptionalArrayTypesBuilder
 	OptionalStringArray(optionalStringArray []string) EventWithOptionalArrayTypesBuilder
@@ -672,6 +691,12 @@ type eventWithOptionalArrayTypesBuilder struct {
 
 func (b *eventWithOptionalArrayTypesBuilder) OptionalBooleanArray(optionalBooleanArray []bool) EventWithOptionalArrayTypesBuilder {
 	b.properties[`optionalBooleanArray`] = optionalBooleanArray
+
+	return b
+}
+
+func (b *eventWithOptionalArrayTypesBuilder) OptionalEnumArray(optionalEnumArray []string) EventWithOptionalArrayTypesBuilder {
+	b.properties[`optionalEnumArray`] = optionalEnumArray
 
 	return b
 }
@@ -1138,8 +1163,8 @@ func (a *Ampli) Load(options LoadOptions) {
 		clientConfig.Plan = &amplitude.Plan{
 			Branch:    `main`,
 			Source:    `go-ampli`,
-			Version:   `0`,
-			VersionID: `79154a50-f057-4db5-9755-775e4e9f05e6`,
+			Version:   `1`,
+			VersionID: `a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c`,
 		}
 	}
 

@@ -79,6 +79,7 @@ func main() {
 
 	ampli.Instance.EventWithArrayTypes(userID, ampli.EventWithArrayTypes.Builder().
 		RequiredBooleanArray([]bool{true, false}).
+		RequiredEnumArray([]string{"enum1"}).
 		RequiredNumberArray([]float64{1.2, 3, 4.56}).
 		RequiredObjectArray([]interface{}{
 			map[string]interface{}{"key-1": "value-1"},

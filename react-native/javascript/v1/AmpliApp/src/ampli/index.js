@@ -8,7 +8,7 @@
  * To update run 'ampli pull react-native-javascript-ampli'
  *
  * Required dependencies: @amplitude/react-native@^2.15.0
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: react-native:javascript-ampli
  *
@@ -22,6 +22,7 @@ import {
   Identify as AmplitudeIdentify,
   MiddlewareExtra,
   Plan,
+  SpecialEventType,
 } from '@amplitude/react-native';
 
 /**
@@ -47,7 +48,7 @@ import {
 /**
  * @typedef LoadOptions
  * @type {object}
- * @property {'development'|'production'} [environment]
+ * @property {'prod'|'dev'} [environment]
  * @property {boolean} [disabled]
  * @property {LoadClientOptions} [client]
  */
@@ -62,20 +63,20 @@ import {
 /**
  * @typedef ApiKey
  * @type {object}
- * @property {string} development
- * @property {string} production
+ * @property {string} prod
+ * @property {string} dev
  */
 export const ApiKey = {
-  development: '',
-  production: ''
+  prod: '',
+  dev: ''
 };
 
 export const DefaultOptions = {
   plan: {
     branch: 'main',
     source: 'react-native-javascript-ampli',
-    version: '0',
-    versionId: '79154a50-f057-4db5-9755-775e4e9f05e6',
+    version: '1',
+    versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c',
   },
   ingestionMetadata: {
     sourceName: 'react-native-javascript-ampli',
@@ -97,14 +98,7 @@ export const DefaultOptions = {
 
 export class Identify {
   constructor(properties) {
-    this.eventType = 'Identify';
-    this.eventProperties = properties;
-  }
-}
-
-export class EventMaxIntForTest {
-  constructor(properties) {
-    this.eventType = 'EventMaxIntForTest';
+    this.eventType = SpecialEventType.IDENTIFY;
     this.eventProperties = properties;
   }
 }
@@ -153,13 +147,6 @@ export class EventWithConstTypes {
   }
 }
 
-export class EventWithDifferentCasingTypes {
-  constructor(properties) {
-    this.eventType = 'event withDifferent_CasingTypes';
-    this.eventProperties = properties;
-  }
-}
-
 export class EventWithEnumTypes {
   constructor(properties) {
     this.eventType = 'Event With Enum Types';
@@ -184,6 +171,20 @@ export class EventWithOptionalProperties {
 export class EventWithTemplateProperties {
   constructor(properties) {
     this.eventType = 'Event With Template Properties';
+    this.eventProperties = properties;
+  }
+}
+
+export class EventWithDifferentCasingTypes {
+  constructor(properties) {
+    this.eventType = 'event withDifferent_CasingTypes';
+    this.eventProperties = properties;
+  }
+}
+
+export class EventMaxIntForTest {
+  constructor(properties) {
+    this.eventType = 'EventMaxIntForTest';
     this.eventProperties = properties;
   }
 }
@@ -227,7 +228,7 @@ export class Ampli {
 
   /**
    * Initialize the Ampli SDK. Call once when your application starts.
-   * @param {LoadOptions} [options] Configuration options to initialize the Ampli SDK with.
+   * @param {LoadOptions} options Configuration options to initialize the Ampli SDK with. 'environment', 'client.apiKey' or 'client.instance' is required.
    */
   load(options) {
     this.disabled = options?.disabled ?? false;
@@ -330,26 +331,6 @@ export class Ampli {
   }
 
   /**
-   * EventMaxIntForTest
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-   *
-   * Event to test schema validation
-   *
-   * Owner: Test codegen
-   *
-   * @param {Object} properties The event's properties.
-   * @param {number} properties.intMax10 property to test schema validation
-   * @param {EventOptions} [options] Options for this track call.
-   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
-   *
-   * @return {{promise: Promise<boolean>}}
-   */
-  eventMaxIntForTest(properties, options, extra) {
-    return this.track(new EventMaxIntForTest(properties), options, extra);
-  }
-
-  /**
    * Event No Properties
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
@@ -425,6 +406,7 @@ export class Ampli {
    *
    * @param {Object} properties The event's properties.
    * @param {boolean[]} properties.requiredBooleanArray description for required boolean array
+   * @param {string[]} properties.requiredEnumArray Description for enum array property
    * @param {number[]} properties.requiredNumberArray Description for required number array
    * @param {*[]} properties.requiredObjectArray Description for required object array
    * @param {string[]} properties.requiredStringArray description for required string array
@@ -453,33 +435,6 @@ export class Ampli {
    */
   eventWithConstTypes(options, extra) {
     return this.track(new EventWithConstTypes(), options, extra);
-  }
-
-  /**
-   * event withDifferent_CasingTypes
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-   *
-   * Description for case with space
-   *
-   * Owner: Test codegen
-   *
-   * @param {Object} properties The event's properties.
-   * @param {'enumCamelCase'} properties.enumCamelCase descriptionForEnumCamelCase
-   * @param {'EnumPascalCase'} properties.EnumPascalCase DescirptionForEnumPascalCase
-   * @param {'enum_snake_case'} properties.enum_snake_case description_for_enum_snake_case
-   * @param {'enum with space'} properties.enum with space Description for enum with space
-   * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
-   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
-   * @param {string} properties.property_with_snake_case Description_for_snake_case
-   * @param {string} properties.property with space Description for case with space
-   * @param {EventOptions} [options] Options for this track call.
-   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
-   *
-   * @return {{promise: Promise<boolean>}}
-   */
-  eventWithDifferentCasingTypes(properties, options, extra) {
-    return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
   }
 
   /**
@@ -514,6 +469,7 @@ export class Ampli {
    *
    * @param {Object} [properties] The event's properties.
    * @param {boolean[]} [properties.optionalBooleanArray] Description for optional boolean array
+   * @param {string[]} [properties.optionalEnumArray] Description for optional enum array
    * @param {*[]} [properties.optionalJSONArray] Description for optional object array
    * @param {number[]} [properties.optionalNumberArray] Description for optional number array
    * @param {string[]} [properties.optionalStringArray] Description for optional string array
@@ -571,6 +527,53 @@ export class Ampli {
    */
   eventWithTemplateProperties(properties, options, extra) {
     return this.track(new EventWithTemplateProperties(properties), options, extra);
+  }
+
+  /**
+   * event withDifferent_CasingTypes
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
+   *
+   * Description for case with space
+   *
+   * Owner: Test codegen
+   *
+   * @param {Object} properties The event's properties.
+   * @param {'enum with space'} properties.enum with space Description for enum with space
+   * @param {'enum_snake_case'} properties.enum_snake_case description_for_enum_snake_case
+   * @param {'enumCamelCase'} properties.enumCamelCase descriptionForEnumCamelCase
+   * @param {'EnumPascalCase'} properties.EnumPascalCase DescirptionForEnumPascalCase
+   * @param {string} properties.property with space Description for case with space
+   * @param {string} properties.property_with_snake_case Description_for_snake_case
+   * @param {string} properties.propertyWithCamelCase descriptionForCamelCase
+   * @param {string} properties.PropertyWithPascalCase DescriptionForPascalCase
+   * @param {EventOptions} [options] Options for this track call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<boolean>}}
+   */
+  eventWithDifferentCasingTypes(properties, options, extra) {
+    return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
+  }
+
+  /**
+   * EventMaxIntForTest
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
+   *
+   * Event to test schema validation
+   *
+   * Owner: Test codegen
+   *
+   * @param {Object} properties The event's properties.
+   * @param {number} properties.intMax10 property to test schema validation
+   * @param {EventOptions} [options] Options for this track call.
+   * @param {MiddlewareExtra} [extra] Extra untyped parameters for use in middleware.
+   *
+   * @return {{promise: Promise<boolean>}}
+   */
+  eventMaxIntForTest(properties, options, extra) {
+    return this.track(new EventMaxIntForTest(properties), options, extra);
   }
 
   /**

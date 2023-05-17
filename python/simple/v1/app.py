@@ -68,6 +68,7 @@ ampli.event_with_array_types(
     "user_id",
     EventWithArrayTypes(
         required_boolean_array=[True, False],
+        required_enum_array=["enum1"],
         required_object_array=[{"k": "v"}],
         required_number_array=[1, 4, 6.6],
         required_string_array=["a", "b"]

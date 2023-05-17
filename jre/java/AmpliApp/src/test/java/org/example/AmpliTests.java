@@ -65,7 +65,7 @@ public class AmpliTests {
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture());
 
         com.amplitude.Event event = eventCaptor.getValue();
-        assertEquals("Identify", event.eventType);
+        assertEquals("$identify", event.eventType);
         assertEquals(userId, event.userId);
         assertEquals(deviceId, event.deviceId);
         assertEquals(

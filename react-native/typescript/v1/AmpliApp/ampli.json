@@ -5,7 +5,10 @@
   "Runtime": "react-native:typescript-ampli",
   "Path": "./src/ampli",
   "Branch": "main",
-  "Version": "0.0.0",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
-  "OmitApiKeys": true
+  "Version": "1.0.0",
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
+  "OmitApiKeys": true,
+  "Platform": "React Native",
+  "Language": "TypeScript",
+  "SDK": "@amplitude/react-native@^2.0"
 }

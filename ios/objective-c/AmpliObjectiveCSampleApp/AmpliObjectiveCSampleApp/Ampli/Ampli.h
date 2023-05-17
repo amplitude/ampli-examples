@@ -5,7 +5,7 @@
  * To update run 'ampli pull obj-c-ampli'
  *
  * Required dependencies: Amplitude ~> 8.10
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: ios:obj-c-ampli
  *

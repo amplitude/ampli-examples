@@ -7,7 +7,7 @@
  * To update run 'ampli pull node-ts-ampli-v2'
  *
  * Required dependencies: @amplitude/analytics-node@^1.0.0
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: node.js:typescript-ampli-v2
  *
@@ -37,7 +37,7 @@ export const ApiKey: Record<Environment, string> = {
 */
 export const DefaultConfiguration: NodeOptions = {
   plan: {
-    version: '0',
+    version: '1',
     branch: 'main',
     source: 'node-ts-ampli-v2',
     versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c'
@@ -383,7 +383,7 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements BaseEvent {
-  event_type = 'Identify';
+  event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
   constructor(
     public event_properties: IdentifyProperties,

@@ -5,8 +5,11 @@
   "SourceId": "73e1bbb5-5036-4712-904e-9df1f195c556",
   "Runtime": "android:java-ampli-v2",
   "Branch": "main",
-  "Version": "0.0.0",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
+  "Version": "1.0.0",
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
   "Path": "./app/src/main/java/com/amplitude/ampli",
-  "OmitApiKeys": true
+  "OmitApiKeys": true,
+  "Platform": "Android",
+  "Language": "Java",
+  "SDK": "com.amplitude:analytics-android:1.+"
 }

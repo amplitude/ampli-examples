@@ -5,8 +5,11 @@
   "SourceId": "e7eb7d27-8ab4-4e8c-8595-f580be2fb69a",
   "Runtime": "python:python-ampli",
   "Branch": "main",
-  "Version": "0.0.0",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
+  "Version": "1.0.0",
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
   "Path": "./ampli",
-  "OmitApiKeys": true
+  "OmitApiKeys": true,
+  "Platform": "Python",
+  "Language": "Python",
+  "SDK": "amplitude-analytics >= 1.0"
 }

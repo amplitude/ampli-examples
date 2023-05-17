@@ -4,8 +4,11 @@
   "SourceId": "a23edd97-2c05-4c1c-ab0a-663823528255",
   "Path": "./app/src/main/java/com/amplitude/ampli",
   "Branch": "main",
-  "Version": "0.0.0",
+  "Version": "1.0.0",
   "Runtime": "android:kotlin-ampli",
-  "VersionId": "79154a50-f057-4db5-9755-775e4e9f05e6",
-  "OmitApiKeys": true
+  "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
+  "OmitApiKeys": true,
+  "Platform": "Android",
+  "Language": "Kotlin",
+  "SDK": "com.amplitude:android-sdk:2.+"
 }

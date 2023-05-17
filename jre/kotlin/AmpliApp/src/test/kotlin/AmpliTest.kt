@@ -62,7 +62,7 @@ class AmpliTest {
         verify(client, times(1)).logEvent(eventCaptor.capture(), extraCaptor.capture())
 
         val event = eventCaptor.value
-        assertEquals("Identify", event.eventType)
+        assertEquals("\$identify", event.eventType)
         assertEquals(userId, event.userId)
         assertEquals(deviceId, event.deviceId)
         assertEquals(

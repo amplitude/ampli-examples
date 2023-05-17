@@ -8,7 +8,7 @@
  * To update run 'ampli pull react-native-typescript-ampli'
  *
  * Required dependencies: @amplitude/react-native@^2.15.0
- * Tracking Plan Version: 0
+ * Tracking Plan Version: 1
  * Build: 1.0.0
  * Runtime: react-native:typescript-ampli
  *
@@ -23,6 +23,7 @@ import {
   BaseEvent as Event,
   MiddlewareExtra,
   Plan,
+  SpecialEventType,
 } from '@amplitude/react-native';
 
 export type EventOptions = {
@@ -30,33 +31,31 @@ export type EventOptions = {
   deviceId?: string;
 }
 
-export type Environment = 'development' | 'production';
+export type Environment = 'prod' | 'dev';
 
 export const ApiKey: Record<Environment, string> = {
-  development: '',
-  production: ''
+  prod: '',
+  dev: ''
 };
 
 export type ClientOptions = {
   plan?: Plan,
 }
 
-export interface LoadOptions {
-  environment?: Environment;
-  disabled?: boolean;
-  client?: {
-    apiKey?: string;
-    instance?: Amplitude;
-    options?: ClientOptions;
-  }
-}
+export interface LoadOptionsBase { disabled?: boolean }
+
+export type LoadOptionsWithEnvironment = LoadOptionsBase & { environment: Environment; client?: { options?: ClientOptions; }; };
+export type LoadOptionsWithApiKey = LoadOptionsBase & { client: { apiKey: string; options?: ClientOptions; } };
+export type LoadOptionsWithClientInstance = LoadOptionsBase & { client: { instance: Amplitude; } };
+
+export type LoadOptions = LoadOptionsWithEnvironment | LoadOptionsWithApiKey | LoadOptionsWithClientInstance;
 
 export const DefaultOptions: ClientOptions = {
   plan: {
     branch: 'main',
     source: 'react-native-typescript-ampli',
-    version: '0',
-    versionId: '79154a50-f057-4db5-9755-775e4e9f05e6',
+    version: '1',
+    versionId: 'a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c',
   },
   ...{
     ingestionMetadata: {
@@ -86,25 +85,11 @@ export interface IdentifyProperties {
   requiredNumber: number;
 }
 
-export interface EventMaxIntForTestProperties {
-  /**
-   * property to test schema validation
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Type | integer |
-   * | Max Value | 10 |
-   */
-  intMax10: number;
-}
-
 export interface EventObjectTypesProperties {
   /**
    * Property Object Type
    */
-  requiredObject: {
-    [k: string]: any;
-  };
+  requiredObject: any;
   /**
    * Property Object Array Type
    */
@@ -171,6 +156,14 @@ export interface EventWithArrayTypesProperties {
    */
   requiredBooleanArray: boolean[];
   /**
+   * Description for enum array property
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  requiredEnumArray: ("enum1" | "enum2")[];
+  /**
    * Description for required number array
    *
    * | Rule | Value |
@@ -190,57 +183,6 @@ export interface EventWithArrayTypesProperties {
    * | Item Type | string |
    */
   requiredStringArray: string[];
-}
-
-export interface EventWithDifferentCasingTypesProperties {
-  /**
-   * descriptionForEnumCamelCase
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enumCamelCase |
-   */
-  enumCamelCase: "enumCamelCase";
-  /**
-   * DescirptionForEnumPascalCase
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | EnumPascalCase |
-   */
-  EnumPascalCase: "EnumPascalCase";
-  /**
-   * description_for_enum_snake_case
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enum_snake_case |
-   */
-  enum_snake_case: "enum_snake_case";
-  /**
-   * Description for enum with space
-   *
-   * | Rule | Value |
-   * |---|---|
-   * | Enum Values | enum with space |
-   */
-  "enum with space": "enum with space";
-  /**
-   * descriptionForCamelCase
-   */
-  propertyWithCamelCase: string;
-  /**
-   * DescriptionForPascalCase
-   */
-  PropertyWithPascalCase: string;
-  /**
-   * Description_for_snake_case
-   */
-  property_with_snake_case: string;
-  /**
-   * Description for case with space
-   */
-  "property with space": string;
 }
 
 export interface EventWithEnumTypesProperties {
@@ -271,6 +213,14 @@ export interface EventWithOptionalArrayTypesProperties {
    * | Item Type | boolean |
    */
   optionalBooleanArray?: boolean[];
+  /**
+   * Description for optional enum array
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Item Type | string |
+   */
+  optionalEnumArray?: ("enum1" | "enum2")[];
   /**
    * Description for optional object array
    */
@@ -346,6 +296,69 @@ export interface EventWithTemplatePropertiesProperties {
   required_template_property: string;
 }
 
+export interface EventWithDifferentCasingTypesProperties {
+  /**
+   * Description for enum with space
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum with space |
+   */
+  "enum with space": "enum with space";
+  /**
+   * description_for_enum_snake_case
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enum_snake_case |
+   */
+  enum_snake_case: "enum_snake_case";
+  /**
+   * descriptionForEnumCamelCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | enumCamelCase |
+   */
+  enumCamelCase: "enumCamelCase";
+  /**
+   * DescirptionForEnumPascalCase
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Enum Values | EnumPascalCase |
+   */
+  EnumPascalCase: "EnumPascalCase";
+  /**
+   * Description for case with space
+   */
+  "property with space": string;
+  /**
+   * Description_for_snake_case
+   */
+  property_with_snake_case: string;
+  /**
+   * descriptionForCamelCase
+   */
+  propertyWithCamelCase: string;
+  /**
+   * DescriptionForPascalCase
+   */
+  PropertyWithPascalCase: string;
+}
+
+export interface EventMaxIntForTestProperties {
+  /**
+   * property to test schema validation
+   *
+   * | Rule | Value |
+   * |---|---|
+   * | Type | integer |
+   * | Max Value | 10 |
+   */
+  intMax10: number;
+}
+
 export interface EventTemplateProperties {
   /**
    * optional_template_property description
@@ -377,20 +390,10 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements Event {
-  eventType = 'Identify';
+  eventType = SpecialEventType.IDENTIFY;
 
   constructor(
     public eventProperties: IdentifyProperties,
-  ) {
-    this.eventProperties = eventProperties;
-  }
-}
-
-export class EventMaxIntForTest implements Event {
-  eventType = 'EventMaxIntForTest';
-
-  constructor(
-    public eventProperties: EventMaxIntForTestProperties,
   ) {
     this.eventProperties = eventProperties;
   }
@@ -448,16 +451,6 @@ export class EventWithConstTypes implements Event {
   };
 }
 
-export class EventWithDifferentCasingTypes implements Event {
-  eventType = 'event withDifferent_CasingTypes';
-
-  constructor(
-    public eventProperties: EventWithDifferentCasingTypesProperties,
-  ) {
-    this.eventProperties = eventProperties;
-  }
-}
-
 export class EventWithEnumTypes implements Event {
   eventType = 'Event With Enum Types';
 
@@ -498,6 +491,26 @@ export class EventWithTemplateProperties implements Event {
   }
 }
 
+export class EventWithDifferentCasingTypes implements Event {
+  eventType = 'event withDifferent_CasingTypes';
+
+  constructor(
+    public eventProperties: EventWithDifferentCasingTypesProperties,
+  ) {
+    this.eventProperties = eventProperties;
+  }
+}
+
+export class EventMaxIntForTest implements Event {
+  eventType = 'EventMaxIntForTest';
+
+  constructor(
+    public eventProperties: EventMaxIntForTestProperties,
+  ) {
+    this.eventProperties = eventProperties;
+  }
+}
+
 const getPromiseResponse = (result: boolean) => Promise.resolve(result);
 
 // prettier-ignore
@@ -526,19 +539,23 @@ export class Ampli {
    * Initialize the Ampli SDK. Call once when your application starts.
    * @param options Configuration options to initialize the Ampli SDK with.
    */
-  load(options?: LoadOptions) {
-    this.disabled = options?.disabled ?? false;
+  load(options: LoadOptions) {
+    this.disabled = options.disabled ?? false;
 
     if (this.isLoaded) {
       console.warn('WARNING: Ampli is already initialized. Ampli.load() should be called once at application startup.');
       return { promise: getPromiseResponse(false) };
     }
 
-    const env = options?.environment ?? 'development';
-    const apiKey = options?.client?.apiKey ?? ApiKey[env];
+    let apiKey: string | null = null;
+    if (options.client && 'apiKey' in options.client) {
+      apiKey = options.client.apiKey;
+    } else if ('environment' in options) {
+      apiKey = ApiKey[options.environment];
+    }
 
-    if (options?.client?.instance) {
-      this.amplitude = options?.client?.instance;
+    if (options.client && 'instance' in options.client) {
+      this.amplitude = options.client.instance;
       return { promise: getPromiseResponse(true) };
     }
 
@@ -546,7 +563,7 @@ export class Ampli {
       this.amplitude = Amplitude.getInstance();
       let promise = this.amplitude!.init(apiKey);
 
-      const clientOptions = { ...DefaultOptions, ...options?.client?.options };
+      const clientOptions = { ...DefaultOptions, ...options.client?.options };
       const plan = clientOptions.plan;
       if (plan) {
         promise = promise.then(ok => ok ? this.amplitude!.setPlan(plan) : false);
@@ -618,27 +635,6 @@ export class Ampli {
 
     const promise = this.amplitude!.uploadEvents();
     return { promise };
-  }
-
-  /**
-   * EventMaxIntForTest
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-   *
-   * Event to test schema validation
-   *
-   * Owner: Test codegen
-   *
-   * @param properties The event's properties (e.g. intMax10)
-   * @param options Amplitude event options.
-   * @param extra Extra untyped parameters for use in middleware.
-   */
-  eventMaxIntForTest(
-    properties: EventMaxIntForTestProperties,
-    options?: EventOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    return this.track(new EventMaxIntForTest(properties), options, extra);
   }
 
   /**
@@ -743,27 +739,6 @@ export class Ampli {
   }
 
   /**
-   * event withDifferent_CasingTypes
-   *
-   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-   *
-   * Description for case with space
-   *
-   * Owner: Test codegen
-   *
-   * @param properties The event's properties (e.g. enumCamelCase)
-   * @param options Amplitude event options.
-   * @param extra Extra untyped parameters for use in middleware.
-   */
-  eventWithDifferentCasingTypes(
-    properties: EventWithDifferentCasingTypesProperties,
-    options?: EventOptions,
-    extra?: MiddlewareExtra,
-  ) {
-    return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
-  }
-
-  /**
    * Event With Enum Types
    *
    * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
@@ -845,6 +820,48 @@ export class Ampli {
     extra?: MiddlewareExtra,
   ) {
     return this.track(new EventWithTemplateProperties(properties), options, extra);
+  }
+
+  /**
+   * event withDifferent_CasingTypes
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
+   *
+   * Description for case with space
+   *
+   * Owner: Test codegen
+   *
+   * @param properties The event's properties (e.g. enum with space)
+   * @param options Amplitude event options.
+   * @param extra Extra untyped parameters for use in middleware.
+   */
+  eventWithDifferentCasingTypes(
+    properties: EventWithDifferentCasingTypesProperties,
+    options?: EventOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    return this.track(new EventWithDifferentCasingTypes(properties), options, extra);
+  }
+
+  /**
+   * EventMaxIntForTest
+   *
+   * [View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
+   *
+   * Event to test schema validation
+   *
+   * Owner: Test codegen
+   *
+   * @param properties The event's properties (e.g. intMax10)
+   * @param options Amplitude event options.
+   * @param extra Extra untyped parameters for use in middleware.
+   */
+  eventMaxIntForTest(
+    properties: EventMaxIntForTestProperties,
+    options?: EventOptions,
+    extra?: MiddlewareExtra,
+  ) {
+    return this.track(new EventMaxIntForTest(properties), options, extra);
   }
 
   private handleEventOptions(options: EventOptions | undefined, userId?: string) {
