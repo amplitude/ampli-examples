@@ -120,8 +120,8 @@ export const ApiKey = {
  */
 
 export const SpecialEventType = {
-  Identify: "Identify",
-  Group: "Group"
+  Identify: "$identify",
+  Group: "$groupidentify"
 }
 
 /**
@@ -144,7 +144,7 @@ export const DefaultOptions = {
 
 export class Identify {
   constructor(properties) {
-    this.event_type = 'Identify';
+    this.event_type = SpecialEventType.Identify;
     this.event_properties = properties;
   }
 }

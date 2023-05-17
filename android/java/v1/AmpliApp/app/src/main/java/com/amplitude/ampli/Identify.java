@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class Identify extends Event {
     private Identify(Builder builder) {
-        super("$identify", builder.properties);
+        super(com.amplitude.api.Constants.IDENTIFY_EVENT, builder.properties);
     }
 
     public static IRequiredNumber builder() { return new Builder(); }

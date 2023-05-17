@@ -154,7 +154,7 @@ func (b *identifyBuilder) OptionalArray(optionalArray []string) IdentifyBuilder 
 
 func (b *identifyBuilder) Build() IdentifyEvent {
 	return &identifyEvent{
-		newBaseEvent(`Identify`, b.properties),
+		newBaseEvent(IdentifyEventType, b.properties),
 	}
 }
 

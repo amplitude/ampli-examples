@@ -67,7 +67,7 @@ public class Identify : GenericEvent<Identify> {
 
     private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
-            eventType: "Identify",
+            eventType: "$identify",
             eventProperties: eventProperties,
             options: options,
             eventFactory: Identify.init

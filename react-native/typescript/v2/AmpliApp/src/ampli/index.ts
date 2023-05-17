@@ -384,7 +384,7 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements BaseEvent {
-  event_type = 'Identify';
+  event_type = amplitude.Types.SpecialEventType.IDENTIFY;
 
   constructor(
     public event_properties: IdentifyProperties,

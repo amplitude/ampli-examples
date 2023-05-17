@@ -63,7 +63,7 @@ class LoadClientOptions(
 class Identify private constructor(
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event<Identify>("Identify", eventProperties, options, ::Identify) {
+) : Event<Identify>("\$identify", eventProperties, options, ::Identify) {
     /**
      * Identify
      *

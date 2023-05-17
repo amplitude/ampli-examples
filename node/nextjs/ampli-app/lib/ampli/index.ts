@@ -19,7 +19,7 @@
 import { Identify as AmplitudeIdentify } from '@amplitude/identify';
 import { init as initNodeClient, NodeClient, Response, Status } from '@amplitude/node';
 import {
-  BaseEvent, Event, EventOptions, GroupOptions, IdentifyEvent, IdentifyOptions, Options, MiddlewareExtra,
+  BaseEvent, Event, EventOptions, GroupOptions, IdentifyEvent, IdentifyOptions, Options, MiddlewareExtra, SpecialEventType,
 } from '@amplitude/types';
 
 export type Environment = 'prod' | 'dev';
@@ -380,7 +380,7 @@ export interface SourceTemplateProperties {
 }
 
 export class Identify implements BaseEvent {
-  event_type = 'Identify';
+  event_type = SpecialEventType.IDENTIFY;
 
   constructor(
     public event_properties: IdentifyProperties,

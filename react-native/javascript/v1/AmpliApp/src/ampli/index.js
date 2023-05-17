@@ -22,6 +22,7 @@ import {
   Identify as AmplitudeIdentify,
   MiddlewareExtra,
   Plan,
+  SpecialEventType,
 } from '@amplitude/react-native';
 
 /**
@@ -97,7 +98,7 @@ export const DefaultOptions = {
 
 export class Identify {
   constructor(properties) {
-    this.eventType = 'Identify';
+    this.eventType = SpecialEventType.IDENTIFY;
     this.eventProperties = properties;
   }
 }

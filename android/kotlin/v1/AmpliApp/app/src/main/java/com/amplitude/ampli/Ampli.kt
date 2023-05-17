@@ -22,6 +22,7 @@ import org.json.JSONObject
 
 import com.amplitude.api.Amplitude
 import com.amplitude.api.AmplitudeClient
+import com.amplitude.api.Constants
 import com.amplitude.api.MiddlewareExtra
 import com.amplitude.api.Plan
 
@@ -63,7 +64,7 @@ class LoadClientOptions(
 class Identify private constructor(
     eventProperties: Map<String, Any?>?,
     options: EventOptions? = null
-) : Event<Identify>("Identify", eventProperties, options, ::Identify) {
+) : Event<Identify>(Constants.IDENTIFY_EVENT, eventProperties, options, ::Identify) {
     /**
      * Identify
      *

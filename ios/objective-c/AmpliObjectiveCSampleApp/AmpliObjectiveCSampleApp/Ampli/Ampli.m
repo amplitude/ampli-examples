@@ -18,6 +18,7 @@
 #import "Ampli.h"
 #import "Amplitude.h"
 #import "AMPPlan.h"
+#import "AMPConstants.h"
 
 @implementation Event: NSObject
 
@@ -67,7 +68,7 @@
 
 - (instancetype)initWithRequiredNumber_Identify:(Float64)requiredNumber
 optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
-    self = [super initWithEventType:@"Identify"
+    self = [super initWithEventType:IDENTIFY_EVENT
                     withEventProperties:@{
                         @"optionalArray": optionalArray ?: NSNull.null,
                         @"requiredNumber": @(requiredNumber)

@@ -97,7 +97,7 @@ export const DefaultConfiguration = {
 
 export class Identify {
   constructor(properties) {
-    this.event_type = 'Identify';
+    this.event_type = amplitude.Types.SpecialEventType.IDENTIFY;
     this.event_properties = properties;
   }
 }
