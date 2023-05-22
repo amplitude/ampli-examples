@@ -9,7 +9,7 @@ on:
 jobs:
   test:
     name: Test
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       matrix:
         ruby-version: ["2.7.x"]
@@ -17,9 +17,9 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Set Xcode 13
+      - name: Set Xcode 14.2
         run: |
-          sudo xcode-select -switch /Applications/Xcode_13.1.app
+          sudo xcode-select -switch /Applications/Xcode_14.2.app
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
@@ -52,7 +52,7 @@ jobs:
             -workspace AmpliSwiftSampleApp.xcworkspace \
             -scheme AmpliSwiftSampleAppTests \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2'
 
       - name: Cache Bundle Gems and Cocoapods For Objective-C
         id: cache-gems-objc-pods
@@ -80,4 +80,4 @@ jobs:
             -workspace AmpliObjectiveCSampleApp.xcworkspace \
             -scheme AmpliObjectiveCSampleApp \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 11,OS=15.0'
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2'
