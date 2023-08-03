@@ -14,6 +14,8 @@
 		BAD7A9812A7BA19E000CB7D9 /* AmpliSwiftSampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD7A9802A7BA19E000CB7D9 /* AmpliSwiftSampleAppTests.swift */; };
 		BAD7A98B2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD7A98A2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITests.swift */; };
 		BAD7A98D2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD7A98C2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITestsLaunchTests.swift */; };
+		BAD7A99B2A7BAF5E000CB7D9 /* Ampli.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD7A99A2A7BAF5D000CB7D9 /* Ampli.swift */; };
+		BAD7A99E2A7BAFDB000CB7D9 /* Amplitude-Swift in Frameworks */ = {isa = PBXBuildFile; productRef = BAD7A99D2A7BAFDB000CB7D9 /* Amplitude-Swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,7 @@
 		BAD7A9862A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmpliSwiftSampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAD7A98A2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpliSwiftSampleAppUITests.swift; sourceTree = "<group>"; };
 		BAD7A98C2A7BA19E000CB7D9 /* AmpliSwiftSampleAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpliSwiftSampleAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		BAD7A99A2A7BAF5D000CB7D9 /* Ampli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ampli.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAD7A99E2A7BAFDB000CB7D9 /* Amplitude-Swift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +99,7 @@
 		BAD7A96D2A7BA19D000CB7D9 /* AmpliSwiftSampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				BAD7A9992A7BAF48000CB7D9 /* Ampli */,
 				BAD7A96E2A7BA19D000CB7D9 /* AmpliSwiftSampleAppApp.swift */,
 				BAD7A9702A7BA19D000CB7D9 /* ContentView.swift */,
 				BAD7A9722A7BA19E000CB7D9 /* Assets.xcassets */,
@@ -129,6 +134,14 @@
 			path = AmpliSwiftSampleAppUITests;
 			sourceTree = "<group>";
 		};
+		BAD7A9992A7BAF48000CB7D9 /* Ampli */ = {
+			isa = PBXGroup;
+			children = (
+				BAD7A99A2A7BAF5D000CB7D9 /* Ampli.swift */,
+			);
+			path = Ampli;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,6 +158,9 @@
 			dependencies = (
 			);
 			name = AmpliSwiftSampleApp;
+			packageProductDependencies = (
+				BAD7A99D2A7BAFDB000CB7D9 /* Amplitude-Swift */,
+			);
 			productName = AmpliSwiftSampleApp;
 			productReference = BAD7A96B2A7BA19D000CB7D9 /* AmpliSwiftSampleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +233,9 @@
 				Base,
 			);
 			mainGroup = BAD7A9622A7BA19D000CB7D9;
+			packageReferences = (
+				BAD7A99C2A7BAFDB000CB7D9 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+			);
 			productRefGroup = BAD7A96C2A7BA19D000CB7D9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -260,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAD7A9712A7BA19D000CB7D9 /* ContentView.swift in Sources */,
+				BAD7A99B2A7BAF5E000CB7D9 /* Ampli.swift in Sources */,
 				BAD7A96F2A7BA19D000CB7D9 /* AmpliSwiftSampleAppApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -604,6 +624,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BAD7A99C2A7BAFDB000CB7D9 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BAD7A99D2A7BAFDB000CB7D9 /* Amplitude-Swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BAD7A99C2A7BAFDB000CB7D9 /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = "Amplitude-Swift";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BAD7A9632A7BA19D000CB7D9 /* Project object */;
 }
