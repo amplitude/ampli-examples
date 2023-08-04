@@ -33,13 +33,44 @@ let AmpliObservePlan = Plan(
     versionId: "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c"
 )
 
-public class Identify : IdentifyEvent {
+public class Event {
+    public let eventType: String
+    public let eventProperties: [String:Any]?
+    public let options: EventOptions?;
 
-    private init(_ eventProperties: [String: Any?]?) {
+    init(eventType: String, eventProperties: [String:Any?]?, options: EventOptions?) {
+        self.eventType = eventType;
+        self.eventProperties = eventProperties?.compactMapValues { $0 };
+        self.options = options;
+    }
+}
+
+public class GenericEvent<E> : Event {
+    private let eventFactory: (_ eventProperties: [String: Any?]?, _ options: EventOptions?) -> E
+
+    init(eventType: String, eventProperties: [String:Any?]?, options: EventOptions?, eventFactory: @escaping (_ eventProperties: [String: Any?]?, _ options: EventOptions?) -> E) {
+        self.eventFactory = eventFactory;
+        super.init(eventType: eventType, eventProperties: eventProperties, options: options)
+    }
+
+    public func options(_ options: EventOptions) -> E {
+        return self.eventFactory(self.eventProperties, options);
+    }
+
+    public func options(deviceId: String? = nil, userId: String? = nil) -> E {
+        return self.options(EventOptions(userId: userId, deviceId: deviceId));
+    }
+}
+
+public class Identify : GenericEvent<Identify> {
+
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "$identify",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: Identify.init
+        );
     }
 
     /**
@@ -55,21 +86,19 @@ public class Identify : IdentifyEvent {
         self.init([
             "optionalArray": optionalArray,
             "requiredNumber": requiredNumber
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventNoProperties : BaseEvent {
+public class EventNoProperties : GenericEvent<EventNoProperties> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event No Properties",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventNoProperties.init
+        );
     }
 
     /**
@@ -78,21 +107,19 @@ public class EventNoProperties : BaseEvent {
     Owner: Test codegen
     */
     public convenience init() {
-        self.init(nil)
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        self.init(nil);
     }
 }
 
-public class EventObjectTypes : BaseEvent {
+public class EventObjectTypes : GenericEvent<EventObjectTypes> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event Object Types",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventObjectTypes.init
+        );
     }
 
     /**
@@ -110,26 +137,24 @@ public class EventObjectTypes : BaseEvent {
         self.init([
             "requiredObject": requiredObject,
             "requiredObjectArray": requiredObjectArray
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithAllProperties : BaseEvent {
+public class EventWithAllProperties : GenericEvent<EventWithAllProperties> {
 
     public enum RequiredEnum: String {
         case enum1 = "Enum1"
         case enum2 = "Enum2"
     }
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With All Properties",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithAllProperties.init
+        );
     }
 
     /**
@@ -163,21 +188,19 @@ public class EventWithAllProperties : BaseEvent {
             "requiredInteger": requiredInteger,
             "requiredNumber": requiredNumber,
             "requiredString": requiredString
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithArrayTypes : BaseEvent {
+public class EventWithArrayTypes : GenericEvent<EventWithArrayTypes> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Array Types",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithArrayTypes.init
+        );
     }
 
     /**
@@ -204,21 +227,19 @@ public class EventWithArrayTypes : BaseEvent {
             "requiredNumberArray": requiredNumberArray,
             "requiredObjectArray": requiredObjectArray,
             "requiredStringArray": requiredStringArray
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithConstTypes : BaseEvent {
+public class EventWithConstTypes : GenericEvent<EventWithConstTypes> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Const Types",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithConstTypes.init
+        );
     }
 
     /**
@@ -234,15 +255,11 @@ public class EventWithConstTypes : BaseEvent {
             "String Const": "String-Constant",
             "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
             "String Int Const": 0
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithEnumTypes : BaseEvent {
+public class EventWithEnumTypes : GenericEvent<EventWithEnumTypes> {
 
     public enum OptionalEnum: String {
         case optionalEnum1 = "optional enum 1"
@@ -254,11 +271,13 @@ public class EventWithEnumTypes : BaseEvent {
         case requiredEnum2 = "required enum 2"
     }
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Enum Types",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithEnumTypes.init
+        );
     }
 
     /**
@@ -276,21 +295,19 @@ public class EventWithEnumTypes : BaseEvent {
         self.init([
             "optional enum": optionalEnum?.rawValue,
             "required enum": requiredEnum.rawValue
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithOptionalArrayTypes : BaseEvent {
+public class EventWithOptionalArrayTypes : GenericEvent<EventWithOptionalArrayTypes> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Optional Array Types",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithOptionalArrayTypes.init
+        );
     }
 
     /**
@@ -317,21 +334,19 @@ public class EventWithOptionalArrayTypes : BaseEvent {
             "optionalJSONArray": optionalJsonArray,
             "optionalNumberArray": optionalNumberArray,
             "optionalStringArray": optionalStringArray
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithOptionalProperties : BaseEvent {
+public class EventWithOptionalProperties : GenericEvent<EventWithOptionalProperties> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Optional Properties",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithOptionalProperties.init
+        );
     }
 
     /**
@@ -358,21 +373,19 @@ public class EventWithOptionalProperties : BaseEvent {
             "optionalBoolean": optionalBoolean,
             "optionalNumber": optionalNumber,
             "optionalString": optionalString
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithTemplateProperties : BaseEvent {
+public class EventWithTemplateProperties : GenericEvent<EventWithTemplateProperties> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "Event With Template Properties",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithTemplateProperties.init
+        );
     }
 
     /**
@@ -396,15 +409,11 @@ public class EventWithTemplateProperties : BaseEvent {
             "optional_template_property": optionalTemplateProperty,
             "required_event_property": requiredEventProperty,
             "required_template_property": requiredTemplateProperty
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventWithDifferentCasingTypes : BaseEvent {
+public class EventWithDifferentCasingTypes : GenericEvent<EventWithDifferentCasingTypes> {
 
     public enum EnumWithSpace: String {
         case enumWithSpace = "enum with space"
@@ -422,11 +431,13 @@ public class EventWithDifferentCasingTypes : BaseEvent {
         case enumPascalCase = "EnumPascalCase"
     }
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "event withDifferent_CasingTypes",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventWithDifferentCasingTypes.init
+        );
     }
 
     /**
@@ -462,21 +473,19 @@ public class EventWithDifferentCasingTypes : BaseEvent {
             "property_with_snake_case": propertyWithSnakeCase,
             "propertyWithCamelCase": propertyWithCamelCase,
             "PropertyWithPascalCase": propertyWithPascalCase
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
-public class EventMaxIntForTest : BaseEvent {
+public class EventMaxIntForTest : GenericEvent<EventMaxIntForTest> {
 
-    private init(_ eventProperties: [String: Any?]?) {
+    private init(_ eventProperties: [String: Any?]?, _ options: EventOptions? = nil) {
         super.init(
             eventType: "EventMaxIntForTest",
-            eventProperties: eventProperties
-        )
+            eventProperties: eventProperties,
+            options: options,
+            eventFactory: EventMaxIntForTest.init
+        );
     }
 
     /**
@@ -491,11 +500,7 @@ public class EventMaxIntForTest : BaseEvent {
     ) {
         self.init([
             "intMax10": intMax10
-        ])
-    }
-
-    required init(from decoder: Decoder) throws {
-        fatalError("init(from:) has not been implemented")
+        ]);
     }
 }
 
@@ -587,26 +592,20 @@ public class Ampli {
         }
     }
 
-    public func track(_ event: BaseEvent, options: EventOptions? = nil) -> Void {
+    public func track(_ event: Event, options: EventOptions? = nil) -> Void {
         if !isInitializedAndEnabled() {
             return
         }
-        self.handleEventOptions(event, options)
-        amplitude?.track(eventType: event.eventType, eventProperties: event.eventProperties?.compactMapValues { $0 })
+        let eventOptions = getEventOptions(event.options, options)
+        amplitude?.track(eventType: event.eventType, eventProperties: event.eventProperties, options: eventOptions)
     }
 
     public func identify(_ userId: String?, _ event: Identify, options: EventOptions? = nil) -> Void {
         if !isInitializedAndEnabled() {
             return
         }
-        self.handleEventOptions(event, options, userId)
-
-        let identify = Amplitude_Swift.Identify()
-        event.eventProperties?.forEach{ key, value in
-            identify.set(property: key, value: value)
-        }
-
-        amplitude?.identify(identify: identify)
+        let eventOptions = getEventOptions(event.options, options, userId)
+        amplitude?.identify(userProperties: event.eventProperties, options: eventOptions)
     }
 
     public func flush() -> Void {
@@ -910,17 +909,17 @@ public class Ampli {
         return !self.disabled
     }
 
-    private func handleEventOptions(_ event: BaseEvent, _ options: EventOptions?, _ overrideUserId: String? = nil) {
+    private func getEventOptions(_ options: EventOptions?, _ overrideOptions: EventOptions?, _ overrideUserId: String? = nil) -> EventOptions {
+        let dummyEvent = BaseEvent(eventType: "dummy")
         if let options {
-            event.mergeEventOptions(eventOptions: options)
+            dummyEvent.mergeEventOptions(eventOptions: options)
         }
-
-        if let userId = overrideUserId ?? event.userId {
-            amplitude?.setUserId(userId: userId)
+        if let overrideOptions {
+            dummyEvent.mergeEventOptions(eventOptions: overrideOptions)
         }
-
-        if let deviceId = event.deviceId {
-            amplitude?.setDeviceId(deviceId: deviceId)
+        if let overrideUserId {
+            dummyEvent.userId = overrideUserId
         }
+        return dummyEvent
     }
 }
