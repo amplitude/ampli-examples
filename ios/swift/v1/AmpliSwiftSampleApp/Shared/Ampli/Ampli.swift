@@ -20,29 +20,29 @@ import Amplitude
 public typealias MiddlewareExtra = [String: Any]
 
 public enum AmpliEnvironment: Int {
-    case prod, dev;
+    case prod, dev
 }
 
 let ApiKey: [AmpliEnvironment: String] = [
     .prod: "",
     .dev: ""
-];
+]
 
 let AmpliObservePlan = AMPPlan()
                       .setBranch("main")
                       .setSource("swift-ampli")
                       .setVersion("1")
-                      .setVersionId("a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c");
+                      .setVersionId("a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c")
 
 public class Event {
     public let eventType: String
     public let eventProperties: [String:Any]?
-    public let options: EventOptions?;
+    public let options: EventOptions?
 
     init(eventType: String, eventProperties: [String:Any?]?, options: EventOptions?) {
-        self.eventType = eventType;
-        self.eventProperties = eventProperties?.compactMapValues { $0 };
-        self.options = options;
+        self.eventType = eventType
+        self.eventProperties = eventProperties?.compactMapValues { $0 }
+        self.options = options
     }
 }
 
@@ -50,16 +50,16 @@ public class GenericEvent<E> : Event {
     private let eventFactory: (_ eventProperties: [String: Any?]?, _ options: EventOptions?) -> E
 
     init(eventType: String, eventProperties: [String:Any?]?, options: EventOptions?, eventFactory: @escaping (_ eventProperties: [String: Any?]?, _ options: EventOptions?) -> E) {
-        self.eventFactory = eventFactory;
+        self.eventFactory = eventFactory
         super.init(eventType: eventType, eventProperties: eventProperties, options: options)
     }
 
     public func options(_ options: EventOptions) -> E {
-        return self.eventFactory(self.eventProperties, options);
+        return self.eventFactory(self.eventProperties, options)
     }
 
     public func options(deviceId: String? = nil, userId: String? = nil) -> E {
-        return self.options(EventOptions(deviceId: deviceId, userId: userId));
+        return self.options(EventOptions(deviceId: deviceId, userId: userId))
     }
 }
 
@@ -71,7 +71,7 @@ public class Identify : GenericEvent<Identify> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: Identify.init
-        );
+        )
     }
 
     /**
@@ -87,7 +87,7 @@ public class Identify : GenericEvent<Identify> {
         self.init([
             "optionalArray": optionalArray,
             "requiredNumber": requiredNumber
-        ]);
+        ])
     }
 }
 
@@ -99,7 +99,7 @@ public class EventNoProperties : GenericEvent<EventNoProperties> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventNoProperties.init
-        );
+        )
     }
 
     /**
@@ -108,7 +108,7 @@ public class EventNoProperties : GenericEvent<EventNoProperties> {
     Owner: Test codegen
     */
     public convenience init() {
-        self.init(nil);
+        self.init(nil)
     }
 }
 
@@ -120,7 +120,7 @@ public class EventObjectTypes : GenericEvent<EventObjectTypes> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventObjectTypes.init
-        );
+        )
     }
 
     /**
@@ -138,7 +138,7 @@ public class EventObjectTypes : GenericEvent<EventObjectTypes> {
         self.init([
             "requiredObject": requiredObject,
             "requiredObjectArray": requiredObjectArray
-        ]);
+        ])
     }
 }
 
@@ -155,7 +155,7 @@ public class EventWithAllProperties : GenericEvent<EventWithAllProperties> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithAllProperties.init
-        );
+        )
     }
 
     /**
@@ -189,7 +189,7 @@ public class EventWithAllProperties : GenericEvent<EventWithAllProperties> {
             "requiredInteger": requiredInteger,
             "requiredNumber": requiredNumber,
             "requiredString": requiredString
-        ]);
+        ])
     }
 }
 
@@ -201,7 +201,7 @@ public class EventWithArrayTypes : GenericEvent<EventWithArrayTypes> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithArrayTypes.init
-        );
+        )
     }
 
     /**
@@ -228,7 +228,7 @@ public class EventWithArrayTypes : GenericEvent<EventWithArrayTypes> {
             "requiredNumberArray": requiredNumberArray,
             "requiredObjectArray": requiredObjectArray,
             "requiredStringArray": requiredStringArray
-        ]);
+        ])
     }
 }
 
@@ -240,7 +240,7 @@ public class EventWithConstTypes : GenericEvent<EventWithConstTypes> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithConstTypes.init
-        );
+        )
     }
 
     /**
@@ -256,7 +256,7 @@ public class EventWithConstTypes : GenericEvent<EventWithConstTypes> {
             "String Const": "String-Constant",
             "String Const WIth Quotes": "\"String \"Const With\" Quotes\"",
             "String Int Const": 0
-        ]);
+        ])
     }
 }
 
@@ -278,7 +278,7 @@ public class EventWithEnumTypes : GenericEvent<EventWithEnumTypes> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithEnumTypes.init
-        );
+        )
     }
 
     /**
@@ -296,7 +296,7 @@ public class EventWithEnumTypes : GenericEvent<EventWithEnumTypes> {
         self.init([
             "optional enum": optionalEnum?.rawValue,
             "required enum": requiredEnum.rawValue
-        ]);
+        ])
     }
 }
 
@@ -308,7 +308,7 @@ public class EventWithOptionalArrayTypes : GenericEvent<EventWithOptionalArrayTy
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithOptionalArrayTypes.init
-        );
+        )
     }
 
     /**
@@ -335,7 +335,7 @@ public class EventWithOptionalArrayTypes : GenericEvent<EventWithOptionalArrayTy
             "optionalJSONArray": optionalJsonArray,
             "optionalNumberArray": optionalNumberArray,
             "optionalStringArray": optionalStringArray
-        ]);
+        ])
     }
 }
 
@@ -347,7 +347,7 @@ public class EventWithOptionalProperties : GenericEvent<EventWithOptionalPropert
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithOptionalProperties.init
-        );
+        )
     }
 
     /**
@@ -374,7 +374,7 @@ public class EventWithOptionalProperties : GenericEvent<EventWithOptionalPropert
             "optionalBoolean": optionalBoolean,
             "optionalNumber": optionalNumber,
             "optionalString": optionalString
-        ]);
+        ])
     }
 }
 
@@ -386,7 +386,7 @@ public class EventWithTemplateProperties : GenericEvent<EventWithTemplatePropert
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithTemplateProperties.init
-        );
+        )
     }
 
     /**
@@ -410,7 +410,7 @@ public class EventWithTemplateProperties : GenericEvent<EventWithTemplatePropert
             "optional_template_property": optionalTemplateProperty,
             "required_event_property": requiredEventProperty,
             "required_template_property": requiredTemplateProperty
-        ]);
+        ])
     }
 }
 
@@ -438,7 +438,7 @@ public class EventWithDifferentCasingTypes : GenericEvent<EventWithDifferentCasi
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventWithDifferentCasingTypes.init
-        );
+        )
     }
 
     /**
@@ -474,7 +474,7 @@ public class EventWithDifferentCasingTypes : GenericEvent<EventWithDifferentCasi
             "property_with_snake_case": propertyWithSnakeCase,
             "propertyWithCamelCase": propertyWithCamelCase,
             "PropertyWithPascalCase": propertyWithPascalCase
-        ]);
+        ])
     }
 }
 
@@ -486,7 +486,7 @@ public class EventMaxIntForTest : GenericEvent<EventMaxIntForTest> {
             eventProperties: eventProperties,
             options: options,
             eventFactory: EventMaxIntForTest.init
-        );
+        )
     }
 
     /**
@@ -501,7 +501,7 @@ public class EventMaxIntForTest : GenericEvent<EventMaxIntForTest> {
     ) {
         self.init([
             "intMax10": intMax10
-        ]);
+        ])
     }
 }
 
@@ -542,86 +542,94 @@ public struct EventOptions {
     public let userId: String?
 
     public init(deviceId: String? = nil, userId: String? = nil) {
-        self.deviceId = deviceId;
-        self.userId = userId;
+        self.deviceId = deviceId
+        self.userId = userId
     }
 }
 
 public class Ampli {
-    private var amplitude: Amplitude?;
+    private var amplitude: Amplitude?
     public var client: Amplitude {
         get {
-            _ = isInitializedAndEnabled();
-            return amplitude!;
+            _ = isInitializedAndEnabled()
+            return amplitude!
         }
     }
 
     public var isLoaded: Bool {
         get {
-            return self.amplitude != nil;
+            return self.amplitude != nil
         }
     }
 
-    public private(set) var disabled: Bool;
+    public private(set) var disabled: Bool
 
     public static let instance: Ampli = Ampli()
 
     public init() {
-        disabled = false;
+        disabled = false
+    }
+
+    private func isInitializedAndEnabled() -> Bool {
+        if !self.isLoaded {
+            NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?")
+            return false
+        }
+        return !self.disabled
     }
 
     // options should have 'environment', 'client.api_key' or 'client.instance'
     public func load(_ options: LoadOptions) -> Void {
-        self.disabled = options.disabled ?? false;
+        self.disabled = options.disabled ?? false
         if (self.isLoaded) {
-            NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.");
-            return;
+            NSLog("Warning: Ampli is already initialized. Ampli.instance.load() should be called once at application start up.")
+            return
         }
 
-        var apiKey: String?;
+        var apiKey: String?
 
         if (options.client?.apiKey != nil) {
-            apiKey = options.client?.apiKey;
+            apiKey = options.client?.apiKey
         } else if (options.environment != nil) {
-            apiKey = ApiKey[options.environment!];
+            apiKey = ApiKey[options.environment!]
         }
 
         if (options.client?.instance != nil) {
-            self.amplitude = options.client?.instance;
+            self.amplitude = options.client?.instance
         } else if (apiKey != nil) {
-            self.amplitude = Amplitude.instance();
+            self.amplitude = Amplitude.instance()
             self.amplitude?.initializeApiKey(apiKey!);
         } else {
-            NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'");
-            return;
+            NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
+            return
         }
 
-        self.amplitude?.setPlan(options.client?.config?.plan ?? AmpliObservePlan!);
+        self.amplitude?.setPlan(options.client?.config?.plan ?? AmpliObservePlan!)
 
         // set ingestionMetadata information
         let AmpliExtrasMiddleware = AMPBlockMiddleware { (payload, next) in
             let ingestionMetadata: NSMutableDictionary = [
                 "source_name": "ios-swift-ampli",
                 "source_version": "1.0.0"
-            ];
-            payload.event["ingestion_metadata"] = ingestionMetadata;
+            ]
+            payload.event["ingestion_metadata"] = ingestionMetadata
             // Continue to next middleware
-            next(payload);
+            next(payload)
         }
-        self.amplitude?.addEventMiddleware(AmpliExtrasMiddleware);
+        self.amplitude?.addEventMiddleware(AmpliExtrasMiddleware)
     }
 
     public func track(_ event: Event, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
         if (!isInitializedAndEnabled()) {
-            return;
+            return
         }
-        self.handleEventOptions(event.options, options);
-        amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary);
+        self.handleEventOptions(event.options, options)
+        amplitude?.logEvent(event.eventType, withEventProperties: event.eventProperties, withMiddlewareExtra: extra as? NSMutableDictionary)
     }
 
     public func identify(_ userId: String?, _ event: Identify, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
         if (!isInitializedAndEnabled()) {
-            return;
+            return
         }
         self.handleEventOptions(event.options, options, userId)
 
@@ -635,9 +643,9 @@ public class Ampli {
 
     public func flush() -> Void {
         if (!isInitializedAndEnabled()) {
-            return;
+            return
         }
-        amplitude?.uploadEvents();
+        amplitude?.uploadEvents()
     }
 
     /**
@@ -650,7 +658,7 @@ public class Ampli {
     Owner: Test codegen
     */
     public func eventNoProperties() {
-        self.track(EventNoProperties());
+        self.track(EventNoProperties())
     }
 
     /**
@@ -672,7 +680,7 @@ public class Ampli {
         self.track(EventObjectTypes(
             requiredObject: requiredObject,
             requiredObjectArray: requiredObjectArray
-        ));
+        ))
     }
 
     /**
@@ -709,7 +717,7 @@ public class Ampli {
             requiredNumber: requiredNumber,
             requiredString: requiredString,
             optionalString: optionalString
-        ));
+        ))
     }
 
     /**
@@ -740,7 +748,7 @@ public class Ampli {
             requiredNumberArray: requiredNumberArray,
             requiredObjectArray: requiredObjectArray,
             requiredStringArray: requiredStringArray
-        ));
+        ))
     }
 
     /**
@@ -753,7 +761,7 @@ public class Ampli {
     Owner: Test codegen
     */
     public func eventWithConstTypes() {
-        self.track(EventWithConstTypes());
+        self.track(EventWithConstTypes())
     }
 
     /**
@@ -775,7 +783,7 @@ public class Ampli {
         self.track(EventWithEnumTypes(
             requiredEnum: requiredEnum,
             optionalEnum: optionalEnum
-        ));
+        ))
     }
 
     /**
@@ -806,7 +814,7 @@ public class Ampli {
             optionalJsonArray: optionalJsonArray,
             optionalNumberArray: optionalNumberArray,
             optionalStringArray: optionalStringArray
-        ));
+        ))
     }
 
     /**
@@ -837,7 +845,7 @@ public class Ampli {
             optionalBoolean: optionalBoolean,
             optionalNumber: optionalNumber,
             optionalString: optionalString
-        ));
+        ))
     }
 
     /**
@@ -865,7 +873,7 @@ public class Ampli {
             requiredTemplateProperty: requiredTemplateProperty,
             optionalEventProperty: optionalEventProperty,
             optionalTemplateProperty: optionalTemplateProperty
-        ));
+        ))
     }
 
     /**
@@ -905,7 +913,7 @@ public class Ampli {
             propertyWithSnakeCase: propertyWithSnakeCase,
             propertyWithCamelCase: propertyWithCamelCase,
             propertyWithPascalCase: propertyWithPascalCase
-        ));
+        ))
     }
 
     /**
@@ -924,25 +932,18 @@ public class Ampli {
     ) {
         self.track(EventMaxIntForTest(
             intMax10: intMax10
-        ));
-    }
-    private func isInitializedAndEnabled() -> Bool {
-        if (!self.isLoaded) {
-            NSLog("Ampli is not yet initialized. Have you called `ampli.load()` on app start?");
-            return false;
-        }
-        return !self.disabled;
+        ))
     }
 
     private func handleEventOptions(_ options: EventOptions?, _ overrideOptions: EventOptions?, _ overrideUserId: String? = nil) {
-        let userId = overrideUserId ?? overrideOptions?.userId ?? options?.userId;
+        let userId = overrideUserId ?? overrideOptions?.userId ?? options?.userId
         if (userId != nil) {
-            amplitude?.setUserId(userId);
+            amplitude?.setUserId(userId)
         }
 
-        let deviceId = overrideOptions?.deviceId ?? options?.deviceId;
+        let deviceId = overrideOptions?.deviceId ?? options?.deviceId
         if (deviceId != nil) {
-            amplitude?.setDeviceId(deviceId!);
+            amplitude?.setDeviceId(deviceId!)
         }
     }
 }
