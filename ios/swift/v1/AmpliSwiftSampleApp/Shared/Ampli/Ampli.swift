@@ -598,7 +598,7 @@ public class Ampli {
             self.amplitude = options.client?.instance
         } else if (apiKey != nil) {
             self.amplitude = Amplitude.instance()
-            self.amplitude?.initializeApiKey(apiKey!);
+            self.amplitude?.initializeApiKey(apiKey!)
         } else {
             NSLog("ampli.load() requires 'environment', 'client.apiKey', or 'client.instance'")
             return

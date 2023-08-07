@@ -585,7 +585,7 @@ public class Ampli {
 
         if let instance = options.client?.instance {
             self.amplitude = instance
-        } else if let apiKey {
+        } else if let apiKey = apiKey {
             let configuration = options.client?.config?.configuration ?? Configuration(
                 apiKey: apiKey
             )
@@ -612,7 +612,7 @@ public class Ampli {
         amplitude?.track(eventType: event.eventType, eventProperties: event.eventProperties, options: eventOptions)
     }
 
-    public func identify(_ userId: String?, _ event: Identify, options: EventOptions? = nil, extra: MiddlewareExtra? = nil) -> Void {
+    public func identify(_ userId: String?, _ event: Identify, options: EventOptions? = nil) -> Void {
         if !isInitializedAndEnabled() {
             return
         }
@@ -916,13 +916,13 @@ public class Ampli {
 
     private func getEventOptions(_ options: EventOptions?, _ overrideOptions: EventOptions?, _ overrideUserId: String? = nil) -> EventOptions {
         let dummyEvent = BaseEvent(eventType: "dummy")
-        if let options {
+        if let options = options {
             dummyEvent.mergeEventOptions(eventOptions: options)
         }
-        if let overrideOptions {
+        if let overrideOptions = overrideOptions {
             dummyEvent.mergeEventOptions(eventOptions: overrideOptions)
         }
-        if let overrideUserId {
+        if let overrideUserId = overrideUserId {
             dummyEvent.userId = overrideUserId
         }
         return dummyEvent
