@@ -6,7 +6,7 @@
   "Runtime": "ios:swift-ampli-v2",
   "Platform": "iOS",
   "Language": "Swift",
-  "SDK": "Amplitude_Swift ~> TODO",
+  "SDK": "Amplitude-Swift ~> 1.0",
   "Branch": "main",
   "Version": "1.0.0",
   "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
