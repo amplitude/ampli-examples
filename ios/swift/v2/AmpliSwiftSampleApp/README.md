@@ -1,5 +1,5 @@
-# Ampli iOS SDK (Swift)
-An example app using the Ampli Swift SDK
+# Ampli iOS SDK 2.0 (Swift)
+An example app using the Ampli Swift SDK V2.
 
 # Usage
 
