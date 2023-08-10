@@ -571,7 +571,7 @@ public class Ampli {
 
         if let clientApiKey = options.client?.apiKey {
             apiKey = clientApiKey
-        else if let configApiKey = options.client?.config?.apiKey {
+        } else if let configApiKey = options.client?.config?.apiKey {
             apiKey = configApiKey
         } else if let environment = options.environment {
             apiKey = ApiKey[environment]
