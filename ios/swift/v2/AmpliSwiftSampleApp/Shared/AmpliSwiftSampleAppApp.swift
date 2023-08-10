@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Amplitude
+import AmplitudeSwift
 
 @main
 struct AmpliSwiftSampleAppApp: App {
@@ -19,50 +19,40 @@ struct AmpliSwiftSampleAppApp: App {
         //    This requires connecting your account via `ampli pull` which will set you API key in the generated Ampli SDK
         //
         //    OR Specify a AmpliEnvironment
-        //    ampli.load(LoadOptions(environment: AmpliEnvironment.development)
+        //    ampli.load(LoadOptions(environment: AmpliEnvironment.dev))
         //
         //    OR Provide a specific Amplitude API key
-        //    ampli.load(LoadOptions(client: LoadClientOptions(apiKey: "Custom api key"))
+        //    ampli.load(LoadOptions(client: LoadClientOptions(apiKey: "Custom api key")))
         //
         //    OR Use an existing Amplitude instance
-        //    requires "import Amplitude"
-        //    let instance = Amplitude.instance("instanceName");
-        //    instance.initializeApiKey("Custom api key");
+        //    requires "import AmplitudeSwift"
+        //    let instance = Amplitude(configuration: Configuration(apiKey: "Custom api key", instanceName: "instanceName"))
         //    ampli.load(LoadOptions(client: LoadClientOptions(instance: instance)))
         //
         //    For testing you can disable ampli
-        //    ampli.load(LoadOptions(disabled: ENV.IS_TESTING ? true: false))
+        //    ampli.load(LoadOptions(disabled: ProcessInfo.processInfo.environment["IS_TESTING"] == "true" ? true: false))
         //
         //    Make as many Ampli instances as you want
-        //    let ampli2 = new Ampli();
+        //    let ampli2 = Ampli()
         //    ampli2.load(LoadOptions(client: LoadClientOptions(apiKey: "api-key-2")))
 
-        let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"] ?? "test-api-key";
+        let apiKey = ProcessInfo.processInfo.environment["AMPLITUDE_API_KEY"] ?? "test-api-key"
         let ampli = Ampli.instance
-        let extraDict = ["test" : "extra test"];
 
         // Load
         ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)))
-
-        // Add Middleware
-        let loggingMiddleware = AMPBlockMiddleware { (payload, next) in
-            // Output event and extra from payload
-            print(String(format:"[ampli] event=\(payload.event) payload=\(String(describing: payload.extra))"))
-            // Continue to next middleware
-            next(payload);
-        }
-        ampli.client.addEventMiddleware(loggingMiddleware)
+        
+        ampli.client.add(plugin: LoggingPlugin())
 
         // Identify
         ampli.identify("ampli-swift-user", Identify(requiredNumber: 22.0, optionalArray: ["optional string"]))
 
         // Set group
-        ampli.client.setGroup("ampli group type", groupName: "ampli swift group" as NSObject)
+        ampli.client.setGroup(groupType: "ampli group type", groupName: "ampli swift group")
 
         // GroupIdentify
-        let identifyArgs = AMPIdentify()
-        identifyArgs.set("requiredBoolean", value: true as NSObject)
-        ampli.client.groupIdentify(withGroupType: "ampli group type", groupName: "ampli swift group" as NSObject, groupIdentify: identifyArgs)
+        let groupProperties = ["requiredBoolean": true]
+        ampli.client.groupIdentify(groupType: "ampli group type", groupName: "ampli swift group", groupProperties: groupProperties)
 
         // Track events with dedicated event methods
         ampli.eventNoProperties()
@@ -79,7 +69,7 @@ struct AmpliSwiftSampleAppApp: App {
             requiredString: "required string",
             optionalString: nil
         )
-        ampli.track(eventWithAllProperties, extra: extraDict)
+        ampli.track(eventWithAllProperties)
 
         ampli.eventObjectTypes(
             requiredObject: 3,
@@ -115,7 +105,7 @@ struct AmpliSwiftSampleAppApp: App {
             optionalEventProperty: 1.23
         )
 
-        ampli.client.uploadEvents();
+        ampli.flush()
 
         return WindowGroup {
             ContentView()
