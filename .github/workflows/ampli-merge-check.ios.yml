@@ -19,8 +19,12 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: (iOS Swift) Check the Data branch is merged before merging the Git branch
-        working-directory: ./ios/swift/AmpliSwiftSampleApp
+      - name: (iOS Swift V1) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/swift/v1/AmpliSwiftSampleApp
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (iOS Swift V2) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/swift/v2/AmpliSwiftSampleApp
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
 
       - name: (iOS Objective-C) Check the Data branch is merged before merging the Git branch
