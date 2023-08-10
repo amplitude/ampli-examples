@@ -510,7 +510,7 @@ public struct LoadClientOptions {
     public let config: Configuration?
 
     public init(apiKey: String? = nil, instance: Amplitude? = nil, config: Configuration? = nil) {
-        self.apiKey = apiKey ?? config?.apiKey
+        self.apiKey = apiKey
         self.instance = instance
         self.config = config
     }
@@ -571,6 +571,8 @@ public class Ampli {
 
         if let clientApiKey = options.client?.apiKey {
             apiKey = clientApiKey
+        else if let configApiKey = options.client?.config?.apiKey {
+            apiKey = configApiKey
         } else if let environment = options.environment {
             apiKey = ApiKey[environment]
         }
