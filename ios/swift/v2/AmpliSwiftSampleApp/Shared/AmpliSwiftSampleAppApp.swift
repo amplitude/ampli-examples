@@ -41,7 +41,7 @@ struct AmpliSwiftSampleAppApp: App {
 
         // Load
         ampli.load(LoadOptions(client: LoadClientOptions(apiKey: apiKey)))
-        
+
         ampli.client.add(plugin: LoggingPlugin())
 
         // Identify

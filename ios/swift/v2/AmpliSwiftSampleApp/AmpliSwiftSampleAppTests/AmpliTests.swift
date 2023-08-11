@@ -135,10 +135,9 @@ class AmpliTests: XCTestCase {
         let event = eventCollector.events[0]
         XCTAssertEqual(event.eventType, "$identify")
         XCTAssertTrue(isEmptyDictionary(event.eventProperties))
-        // TODO: uncomment after Amplitude-Swift update.
-        // let userProperties = event.userProperties
-        // let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
-        // XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
+         let userProperties = event.userProperties
+         let userPropertiesSet = userProperties!["$set"] as? Dictionary<String, Any>
+         XCTAssertEqual(userPropertiesSet![groupType] as! String, groupName)
     }
 
     func testGroupIdentify() throws {
