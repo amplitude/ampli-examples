@@ -909,16 +909,16 @@ public class Ampli {
     }
 
     private func getEventOptions(_ options: EventOptions?, _ overrideOptions: EventOptions?, _ overrideUserId: String? = nil) -> EventOptions {
-        let dummyEvent = BaseEvent(eventType: "dummy")
+        let eventOptions = EventOptions()
         if let options = options {
-            dummyEvent.mergeEventOptions(eventOptions: options)
+            eventOptions.mergeEventOptions(eventOptions: options)
         }
         if let overrideOptions = overrideOptions {
-            dummyEvent.mergeEventOptions(eventOptions: overrideOptions)
+            eventOptions.mergeEventOptions(eventOptions: overrideOptions)
         }
         if let overrideUserId = overrideUserId {
-            dummyEvent.userId = overrideUserId
+            eventOptions.userId = overrideUserId
         }
-        return dummyEvent
+        return eventOptions
     }
 }
