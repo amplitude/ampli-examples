@@ -22,10 +22,8 @@
 		3ECE2C47273F7B6C004EAA2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECE2C30273F7B6C004EAA2C /* Assets.xcassets */; };
 		3ECE2C532743332C004EAA2C /* Ampli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECE2C512743332C004EAA2C /* Ampli.swift */; };
 		3ECE2C542743332C004EAA2C /* Ampli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECE2C512743332C004EAA2C /* Ampli.swift */; };
-		82EA982A8CF090351192BDC5 /* libPods-AmpliSwiftSampleApp (iOS).a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DA67EDD533A140301A0ED6F /* libPods-AmpliSwiftSampleApp (iOS).a */; };
 		BA4436A82A84CCE4002F1115 /* LoggingPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4436A72A84CCE4002F1115 /* LoggingPlugin.swift */; };
-		DF74438E59F388DE0D5312C3 /* libPods-AmpliSwiftSampleAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF67013EA39835ADF064D05 /* libPods-AmpliSwiftSampleAppTests.a */; };
-		F8D20984CBA9F9E8B7274DBB /* libPods-AmpliSwiftSampleApp (macOS).a in Frameworks */ = {isa = PBXBuildFile; fileRef = D320B081553D038DE2C3451F /* libPods-AmpliSwiftSampleApp (macOS).a */; };
+		BA581AA22A8DF46300079EFE /* AmplitudeSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BA581AA12A8DF46300079EFE /* AmplitudeSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1034F176E7CCBA34DE4EB867 /* Pods-AmpliSwiftSampleAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleAppTests.debug.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleAppTests/Pods-AmpliSwiftSampleAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		2EE7856BA77896084D17D495 /* Pods-AmpliSwiftSampleApp (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleApp (iOS).release.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleApp (iOS)/Pods-AmpliSwiftSampleApp (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		3E3B5FA6275803D3003D95E1 /* AmpliSwiftSampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AmpliSwiftSampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E3B5FAF2758045C003D95E1 /* AmpliTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmpliTests.swift; sourceTree = "<group>"; };
 		3E3B5FB127583BC9003D95E1 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
@@ -53,14 +49,7 @@
 		3ECE2C3B273F7B6C004EAA2C /* AmpliSwiftSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AmpliSwiftSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECE2C3D273F7B6C004EAA2C /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		3ECE2C512743332C004EAA2C /* Ampli.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ampli.swift; sourceTree = "<group>"; };
-		4874785F85542D07984AFD54 /* Pods-AmpliSwiftSampleAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleAppTests.release.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleAppTests/Pods-AmpliSwiftSampleAppTests.release.xcconfig"; sourceTree = "<group>"; };
-		9DA67EDD533A140301A0ED6F /* libPods-AmpliSwiftSampleApp (iOS).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmpliSwiftSampleApp (iOS).a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA54015EF375CC8893FEC6CC /* Pods-AmpliSwiftSampleApp (macOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleApp (macOS).release.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleApp (macOS)/Pods-AmpliSwiftSampleApp (macOS).release.xcconfig"; sourceTree = "<group>"; };
 		BA4436A72A84CCE4002F1115 /* LoggingPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingPlugin.swift; sourceTree = "<group>"; };
-		D0BAADDDB89B39695FCD3EDF /* Pods-AmpliSwiftSampleApp (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleApp (macOS).debug.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleApp (macOS)/Pods-AmpliSwiftSampleApp (macOS).debug.xcconfig"; sourceTree = "<group>"; };
-		D320B081553D038DE2C3451F /* libPods-AmpliSwiftSampleApp (macOS).a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmpliSwiftSampleApp (macOS).a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC778F7F39B4D2F8F3596B35 /* Pods-AmpliSwiftSampleApp (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AmpliSwiftSampleApp (iOS).debug.xcconfig"; path = "Target Support Files/Pods-AmpliSwiftSampleApp (iOS)/Pods-AmpliSwiftSampleApp (iOS).debug.xcconfig"; sourceTree = "<group>"; };
-		FCF67013EA39835ADF064D05 /* libPods-AmpliSwiftSampleAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AmpliSwiftSampleAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +57,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF74438E59F388DE0D5312C3 /* libPods-AmpliSwiftSampleAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82EA982A8CF090351192BDC5 /* libPods-AmpliSwiftSampleApp (iOS).a in Frameworks */,
+				BA581AA22A8DF46300079EFE /* AmplitudeSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +72,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8D20984CBA9F9E8B7274DBB /* libPods-AmpliSwiftSampleApp (macOS).a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +94,6 @@
 				3E3B5FA7275803D3003D95E1 /* AmpliSwiftSampleAppTests */,
 				3ECE2C36273F7B6C004EAA2C /* Products */,
 				B8E184F982BAB6A9F0F2440E /* Pods */,
-				F0B610FBE681A3D6E6570E2C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,12 +141,6 @@
 		B8E184F982BAB6A9F0F2440E /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FC778F7F39B4D2F8F3596B35 /* Pods-AmpliSwiftSampleApp (iOS).debug.xcconfig */,
-				2EE7856BA77896084D17D495 /* Pods-AmpliSwiftSampleApp (iOS).release.xcconfig */,
-				D0BAADDDB89B39695FCD3EDF /* Pods-AmpliSwiftSampleApp (macOS).debug.xcconfig */,
-				AA54015EF375CC8893FEC6CC /* Pods-AmpliSwiftSampleApp (macOS).release.xcconfig */,
-				1034F176E7CCBA34DE4EB867 /* Pods-AmpliSwiftSampleAppTests.debug.xcconfig */,
-				4874785F85542D07984AFD54 /* Pods-AmpliSwiftSampleAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -173,16 +153,6 @@
 			path = Plugins;
 			sourceTree = "<group>";
 		};
-		F0B610FBE681A3D6E6570E2C /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9DA67EDD533A140301A0ED6F /* libPods-AmpliSwiftSampleApp (iOS).a */,
-				D320B081553D038DE2C3451F /* libPods-AmpliSwiftSampleApp (macOS).a */,
-				FCF67013EA39835ADF064D05 /* libPods-AmpliSwiftSampleAppTests.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -190,7 +160,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3E3B5FAE275803D3003D95E1 /* Build configuration list for PBXNativeTarget "AmpliSwiftSampleAppTests" */;
 			buildPhases = (
-				5AAE05862366F33457B6CB7A /* [CP] Check Pods Manifest.lock */,
 				3E3B5FA2275803D3003D95E1 /* Sources */,
 				3E3B5FA3275803D3003D95E1 /* Frameworks */,
 				3E3B5FA4275803D3003D95E1 /* Resources */,
@@ -209,7 +178,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ECE2C4A273F7B6C004EAA2C /* Build configuration list for PBXNativeTarget "AmpliSwiftSampleApp (iOS)" */;
 			buildPhases = (
-				47870903BBE4154AF2CAF117 /* [CP] Check Pods Manifest.lock */,
 				3ECE2C31273F7B6C004EAA2C /* Sources */,
 				3ECE2C32273F7B6C004EAA2C /* Frameworks */,
 				3ECE2C33273F7B6C004EAA2C /* Resources */,
@@ -219,6 +187,9 @@
 			dependencies = (
 			);
 			name = "AmpliSwiftSampleApp (iOS)";
+			packageProductDependencies = (
+				BA581AA12A8DF46300079EFE /* AmplitudeSwift */,
+			);
 			productName = "AmpliSwiftSampleApp (iOS)";
 			productReference = 3ECE2C35273F7B6C004EAA2C /* AmpliSwiftSampleApp.app */;
 			productType = "com.apple.product-type.application";
@@ -227,7 +198,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3ECE2C4D273F7B6C004EAA2C /* Build configuration list for PBXNativeTarget "AmpliSwiftSampleApp (macOS)" */;
 			buildPhases = (
-				D3903C8E82AE1D3F9503D24A /* [CP] Check Pods Manifest.lock */,
 				3ECE2C37273F7B6C004EAA2C /* Sources */,
 				3ECE2C38273F7B6C004EAA2C /* Frameworks */,
 				3ECE2C39273F7B6C004EAA2C /* Resources */,
@@ -272,6 +242,9 @@
 				Base,
 			);
 			mainGroup = 3ECE2C25273F7B65004EAA2C;
+			packageReferences = (
+				BA581AA02A8DF46200079EFE /* XCRemoteSwiftPackageReference "Amplitude-Swift" */,
+			);
 			productRefGroup = 3ECE2C36273F7B6C004EAA2C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -308,75 +281,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		47870903BBE4154AF2CAF117 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmpliSwiftSampleApp (iOS)-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5AAE05862366F33457B6CB7A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmpliSwiftSampleAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D3903C8E82AE1D3F9503D24A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AmpliSwiftSampleApp (macOS)-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3E3B5FA2275803D3003D95E1 /* Sources */ = {
@@ -427,7 +331,6 @@
 /* Begin XCBuildConfiguration section */
 		3E3B5FAC275803D3003D95E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1034F176E7CCBA34DE4EB867 /* Pods-AmpliSwiftSampleAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -452,7 +355,6 @@
 		};
 		3E3B5FAD275803D3003D95E1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4874785F85542D07984AFD54 /* Pods-AmpliSwiftSampleAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -589,7 +491,6 @@
 		};
 		3ECE2C4B273F7B6C004EAA2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC778F7F39B4D2F8F3596B35 /* Pods-AmpliSwiftSampleApp (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -619,7 +520,6 @@
 		};
 		3ECE2C4C273F7B6C004EAA2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2EE7856BA77896084D17D495 /* Pods-AmpliSwiftSampleApp (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -650,7 +550,6 @@
 		};
 		3ECE2C4E273F7B6C004EAA2C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D0BAADDDB89B39695FCD3EDF /* Pods-AmpliSwiftSampleApp (macOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -678,7 +577,6 @@
 		};
 		3ECE2C4F273F7B6C004EAA2C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AA54015EF375CC8893FEC6CC /* Pods-AmpliSwiftSampleApp (macOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -744,6 +642,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BA581AA02A8DF46200079EFE /* XCRemoteSwiftPackageReference "Amplitude-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.13;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BA581AA12A8DF46300079EFE /* AmplitudeSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA581AA02A8DF46200079EFE /* XCRemoteSwiftPackageReference "Amplitude-Swift" */;
+			productName = AmplitudeSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		3ECE2C2B273F7B65004EAA2C /* AmpliSwiftSampleApp.xcdatamodeld */ = {
