@@ -1,22 +1,15 @@
 import Foundation
 import AmplitudeSwift
 
-class LoggingPlugin: Plugin {
-    let type: PluginType
-    var amplitude: Amplitude?
+class LoggingPlugin: BeforePlugin {
     let jsonEncoder: JSONEncoder
 
-    init() {
-        self.type = .before
+    override init() {
         self.jsonEncoder = JSONEncoder()
         self.jsonEncoder.outputFormatting = [.prettyPrinted]
     }
 
-    func setup(amplitude: Amplitude) {
-        self.amplitude = amplitude
-    }
-
-    func execute(event: BaseEvent?) -> BaseEvent? {
+    public override func execute(event: BaseEvent) -> BaseEvent? {
         let jsonData = try? jsonEncoder.encode(event)
         let json = jsonData != nil ? String(data: jsonData!, encoding: String.Encoding.utf8) : ""
         print(String(format:"[ampli] event=\(json ?? "")"))

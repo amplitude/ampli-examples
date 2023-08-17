@@ -1,6 +1,6 @@
 def import_pods
 
-pod 'AmplitudeSwift', "~> 0.4.11"
+pod 'AmplitudeSwift', "~> 0.4.14"
 
 end
 

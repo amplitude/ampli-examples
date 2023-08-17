@@ -115,7 +115,7 @@ class AmpliTests: XCTestCase {
         XCTAssertEqual(eventProperties!["requiredInteger"] as! Int, 10)
         XCTAssertEqual(eventProperties!["requiredNumber"] as! Double, 2.0)
         XCTAssertEqual(eventProperties!["requiredString"] as! String, "required string")
-        XCTAssertNil(eventProperties!["optionalString"])
+        XCTAssertFalse(eventProperties!.keys.contains("optionalString"))
         XCTAssertEqual(event.userId, userId)
         XCTAssertEqual(event.deviceId, deviceId)
     }
@@ -195,21 +195,11 @@ class AmpliTests: XCTestCase {
     }
 }
 
-class EventCollectorPlugin: Plugin {
-    var type: PluginType
-    var amplitude: Amplitude?
+class EventCollectorPlugin: DestinationPlugin {
     var events: [BaseEvent] = Array()
 
-    init() {
-        self.type = .destination
-    }
-
-    func setup(amplitude: Amplitude) {
-        self.amplitude = amplitude
-    }
-
-    func execute(event: BaseEvent?) -> BaseEvent? {
-        events.append(event!)
+    override func execute(event: BaseEvent) -> BaseEvent? {
+        events.append(event)
         return event
     }
 }

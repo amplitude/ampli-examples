@@ -72,8 +72,8 @@ struct AmpliSwiftSampleAppApp: App {
         ampli.track(eventWithAllProperties)
 
         ampli.eventObjectTypes(
-            requiredObject: 3,
-            requiredObjectArray: [1, true, "string"]
+            requiredObject: ["prop1": 3, "prop2": "abc"],
+            requiredObjectArray: [1, true, "string", ["prop1": 23, "prop2": "xyz"]]
         )
 
         ampli.eventWithEnumTypes(
