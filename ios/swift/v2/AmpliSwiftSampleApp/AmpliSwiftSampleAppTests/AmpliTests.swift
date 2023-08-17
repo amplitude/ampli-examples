@@ -15,7 +15,7 @@ class AmpliTests: XCTestCase {
     }
     
     func initAmpliWithNewInstance(_ instanceName: String) {
-        ampli.load(LoadOptions(client: LoadClientOptions(config: Configuration(
+        ampli.load(LoadOptions(client: LoadClientOptions(configuration: Configuration(
             apiKey: "test-api-key",
             instanceName: instanceName,
             trackingSessionEvents: false,

@@ -507,12 +507,12 @@ public class EventMaxIntForTest : GenericEvent<EventMaxIntForTest> {
 public struct LoadClientOptions {
     public let apiKey: String?
     public let instance: Amplitude?
-    public let config: Configuration?
+    public let configuration: Configuration?
 
-    public init(apiKey: String? = nil, instance: Amplitude? = nil, config: Configuration? = nil) {
+    public init(apiKey: String? = nil, instance: Amplitude? = nil, configuration: Configuration? = nil) {
         self.apiKey = apiKey
         self.instance = instance
-        self.config = config
+        self.configuration = configuration
     }
 }
 
@@ -571,8 +571,8 @@ public class Ampli {
 
         if let clientApiKey = options.client?.apiKey {
             apiKey = clientApiKey
-        } else if let configApiKey = options.client?.config?.apiKey {
-            apiKey = configApiKey
+        } else if let configurationApiKey = options.client?.configuration?.apiKey {
+            apiKey = configurationApiKey
         } else if let environment = options.environment {
             apiKey = ApiKey[environment]
         }
@@ -580,7 +580,7 @@ public class Ampli {
         if let instance = options.client?.instance {
             self.amplitude = instance
         } else if let apiKey = apiKey {
-            let configuration = options.client?.config ?? Configuration(
+            let configuration = options.client?.configuration ?? Configuration(
                 apiKey: apiKey
             )
             if configuration.plan == nil {
