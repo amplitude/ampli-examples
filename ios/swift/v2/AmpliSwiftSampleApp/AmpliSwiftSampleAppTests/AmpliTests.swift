@@ -195,20 +195,10 @@ class AmpliTests: XCTestCase {
     }
 }
 
-class EventCollectorPlugin: Plugin {
-    var type: PluginType
-    var amplitude: Amplitude?
+class EventCollectorPlugin: DestinationPlugin {
     var events: [BaseEvent] = Array()
 
-    init() {
-        self.type = .destination
-    }
-
-    func setup(amplitude: Amplitude) {
-        self.amplitude = amplitude
-    }
-
-    func execute(event: BaseEvent) -> BaseEvent? {
+    public override func execute(event: BaseEvent) -> BaseEvent? {
         events.append(event)
         return event
     }

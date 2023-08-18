@@ -25,7 +25,7 @@ If you want to use your own tracking plan and Ampli SDK
 * README.md - you are here *
 * Shared/ 
   * [AmpliSwiftSampleAppApp](Shared/AmpliSwiftSampleAppApp.swift) - Example user app using Ampli SDK. A good place to start.
-  * [TextView](Shared/TextView.swift) - Example user app using Ampli SDK. A good place to start.
-  * [ContentView](Shared/ContentView.swift) - Example user app using Ampli SDK. A good place to start.
+  * [TextView](Shared/TextView.swift) - Ampli SDK usage in a TextView.
+  * [ContentView](Shared/ContentView.swift) - Ampli SDK usage in a ContentView.
   * Ampli/
     * [Ampli.swift](Shared/Ampli/Ampli.swift) - Generated SDK, don't modify by hand. Update with `ampli pull`

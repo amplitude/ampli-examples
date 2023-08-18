@@ -20,7 +20,7 @@ jobs:
         run: |
           sudo xcode-select -switch /Applications/Xcode_14.2.app
 
-      - name: Swfit iOS Tests
+      - name: Swift iOS Tests
         working-directory: ./ios/swift/v2/AmpliSwiftSampleApp
         run: |
           xcodebuild test \

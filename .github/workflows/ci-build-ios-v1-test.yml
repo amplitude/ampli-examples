@@ -44,7 +44,7 @@ jobs:
           bundle install
           pod install
 
-      - name: Swfit iOS Tests
+      - name: Swift iOS Tests
         working-directory: ./ios/swift/v1/AmpliSwiftSampleApp
         run: |
           pod install

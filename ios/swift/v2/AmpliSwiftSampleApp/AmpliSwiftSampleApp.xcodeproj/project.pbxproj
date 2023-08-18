@@ -649,7 +649,7 @@
 			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.13;
+				minimumVersion = 0.4.14;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
