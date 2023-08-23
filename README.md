@@ -17,7 +17,7 @@ See subproject README's for details on each platform.
 
 ## iOS V1
 ####  [ios/swift](ios/swift/v1/AmpliSwiftSampleApp)
-####  [ios/objective-c](ios/objective-c/AmpliObjectiveCSampleApp)
+####  [ios/objective-c](ios/objective-c/v1/AmpliObjectiveCSampleApp)
 
 ## iOS V2
 ####  [ios/swift](ios/swift/v2/AmpliSwiftSampleApp)
