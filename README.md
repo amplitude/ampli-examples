@@ -15,9 +15,12 @@ See subproject README's for details on each platform.
 #### [node/typescript](node/typescript)
 #### [nextjs/typescript](node/nextjs/ampli-app)
 
-## iOS
-####  [ios/swift](ios/swift/AmpliSwiftSampleApp)
-####  [ios/objective-c](ios/objective-c/AmpliObjectiveCSampleApp)
+## iOS V1
+####  [ios/swift](ios/swift/v1/AmpliSwiftSampleApp)
+####  [ios/objective-c](ios/objective-c/v1/AmpliObjectiveCSampleApp)
+
+## iOS V2
+####  [ios/swift](ios/swift/v2/AmpliSwiftSampleApp)
 
 ## Android V1
 #### [android/kotlin](android/kotlin/v1/AmpliApp)

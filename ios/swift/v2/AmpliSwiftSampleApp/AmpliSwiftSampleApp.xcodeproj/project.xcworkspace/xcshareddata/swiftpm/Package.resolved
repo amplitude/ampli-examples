@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "amplitude-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/amplitude/Amplitude-Swift",
+      "state" : {
+        "revision" : "8293ca0b09aac19b7c87f51ad0386590a066e71f",
+        "version" : "0.4.14"
+      }
+    }
+  ],
+  "version" : 2
+}

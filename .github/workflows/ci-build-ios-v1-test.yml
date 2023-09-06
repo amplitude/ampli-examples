@@ -1,10 +1,10 @@
-name: CI - iOS Tests
+name: CI - iOS V1 Tests
 
 on:
   pull_request:
     paths:
-      - 'ios/objective-c/**'
-      - 'ios/swift/**'
+      - 'ios/objective-c/v1/**'
+      - 'ios/swift/v1/**'
 
 jobs:
   test:
@@ -31,12 +31,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ./ios/swift/AmpliSwiftSampleApp/Pods
-            ./ios/swift/AmpliSwiftSampleApp/vendor/bundle
+            ./ios/swift/v1/AmpliSwiftSampleApp/Pods
+            ./ios/swift/v1/AmpliSwiftSampleApp/vendor/bundle
           key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
 
       - name: Install Cocoapods For Swift
-        working-directory: ./ios/swift/AmpliSwiftSampleApp
+        working-directory: ./ios/swift/v1/AmpliSwiftSampleApp
         if: steps.cache-gems-pods.outputs.cache-hit != 'true'
         run: |
           gem install bundler
@@ -44,8 +44,8 @@ jobs:
           bundle install
           pod install
 
-      - name: Swfit iOS Tests
-        working-directory: ./ios/swift/AmpliSwiftSampleApp
+      - name: Swift iOS Tests
+        working-directory: ./ios/swift/v1/AmpliSwiftSampleApp
         run: |
           pod install
           xcodebuild test \
@@ -59,12 +59,12 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ./ios/objective-c/AmpliObjectiveCSampleApp/Pods
-            ./ios/objective-c/AmpliObjectiveCSampleApp/vendor/bundle
+            ./ios/objective-c/v1/AmpliObjectiveCSampleApp/Pods
+            ./ios/objective-c/v1/AmpliObjectiveCSampleApp/vendor/bundle
           key: ${{ runner.os }}-ruby-${{ matrix.ruby-version }}-gems-${{ hashFiles('**/Gemfile.lock') }}-pods-${{ hashFiles('**/Podfile.lock') }}
 
       - name: Install Cocoapods For Objective-C
-        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        working-directory: ./ios/objective-c/v1/AmpliObjectiveCSampleApp
         if: steps.cache-gems-objc-pods.outputs.cache-hit != 'true'
         run: |
           gem install bundler
@@ -73,7 +73,7 @@ jobs:
           pod install
 
       - name: Objective-C iOS Tests
-        working-directory: ./ios/objective-c/AmpliObjectiveCSampleApp
+        working-directory: ./ios/objective-c/v1/AmpliObjectiveCSampleApp
         run: |
           pod install
           xcodebuild test \
