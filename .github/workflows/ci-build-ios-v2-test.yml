@@ -3,6 +3,7 @@ name: CI - iOS V2 Tests
 on:
   pull_request:
     paths:
+      - 'ios/objective-c/v2/**'
       - 'ios/swift/v2/**'
 
 jobs:
@@ -26,5 +27,14 @@ jobs:
           xcodebuild test \
             -project AmpliSwiftSampleApp.xcodeproj \
             -scheme AmpliSwiftSampleAppTests \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2'
+
+      - name: Objective-C iOS Tests
+        working-directory: ./ios/objective-c/v2/AmpliObjectiveCSampleApp
+        run: |
+          xcodebuild test \
+            -project AmpliObjectiveCSampleApp.xcodeproj \
+            -scheme AmpliObjectiveCSampleApp \
             -sdk iphonesimulator \
             -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2'

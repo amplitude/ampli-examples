@@ -18,7 +18,7 @@ class AmpliTests: XCTestCase {
         ampli.load(LoadOptions(client: LoadClientOptions(configuration: Configuration(
             apiKey: "test-api-key",
             instanceName: instanceName,
-            trackingSessionEvents: false,
+            defaultTracking: DefaultTrackingOptions.NONE,
             migrateLegacyData: false
         ))))
     }

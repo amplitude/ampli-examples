@@ -27,6 +27,10 @@ jobs:
         working-directory: ./ios/swift/v2/AmpliSwiftSampleApp
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
 
-      - name: (iOS Objective-C) Check the Data branch is merged before merging the Git branch
+      - name: (iOS Objective-C V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./ios/objective-c/v1/AmpliObjectiveCSampleApp
+        run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
+
+      - name: (iOS Objective-C V2) Check the Data branch is merged before merging the Git branch
+        working-directory: ./ios/objective-c/v2/AmpliObjectiveCSampleApp
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
