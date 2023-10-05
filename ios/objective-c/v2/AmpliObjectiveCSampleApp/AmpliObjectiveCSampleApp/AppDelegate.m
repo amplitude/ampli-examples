@@ -68,7 +68,7 @@
     }]];
 
     // Identify
-    [ampli identify:@"ampli-objc-user" event:[Identify requiredNumber: 1.23F builderBlock:^(IdentifyBuilder *b) {
+    [ampli identify:@"ampli-objc-user" identify:[Identify requiredNumber: 1.23F builderBlock:^(IdentifyBuilder *b) {
         b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
     }]];
 
@@ -82,12 +82,12 @@
     [ampli.client groupIdentify:@"ampli group type" groupName:@"ampli objective-c group" identify:identifyArgs];
 
     // Track events with dedicated event methods
-    [ampli eventNoProperties];
+    [ampli track:[EventNoProperties build]];
 
-    [ampli eventMaxIntForTest:[EventMaxIntForTest intMax10: 5]];
+    [ampli track:[EventMaxIntForTest intMax10: 5]];
     [ampli track:[EventMaxIntForTest intMax10: 20]];
 
-    [ampli eventWithConstTypes];
+    [ampli track:[EventWithConstTypes build]];
 
     [ampli track:[EventWithAllProperties requiredArray:@[@"I'm required"]
                                          requiredBoolean:true
@@ -99,7 +99,7 @@
                                              b.optionalString = @"I'm optional";
     }]];
 
-    [ampli eventWithAllProperties:[EventWithAllProperties requiredArray:@[@"I'm required"]
+    [ampli track:[EventWithAllProperties requiredArray:@[@"I'm required"]
                                          requiredBoolean:true
                                          requiredEnum:EventWithAllPropertiesRequiredEnumEnum2
                                          requiredInteger:1
@@ -111,28 +111,28 @@
 
     NSDictionary *obj = @{ @"key" : @true, @"key2" : @42 };
 
-    [ampli eventObjectTypes:[EventObjectTypes requiredObject:obj
+    [ampli track:[EventObjectTypes requiredObject:obj
                                           requiredObjectArray:@[obj]
     ]];
 
-    [ampli eventWithArrayTypes:[EventWithArrayTypes requiredBooleanArray:@[@true]
+    [ampli track:[EventWithArrayTypes requiredBooleanArray:@[@true]
                                           requiredEnumArray:@[@"Enum1"]
                                           requiredNumberArray:@[@1.0]
                                           requiredObjectArray:@[obj]
                                           requiredStringArray:@[@"required"]
     ]];
 
-    [ampli eventWithEnumTypes:[EventWithEnumTypes requiredEnum:EventWithEnumTypesRequiredEnumRequiredEnum2]];
+    [ampli track:[EventWithEnumTypes requiredEnum:EventWithEnumTypesRequiredEnumRequiredEnum2]];
 
-    [ampli eventWithOptionalArrayTypes:[EventWithOptionalArrayTypes new]];
+    [ampli track:[EventWithOptionalArrayTypes build]];
 
-    [ampli eventWithOptionalProperties:[EventWithOptionalProperties new]];
+    [ampli track:[EventWithOptionalProperties build]];
 
-    [ampli eventWithTemplateProperties:[EventWithTemplateProperties requiredEventProperty:@"event property"
+    [ampli track:[EventWithTemplateProperties requiredEventProperty:@"event property"
                                           requiredTemplateProperty:@"template property"
     ]];
 
-    [ampli eventWithDifferentCasingTypes:[EventWithDifferentCasingTypes enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
+    [ampli track:[EventWithDifferentCasingTypes enumWithSpace:EventWithDifferentCasingTypesEnumWithSpaceEnumWithSpace
                                           enumSnakeCase:EventWithDifferentCasingTypesEnumSnakeCaseEnumSnakeCase
                                           enumCamelCase:EventWithDifferentCasingTypesEnumCamelCaseEnumCamelCase
                                           enumPascalCase:EventWithDifferentCasingTypesEnumPascalCaseEnumPascalCase

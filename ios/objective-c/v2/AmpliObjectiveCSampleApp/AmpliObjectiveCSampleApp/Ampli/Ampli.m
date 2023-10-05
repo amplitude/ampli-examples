@@ -18,22 +18,7 @@
 @import AmplitudeSwift;
 #import "Ampli.h"
 
-@implementation Event: NSObject
-
-- (instancetype)initWithEventType: (NSString *) eventType eventProperties: (NSDictionary *) eventProperties {
-    _eventType = eventType;
-    _eventProperties = [self removeNullValues:eventProperties];
-    return self;
-}
-
-- (instancetype)initWithEventType: (NSString *) eventType eventProperties: (NSDictionary *) eventProperties options:(AMPEventOptions*)options {
-    _eventType = eventType;
-    _eventProperties = [self removeNullValues:eventProperties];
-    _options = options;
-    return self;
-}
-
-- (NSDictionary *)removeNullValues:(NSDictionary *)dict {
+NSDictionary* removeNullValues(NSDictionary* dict) {
     if (dict == nil) {
         return nil;
     }
@@ -42,8 +27,6 @@
     [copy removeObjectsForKeys:keysForNullValues];
     return copy;
 }
-
-@end
 
 #pragma mark - IdentifyBuilder
 
@@ -58,58 +41,49 @@
 
 #pragma mark - Identify
 
-@implementation Identify: Event
+@implementation Identify
 
-+ (instancetype)requiredNumber:(Float64)requiredNumber {
++ (AMPIdentify*)requiredNumber:(Float64)requiredNumber {
     return [self requiredNumber: requiredNumber
                 builderBlock:^(IdentifyBuilder * b) {}];
 }
-+ (instancetype)requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock {
++ (AMPIdentify*)requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock {
     IdentifyBuilder *options = [IdentifyBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithRequiredNumber_Identify: requiredNumber
-                optionalArray: options.optionalArray];
+    
+    NSDictionary* userProperties = removeNullValues(@{
+        @"optionalArray": options.optionalArray ?: NSNull.null,
+        @"requiredNumber": @(requiredNumber)
+    });
+    
+    AMPIdentify* identify = [AMPIdentify new];
+    for (NSString* property in userProperties) {
+        [identify set:property value:[userProperties objectForKey:property]];
+    }
+    return identify;
 }
 
-- (instancetype)initWithRequiredNumber_Identify:(Float64)requiredNumber
-optionalArray:(NSArray<NSString *> * _Nullable)optionalArray {
-    self = [super initWithEventType:@"$identify"
-                    eventProperties:@{
-                        @"optionalArray": optionalArray ?: NSNull.null,
-                        @"requiredNumber": @(requiredNumber)
-                    }];
-    return self;
-}
 @end
 
 #pragma mark - EventNoProperties
 
-@implementation EventNoProperties: Event
-- (instancetype)init {
-    self = [super initWithEventType:@"Event No Properties"
-                    eventProperties:@{}];
-    return self;
+@implementation EventNoProperties
++ (AMPBaseEvent*)build {
+    return [AMPBaseEvent initWithEventType:@"Event No Properties" eventProperties:removeNullValues(@{})];
 }
 @end
 
 #pragma mark - EventObjectTypes
 
-@implementation EventObjectTypes: Event
+@implementation EventObjectTypes
 
-+ (instancetype)requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray {
-    return [[self alloc] initWithRequiredObject_EventObjectTypes: requiredObject
-                        requiredObjectArray: requiredObjectArray];
++ (AMPBaseEvent*)requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray {
+    return [AMPBaseEvent initWithEventType:@"Event Object Types" eventProperties:removeNullValues(@{
+        @"requiredObject": requiredObject,
+        @"requiredObjectArray": requiredObjectArray
+    })];
 }
 
-- (instancetype)initWithRequiredObject_EventObjectTypes:(NSDictionary<NSString *, NSObject *> *)requiredObject
-requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray {
-    self = [super initWithEventType:@"Event Object Types"
-                    eventProperties:@{
-                        @"requiredObject": requiredObject,
-                        @"requiredObjectArray": requiredObjectArray
-                    }];
-    return self;
-}
 @end
 
 #pragma mark - EventWithAllPropertiesBuilder
@@ -125,9 +99,9 @@ requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredO
 
 #pragma mark - EventWithAllProperties
 
-@implementation EventWithAllProperties: Event
+@implementation EventWithAllProperties
 
-+ (instancetype)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString {
++ (AMPBaseEvent*)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString {
     return [self requiredArray: requiredArray
                 requiredBoolean: requiredBoolean
                 requiredEnum: requiredEnum
@@ -136,37 +110,19 @@ requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredO
                 requiredString: requiredString
                 builderBlock:^(EventWithAllPropertiesBuilder * b) {}];
 }
-+ (instancetype)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock {
++ (AMPBaseEvent*)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock {
     EventWithAllPropertiesBuilder *options = [EventWithAllPropertiesBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithRequiredArray_EventWithAllProperties: requiredArray
-                requiredBoolean: requiredBoolean
-                requiredEnum: requiredEnum
-                requiredInteger: requiredInteger
-                requiredNumber: requiredNumber
-                requiredString: requiredString
-                optionalString: options.optionalString];
-}
-
-- (instancetype)initWithRequiredArray_EventWithAllProperties:(NSArray<NSString *> *)requiredArray
-requiredBoolean:(Boolean)requiredBoolean
-requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum
-requiredInteger:(NSInteger)requiredInteger
-requiredNumber:(Float64)requiredNumber
-requiredString:(NSString*)requiredString
-optionalString:(NSString* _Nullable)optionalString {
-    self = [super initWithEventType:@"Event With All Properties"
-                    eventProperties:@{
-                        @"optionalString": optionalString ?: NSNull.null,
-                        @"requiredArray": requiredArray,
-                        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
-                        @"requiredConst": @"some-const-value",
-                        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
-                        @"requiredInteger": @(requiredInteger),
-                        @"requiredNumber": @(requiredNumber),
-                        @"requiredString": requiredString
-                    }];
-    return self;
+    return [AMPBaseEvent initWithEventType:@"Event With All Properties" eventProperties:removeNullValues(@{
+        @"optionalString": options.optionalString ?: NSNull.null,
+        @"requiredArray": requiredArray,
+        @"requiredBoolean": [NSNumber numberWithBool:requiredBoolean],
+        @"requiredConst": @"some-const-value",
+        @"requiredEnum": [EventWithAllProperties stringFromRequiredEnum: requiredEnum],
+        @"requiredInteger": @(requiredInteger),
+        @"requiredNumber": @(requiredNumber),
+        @"requiredString": requiredString
+    })];
 }
 
 + (NSString * _Nullable)stringFromRequiredEnum:(EventWithAllPropertiesRequiredEnum)enumValue {
@@ -181,47 +137,32 @@ optionalString:(NSString* _Nullable)optionalString {
 
 #pragma mark - EventWithArrayTypes
 
-@implementation EventWithArrayTypes: Event
+@implementation EventWithArrayTypes
 
-+ (instancetype)requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredEnumArray:(NSArray<NSString *> *)requiredEnumArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
-    return [[self alloc] initWithRequiredBooleanArray_EventWithArrayTypes: requiredBooleanArray
-                        requiredEnumArray: requiredEnumArray
-                        requiredNumberArray: requiredNumberArray
-                        requiredObjectArray: requiredObjectArray
-                        requiredStringArray: requiredStringArray];
++ (AMPBaseEvent*)requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredEnumArray:(NSArray<NSString *> *)requiredEnumArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
+    return [AMPBaseEvent initWithEventType:@"Event With Array Types" eventProperties:removeNullValues(@{
+        @"requiredBooleanArray": requiredBooleanArray,
+        @"requiredEnumArray": requiredEnumArray,
+        @"requiredNumberArray": requiredNumberArray,
+        @"requiredObjectArray": requiredObjectArray,
+        @"requiredStringArray": requiredStringArray
+    })];
 }
 
-- (instancetype)initWithRequiredBooleanArray_EventWithArrayTypes:(NSArray<NSNumber *> *)requiredBooleanArray
-requiredEnumArray:(NSArray<NSString *> *)requiredEnumArray
-requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray
-requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray
-requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
-    self = [super initWithEventType:@"Event With Array Types"
-                    eventProperties:@{
-                        @"requiredBooleanArray": requiredBooleanArray,
-                        @"requiredEnumArray": requiredEnumArray,
-                        @"requiredNumberArray": requiredNumberArray,
-                        @"requiredObjectArray": requiredObjectArray,
-                        @"requiredStringArray": requiredStringArray
-                    }];
-    return self;
-}
 @end
 
 #pragma mark - EventWithConstTypes
 
-@implementation EventWithConstTypes: Event
-- (instancetype)init {
-    self = [super initWithEventType:@"Event With Const Types"
-                    eventProperties:@{
-                        @"Boolean Const": @YES,
-                        @"Integer Const": @10,
-                        @"Number Const": @2.2,
-                        @"String Const": @"String-Constant",
-                        @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
-                        @"String Int Const": @0
-                    }];
-    return self;
+@implementation EventWithConstTypes
++ (AMPBaseEvent*)build {
+    return [AMPBaseEvent initWithEventType:@"Event With Const Types" eventProperties:removeNullValues(@{
+        @"Boolean Const": @YES,
+        @"Integer Const": @10,
+        @"Number Const": @2.2,
+        @"String Const": @"String-Constant",
+        @"String Const WIth Quotes": @"\"String \"Const With\" Quotes\"",
+        @"String Int Const": @0
+    })];
 }
 @end
 
@@ -238,27 +179,19 @@ requiredStringArray:(NSArray<NSString *> *)requiredStringArray {
 
 #pragma mark - EventWithEnumTypes
 
-@implementation EventWithEnumTypes: Event
+@implementation EventWithEnumTypes
 
-+ (instancetype)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum {
++ (AMPBaseEvent*)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum {
     return [self requiredEnum: requiredEnum
                 builderBlock:^(EventWithEnumTypesBuilder * b) {}];
 }
-+ (instancetype)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock {
++ (AMPBaseEvent*)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock {
     EventWithEnumTypesBuilder *options = [EventWithEnumTypesBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithRequiredEnum_EventWithEnumTypes: requiredEnum
-                optionalEnum: options.optionalEnum];
-}
-
-- (instancetype)initWithRequiredEnum_EventWithEnumTypes:(EventWithEnumTypesRequiredEnum)requiredEnum
-optionalEnum:(EventWithEnumTypesOptionalEnum)optionalEnum {
-    self = [super initWithEventType:@"Event With Enum Types"
-                    eventProperties:@{
-                        @"optional enum": [EventWithEnumTypes stringFromOptionalEnum: optionalEnum] ?: NSNull.null,
-                        @"required enum": [EventWithEnumTypes stringFromRequiredEnum: requiredEnum]
-                    }];
-    return self;
+    return [AMPBaseEvent initWithEventType:@"Event With Enum Types" eventProperties:removeNullValues(@{
+        @"optional enum": [EventWithEnumTypes stringFromOptionalEnum: options.optionalEnum] ?: NSNull.null,
+        @"required enum": [EventWithEnumTypes stringFromRequiredEnum: requiredEnum]
+    })];
 }
 
 + (NSString * _Nullable)stringFromOptionalEnum:(EventWithEnumTypesOptionalEnum)enumValue {
@@ -299,41 +232,24 @@ optionalEnum:(EventWithEnumTypesOptionalEnum)optionalEnum {
 
 #pragma mark - EventWithOptionalArrayTypes
 
-@implementation EventWithOptionalArrayTypes: Event
+@implementation EventWithOptionalArrayTypes
 
-+ (instancetype) builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock {
++ (AMPBaseEvent*) build {
+    return [self builderBlock:^(EventWithOptionalArrayTypesBuilder * b) {}];
+}
+
++ (AMPBaseEvent*) builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock {
     EventWithOptionalArrayTypesBuilder *options = [EventWithOptionalArrayTypesBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithOptionalBooleanArray_EventWithOptionalArrayTypes: options.optionalBooleanArray
-                optionalEnumArray: options.optionalEnumArray
-                optionalJsonArray: options.optionalJsonArray
-                optionalNumberArray: options.optionalNumberArray
-                optionalStringArray: options.optionalStringArray];
+    return [AMPBaseEvent initWithEventType:@"Event With Optional Array Types" eventProperties:removeNullValues(@{
+        @"optionalBooleanArray": options.optionalBooleanArray ?: NSNull.null,
+        @"optionalEnumArray": options.optionalEnumArray ?: NSNull.null,
+        @"optionalJSONArray": options.optionalJsonArray ?: NSNull.null,
+        @"optionalNumberArray": options.optionalNumberArray ?: NSNull.null,
+        @"optionalStringArray": options.optionalStringArray ?: NSNull.null
+    })];
 }
 
-- (instancetype)initWithOptionalBooleanArray_EventWithOptionalArrayTypes:(NSArray<NSNumber *> * _Nullable)optionalBooleanArray
-optionalEnumArray:(NSArray<NSString *> * _Nullable)optionalEnumArray
-optionalJsonArray:(NSArray<NSDictionary<NSString *, NSObject *> *> * _Nullable)optionalJsonArray
-optionalNumberArray:(NSArray<NSNumber *> * _Nullable)optionalNumberArray
-optionalStringArray:(NSArray<NSString *> * _Nullable)optionalStringArray {
-    self = [super initWithEventType:@"Event With Optional Array Types"
-                    eventProperties:@{
-                        @"optionalBooleanArray": optionalBooleanArray ?: NSNull.null,
-                        @"optionalEnumArray": optionalEnumArray ?: NSNull.null,
-                        @"optionalJSONArray": optionalJsonArray ?: NSNull.null,
-                        @"optionalNumberArray": optionalNumberArray ?: NSNull.null,
-                        @"optionalStringArray": optionalStringArray ?: NSNull.null
-                    }];
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithOptionalBooleanArray_EventWithOptionalArrayTypes:nil
-                optionalEnumArray:nil
-                optionalJsonArray:nil
-                optionalNumberArray:nil
-                optionalStringArray:nil];
-}
 @end
 
 #pragma mark - EventWithOptionalPropertiesBuilder
@@ -351,41 +267,24 @@ optionalStringArray:(NSArray<NSString *> * _Nullable)optionalStringArray {
 
 #pragma mark - EventWithOptionalProperties
 
-@implementation EventWithOptionalProperties: Event
+@implementation EventWithOptionalProperties
 
-+ (instancetype) builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock {
++ (AMPBaseEvent*) build {
+    return [self builderBlock:^(EventWithOptionalPropertiesBuilder * b) {}];
+}
+
++ (AMPBaseEvent*) builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock {
     EventWithOptionalPropertiesBuilder *options = [EventWithOptionalPropertiesBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithOptionalArrayNumber_EventWithOptionalProperties: options.optionalArrayNumber
-                optionalArrayString: options.optionalArrayString
-                optionalBoolean: options.optionalBoolean
-                optionalNumber: options.optionalNumber
-                optionalString: options.optionalString];
+    return [AMPBaseEvent initWithEventType:@"Event With Optional Properties" eventProperties:removeNullValues(@{
+        @"optionalArrayNumber": options.optionalArrayNumber ?: NSNull.null,
+        @"optionalArrayString": options.optionalArrayString ?: NSNull.null,
+        @"optionalBoolean": options.optionalBoolean ?: NSNull.null,
+        @"optionalNumber": options.optionalNumber ?: NSNull.null,
+        @"optionalString": options.optionalString ?: NSNull.null
+    })];
 }
 
-- (instancetype)initWithOptionalArrayNumber_EventWithOptionalProperties:(NSArray<NSNumber *> * _Nullable)optionalArrayNumber
-optionalArrayString:(NSArray<NSString *> * _Nullable)optionalArrayString
-optionalBoolean:(NSNumber * _Nullable)optionalBoolean
-optionalNumber:(NSNumber * _Nullable)optionalNumber
-optionalString:(NSString* _Nullable)optionalString {
-    self = [super initWithEventType:@"Event With Optional Properties"
-                    eventProperties:@{
-                        @"optionalArrayNumber": optionalArrayNumber ?: NSNull.null,
-                        @"optionalArrayString": optionalArrayString ?: NSNull.null,
-                        @"optionalBoolean": optionalBoolean ?: NSNull.null,
-                        @"optionalNumber": optionalNumber ?: NSNull.null,
-                        @"optionalString": optionalString ?: NSNull.null
-                    }];
-    return self;
-}
-
-- (instancetype)init {
-    return [self initWithOptionalArrayNumber_EventWithOptionalProperties:nil
-                optionalArrayString:nil
-                optionalBoolean:nil
-                optionalNumber:nil
-                optionalString:nil];
-}
 @end
 
 #pragma mark - EventWithTemplatePropertiesBuilder
@@ -401,72 +300,41 @@ optionalString:(NSString* _Nullable)optionalString {
 
 #pragma mark - EventWithTemplateProperties
 
-@implementation EventWithTemplateProperties: Event
+@implementation EventWithTemplateProperties
 
-+ (instancetype)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty {
++ (AMPBaseEvent*)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty {
     return [self requiredEventProperty: requiredEventProperty
-                requiredTemplateProperty: requiredTemplateProperty
-                builderBlock:^(EventWithTemplatePropertiesBuilder * b) {}];
+              requiredTemplateProperty: requiredTemplateProperty
+                          builderBlock:^(EventWithTemplatePropertiesBuilder * b) {}];
 }
-+ (instancetype)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock {
++ (AMPBaseEvent*)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock {
     EventWithTemplatePropertiesBuilder *options = [EventWithTemplatePropertiesBuilder new];
     builderBlock(options);
-    return [[self alloc] initWithRequiredEventProperty_EventWithTemplateProperties: requiredEventProperty
-                requiredTemplateProperty: requiredTemplateProperty
-                optionalEventProperty: options.optionalEventProperty
-                optionalTemplateProperty: options.optionalTemplateProperty];
+    return [AMPBaseEvent initWithEventType:@"Event With Template Properties" eventProperties:removeNullValues(@{
+        @"optional_event_property": options.optionalEventProperty ?: NSNull.null,
+        @"optional_template_property": options.optionalTemplateProperty ?: NSNull.null,
+        @"required_event_property": requiredEventProperty,
+        @"required_template_property": requiredTemplateProperty
+    })];
 }
 
-- (instancetype)initWithRequiredEventProperty_EventWithTemplateProperties:(NSString*)requiredEventProperty
-requiredTemplateProperty:(NSString*)requiredTemplateProperty
-optionalEventProperty:(NSNumber * _Nullable)optionalEventProperty
-optionalTemplateProperty:(NSNumber * _Nullable)optionalTemplateProperty {
-    self = [super initWithEventType:@"Event With Template Properties"
-                    eventProperties:@{
-                        @"optional_event_property": optionalEventProperty ?: NSNull.null,
-                        @"optional_template_property": optionalTemplateProperty ?: NSNull.null,
-                        @"required_event_property": requiredEventProperty,
-                        @"required_template_property": requiredTemplateProperty
-                    }];
-    return self;
-}
 @end
 
 #pragma mark - EventWithDifferentCasingTypes
 
-@implementation EventWithDifferentCasingTypes: Event
+@implementation EventWithDifferentCasingTypes
 
-+ (instancetype)enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase propertyWithSpace:(NSString*)propertyWithSpace propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase {
-    return [[self alloc] initWithEnumWithSpace_EventWithDifferentCasingTypes: enumWithSpace
-                        enumSnakeCase: enumSnakeCase
-                        enumCamelCase: enumCamelCase
-                        enumPascalCase: enumPascalCase
-                        propertyWithSpace: propertyWithSpace
-                        propertyWithSnakeCase: propertyWithSnakeCase
-                        propertyWithCamelCase: propertyWithCamelCase
-                        propertyWithPascalCase: propertyWithPascalCase];
-}
-
-- (instancetype)initWithEnumWithSpace_EventWithDifferentCasingTypes:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace
-enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase
-enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase
-enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase
-propertyWithSpace:(NSString*)propertyWithSpace
-propertyWithSnakeCase:(NSString*)propertyWithSnakeCase
-propertyWithCamelCase:(NSString*)propertyWithCamelCase
-propertyWithPascalCase:(NSString*)propertyWithPascalCase {
-    self = [super initWithEventType:@"event withDifferent_CasingTypes"
-                    eventProperties:@{
-                        @"enum with space": [EventWithDifferentCasingTypes stringFromEnumWithSpace: enumWithSpace],
-                        @"enum_snake_case": [EventWithDifferentCasingTypes stringFromEnumSnakeCase: enumSnakeCase],
-                        @"enumCamelCase": [EventWithDifferentCasingTypes stringFromEnumCamelCase: enumCamelCase],
-                        @"EnumPascalCase": [EventWithDifferentCasingTypes stringFromEnumPascalCase: enumPascalCase],
-                        @"property with space": propertyWithSpace,
-                        @"property_with_snake_case": propertyWithSnakeCase,
-                        @"propertyWithCamelCase": propertyWithCamelCase,
-                        @"PropertyWithPascalCase": propertyWithPascalCase
-                    }];
-    return self;
++ (AMPBaseEvent*)enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase propertyWithSpace:(NSString*)propertyWithSpace propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase {
+    return [AMPBaseEvent initWithEventType:@"event withDifferent_CasingTypes" eventProperties:removeNullValues(@{
+        @"enum with space": [EventWithDifferentCasingTypes stringFromEnumWithSpace: enumWithSpace],
+        @"enum_snake_case": [EventWithDifferentCasingTypes stringFromEnumSnakeCase: enumSnakeCase],
+        @"enumCamelCase": [EventWithDifferentCasingTypes stringFromEnumCamelCase: enumCamelCase],
+        @"EnumPascalCase": [EventWithDifferentCasingTypes stringFromEnumPascalCase: enumPascalCase],
+        @"property with space": propertyWithSpace,
+        @"property_with_snake_case": propertyWithSnakeCase,
+        @"propertyWithCamelCase": propertyWithCamelCase,
+        @"PropertyWithPascalCase": propertyWithPascalCase
+    })];
 }
 
 + (NSString * _Nullable)stringFromEnumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumValue {
@@ -500,19 +368,14 @@ propertyWithPascalCase:(NSString*)propertyWithPascalCase {
 
 #pragma mark - EventMaxIntForTest
 
-@implementation EventMaxIntForTest: Event
+@implementation EventMaxIntForTest
 
-+ (instancetype)intMax10:(NSInteger)intMax10 {
-    return [[self alloc] initWithIntMax10_EventMaxIntForTest: intMax10];
++ (AMPBaseEvent*)intMax10:(NSInteger)intMax10 {
+    return [AMPBaseEvent initWithEventType:@"EventMaxIntForTest" eventProperties:removeNullValues(@{
+        @"intMax10": @(intMax10)
+    })];
 }
 
-- (instancetype)initWithIntMax10_EventMaxIntForTest:(NSInteger)intMax10 {
-    self = [super initWithEventType:@"EventMaxIntForTest"
-                    eventProperties:@{
-                        @"intMax10": @(intMax10)
-                    }];
-    return self;
-}
 @end
 
 @implementation LoadClientOptions
@@ -658,34 +521,35 @@ propertyWithPascalCase:(NSString*)propertyWithPascalCase {
     }
 }
 
-- (void)track:(Event*)event {
+- (void)track:(AMPBaseEvent*)event {
     [self track:event options:nil];
 }
 
-- (void)track:(Event*)event options:(AMPEventOptions* _Nullable)options {
+- (void)track:(AMPBaseEvent*)event options:(AMPEventOptions* _Nullable)options {
     if (![self isInitializedAndEnabled]) {
         return;
     }
-    AMPEventOptions* eventOptions = [self getEventOptions:event.options overrideOptions:options overrideUserId:nil];
-    [self.client track:event.eventType eventProperties:event.eventProperties options:eventOptions];
+    [self.client track:event options:options];
 }
 
-- (void)identify:(NSString* _Nullable)userId event:(Identify*)event {
-    [self identify:userId event:event options:nil];
+- (void)identify:(NSString* _Nullable)userId identify:(AMPIdentify*)identify {
+    [self identify:userId identify:identify options:nil];
 }
 
-- (void)identify:(NSString* _Nullable)userId event:(Identify*)event options:(AMPEventOptions* _Nullable)options {
+- (void)identify:(NSString* _Nullable)userId identify:(AMPIdentify*)identify options:(AMPEventOptions* _Nullable)options {
     if (![self isInitializedAndEnabled]) {
         return;
     }
 
-    AMPIdentify* identify = [AMPIdentify new];
-    if (event.eventProperties != nil) {
-        [event.eventProperties enumerateKeysAndObjectsUsingBlock:^(id key, id value, BOOL* stop) {
-          [identify set:key value:value];
-        }];
+    AMPEventOptions* eventOptions = options;
+    if (userId != nil) {
+        eventOptions = [AMPEventOptions new];
+        if (options != nil) {
+            [eventOptions mergeEventOptions:options];
+        }
+        eventOptions.userId = userId;
     }
-    AMPEventOptions* eventOptions = [self getEventOptions:event.options overrideOptions:options overrideUserId:userId];
+
     [self.client identify:identify options:eventOptions];
  }
 
@@ -696,94 +560,6 @@ propertyWithPascalCase:(NSString*)propertyWithPascalCase {
     if (self.client != nil) {
         [self.client flush];
     }
-}
-
-- (void)eventNoProperties:(AMPEventOptions *_Nullable)options {
-    [self track:[EventNoProperties new] options:options];
-}
-
-- (void)eventNoProperties {
-    [self track:[EventNoProperties new]];
-}
-
-- (void)eventObjectTypes:(EventObjectTypes *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventObjectTypes:(EventObjectTypes *)event {
-    [self track:event];
-}
-
-- (void)eventWithAllProperties:(EventWithAllProperties *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithAllProperties:(EventWithAllProperties *)event {
-    [self track:event];
-}
-
-- (void)eventWithArrayTypes:(EventWithArrayTypes *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithArrayTypes:(EventWithArrayTypes *)event {
-    [self track:event];
-}
-
-- (void)eventWithConstTypes:(AMPEventOptions *_Nullable)options {
-    [self track:[EventWithConstTypes new] options:options];
-}
-
-- (void)eventWithConstTypes {
-    [self track:[EventWithConstTypes new]];
-}
-
-- (void)eventWithEnumTypes:(EventWithEnumTypes *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithEnumTypes:(EventWithEnumTypes *)event {
-    [self track:event];
-}
-
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event {
-    [self track:event];
-}
-
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event {
-    [self track:event];
-}
-
-- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event {
-    [self track:event];
-}
-
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event {
-    [self track:event];
-}
-
-- (void)eventMaxIntForTest:(EventMaxIntForTest *)event options:(AMPEventOptions *_Nullable)options {
-    [self track:event options:options];
-}
-
-- (void)eventMaxIntForTest:(EventMaxIntForTest *)event {
-    [self track:event];
 }
 
 - (BOOL)isInitializedAndEnabled {

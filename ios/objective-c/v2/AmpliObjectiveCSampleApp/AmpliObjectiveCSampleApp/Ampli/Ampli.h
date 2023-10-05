@@ -23,12 +23,6 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
     dev
 };
 
-@interface Event: NSObject
-@property (nonatomic, strong, readonly) NSString* eventType;
-@property (nonatomic, strong, readonly) NSDictionary* _Nullable eventProperties;
-@property (nonatomic, strong, readonly) AMPEventOptions* _Nullable options;
-@end
-
 @interface LoadClientOptions: NSObject
 @property (nonatomic, strong, readonly) Amplitude* _Nullable instance;
 @property (nonatomic, strong, readonly) AMPConfiguration* _Nullable configuration;
@@ -55,14 +49,14 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 
 #pragma mark - Identify
 
-@interface Identify: Event
+@interface Identify: NSObject
 /**
  Identify properties.
 
  @param requiredNumber Description for identify requiredNumber
 */
-+ (instancetype) requiredNumber:(Float64)requiredNumber NS_SWIFT_NAME(build(requiredNumber:));
-+ (instancetype) requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredNumber:builderBlock:));
++ (AMPIdentify*) requiredNumber:(Float64)requiredNumber NS_SWIFT_NAME(build(requiredNumber:));
++ (AMPIdentify*) requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredNumber:builderBlock:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -70,18 +64,18 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 
 #pragma mark - EventNoProperties
 
-@interface EventNoProperties: Event
+@interface EventNoProperties: NSObject
 /**
  Event w no properties description
 
  Owner: Test codegen
 */
-- (instancetype)init;
++ (AMPBaseEvent*)build NS_SWIFT_NAME(build());
 @end
 
 #pragma mark - EventObjectTypes
 
-@interface EventObjectTypes: Event
+@interface EventObjectTypes: NSObject
 /**
  Event with Object and Object Array
 
@@ -90,7 +84,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
  @param requiredObject Property Object Type
  @param requiredObjectArray Property Object Array Type
 */
-+ (instancetype) requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray NS_SWIFT_NAME(build(requiredObject:requiredObjectArray:));
++ (AMPBaseEvent*) requiredObject:(NSDictionary<NSString *, NSObject *> *)requiredObject requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray NS_SWIFT_NAME(build(requiredObject:requiredObjectArray:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -111,7 +105,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
 #pragma mark - EventWithAllProperties
 
-@interface EventWithAllProperties: Event
+@interface EventWithAllProperties: NSObject
 /**
  Event w all properties description
 
@@ -124,8 +118,8 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
  @param requiredNumber Event 2 Property - Number
  @param requiredString Event 2 Property - String
 */
-+ (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:));
-+ (instancetype) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:builderBlock:));
++ (AMPBaseEvent*) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:));
++ (AMPBaseEvent*) requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredArray:requiredBoolean:requiredEnum:requiredInteger:requiredNumber:requiredString:builderBlock:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -133,7 +127,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
 #pragma mark - EventWithArrayTypes
 
-@interface EventWithArrayTypes: Event
+@interface EventWithArrayTypes: NSObject
 /**
  Description for event with Array Types
 
@@ -145,7 +139,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
  @param requiredObjectArray Description for required object array
  @param requiredStringArray description for required string array
 */
-+ (instancetype) requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredEnumArray:(NSArray<NSString *> *)requiredEnumArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray NS_SWIFT_NAME(build(requiredBooleanArray:requiredEnumArray:requiredNumberArray:requiredObjectArray:requiredStringArray:));
++ (AMPBaseEvent*) requiredBooleanArray:(NSArray<NSNumber *> *)requiredBooleanArray requiredEnumArray:(NSArray<NSString *> *)requiredEnumArray requiredNumberArray:(NSArray<NSNumber *> *)requiredNumberArray requiredObjectArray:(NSArray<NSDictionary<NSString *, NSObject *> *> *)requiredObjectArray requiredStringArray:(NSArray<NSString *> *)requiredStringArray NS_SWIFT_NAME(build(requiredBooleanArray:requiredEnumArray:requiredNumberArray:requiredObjectArray:requiredStringArray:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -153,13 +147,13 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
 #pragma mark - EventWithConstTypes
 
-@interface EventWithConstTypes: Event
+@interface EventWithConstTypes: NSObject
 /**
  Description for event with const types
 
  Owner: Test codegen
 */
-- (instancetype)init;
++ (AMPBaseEvent*)build;
 @end
 
 #pragma mark - EventWithEnumTypes Enums
@@ -183,7 +177,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 #pragma mark - EventWithEnumTypes
 
-@interface EventWithEnumTypes: Event
+@interface EventWithEnumTypes: NSObject
 /**
  Description for event with enum types
 
@@ -191,8 +185,8 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
  @param requiredEnum Description for optional enum
 */
-+ (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum NS_SWIFT_NAME(build(requiredEnum:));
-+ (instancetype) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEnum:builderBlock:));
++ (AMPBaseEvent*) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum NS_SWIFT_NAME(build(requiredEnum:));
++ (AMPBaseEvent*) requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEnum:builderBlock:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -210,15 +204,15 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 #pragma mark - EventWithOptionalArrayTypes
 
-@interface EventWithOptionalArrayTypes: Event
+@interface EventWithOptionalArrayTypes: NSObject
 /**
  Description for event with optional array types
 
  Owner: Test codegen
 */
-+ (instancetype)  builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
++ (AMPBaseEvent*)  build NS_SWIFT_NAME(build());
++ (AMPBaseEvent*)  builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
 
-- (instancetype)init;
 @end
 
 #pragma mark - EventWithOptionalPropertiesBuilder
@@ -233,15 +227,15 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 #pragma mark - EventWithOptionalProperties
 
-@interface EventWithOptionalProperties: Event
+@interface EventWithOptionalProperties: NSObject
 /**
  Event w optional properties description
 
  Owner: Test codegen
 */
-+ (instancetype)  builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
++ (AMPBaseEvent*)  build NS_SWIFT_NAME(build());
++ (AMPBaseEvent*)  builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
 
-- (instancetype)init;
 @end
 
 #pragma mark - EventWithTemplatePropertiesBuilder
@@ -253,7 +247,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 #pragma mark - EventWithTemplateProperties
 
-@interface EventWithTemplateProperties: Event
+@interface EventWithTemplateProperties: NSObject
 /**
  Event with template properties description
 
@@ -262,8 +256,8 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
  @param requiredEventProperty required_event_property description
  @param requiredTemplateProperty required_template_property description
 */
-+ (instancetype) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:));
-+ (instancetype) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:builderBlock:));
++ (AMPBaseEvent*) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:));
++ (AMPBaseEvent*) requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(requiredEventProperty:requiredTemplateProperty:builderBlock:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -289,7 +283,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 
 #pragma mark - EventWithDifferentCasingTypes
 
-@interface EventWithDifferentCasingTypes: Event
+@interface EventWithDifferentCasingTypes: NSObject
 /**
  Description for case with space
 
@@ -304,7 +298,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
  @param propertyWithCamelCase descriptionForCamelCase
  @param propertyWithPascalCase DescriptionForPascalCase
 */
-+ (instancetype) enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase propertyWithSpace:(NSString*)propertyWithSpace propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase NS_SWIFT_NAME(build(enumWithSpace:enumSnakeCase:enumCamelCase:enumPascalCase:propertyWithSpace:propertyWithSnakeCase:propertyWithCamelCase:propertyWithPascalCase:));
++ (AMPBaseEvent*) enumWithSpace:(EventWithDifferentCasingTypesEnumWithSpace)enumWithSpace enumSnakeCase:(EventWithDifferentCasingTypesEnumSnakeCase)enumSnakeCase enumCamelCase:(EventWithDifferentCasingTypesEnumCamelCase)enumCamelCase enumPascalCase:(EventWithDifferentCasingTypesEnumPascalCase)enumPascalCase propertyWithSpace:(NSString*)propertyWithSpace propertyWithSnakeCase:(NSString*)propertyWithSnakeCase propertyWithCamelCase:(NSString*)propertyWithCamelCase propertyWithPascalCase:(NSString*)propertyWithPascalCase NS_SWIFT_NAME(build(enumWithSpace:enumSnakeCase:enumCamelCase:enumPascalCase:propertyWithSpace:propertyWithSnakeCase:propertyWithCamelCase:propertyWithPascalCase:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -312,7 +306,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 
 #pragma mark - EventMaxIntForTest
 
-@interface EventMaxIntForTest: Event
+@interface EventMaxIntForTest: NSObject
 /**
  Event to test schema validation
 
@@ -320,7 +314,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 
  @param intMax10 property to test schema validation
 */
-+ (instancetype) intMax10:(NSInteger)intMax10 NS_SWIFT_NAME(build(intMax10:));
++ (AMPBaseEvent*) intMax10:(NSInteger)intMax10 NS_SWIFT_NAME(build(intMax10:));
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -334,303 +328,11 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 - (instancetype)init;
 - (void)load;
 - (void)load:(LoadOptions* _Nullable)options;
-- (void)track:(Event*)event;
-- (void)track:(Event*)event options:(AMPEventOptions* _Nullable)options;
-- (void)identify:(NSString* _Nullable)userId event:(Identify* )event;
-- (void)identify:(NSString* _Nullable)userId event:(Identify* )event options:(AMPEventOptions* _Nullable)options;
+- (void)track:(AMPBaseEvent*)event;
+- (void)track:(AMPBaseEvent*)event options:(AMPEventOptions* _Nullable)options;
+- (void)identify:(NSString* _Nullable)userId identify:(AMPIdentify*)identify;
+- (void)identify:(NSString* _Nullable)userId identify:(AMPIdentify*)identify options:(AMPEventOptions* _Nullable)options;
 - (void)flush;
-/**
-Event No Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
-
-Event w no properties description
-
-Owner: Test codegen
-
-@param options Optional AMPEventOptions
-*/
-- (void)eventNoProperties:(AMPEventOptions *_Nullable)options;
-
-/**
-Event No Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20No%20Properties)
-
-Event w no properties description
-
-Owner: Test codegen
-
-*/
-- (void)eventNoProperties;
-
-/**
-Event Object Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types)
-
-Event with Object and Object Array
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventObjectTypes:(EventObjectTypes *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event Object Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20Object%20Types)
-
-Event with Object and Object Array
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventObjectTypes:(EventObjectTypes *)event;
-
-/**
-Event With All Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties)
-
-Event w all properties description
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithAllProperties:(EventWithAllProperties *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With All Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20All%20Properties)
-
-Event w all properties description
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithAllProperties:(EventWithAllProperties *)event;
-
-/**
-Event With Array Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types)
-
-Description for event with Array Types
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithArrayTypes:(EventWithArrayTypes *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Array Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Array%20Types)
-
-Description for event with Array Types
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithArrayTypes:(EventWithArrayTypes *)event;
-
-/**
-Event With Const Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types)
-
-Description for event with const types
-
-Owner: Test codegen
-
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithConstTypes:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Const Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Const%20Types)
-
-Description for event with const types
-
-Owner: Test codegen
-
-*/
-- (void)eventWithConstTypes;
-
-/**
-Event With Enum Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
-
-Description for event with enum types
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithEnumTypes:(EventWithEnumTypes *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Enum Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Enum%20Types)
-
-Description for event with enum types
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithEnumTypes:(EventWithEnumTypes *)event;
-
-/**
-Event With Optional Array Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types)
-
-Description for event with optional array types
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Optional Array Types
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Array%20Types)
-
-Description for event with optional array types
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithOptionalArrayTypes:(EventWithOptionalArrayTypes *)event;
-
-/**
-Event With Optional Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties)
-
-Event w optional properties description
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Optional Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Optional%20Properties)
-
-Event w optional properties description
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithOptionalProperties:(EventWithOptionalProperties *)event;
-
-/**
-Event With Template Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
-
-Event with template properties description
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-Event With Template Properties
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/Event%20With%20Template%20Properties)
-
-Event with template properties description
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithTemplateProperties:(EventWithTemplateProperties *)event;
-
-/**
-event withDifferent_CasingTypes
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-
-Description for case with space
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-event withDifferent_CasingTypes
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/event%20withDifferent_CasingTypes)
-
-Description for case with space
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventWithDifferentCasingTypes:(EventWithDifferentCasingTypes *)event;
-
-/**
-EventMaxIntForTest
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-
-Event to test schema validation
-
-Owner: Test codegen
-
-@param event The event
-@param options Optional AMPEventOptions
-*/
-- (void)eventMaxIntForTest:(EventMaxIntForTest *)event options:(AMPEventOptions *_Nullable)options;
-
-/**
-EventMaxIntForTest
-
-[View in Tracking Plan](https://data.amplitude.com/test-codegen/Test%20Codegen/events/main/latest/EventMaxIntForTest)
-
-Event to test schema validation
-
-Owner: Test codegen
-
-@param event The event
-*/
-- (void)eventMaxIntForTest:(EventMaxIntForTest *)event;
 @end
 
 NS_ASSUME_NONNULL_END

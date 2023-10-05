@@ -38,7 +38,7 @@
         return event;
     }]];
 
-    [_ampli eventNoProperties];
+    [_ampli track:[EventNoProperties build]];
     [_ampli flush];
 
     [self waitForExpectationsWithTimeout:1.0 handler:^(NSError *error) {
@@ -103,7 +103,7 @@
     }]];
     
     [_ampli identify:userId
-           event:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
+           identify:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
                 b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
            }]
            options:eventOptions
@@ -136,7 +136,7 @@
     }]];
     
     [_ampli identify:nil
-           event:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
+           identify:[Identify requiredNumber: 22.0F builderBlock:^(IdentifyBuilder *b) {
                 b.optionalArray = [NSArray arrayWithObjects:@"optional string", nil];
            }]
            options:eventOptions

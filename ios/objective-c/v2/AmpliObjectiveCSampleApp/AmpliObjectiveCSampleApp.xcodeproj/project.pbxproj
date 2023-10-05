@@ -524,8 +524,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/amplitude/Amplitude-Swift";
 			requirement = {
-				branch = "AMP-67635-objc-support-properties";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

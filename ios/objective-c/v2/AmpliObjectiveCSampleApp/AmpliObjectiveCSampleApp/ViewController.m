@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [Ampli.instance eventMaxIntForTest:[EventMaxIntForTest intMax10: 10]];
+    [Ampli.instance track:[EventMaxIntForTest intMax10: 10]];
 }
 
 @end
