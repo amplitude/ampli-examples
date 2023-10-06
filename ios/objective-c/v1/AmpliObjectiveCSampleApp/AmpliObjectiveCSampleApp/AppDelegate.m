@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "Ampli.h"
+#import "Amplitude.h"
 
 @interface AppDelegate ()
 
@@ -14,6 +15,51 @@
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions2:(NSDictionary *)launchOptions {
+    [Amplitude instance].trackingSessionEvents = true;
+    [[Amplitude instance] initializeApiKey:@"YOUR-API-KEY"];
+    
+    NSString* eventType = @"Button Clicked";
+    NSDictionary* eventProperties = @{@"key": @"value"};
+    [[Amplitude instance] logEvent:eventType withEventProperties:eventProperties];
+    
+    NSNumber* timestamp = [NSNumber numberWithLongLong:[[NSDate date] timeIntervalSince1970] * 1000];
+    //[[Amplitude instance] logEvent:eventType withTimestamp:timestamp];
+    
+    NSDictionary* groups = @{@"orgId": @"10"};
+    [[Amplitude instance] logEvent:eventType withEventProperties:eventProperties withGroups:groups];
+ 
+    [[Amplitude instance] uploadEvents];
+    
+    NSString* userId = @"TEST-USER-ID";
+    [[Amplitude instance] setUserId:userId];
+    
+    NSString* deviceId = @"TEST-DEVICE-ID";
+    [[Amplitude instance] setDeviceId:deviceId];
+ 
+    [[Amplitude instance] setSessionId:[timestamp longLongValue]];
+    
+    [[Amplitude instance] clearUserProperties];
+    
+    [[Amplitude instance] setUserProperties:@{
+        @"membership": @"paid",
+        @"payment": @"bank"
+    }];
+    
+    AMPIdentify* identify = [AMPIdentify new];
+    [identify set:@"membership" value:@"paid"];
+    [[Amplitude instance] identify:identify];
+    
+    [[Amplitude instance] groupIdentifyWithGroupType:@"TEST-GROUP-TYPE" groupName:@"TEST-GROUP-NAME" groupIdentify:identify];
+    
+    AMPRevenue* revenue = [AMPRevenue new];
+    [revenue setProductIdentifier:@"productidentifier"];
+    [revenue setQuantity:3];
+    [revenue setPrice:@3.99];
+    [[Amplitude instance] logRevenueV2:revenue];
+    
+    return true;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     /*
