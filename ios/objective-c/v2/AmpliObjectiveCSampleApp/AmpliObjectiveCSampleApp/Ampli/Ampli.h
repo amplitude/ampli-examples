@@ -60,6 +60,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventNoProperties
@@ -71,6 +72,10 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
  Owner: Test codegen
 */
 + (AMPBaseEvent*)build NS_SWIFT_NAME(build());
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventObjectTypes
@@ -88,6 +93,7 @@ typedef NS_ENUM(NSInteger, AmpliEnvironment) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithAllProperties Enums
@@ -123,6 +129,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithArrayTypes
@@ -143,6 +150,7 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithConstTypes
@@ -153,7 +161,11 @@ typedef NS_ENUM(NSInteger, EventWithAllPropertiesRequiredEnum) {
 
  Owner: Test codegen
 */
-+ (AMPBaseEvent*)build;
++ (AMPBaseEvent*)build NS_SWIFT_NAME(build());
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithEnumTypes Enums
@@ -190,6 +202,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithOptionalArrayTypesBuilder
@@ -210,8 +223,11 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
  Owner: Test codegen
 */
-+ (AMPBaseEvent*)  build NS_SWIFT_NAME(build());
 + (AMPBaseEvent*)  builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
++ (AMPBaseEvent*)build NS_SWIFT_NAME(build());
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 @end
 
@@ -233,8 +249,11 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
  Owner: Test codegen
 */
-+ (AMPBaseEvent*)  build NS_SWIFT_NAME(build());
 + (AMPBaseEvent*)  builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock NS_SWIFT_NAME(build(builderBlock:));
++ (AMPBaseEvent*)build NS_SWIFT_NAME(build());
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 @end
 
@@ -261,6 +280,7 @@ typedef NS_ENUM(NSInteger, EventWithEnumTypesRequiredEnum) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventWithDifferentCasingTypes Enums
@@ -302,6 +322,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 #pragma mark - EventMaxIntForTest
@@ -318,6 +339,7 @@ typedef NS_ENUM(NSInteger, EventWithDifferentCasingTypesEnumPascalCase) {
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 @end
 
 @interface Ampli: NSObject

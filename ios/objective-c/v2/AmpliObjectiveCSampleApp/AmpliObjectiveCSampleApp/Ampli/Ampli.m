@@ -45,17 +45,17 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 
 + (AMPIdentify*)requiredNumber:(Float64)requiredNumber {
     return [self requiredNumber: requiredNumber
-                builderBlock:^(IdentifyBuilder * b) {}];
+                builderBlock:^(IdentifyBuilder* b) {}];
 }
 + (AMPIdentify*)requiredNumber:(Float64)requiredNumber builderBlock:(void (^)(IdentifyBuilder *b))builderBlock {
     IdentifyBuilder *options = [IdentifyBuilder new];
     builderBlock(options);
-    
+
     NSDictionary* userProperties = removeNullValues(@{
         @"optionalArray": options.optionalArray ?: NSNull.null,
         @"requiredNumber": @(requiredNumber)
     });
-    
+
     AMPIdentify* identify = [AMPIdentify new];
     for (NSString* property in userProperties) {
         [identify set:property value:[userProperties objectForKey:property]];
@@ -68,9 +68,11 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 #pragma mark - EventNoProperties
 
 @implementation EventNoProperties
+
 + (AMPBaseEvent*)build {
     return [AMPBaseEvent initWithEventType:@"Event No Properties" eventProperties:removeNullValues(@{})];
 }
+
 @end
 
 #pragma mark - EventObjectTypes
@@ -108,7 +110,7 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
                 requiredInteger: requiredInteger
                 requiredNumber: requiredNumber
                 requiredString: requiredString
-                builderBlock:^(EventWithAllPropertiesBuilder * b) {}];
+                builderBlock:^(EventWithAllPropertiesBuilder* b) {}];
 }
 + (AMPBaseEvent*)requiredArray:(NSArray<NSString *> *)requiredArray requiredBoolean:(Boolean)requiredBoolean requiredEnum:(EventWithAllPropertiesRequiredEnum)requiredEnum requiredInteger:(NSInteger)requiredInteger requiredNumber:(Float64)requiredNumber requiredString:(NSString*)requiredString builderBlock:(void (^)(EventWithAllPropertiesBuilder *b))builderBlock {
     EventWithAllPropertiesBuilder *options = [EventWithAllPropertiesBuilder new];
@@ -154,6 +156,7 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 #pragma mark - EventWithConstTypes
 
 @implementation EventWithConstTypes
+
 + (AMPBaseEvent*)build {
     return [AMPBaseEvent initWithEventType:@"Event With Const Types" eventProperties:removeNullValues(@{
         @"Boolean Const": @YES,
@@ -164,6 +167,7 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
         @"String Int Const": @0
     })];
 }
+
 @end
 
 #pragma mark - EventWithEnumTypesBuilder
@@ -183,7 +187,7 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 
 + (AMPBaseEvent*)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum {
     return [self requiredEnum: requiredEnum
-                builderBlock:^(EventWithEnumTypesBuilder * b) {}];
+                builderBlock:^(EventWithEnumTypesBuilder* b) {}];
 }
 + (AMPBaseEvent*)requiredEnum:(EventWithEnumTypesRequiredEnum)requiredEnum builderBlock:(void (^)(EventWithEnumTypesBuilder *b))builderBlock {
     EventWithEnumTypesBuilder *options = [EventWithEnumTypesBuilder new];
@@ -234,10 +238,6 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 
 @implementation EventWithOptionalArrayTypes
 
-+ (AMPBaseEvent*) build {
-    return [self builderBlock:^(EventWithOptionalArrayTypesBuilder * b) {}];
-}
-
 + (AMPBaseEvent*) builderBlock:(void (^)(EventWithOptionalArrayTypesBuilder *b))builderBlock {
     EventWithOptionalArrayTypesBuilder *options = [EventWithOptionalArrayTypesBuilder new];
     builderBlock(options);
@@ -248,6 +248,9 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
         @"optionalNumberArray": options.optionalNumberArray ?: NSNull.null,
         @"optionalStringArray": options.optionalStringArray ?: NSNull.null
     })];
+}
++ (AMPBaseEvent*) build {
+    return [self builderBlock:^(EventWithOptionalArrayTypesBuilder* b) {}];
 }
 
 @end
@@ -269,10 +272,6 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 
 @implementation EventWithOptionalProperties
 
-+ (AMPBaseEvent*) build {
-    return [self builderBlock:^(EventWithOptionalPropertiesBuilder * b) {}];
-}
-
 + (AMPBaseEvent*) builderBlock:(void (^)(EventWithOptionalPropertiesBuilder *b))builderBlock {
     EventWithOptionalPropertiesBuilder *options = [EventWithOptionalPropertiesBuilder new];
     builderBlock(options);
@@ -283,6 +282,9 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
         @"optionalNumber": options.optionalNumber ?: NSNull.null,
         @"optionalString": options.optionalString ?: NSNull.null
     })];
+}
++ (AMPBaseEvent*) build {
+    return [self builderBlock:^(EventWithOptionalPropertiesBuilder* b) {}];
 }
 
 @end
@@ -304,8 +306,8 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
 
 + (AMPBaseEvent*)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty {
     return [self requiredEventProperty: requiredEventProperty
-              requiredTemplateProperty: requiredTemplateProperty
-                          builderBlock:^(EventWithTemplatePropertiesBuilder * b) {}];
+                requiredTemplateProperty: requiredTemplateProperty
+                builderBlock:^(EventWithTemplatePropertiesBuilder* b) {}];
 }
 + (AMPBaseEvent*)requiredEventProperty:(NSString*)requiredEventProperty requiredTemplateProperty:(NSString*)requiredTemplateProperty builderBlock:(void (^)(EventWithTemplatePropertiesBuilder *b))builderBlock {
     EventWithTemplatePropertiesBuilder *options = [EventWithTemplatePropertiesBuilder new];
@@ -568,20 +570,6 @@ NSDictionary* removeNullValues(NSDictionary* dict) {
        return NO;
     }
     return !self.disabled;
-}
-
-- (AMPEventOptions*) getEventOptions:(AMPEventOptions*)options overrideOptions:(AMPEventOptions*)overrideOptions overrideUserId:(NSString*)overrideUserId {
-    AMPEventOptions* eventOptions = [AMPEventOptions new];
-    if (options != nil) {
-        [eventOptions mergeEventOptions:options];
-    }
-    if (overrideOptions != nil) {
-        [eventOptions mergeEventOptions:overrideOptions];
-    }
-    if (overrideUserId != nil) {
-        eventOptions.userId = overrideUserId;
-    }
-    return eventOptions;
 }
 
 @end
