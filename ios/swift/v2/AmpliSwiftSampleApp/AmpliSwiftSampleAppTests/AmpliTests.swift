@@ -18,7 +18,7 @@ class AmpliTests: XCTestCase {
         ampli.load(LoadOptions(client: LoadClientOptions(configuration: Configuration(
             apiKey: "test-api-key",
             instanceName: instanceName,
-            trackingSessionEvents: false,
+            defaultTracking: DefaultTrackingOptions.NONE,
             migrateLegacyData: false
         ))))
     }
@@ -85,7 +85,7 @@ class AmpliTests: XCTestCase {
     func testTrackEventWithAllTypes() throws {
         let userId = "test-user-id";
         let deviceId = "test-device-id";
-        let eventOptions = EventOptions(deviceId: deviceId)
+        let eventOptions = EventOptions(userId: userId, deviceId: deviceId)
 
         initAmpliWithNewInstance("testTrackEventWithAllTypes")
         let eventCollector = EventCollectorPlugin()
@@ -99,7 +99,7 @@ class AmpliTests: XCTestCase {
                 requiredInteger: 10,
                 requiredNumber: 2.0,
                 requiredString: "required string"
-            ).options(userId: userId),
+            ),
             options: eventOptions
         )
         ampli.flush()

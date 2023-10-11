@@ -1,14 +1,14 @@
 {
   "OrgId": "132559",
   "WorkspaceId": "77b37977-cb3a-42eb-bce3-09f5f7c3adb7",
-  "SourceId": "ff1de76c-80bb-42ea-8d39-63402f588c7f",
-  "Path": "./Shared/Ampli",
+  "SourceId": "0a9a3175-04c5-49ad-89eb-ccd0d88169f5",
+  "Path": "./AmpliObjectiveCSampleApp/Ampli",
   "Branch": "main",
   "Version": "1.0.0",
-  "Runtime": "ios:swift-ampli-v2",
+  "Runtime": "ios:obj-c-ampli-v2",
   "VersionId": "a61c3908-ca4d-4c8d-8f81-54ad3ba17b9c",
   "OmitApiKeys": true,
   "Platform": "iOS",
-  "Language": "Swift",
+  "Language": "Obj-C",
   "SDK": "AmplitudeSwift ~> 1.0"
 }
