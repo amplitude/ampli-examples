@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-2x8-x86-64
     container:
       image: amplitudeinc/ampli
     env:
@@ -21,4 +21,3 @@ jobs:
       - name: (Go) Check the Data branch is merged before merging the Git branch
         working-directory: go/simple/v2
         run: ampli status --is-merged -t ${{secrets.AMPLI_TOKEN}}
-        
