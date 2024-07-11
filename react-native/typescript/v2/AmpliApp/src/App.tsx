@@ -15,8 +15,7 @@ import {Button, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 
 import * as amplitude from '@amplitude/analytics-react-native';
-import {ampli} from './ampli';
-import {EventWithOptionalProperties} from './ampli';
+import {ampli, EventWithOptionalProperties} from './ampli';
 import LoggingPlugin from './plugins/loggingPlugin';
 import SegmentPlugin from './plugins/segmentPlugin';
 
@@ -46,6 +45,14 @@ async function initAmpli() {
 
   /** OR Provide a specific Amplitude API key */
   // ampli.load({client: {apiKey: AMPLITUDE_API_KEY}});
+
+  /**
+   * OR Use your existing "default" Amplitude instance
+   */
+  // amplitude.init(AMPLITUDE_API_KEY, undefined, {
+  //   deviceId: 'existing-instance-device-id',
+  // });
+  // await ampli.load({client: {instance: amplitude}}).promise;
 
   /**
    * OR Use an existing Amplitude instance
