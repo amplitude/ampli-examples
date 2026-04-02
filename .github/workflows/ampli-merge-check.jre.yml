@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli
+      image: amplitudeinc/ampli@sha256:99d093218ddcc96ea4eaf42997612af30d6337a6d0d0c21aa6292a9cfe5fc0d9
     timeout-minutes: 2
 
     env:
@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: (JRE Kotlin) Check the Data branch is merged before merging the Git branch
         working-directory: ./jre/kotlin/AmpliApp

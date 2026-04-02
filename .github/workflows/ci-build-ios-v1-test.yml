@@ -15,20 +15,20 @@ jobs:
         ruby-version: ["2.7.x"]
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Set Xcode 14.2
         run: |
           sudo xcode-select -switch /Applications/Xcode_14.2.app
 
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: actions/setup-ruby@b007fae6f1ffbe3a51c00a6df6f5ff01184d5340 # v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
 
       - name: Cache Bundle Gems and Cocoapods For Swift
         id: cache-gems-pods
-        uses: actions/cache@v2
+        uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ./ios/swift/v1/AmpliSwiftSampleApp/Pods
@@ -56,7 +56,7 @@ jobs:
 
       - name: Cache Bundle Gems and Cocoapods For Objective-C
         id: cache-gems-objc-pods
-        uses: actions/cache@v2
+        uses: actions/cache@8492260343ad570701412c2f464a5877dc76bace # v2
         with:
           path: |
             ./ios/objective-c/v1/AmpliObjectiveCSampleApp/Pods
