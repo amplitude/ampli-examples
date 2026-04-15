@@ -27,10 +27,8 @@ class SegmentDestinationPlugin(appContext: Context, writeKey: String) : Destinat
 
     override fun track(payload: BaseEvent): BaseEvent {
         val eventProperties =  Properties()
-        payload.eventProperties?.forEach { entry -> entry.value?.let {
-            eventProperties.put(entry.key,
-                it
-            )
+        payload.eventProperties?.forEach { (key, value) -> value?.let {
+            eventProperties.put(key, it)
         } }
 
         analytics?.track(payload.eventType, eventProperties)
@@ -39,10 +37,8 @@ class SegmentDestinationPlugin(appContext: Context, writeKey: String) : Destinat
 
     override fun identify(payload: IdentifyEvent): IdentifyEvent {
         val traits = Traits()
-        payload.userProperties?.forEach { entry -> entry.value?.let {
-            traits.put(entry.key,
-                it
-            )
+        payload.userProperties?.forEach { (key, value) -> value?.let {
+            traits.put(key, it)
         } }
 
         Analytics.with(context).identify(traits)
@@ -53,10 +49,8 @@ class SegmentDestinationPlugin(appContext: Context, writeKey: String) : Destinat
         val traits = Traits()
         val groupId: String? = payload.groups?.keys?.first()
 
-        payload.groupProperties?.forEach { entry -> entry.value?.let {
-            traits.put(entry.key,
-                it
-            )
+        payload.groupProperties?.forEach { (key, value) -> value?.let {
+            traits.put(key, it)
         } }
 
         if (groupId != null) {

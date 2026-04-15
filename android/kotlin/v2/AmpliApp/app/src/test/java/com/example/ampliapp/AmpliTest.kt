@@ -140,8 +140,8 @@ class AmpliTest {
 
         verify(client, times(1)).track(
             eventCaptor.capture(),
-            eq(null),
-            eq(null)
+            isNull(),
+            isNull()
         )
         assertEquals("Event No Properties", eventCaptor.allValues.first().eventType )
     }
@@ -167,7 +167,7 @@ class AmpliTest {
         verify(client, times(1)).track(
             eventCaptor.capture(),
             optionsCaptor.capture(),
-            eq(null)
+            isNull()
         )
 
         assertEquals("Event With All Properties", eventCaptor.allValues.first().eventType)
