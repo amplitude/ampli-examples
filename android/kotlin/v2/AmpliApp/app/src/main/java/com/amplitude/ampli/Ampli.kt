@@ -64,6 +64,7 @@ val defaultObservePlan = Plan("main", "kotlin-ampli-v2", "1", "a61c3908-ca4d-4c8
 class DefaultConfiguration(apiKey: String, context : android.content.Context) {
     val config : Configuration
     init {
+        @Suppress("DEPRECATION")
         config = Configuration(
             apiKey = apiKey,
             context = context.applicationContext,
