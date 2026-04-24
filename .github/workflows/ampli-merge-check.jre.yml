@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-2x8-x86-64
     container:
       image: amplitudeinc/ampli@sha256:99d093218ddcc96ea4eaf42997612af30d6337a6d0d0c21aa6292a9cfe5fc0d9
     timeout-minutes: 2
