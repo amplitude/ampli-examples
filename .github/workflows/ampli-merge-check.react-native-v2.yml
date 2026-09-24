@@ -10,14 +10,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli
+      image: amplitudeinc/ampli@sha256:99d093218ddcc96ea4eaf42997612af30d6337a6d0d0c21aa6292a9cfe5fc0d9
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: (ReactNative JS V2) Check the Data branch is merged before merging the Git branch
         working-directory: ./react-native/javascript/v2/AmpliApp

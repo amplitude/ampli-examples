@@ -15,7 +15,7 @@ jobs:
         ruby-version: ["2.7.x"]
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: Set Xcode 14.2
         run: |

@@ -10,14 +10,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli-swift
+      image: amplitudeinc/ampli-swift@sha256:187036956d9b9906f0e525f9c438ced2f22fa7b968ec4e78146d76949a4385be
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
 
       - name: (iOS Swift V1) Check the Data branch is merged before merging the Git branch
         working-directory: ./ios/swift/v1/AmpliSwiftSampleApp
