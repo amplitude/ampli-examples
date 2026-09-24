@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
 
       - name: Node JS V2 - Install
         working-directory: node/javascript/v2/AmpliApp
@@ -65,3 +64,21 @@ jobs:
       - name: Browser TS V2 - Test
         working-directory: browser/typescript/v2/react-app
         run: yarn test
+
+  unified-workarounds:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install unified workaround example
+        working-directory: browser/typescript/v2/unified-workarounds
+        run: yarn install --frozen-lockfile
+
+      - name: Build unified workaround example
+        working-directory: browser/typescript/v2/unified-workarounds
+        run: yarn build
