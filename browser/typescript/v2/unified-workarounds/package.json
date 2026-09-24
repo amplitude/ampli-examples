@@ -1,0 +1,20 @@
+{
+  "name": "ampli-unified-workarounds",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@amplitude/analytics-browser": "^2.47.0",
+    "@amplitude/plugin-session-replay-browser": "^1.35.3",
+    "@amplitude/unified": "^1.1.36"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "vite": "^6.4.2"
+  }
+}

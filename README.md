@@ -9,6 +9,7 @@ See subproject README's for details on each platform.
 ## Browser V2
 #### [browser/javascript](browser/javascript/v2/react-app)
 #### [browser/typescript](browser/typescript/v2/react-app)
+#### [Browser TypeScript: plugins and Unified workarounds](browser/typescript/v2/unified-workarounds)
 
 ## Node
 #### [node/javascript](node/javascript)
