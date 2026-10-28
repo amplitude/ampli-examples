@@ -1,0 +1,5 @@
+.build/
+.swiftpm/
+Config/Local.xcconfig
+xcuserdata/
+AmplitudeReports.xcodeproj/
