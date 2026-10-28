@@ -56,7 +56,11 @@ final class ReportAnalytics {
     }
 
     // Call only after confirmed logout, never for an anonymous/loading auth state.
-    func accountSignedOut() { client?.reset() }
+    func accountSignedOut() {
+        client?.reset()
+        // A fresh UUID separates logged-out events even when IDFV is available.
+        client?.setDeviceId(deviceId: UUID().uuidString)
+    }
     func flush() { client?.flush() }
     func deviceID() -> String? { client?.getDeviceId() }
 
