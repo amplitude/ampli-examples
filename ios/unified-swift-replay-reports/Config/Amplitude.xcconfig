@@ -1,0 +1,4 @@
+#include? "Local.xcconfig"
+GENERATE_INFOPLIST_FILE = NO
+INFOPLIST_FILE = AmplitudeReports/Info.plist
+INFOPLIST_EXPAND_BUILD_SETTINGS = YES
