@@ -20,6 +20,9 @@ See subproject README's for details on each platform.
 ####  [ios/swift](ios/swift/v1/AmpliSwiftSampleApp)
 ####  [ios/objective-c](ios/objective-c/v1/AmpliObjectiveCSampleApp)
 
+## iOS Unified SDK
+#### [SwiftUI report analytics](ios/unified-swift-reports)
+
 ## iOS V2
 ####  [ios/swift](ios/swift/v2/AmpliSwiftSampleApp)
 ####  [ios/objective-c](ios/objective-c/v2/AmpliObjectiveCSampleApp)
