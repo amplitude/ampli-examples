@@ -2,7 +2,6 @@
 import hashlib
 import plistlib
 from pathlib import Path
-from xml.etree import ElementTree as ET
 
 root = Path(__file__).resolve().parents[1]
 objects = {}
@@ -61,15 +60,9 @@ ui=add('ui-target',isa='PBXNativeTarget',name='ReportUITests',productName='Repor
 add('project',isa='PBXProject',attributes={'LastUpgradeCheck':'2630','TargetAttributes':{ui:{'TestTargetID':app}}},buildConfigurationList=project_configs,compatibilityVersion='Xcode 14.0',developmentRegion='en',hasScannedForEncodings=0,knownRegions=['en','Base'],mainGroup=main,productRefGroup=products,projectDirPath='',projectRoot='',targets=[app,ui],packageReferences=[package,engagement_package])
 p=root/'AmplitudeReports.xcodeproj';p.mkdir(exist_ok=True)
 with (p/'project.pbxproj').open('wb') as out: plistlib.dump({'archiveVersion':'1','classes':{},'objectVersion':'56','objects':objects,'rootObject':project_id},out,sort_keys=False)
-scheme=ET.Element('Scheme',LastUpgradeVersion='2630',version='1.3')
-def buildable(parent,key,name,product_name):
-    ET.SubElement(parent,'BuildableReference',BuildableIdentifier='primary',BlueprintIdentifier=key,BuildableName=product_name,BlueprintName=name,ReferencedContainer='container:AmplitudeReports.xcodeproj')
-build=ET.SubElement(scheme,'BuildAction',parallelizeBuildables='YES',buildImplicitDependencies='YES');entries=ET.SubElement(build,'BuildActionEntries')
-for key,name,product_name in [(app,'AmplitudeReports','AmplitudeReports.app'),(ui,'ReportUITests','ReportUITests.xctest')]:
-    e=ET.SubElement(entries,'BuildActionEntry',buildForTesting='YES',buildForRunning='YES' if key==app else 'NO',buildForProfiling='NO',buildForArchiving='NO',buildForAnalyzing='YES');buildable(e,key,name,product_name)
-test=ET.SubElement(scheme,'TestAction',buildConfiguration='Debug',selectedDebuggerIdentifier='Xcode.DebuggerFoundation.Debugger.LLDB',selectedLauncherIdentifier='Xcode.IDEFoundation.Launcher.LLDB',shouldUseLaunchSchemeArgsEnv='YES')
-testables=ET.SubElement(test,'Testables');t=ET.SubElement(testables,'TestableReference',skipped='NO');buildable(t,ui,'ReportUITests','ReportUITests.xctest')
-launch=ET.SubElement(scheme,'LaunchAction',buildConfiguration='Debug',selectedDebuggerIdentifier='Xcode.DebuggerFoundation.Debugger.LLDB',selectedLauncherIdentifier='Xcode.IDEFoundation.Launcher.LLDB',launchStyle='0',useCustomWorkingDirectory='NO',ignoresPersistentStateOnLaunch='NO',debugServiceExtension='internal',allowLocationSimulation='YES');run=ET.SubElement(launch,'BuildableProductRunnable',runnableDebuggingMode='0');buildable(run,app,'AmplitudeReports','AmplitudeReports.app')
-ET.SubElement(scheme,'AnalyzeAction',buildConfiguration='Debug')
-s=p/'xcshareddata/xcschemes';s.mkdir(parents=True,exist_ok=True);ET.ElementTree(scheme).write(s/'AmplitudeReports.xcscheme',encoding='UTF-8',xml_declaration=True)
+# The scheme is a fixed output template; this script never parses XML.
+scheme = f"""<?xml version='1.0' encoding='UTF-8'?>
+<Scheme LastUpgradeVersion="2630" version="1.3"><BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES"><BuildActionEntries><BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="YES"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{app}" BuildableName="AmplitudeReports.app" BlueprintName="AmplitudeReports" ReferencedContainer="container:AmplitudeReports.xcodeproj" /></BuildActionEntry><BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="YES"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ui}" BuildableName="ReportUITests.xctest" BlueprintName="ReportUITests" ReferencedContainer="container:AmplitudeReports.xcodeproj" /></BuildActionEntry></BuildActionEntries></BuildAction><TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"><Testables><TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ui}" BuildableName="ReportUITests.xctest" BlueprintName="ReportUITests" ReferencedContainer="container:AmplitudeReports.xcodeproj" /></TestableReference></Testables></TestAction><LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.IDEFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugServiceExtension="internal" allowLocationSimulation="YES"><BuildableProductRunnable runnableDebuggingMode="0"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{app}" BuildableName="AmplitudeReports.app" BlueprintName="AmplitudeReports" ReferencedContainer="container:AmplitudeReports.xcodeproj" /></BuildableProductRunnable></LaunchAction><AnalyzeAction buildConfiguration="Debug" /></Scheme>"""
+s=p/'xcshareddata/xcschemes';s.mkdir(parents=True,exist_ok=True)
+(s/'AmplitudeReports.xcscheme').write_text(scheme)
 print(f'Generated project: {len(app_refs)} app source files, one UI test file, Unified 0.0.4 and engagement 4.2.0.')
