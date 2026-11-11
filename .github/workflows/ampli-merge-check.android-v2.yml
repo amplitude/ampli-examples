@@ -3,13 +3,14 @@ name: Ampli Merge Check (Android V2)
 on:
   pull_request:
     paths:
+      - '.github/workflows/ampli-merge-check.android-v2.yml'
       - 'android/kotlin/v2'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli@sha256:99d093218ddcc96ea4eaf42997612af30d6337a6d0d0c21aa6292a9cfe5fc0d9
+      image: amplitudeinc/ampli:1.36.7@sha256:ac1d01654bafcf363f92cdd92b1ee90b48e6cf32b78ff068ee58498f8ba466d9
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/

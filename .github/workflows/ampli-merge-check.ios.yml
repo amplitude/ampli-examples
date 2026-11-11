@@ -3,6 +3,7 @@ name: Ampli Merge Check (iOS)
 on:
   pull_request:
     paths:
+      - '.github/workflows/ampli-merge-check.ios.yml'
       - 'ios/objective-c/**'
       - 'ios/swift/**'
 
@@ -10,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: amplitudeinc/ampli-swift@sha256:187036956d9b9906f0e525f9c438ced2f22fa7b968ec4e78146d76949a4385be
+      image: amplitudeinc/ampli-all:1.36.7@sha256:57ed740ad7bfd20b035b6d35b24ab3c120f1c8980161dfad5f87877a4c10beab
     env:
       API_URL: https://data-api.staging.amplitude.com/graphql
       APP_URL: https://data.staging.amplitude.com/
