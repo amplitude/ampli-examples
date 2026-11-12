@@ -34,7 +34,7 @@ async function start() {
     serverZone: zone,
     analytics: { autocapture: false },
     sessionReplay: { sampleRate: 0 },
-    experiment: { deploymentKey, automaticExposureTracking: false, retryFetchOnFailure: false, fetchTimeoutMillis: 5000 },
+    experiment: { deploymentKey, automaticExposureTracking: false, retryFetchOnFailure: false, throwOnError: true, fetchTimeoutMillis: 5000 },
     engagement: { skip: true },
   });
   amplitude.setUserId("build-web-flags-demo");
