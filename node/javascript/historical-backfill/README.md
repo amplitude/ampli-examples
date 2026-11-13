@@ -1,0 +1,5 @@
+# Bounded historical event backfill
+
+Node24.14+, pnpm10.33.2; no SDK or extra service dependency. `corepack pnpm install`, `corepack pnpm test`, `corepack pnpm fixture`, then `corepack pnpm backfill data/fixture.jsonl` for a key-free dry run. Copy .env.example and add the existing test project's ingestion key; `corepack pnpm backfill data/fixture.jsonl --send` uploads. Keep the source file unchanged for resume or duplicate replay.
+
+At most100 source rows/200KB, batches10, each request below1MB. Event timestamps remain historical; insert/device IDs are deterministic. Checkpoint binds to file bytes, endpoint and hashed project key, advances after code200, and is atomically replaced under a single-writer lock. Up to3 attempts for network/5xx with bounded delays;429 saves at least60-second cooldown and stops for a later invocation. Other4xx stop. Replay beyond seven days of checkpoint creation requires reconciliation. Duplicate acceptance is not a processed count; verify actual history. No production-scale importer, migration plan, raw-value export, secret key or automatic deletion.
