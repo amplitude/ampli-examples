@@ -1,0 +1,28 @@
+const fs=require('node:fs');const path=require('node:path');const vm=require('node:vm');const assert=require('node:assert/strict');const ts=require(process.cwd()+'/node_modules/typescript');const Stripe=require(process.cwd()+'/node_modules/stripe');
+const sdk=new Stripe('sk_test_fixture',{apiVersion:'2026-10-28.endive'});const cache=new Map();const uploads=[];let resultCode=200;let user={id:'account-42'};let retrieved,checkoutParams;let lookupFails=false;
+const billing={init:()=>({promise:Promise.resolve()}),track:(name,props,opts)=>{uploads.push({name,props,opts});return {promise:Promise.resolve({code:resultCode})};},flush:()=>({promise:Promise.resolve()})};
+function load(file){file=path.resolve(file);if(cache.has(file))return cache.get(file).exports;const module={exports:{}};cache.set(file,module);const code=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+const req=id=>{if(id==='server-only')return {};if(id==='@amplitude/analytics-node')return {createInstance:()=>billing};if(id==='@/lib/session')return {getCurrentUser:async()=>user};if(id==='@/lib/stripe')return {stripeClient:()=>({webhooks:sdk.webhooks,checkout:{sessions:{create:async p=>{checkoutParams=p;return {url:'https://checkout.stripe.com/fixture'};},retrieve:async()=>{if(lookupFails)throw Error('API down');return retrieved;}}}})};if(id.startsWith('@/'))return load(id.slice(2)+'.ts');return require(id);};vm.runInThisContext(`(function(require,module,exports){${code}\n})`,{filename:file})(req,module,module.exports);return module.exports;}
+process.env.STRIPE_WEBHOOK_SECRET='whsec_fixture';process.env.STRIPE_PRICE_ID='price_fixture';process.env.APP_URL='http://127.0.0.1:4318';process.env.AMPLITUDE_API_KEY='fixture';
+const webhook=load('app/api/stripe/webhook/route.ts').POST;const checkout=load('app/api/checkout/route.ts').POST;
+function event(){return {id:'evt_fixture',livemode:false,type:'checkout.session.completed',created:1700000000,data:{object:{id:'cs_fixture'}}};}
+function session(overrides={}){return {id:'cs_fixture',livemode:false,mode:'payment',payment_status:'paid',currency:'usd',amount_total:2000,metadata:{amplitude_user_id:'user-account-42'},...overrides};}
+async function deliver(e=event(),sig){const body=JSON.stringify(e);return webhook(new Request('http://127.0.0.1:4318/api/stripe/webhook',{method:'POST',headers:{'stripe-signature':sig??sdk.webhooks.generateTestHeaderString({payload:body,secret:process.env.STRIPE_WEBHOOK_SECRET})},body}));}
+let passed=0;async function check(name,fn){retrieved=session();resultCode=200;lookupFails=false;await fn();passed++;console.log('PASS '+name);}
+(async()=>{
+await check('invalid signature produces no upload',async()=>{const n=uploads.length;assert.equal((await deliver(event(),'bad')).status,400);assert.equal(uploads.length,n);});
+await check('old snapshot normalized through Session retrieval',async()=>{assert.equal((await deliver()).status,200);assert.equal(uploads.at(-1).opts.user_id,'user-account-42');assert.equal(uploads.at(-1).props.amount_usd,20);assert.equal(uploads.at(-1).opts.time,1700000000000);assert.equal(uploads.at(-1).opts.session_id,-1);});
+await check('retry uses stable full payload and keys',async()=>{await deliver();const a=uploads.at(-1);await deliver();assert.deepEqual(uploads.at(-1),a);});
+for(const override of [{mode:'subscription'},{payment_status:'unpaid'}])await check('nonpayment ignored '+JSON.stringify(override),async()=>{retrieved=session(override);const n=uploads.length;assert.equal((await deliver()).status,200);assert.equal(uploads.length,n);});
+await check('unrelated event ignored',async()=>{const e=event();e.type='payment_intent.succeeded';const n=uploads.length;assert.equal((await deliver(e)).status,200);assert.equal(uploads.length,n);});
+await check('live event rejected',async()=>{const e=event();e.livemode=true;assert.equal((await deliver(e)).status,400);});
+await check('live Session rejected',async()=>{retrieved=session({livemode:true});assert.equal((await deliver()).status,400);});
+await check('Session API failure retries',async()=>{lookupFails=true;assert.equal((await deliver()).status,500);});
+for(const override of [{currency:'jpy'},{metadata:{}}])await check('invalid payload fails '+JSON.stringify(override),async()=>{retrieved=session(override);const n=uploads.length;assert.equal((await deliver()).status,500);assert.equal(uploads.length,n);});
+await check('Amplitude failure retries',async()=>{resultCode=503;assert.equal((await deliver()).status,500);});
+const request=origin=>new Request(process.env.APP_URL+'/api/checkout',{method:'POST',headers:{origin},body:JSON.stringify({accountId:'attacker',price:'attacker'})});
+await check('unauthenticated Checkout rejected',async()=>{user=null;assert.equal((await checkout(request(process.env.APP_URL))).status,401);user={id:'account-42'};});
+await check('cross-origin Checkout rejected',async()=>{assert.equal((await checkout(request('https://other.example'))).status,403);});
+await check('Checkout uses server identity/price and card USD contract',async()=>{assert.equal((await checkout(request(process.env.APP_URL))).status,200);assert.equal(checkoutParams.metadata.amplitude_user_id,'user-account-42');assert.equal(checkoutParams.line_items[0].price,'price_fixture');assert.equal(checkoutParams.mode,'payment');assert.deepEqual(checkoutParams.allowed_payment_method_types,['card']);assert.equal(checkoutParams.adaptive_pricing.enabled,false);});
+console.log(`${passed} checks passed. Actual Stripe signatures; external APIs mocked.`);
+})().catch(e=>{console.error(e);process.exitCode=1});

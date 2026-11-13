@@ -1,0 +1,29 @@
+{
+  "name": "nextjs-stripe-attribution-2026-11-12",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.21.0+sha512.da3337267e400fdd3d479a6c68079ac6db01d8ca4f67572083e722775a796788a7a9956613749e000fac20d424b594f7a791a5f4e2e13581c5ef947f26968a40",
+  "dependencies": {
+    "@amplitude/unified": "1.2.1",
+    "next": "16.4.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "@amplitude/analytics-node": "1.5.82",
+    "stripe": "23.1.0",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "typescript": "5.9.3"
+  }
+}
