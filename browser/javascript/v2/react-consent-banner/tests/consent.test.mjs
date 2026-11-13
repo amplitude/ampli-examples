@@ -36,3 +36,15 @@ test('storage-write failure removes a stale grant and does not enable collection
   const storage = { setItem: () => { throw new Error('Quota'); }, removeItem: (key) => { removed = key; } };
   assert.throws(() => writeChoice(storage, 'denied'), /Tracking remains off/); assert.equal(removed, choiceKey);
 });
+
+test('initialization failure keeps tracking off without changing the persisted choice', async () => {
+  const persisted = []; const optOut = [];
+  const control = createConsentController({ initialChoice: 'denied', persist: (value) => persisted.push(value),
+    loadClient: async () => ({ initialize: async () => { throw new Error('Startup failed'); },
+      setOptOut: (value) => optOut.push(value), getDeviceId: () => undefined }) });
+  await control.grant();
+  assert.equal(control.getSnapshot().choice, 'granted');
+  assert.equal(control.getSnapshot().phase, 'error');
+  assert.equal(await control.record(), false);
+  assert.deepEqual(persisted, ['granted']); assert.deepEqual(optOut, [true]);
+});

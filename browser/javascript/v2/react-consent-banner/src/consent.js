@@ -40,7 +40,7 @@ export function createConsentController({ initialChoice, persist, loadClient }) 
       result.setOptOut(choice !== 'granted');
       phase = choice === 'granted' ? 'ready' : 'off'; publish();
     } catch (error) {
-      choice = 'denied'; client?.setOptOut(true); phase = 'error'; publish(error.message);
+      client?.setOptOut(true); phase = 'error'; publish(error.message);
     }
   }
   return {
