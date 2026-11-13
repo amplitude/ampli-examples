@@ -1,0 +1,5 @@
+# Validated flag payload remote configuration
+
+Node24.14+, pnpm10.33.2. `corepack pnpm install`, `corepack pnpm test`, `corepack pnpm build`, `corepack pnpm dev`. Copy .env.example and use existing project/client-deployment keys. The report-layout expanded variant expects exactly {"reportLimit":5,"showComparison":true}; reportLimit1-10 integer and showComparison boolean. All other input uses safe local defaults. The actual Experiment client supplies payloads in tests and React rendering verifies visible behavior. Local test payloads do not prove a real configured remote payload.
+
+Included test IDs are designated in the author's project; adapt to yours. Clear cache before identity change, read assigned variant before payload, validate exact shape and expose after rendered assignment. No payload is treated as executable code, HTML, authorization, secret storage or a server-enforced limit. The existing author flag currently has no payload: real expanded assignment therefore verifies invalid_payload fallback. A real valid remote payload check remains pending approved test configuration; no targeting or deployment edits have been made.

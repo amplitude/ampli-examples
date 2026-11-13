@@ -1,0 +1,5 @@
+# Local MCP tool analytics
+
+Node24.14+, pnpm10.33.2. `corepack pnpm install`, copy `.env.example` to `.env.local`, set an existing Agent Analytics-enabled test project key, `corepack pnpm test` and `corepack pnpm demo`. A real MCP stdio client calls a local doubling tool successfully, triggers an explicit failure and cancels a wait request after a progress notification. No model or LLM account is used. Stdout is reserved for protocol JSON in the server; diagnostics go to stderr.
+
+One Agent Analytics session per tool request. The real client run UUID plus JSON-RPC request ID forms the session ID; a synthetic fixture user is used locally. Production servers must derive authenticated identity from their own context. Metadata-only mode strips tool input/output; synthetic marker is deliberately passed for privacy checks. No original LLM prompt, token or model-cost measurement is claimed. The analytics adapter awaits real Node SDK promises and checks event result codes. The finish_run control tool flushes after active handlers settle, before the client closes transport. Graceful EOF also attempts a flush; SIGKILL/crashes cannot promise delivery.

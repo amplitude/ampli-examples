@@ -1,0 +1,61 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      '@amplitude/analytics-node':
+        specifier: 1.5.82
+        version: 1.5.82
+
+packages:
+
+  '@amplitude/analytics-connector@1.7.0':
+    resolution: {integrity: sha512-HTnunOzcN+CdJUxdaim3E/CA5xbYRng4rpYvobjzl2ud2BXtpJdRnGuVmPKskYYyUTkz7X6QIOQPYlAgcGaWcg==}
+
+  '@amplitude/analytics-core@2.62.0':
+    resolution: {integrity: sha512-5yLJViAMfULn/eu9BJE2ZdNCqM8gt+TY5ttY2qjayczhss/XqVuX5pb5q8Ggn02XAYY0Ea3Yx4qX8xxOPrtjjQ==}
+
+  '@amplitude/analytics-node@1.5.82':
+    resolution: {integrity: sha512-t6HA2GyKsJevmylph4CHm4H+IuRo4hNrnWSpS6Lza4tdRGTx5OAPwFxsL79uVDwuxFUbqUW21K196oAO3ooZFA==}
+
+  '@types/zen-observable@0.8.3':
+    resolution: {integrity: sha512-fbF6oTd4sGGy0xjHPKAt+eS2CrxJ3+6gQ3FGcBoIJR2TLAyCkCyI8JqZNy+FeON0AhVgNJoUumVoZQjBFUqHkw==}
+
+  safe-json-stringify@1.2.0:
+    resolution: {integrity: sha512-gH8eh2nZudPQO6TytOvbxnuhYBOvDBBLW52tz5q6X58lJcd/tkmqFR+5Z9adS8aJtURSXWThWy/xJtJwixErvg==}
+
+  tslib@2.9.1:
+    resolution: {integrity: sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==}
+
+  zen-observable@0.10.0:
+    resolution: {integrity: sha512-iI3lT0iojZhKwT5DaFy2Ce42n3yFcLdFyOh01G7H0flMY60P8MJuVFEoJoNwXlmAyQ45GrjL6AcZmmlv8A5rbw==}
+
+snapshots:
+
+  '@amplitude/analytics-connector@1.7.0': {}
+
+  '@amplitude/analytics-core@2.62.0':
+    dependencies:
+      '@amplitude/analytics-connector': 1.7.0
+      '@types/zen-observable': 0.8.3
+      safe-json-stringify: 1.2.0
+      tslib: 2.9.1
+      zen-observable: 0.10.0
+
+  '@amplitude/analytics-node@1.5.82':
+    dependencies:
+      '@amplitude/analytics-core': 2.62.0
+      tslib: 2.9.1
+
+  '@types/zen-observable@0.8.3': {}
+
+  safe-json-stringify@1.2.0: {}
+
+  tslib@2.9.1: {}
+
+  zen-observable@0.10.0: {}

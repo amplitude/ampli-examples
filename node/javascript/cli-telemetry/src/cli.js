@@ -1,0 +1,10 @@
+import { countLines } from './command.js';
+import { initializeTelemetry } from './telemetry.js';
+const args=process.argv.slice(2), disabled=args.includes('--no-telemetry');
+const positional=args.filter(x=>x!=='--no-telemetry');
+const outcome=positional.length===1?await countLines(positional[0]):{status:'invalid_arguments',fileType:'other'};
+console.log(outcome.status==='success'?`Lines: ${outcome.lines}`:`Command failed: ${outcome.status}`);
+process.exitCode=outcome.status==='success'?0:1;
+const telemetry=await initializeTelemetry({disabled});
+const result=await telemetry.finish(outcome);
+if(['failed','unavailable'].includes(result.status))console.error('Telemetry was not accepted; the command result is unchanged.');

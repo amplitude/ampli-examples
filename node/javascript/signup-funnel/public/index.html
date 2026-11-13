@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Local signup funnel</title>
+<style>body{font:18px Arial,sans-serif;background:#F2F4F8;color:#000;margin:40px auto;max-width:700px;padding:24px}main{background:#fff;padding:32px;border-radius:16px}label{display:block;margin:16px 0 8px}button,input,select{font:inherit;padding:10px;margin:8px 8px 8px 0}button{cursor:pointer}code{overflow-wrap:anywhere}:focus-visible{outline:3px solid #0052F2}</style></head><body><main>
+<h1>Create a local demo account</h1><p>This fixture stores an account and profile in local SQLite. It sends no email and connects to no external identity service. Use synthetic credentials only.</p>
+<button id="start">Start signup</button>
+<form id="signup" hidden><label for="username">Synthetic username</label><input id="username" autocomplete="off" required pattern="demo_[a-z0-9_]{3,40}" placeholder="demo_example">
+<label for="password">Synthetic password</label><input id="password" type="password" autocomplete="off" required minlength="12" maxlength="128"><button>Create local account</button><button id="leave" type="button">Leave signup</button></form>
+<form id="profile" hidden><label for="role">Demo role</label><select id="role"><option value="developer">Developer</option><option value="analyst">Analyst</option></select><button>Save profile</button></form>
+<p role="status" id="status">Start a new attempt.</p><p>Attempt: <code id="attempt"></code></p><p>User: <code id="user"></code></p><button id="new">New attempt (reload)</button>
+</main><script type="module">
+const $=id=>document.getElementById(id);let busy=false;
+async function action(fn){if(busy)return;busy=true;for(const b of document.querySelectorAll('button'))b.disabled=true;try{await fn();}catch(e){$('status').textContent=e.message;}finally{busy=false;for(const b of document.querySelectorAll('button'))b.disabled=false;}}
+async function post(path,body={}){const res=await fetch('/api/'+path,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});const result=await res.json();if(!res.ok)throw Error(result.error);return result;}
+$('start').onclick=()=>action(async()=>{const r=await post('start');$('attempt').textContent=r.attempt;$('signup').hidden=false;$('start').hidden=true;$('status').textContent='Started. Enter synthetic credentials.';});
+$('signup').onsubmit=e=>{e.preventDefault();void action(async()=>{const r=await post('signup',{username:$('username').value,password:$('password').value});$('password').value='';$('user').textContent=r.userId;$('signup').hidden=true;$('profile').hidden=false;$('status').textContent='Local account committed. Save a profile next.';});};
+$('profile').onsubmit=e=>{e.preventDefault();void action(async()=>{await post('profile',{role:$('role').value});$('profile').hidden=true;$('status').textContent='Profile committed.';});};
+$('leave').onclick=()=>action(async()=>{await post('leave');$('signup').hidden=true;$('status').textContent='Exited without an account.';});
+$('new').onclick=()=>action(async()=>{await post('new');location.reload();});
+</script></body></html>
