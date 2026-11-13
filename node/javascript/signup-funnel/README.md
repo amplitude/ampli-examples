@@ -1,0 +1,5 @@
+# Local signup funnel
+
+Node24.14+ (experimental built-in SQLite). `corepack pnpm install`, copy `.env.example` to `.env.local`, set the existing Amplitude test-project key, run `corepack pnpm test` then `corepack pnpm start`. Open127.0.0.1:5194. Start an attempt, create a unique demo_ account with synthetic password12+ characters, then save its profile. Start a fresh attempt and leave it before account creation. Run `corepack pnpm deliver` to upload the durable outbox in order.
+
+Local teaching fixture, not a production authentication template. No email verification, password recovery, TLS, session expiry, rate limit, schema migrations or hosting. Session cookies are HttpOnly/SameSite=Strict and intended only for the loopback server; database and synthetic passwords stay local. Do not expose the port. Business writes commit before upload. Retried stages use stable event IDs; delivery stops after the first non200 and rejects rows older than seven days. New attempt clears only fixture session cookies, not saved accounts or history.
