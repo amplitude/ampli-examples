@@ -1,0 +1,13 @@
+:root { font-family: Gellix, Poppins, Helvetica, sans-serif; color: #000; background: #fff; }
+body { margin: 0; }
+main { max-width: 760px; margin: 64px auto; padding: 0 24px; }
+h1 { font-size: clamp(32px, 6vw, 48px); line-height: 1.1; }
+h2 { font-weight: 600; }
+p { line-height: 1.6; }
+.eyebrow { font-size: 14px; text-transform: uppercase; letter-spacing: .08em; }
+section, form { border: 1px solid #000; padding: 20px; margin: 24px 0; }
+label { display: block; margin-bottom: 8px; }
+select, button { font: inherit; padding: 12px 18px; }
+button { display: block; margin-top: 16px; background: #0052f2; color: #fff; border: 0; cursor: pointer; }
+button:focus-visible, select:focus-visible { outline: 3px solid #000; outline-offset: 4px; }
+code { overflow-wrap: anywhere; }
