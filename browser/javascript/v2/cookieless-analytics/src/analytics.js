@@ -1,4 +1,4 @@
-import * as amplitude from '@amplitude/unified';
+import * as amplitude from '@amplitude/analytics-browser';
 
 let ready;
 let enabled = false;
@@ -9,19 +9,15 @@ export function initializeAnalytics() {
     if (!apiKey) return false;
     const serverZone = import.meta.env.VITE_AMPLITUDE_SERVER_ZONE || 'US';
     if (!['US', 'EU'].includes(serverZone)) throw new Error('Use US or EU for the server zone.');
-    await amplitude.initAll(apiKey, {
+    await amplitude.init(apiKey, {
       instanceName: 'build-cookieless',
       serverZone,
-      analytics: {
-        identityStorage: 'localStorage',
-        cookieOptions: { upgrade: false },
-        remoteConfig: { fetchRemoteConfig: false },
-        autocapture: false,
-        flushMaxRetries: 0,
-      },
-      sessionReplay: { sampleRate: 0 },
-      engagement: { skip: true },
-    });
+      identityStorage: 'localStorage',
+      cookieOptions: { upgrade: false },
+      remoteConfig: { fetchRemoteConfig: false },
+      autocapture: false,
+      flushMaxRetries: 0,
+    }).promise;
     enabled = true;
     return true;
   })().catch(() => false);

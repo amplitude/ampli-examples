@@ -23,7 +23,7 @@ Before starting analytics, observe document.cookie writes in DevTools, then insp
 
 Compare the displayed device and session IDs across an immediate reload and another tab on the same origin, starting analytics on each page. Inspect both processed events in Amplitude User Profiles by device ID. A 200 upload response and a processed event are distinct checks.
 
-The demo records `Cookieless Demo Opened` and `Cookieless Report Generated`. It disables autocapture and analytics remote configuration, uses a zero session replay sample rate, and skips guides and surveys initialization. `cookieOptions.upgrade: false` disables legacy identity-cookie migration.
+The demo records `Cookieless Demo Opened` and `Cookieless Report Generated`. It disables autocapture and analytics remote configuration, uses the analytics-only Browser SDK 2 package. `cookieOptions.upgrade: false` disables legacy identity-cookie migration.
 
 localStorage persists identifiers. Apply your site's consent and disclosure requirements before initialization. Audit other scripts and products separately. Changing to localStorage does not by itself remove all browser storage or identifiers.
 
@@ -38,7 +38,7 @@ The report simulation works when tracking is unavailable. Delivery waits are bou
 ## Documentation
 
 - [Build tutorial](https://amplitude.com/build/javascript-cookieless-analytics)
-- [Browser Unified SDK](https://amplitude.com/docs/sdks/analytics/browser/browser-unified-sdk)
+- [Browser SDK 2](https://amplitude.com/docs/sdks/analytics/browser/browser-sdk-2/get-started)
 - [Cookies and consent management](https://amplitude.com/docs/sdks/analytics/browser/cookies-and-consent-management)
 - [Browser SDK 2 reference](https://amplitude.com/docs/sdks/analytics/browser/browser-sdk-2/reference)
 
