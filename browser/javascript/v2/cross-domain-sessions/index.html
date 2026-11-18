@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Marketing site | Cross-domain demo</title>
+  </head>
+  <body data-site="marketing">
+    <main>
+      <p class="eyebrow">Marketing site</p>
+      <h1>Try the report builder</h1>
+      <p>This demo opens a product app on a different hostname. Both pages send test events to the same Amplitude project.</p>
+      <button id="open-product" type="button" disabled>Open product app</button>
+      <p id="status" role="status">Preparing the demo...</p>
+      <h2>Current test identity</h2>
+      <pre id="identity"></pre>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

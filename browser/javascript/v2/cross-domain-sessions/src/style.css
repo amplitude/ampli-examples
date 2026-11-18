@@ -1,0 +1,10 @@
+:root { font-family: Helvetica, Arial, sans-serif; color: #000; background: #fff; }
+body { margin: 0; }
+main { max-width: 720px; margin: 64px auto; padding: 0 24px; }
+h1 { font-size: clamp(32px, 6vw, 48px); line-height: 1.1; }
+p { line-height: 1.6; }
+.eyebrow { font-weight: 600; }
+button { background: #0052f2; color: #fff; border: 0; border-radius: 8px; padding: 14px 20px; font: inherit; cursor: pointer; }
+button:disabled { opacity: .5; cursor: wait; }
+button:focus-visible { outline: 3px solid #001a4f; outline-offset: 3px; }
+pre { border: 1px solid #001a4f; padding: 16px; overflow-x: auto; line-height: 1.5; }
