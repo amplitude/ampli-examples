@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted-2x8-x86-64
     container:
       image: amplitudeinc/ampli-swift@sha256:187036956d9b9906f0e525f9c438ced2f22fa7b968ec4e78146d76949a4385be
     env:
