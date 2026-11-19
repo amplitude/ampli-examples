@@ -13,7 +13,6 @@ export function initializeAnalytics() {
       instanceName: 'build-cookieless',
       serverZone,
       identityStorage: 'localStorage',
-      cookieOptions: { upgrade: false },
       remoteConfig: { fetchRemoteConfig: false },
       autocapture: false,
       flushMaxRetries: 0,

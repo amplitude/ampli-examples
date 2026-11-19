@@ -23,7 +23,7 @@ Before starting analytics, observe document.cookie writes in DevTools, then insp
 
 Compare the displayed device and session IDs across an immediate reload and another tab on the same origin, starting analytics on each page. Inspect both processed events in Amplitude User Profiles by device ID. A 200 upload response and a processed event are distinct checks.
 
-The demo records `Cookieless Demo Opened` and `Cookieless Report Generated`. It disables autocapture and analytics remote configuration, uses the analytics-only Browser SDK 2 package. `cookieOptions.upgrade: false` disables legacy identity-cookie migration.
+The demo records `Cookieless Demo Opened` and `Cookieless Report Generated`. It uses the analytics-only Browser SDK 2 package and disables autocapture and analytics remote configuration.
 
 localStorage persists identifiers. Apply your site's consent and disclosure requirements before initialization. Audit other scripts and products separately. Changing to localStorage does not by itself remove all browser storage or identifiers.
 
