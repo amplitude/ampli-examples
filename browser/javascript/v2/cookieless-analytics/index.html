@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cookieless analytics demo</title>
+  </head>
+  <body>
+    <main>
+      <p>AMPLITUDE BUILD</p>
+      <h1>Cookieless analytics demo</h1>
+      <p>Generate a sample report and compare your browser identity across reloads.</p>
+      <button id="start">Start demo analytics</button>
+      <button id="report">Generate sample report</button>
+      <p id="report-result" aria-live="polite">No report generated yet.</p>
+      <p id="status" role="status">Analytics has not initialized.</p>
+      <h2>Current analytics identity</h2>
+      <pre id="identity">Not initialized</pre>
+      <p>This demo uses localStorage for identity. It does not ask you to sign in.</p>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
