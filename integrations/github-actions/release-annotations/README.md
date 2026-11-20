@@ -6,7 +6,7 @@ One complete workflow creates an Amplitude release after a successful production
 
 - An existing GitHub repository with default branch `main` and a production deployment workflow named `Deploy production`, triggered by pushes to `main`.
 - That deployment workflow succeeds only after production is deployed. Do not attach the marker to a build-only workflow or one that reports success after skipping deployment.
-- An Amplitude project with releases access (Plus, Growth, or Enterprise), its project API key, and an existing secret key. Secret keys are shown only when generated; ask the project administrator for a securely stored key if needed.
+- An Amplitude project with releases access (Plus, Growth, or Enterprise), its project API key, and an existing secret key. Use an existing key from project key management if it offers Show; otherwise ask the project administrator for its securely stored value.
 - GitHub CLI authenticated to the target repository for setup and log inspection.
 
 ## Install
