@@ -1,0 +1,67 @@
+name: Annotate deployment in Amplitude
+
+on:
+  workflow_run:
+    workflows: ["Deploy production"]
+    types: [completed]
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  annotate:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Create the release marker
+        shell: bash
+        env:
+          AMPLITUDE_API_KEY: ${{ secrets.AMPLITUDE_API_KEY }}
+          AMPLITUDE_SECRET_KEY: ${{ secrets.AMPLITUDE_SECRET_KEY }}
+          AMPLITUDE_SERVER_ZONE: ${{ vars.AMPLITUDE_SERVER_ZONE || 'US' }}
+          DEPLOY_SHA: ${{ github.event.workflow_run.head_sha }}
+          DEPLOY_RUN_URL: ${{ github.event.workflow_run.html_url }}
+          DEPLOY_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          : "${AMPLITUDE_API_KEY:?Set the AMPLITUDE_API_KEY repository secret}"
+          : "${AMPLITUDE_SECRET_KEY:?Set the AMPLITUDE_SECRET_KEY repository secret}"
+          case "$AMPLITUDE_SERVER_ZONE" in
+            US) endpoint='https://amplitude.com/api/2/release' ;;
+            EU) endpoint='https://analytics.eu.amplitude.com/api/2/release' ;;
+            *) echo 'AMPLITUDE_SERVER_ZONE must be US or EU' >&2; exit 1 ;;
+          esac
+
+          release_start=$(date -u '+%Y-%m-%d %H:%M:%S')
+          payload=$(jq -n \
+            --arg version "$DEPLOY_SHA" \
+            --arg title "Production ${DEPLOY_SHA:0:12}" \
+            --arg start "$release_start" \
+            --arg description "$DEPLOY_REPOSITORY deployed successfully. $DEPLOY_RUN_URL" \
+            '{version: $version, title: $title, release_start: $start,
+              description: $description, created_by: "GitHub Actions",
+              chart_visibility: "true"}')
+
+          response=$(mktemp)
+          trap 'rm -f "$response"' EXIT
+          status=$(curl --silent --show-error \
+            --connect-timeout 5 --max-time 15 \
+            --request POST "$endpoint" \
+            --user "$AMPLITUDE_API_KEY:$AMPLITUDE_SECRET_KEY" \
+            --header 'Content-Type: application/json' \
+            --data "$payload" --output "$response" --write-out '%{http_code}')
+          if [[ "$status" != 200 ]]; then
+            echo "Amplitude release request failed (HTTP $status)." >&2
+            exit 1
+          fi
+          if ! jq -e '.success == true and (.release.id | type == "string")' "$response" >/dev/null; then
+            echo 'Amplitude did not confirm release creation.' >&2
+            exit 1
+          fi
+          jq '{id: .release.id, version: .release.version,
+            release_start: .release.release_start,
+            chart_visibility: .release.chart_visibility}' "$response"
